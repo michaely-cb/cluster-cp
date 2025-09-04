@@ -1,0 +1,10 @@
+interface vlan ${swarmx_vlan}
+   description "swarmx subnet"
+   mtu ${mtu}
+   vrf ${vrf_name}
+   no ip address
+   ip address ${swarmx_switch_address}
+
+router bgp ${asn}
+  vrf ${vrf_name}
+    network ${swarmx_switch_prefix}

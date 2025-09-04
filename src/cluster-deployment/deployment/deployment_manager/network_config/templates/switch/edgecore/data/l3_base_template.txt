@@ -1,0 +1,69 @@
+# L3 template for ${name}
+#
+sudo config qos dscp-tc add DSCP_TC --dscp 40 --tc 5
+sudo config interface buffer bind priority-group all 5 ingress_lossless_profile
+sudo config interface buffer bind queue all 5 egress_lossless_profile
+#
+sudo config vrf add Vrf_${vrf_name}
+#
+sudo config vlan add ${switch_vlan}
+sudo config interface vrf bind Vlan${switch_vlan} Vrf_${vrf_name}
+sudo config interface ip add Vlan${switch_vlan} ${switch_address}
+#
+vtysh
+configure
+!
+ip prefix-list external_addrs seq 10 deny ${base_prefix} ge ${base_bits}
+ip prefix-list external_addrs seq 20 permit 0.0.0.0/0 le 32
+!
+ip prefix-list external_advert seq 10 permit ${base_prefix}
+ip prefix-list external_advert seq 20 permit ${switch_prefix}
+!
+ip prefix-list vip_addrs seq 10 permit ${vip_prefix} ge 31
+!
+route-map allow_vip_addrs permit 10
+   match ip address prefix-list vip_addrs
+   exit
+!
+route-map external_routes permit 10
+   match ip address prefix-list external_addrs
+   exit
+!
+route-map external_advertise permit 10
+   match ip address prefix-list external_advert
+   exit
+!
+route-map deny_all deny 10
+exit
+!
+router bgp ${asn_num} vrf Vrf_${vrf_name}
+   bgp router-id ${router_id}
+   no bgp ebgp-requires-policy
+   bgp bestpath as-path multipath-relax
+   neighbor exterior_switches peer-group
+   neighbor management_node peer-group
+   neighbor management_node remote-as internal
+   neighbor ws_cluster_csx peer-group
+   neighbor ws_cluster_csx timers 1 3
+   neighbor ws_cluster_switches peer-group
+   neighbor ws_cluster_switches bfd
+   !
+   address-family ipv4 unicast
+      maximum-paths 128
+      network ${switch_prefix}
+      aggregate-address ${base_prefix} 
+      redistribute connected
+      neighbor exterior_switches route-map external_routes in
+      neighbor exterior_switches route-map external_advertise out
+      neighbor management_node route-reflector-client
+      neighbor management_node route-map deny_all out
+   exit-address-family
+exit
+!
+! exit config mode
+exit
+! write memory for vtysh
+write memory
+! exit vtysh
+exit
+

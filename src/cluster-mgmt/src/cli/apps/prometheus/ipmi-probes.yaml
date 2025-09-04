@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: cluster-mgmt-node-ipmi-exporter
+  namespace: prometheus
+spec:
+  interval: 1m
+  module: health
+  prober:
+    path: /probe
+    url: cluster-mgmt-node-ipmi-exporter:8007
+  scrapeTimeout: 1m
+  targets:
+    staticConfig:
+      static:

@@ -1,0 +1,67 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  podSubnet: 192.168.128.0/17
+  serviceSubnet: 192.168.0.0/17
+nodes:
+- role: control-plane
+  image: 171496337684.dkr.ecr.us-west-2.amazonaws.com/cerebras-kind-node:v1.29.0-5
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+      extraArgs:
+        audit-policy-file: /etc/kubernetes/audit-policy.yaml
+        audit-log-path: /var/log/kubernetes/audit/audit.log
+        audit-log-maxbackup: "3"
+        audit-log-maxsize: "100"
+      extraVolumes:
+      - name: audit-policies
+        hostPath: /etc/kubernetes/audit-policy.yaml
+        mountPath: /etc/kubernetes/audit-policy.yaml
+        readOnly: true
+        pathType: File
+      - name: audit-logs
+        hostPath: /var/log/kubernetes/audit
+        mountPath: /var/log/kubernetes/audit
+        pathType: DirectoryOrCreate
+  extraMounts:
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/containerd-cp
+    containerPath: /var/lib/containerd
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/cluster-mgmt
+    containerPath: /n0/cluster-mgmt
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/log-export
+    containerPath: /n0/log-export
+  - hostPath: /cb/data/shared-docker-token
+    containerPath: /cb/ecr-token/
+  - hostPath: /cb/datasets
+    containerPath: /cb/datasets
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/wsjob
+    containerPath: /n0/wsjob
+  - hostPath: $KIND_ROOT/audit-policy.yaml
+    containerPath: /etc/kubernetes/audit-policy.yaml
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+- role: worker
+  image: 171496337684.dkr.ecr.us-west-2.amazonaws.com/cerebras-kind-node:v1.29.0-5
+  extraMounts:
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/containerd-worker
+    containerPath: /var/lib/containerd
+  - hostPath: /cb/data/shared-docker-token
+    containerPath: /cb/ecr-token/
+  - hostPath: /cb/datasets
+    containerPath: /cb/datasets
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/wsjob
+    containerPath: /n1/wsjob
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/user-venv
+    containerPath: /n1/user-venv
+  # Tensor storage is needed by coordinator. In kind-canary, we schedule
+  # all wsjob pods to worker nodes to meet disk space requirements. That's
+  # why we have added this volume here
+  - hostPath: $CLUSTER_MGMT_SPARE_ROOT/tensor-storage
+    containerPath: /n1/tensor-storage

@@ -1,0 +1,25 @@
+all:
+  vars:
+    src_cluster_dir: /opt/cerebras/cluster
+    src_cluster_yaml: "{{ src_cluster_dir }}/cluster.yaml"
+    src_targets_yaml: "{{ src_cluster_dir }}/nvme-targets.yaml"
+    dest_cluster_dir: "/opt/cerebras/cluster"
+    dest_cluster_yaml: "{{ dest_cluster_dir }}/cluster.yaml"
+    dest_targets_yaml: "{{ dest_cluster_dir }}/nvme-targets.yaml"
+    incremental_deploy: false
+    allow_reboot: true
+  hosts:
+  children:
+    management:
+      hosts:
+    coordinator:
+      hosts:
+    memory:
+      hosts:
+    # Can be used as hints for reruns
+    not_ready_management:
+      hosts:
+    not_ready_coordinator:
+      hosts:
+    not_ready_memory:
+      hosts:

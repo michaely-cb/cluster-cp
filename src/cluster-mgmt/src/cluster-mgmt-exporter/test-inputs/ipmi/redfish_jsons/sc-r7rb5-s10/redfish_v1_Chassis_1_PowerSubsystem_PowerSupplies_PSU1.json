@@ -1,0 +1,55 @@
+{
+   "PowerCapacityWatts" : 1100,
+   "Status" : {
+      "Health" : "OK",
+      "State" : "Enabled"
+   },
+   "FirmwareVersion" : "14.50",
+   "Model" : "LENOVO-SP57B71365",
+   "OutputRails" : [
+      {
+         "PhysicalContext" : "SystemBoard",
+         "NominalVoltage" : 12
+      }
+   ],
+   "PartNumber" : "SP57B71365",
+   "Manufacturer" : "ACBE",
+   "Location" : {
+      "PartLocation" : {
+         "LocationOrdinalValue" : 1,
+         "LocationType" : "Slot",
+         "ServiceLabel" : "PSU1"
+      }
+   },
+   "SerialNumber" : "A2DB4AB10XT",
+   "@odata.context" : "/redfish/v1/$metadata#PowerSupply.PowerSupply",
+   "Id" : "PSU1",
+   "SparePartNumber" : "03LD899",
+   "InputRanges" : [
+      {
+         "CapacityWatts" : 1100,
+         "NominalVoltageType" : "AC200To277V"
+      }
+   ],
+   "PowerSupplyType" : "AC",
+   "Links" : {
+      "PoweringChassis" : [
+         {
+            "@odata.id" : "/redfish/v1/Chassis/1"
+         }
+      ]
+   },
+   "@odata.etag" : "\"6a8a2ab9836f25ae5e0\"",
+   "@odata.id" : "/redfish/v1/Chassis/1/PowerSubsystem/PowerSupplies/PSU1",
+   "InputNominalVoltageType" : "AC200To277V",
+   "HotPluggable" : false,
+   "@odata.type" : "#PowerSupply.v1_5_0.PowerSupply",
+   "Name" : "Power Supply 1",
+   "Description" : "This resource shall represent Power Supply 1 of a chassis for a Redfish implementation.",
+   "EfficiencyRatings" : [
+      {
+         "LoadPercent" : 23,
+         "EfficiencyPercent" : 93
+      }
+   ]
+}

@@ -1,0 +1,53 @@
+{
+  "cbcore": [
+    {
+      "name": "rel-2.6",
+      "compatibility": [
+        {
+          "package": "rel-2.5",
+          "config": "rel-2.5"
+        },
+        {
+          "package": "rel-3.0",
+          "config": "rel-3.0"
+        }
+      ]    
+    },
+    {
+      "name": "rel-2.5",
+      "compatibility": [
+        {
+          "package": "rel-2.5",
+          "config": "rel-2.5"
+        }
+      ]    
+    },
+    {
+      "name": "rel-2.4",
+      "compatibility": [
+        {
+          "package": "rel-2.4",
+          "config": "rel-2.4"
+        }
+      ]    
+    },
+    {
+      "name": "rel-2.3",
+      "compatibility": [
+        {
+          "package": "rel-2.3",
+          "config": "rel-2.4"
+        }
+      ]    
+    },
+    {
+      "name": "rel-2.2.1",
+      "compatibility": [
+        {
+          "package": "rel-2.2.1",
+          "config": "rel-2.2.1"
+        }
+      ]    
+    }
+  ]  
+}

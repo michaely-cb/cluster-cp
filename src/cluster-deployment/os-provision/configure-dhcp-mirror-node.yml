@@ -1,0 +1,8 @@
+- hosts: dhcp-mirror-servers
+  roles:
+    - static-ip
+    - dnsmasq
+  tasks:
+    - import_role:
+        name: common
+        tasks_from: chrony

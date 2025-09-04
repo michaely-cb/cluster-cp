@@ -1,0 +1,14 @@
+- import_tasks: root_partition.yml
+- import_tasks: hostname.yml
+- import_tasks: password.yml
+- import_tasks: raid.yml
+- import_tasks: chrony.yml
+- import_tasks: lldp.yml
+- import_tasks: sysstat.yml
+- import_tasks: rsyslog.yml
+
+- name: Restart NetworkManager
+  systemd:
+    name: NetworkManager
+    state: restarted
+  tags: services

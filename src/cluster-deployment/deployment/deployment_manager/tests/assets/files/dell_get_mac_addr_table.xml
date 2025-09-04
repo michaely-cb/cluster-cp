@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc-reply>
+  <bulk>
+    <data>
+      <fwd-table>
+        <mac-addr>00:0a:9c:68:6b:5b</mac-addr>
+        <vlan>vlan4000</vlan>
+        <entry-type>dynamic</entry-type>
+        <if-name>ethernet1/1/48</if-name>
+        <status>ACTIVE</status>
+        <dot1d-port-index>49</dot1d-port-index>
+      </fwd-table>
+      <fwd-table>
+        <mac-addr>00:0a:9c:68:6b:ff</mac-addr>
+        <vlan>vlan4000</vlan>
+        <entry-type>dynamic</entry-type>
+        <if-name>ethernet1/1/46</if-name>
+        <status>ACTIVE</status>
+        <dot1d-port-index>47</dot1d-port-index>
+      </fwd-table>
+      <fwd-table>
+        <mac-addr>00:0a:9c:68:6c:2c</mac-addr>
+        <vlan>vlan4000</vlan>
+        <entry-type>dynamic</entry-type>
+        <if-name>ethernet1/1/47</if-name>
+        <status>ACTIVE</status>
+        <dot1d-port-index>48</dot1d-port-index>
+      </fwd-table>
+    </data>
+    <last-keys>
+      <entry-type>dynamic</entry-type>
+      <mac-addr>d0:46:0c:60:f8:32</mac-addr>
+      <vlan>vlan4000</vlan>
+    </last-keys>
+  </bulk>
+</rpc-reply>

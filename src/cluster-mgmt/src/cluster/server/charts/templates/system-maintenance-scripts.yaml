@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: system-maintenance-scripts
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "cluster-server.labels" . | nindent 4 }}
+data:
+  # Python scripts
+  "membist.py": |-
+{{ $.Files.Get "scripts/membist.py" | indent 4  }}
+  "vddc.py": |-
+{{ $.Files.Get "scripts/vddc.py" | indent 4  }}
+  "wafer_diag.py": |-
+{{ $.Files.Get "scripts/wafer_diag.py" | indent 4  }}
+  "__init__.py": |
+    # This file marks the directory as a Python package.
+  # Shell scripts
+  "wafer_diag_wrapper.sh": |-
+{{ $.Files.Get "scripts/wafer_diag_wrapper.sh" | indent 4  }}
+  "wafer_diag_init.sh": |-
+{{ $.Files.Get "scripts/wafer_diag_init.sh" | indent 4  }}

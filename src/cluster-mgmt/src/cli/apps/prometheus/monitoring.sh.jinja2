@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+set -e
+
+# Remove any other monitoring packages
+for pkg in `helm list -n prometheus -ojson | jq -r '.[] | select(.name | startswith("monitoring")).name'`; do
+    if [[ "$pkg" != "{{ monitoring_pkg_name }}" ]]; then
+        echo "Uninstalling other monitoring base package $pkg"
+        helm uninstall -n prometheus $pkg
+    fi
+done
+
+sed -i "s/MONITORING_VERSION/{{ monitoring_version }}/g" monitoring/Chart.yaml
+
+# Check if the test exporter pod is running and if so, delete it. Remove after 2.5.
+$KUBECTL delete deployment -n prometheus test-stamp-exporter --ignore-not-found=true
+
+mkdir -p tmp
+find dashboards/ -mindepth 2 -name "*.json" -print0 | while read -d $'\0' filePath
+do
+  # Ignore dashboards that don't have a <dashboard.json>.monitoring file in the same dir
+  if [[ ! -f "$filePath".monitoring ]]; then
+    continue
+  fi
+  fileName=$(basename "$filePath")
+  fileRootName=$(basename -s .json "$filePath")
+  folder="$(dirname "$(echo "$filePath" | sed 's/^dashboards\///')")"
+  # truncate file name extension and prepend folder, e.g., Cluster Admin/cluster-health.json => cluster-admin-cluster-health
+  dashboard="$(echo "$folder" | tr '[:upper:]/ ' '[:lower:]--' | sed -r 's/^(.+)$/\1-/')${fileName%.*}"
+  # Add the version to the description field if not already present
+  if ! jq -r '.description' "$filePath" | grep -q "Version: {{ monitoring_pkg_name }}"; then
+     jq '.description += "Version: {{ monitoring_pkg_name }} {{ monitoring_version }}"' "$filePath" >.tmp.version
+     mv .tmp.version "$filePath"
+  fi
+      
+  $KUBECTL create cm grafana-"${dashboard}" --from-file="${filePath}" -nprometheus  -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+  $KUBECTL annotate cm grafana-"${dashboard}" folder=/tmp/dashboards/"${folder}" -nprometheus --overwrite
+  $KUBECTL label cm grafana-"${dashboard}" grafana_dashboard=1 monitoring=1 cluster-mgmt= -nprometheus --overwrite
+
+  # TODO: skip everything below if we're not running on a CG?
+
+  # Make the locked-and-template-ready form of the new Admin and Resource Detail dashboards.
+
+  # Create the stamp-locked Overview dashboard
+  if [[ "$fileName" == "cluster-health-overview.json" ]]; then
+    dashboard="${dashboard}-stamplocked"
+    newFolder="cluster-admin-locked"
+    newFilename="tmp/$fileRootName-stamplocked.json"
+    python3 monitoring-dashboard-helper.py overview $filePath >$newFilename
+
+    $KUBECTL create cm grafana-"${dashboard}" --from-file="${newFilename}" -nprometheus  -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+    $KUBECTL annotate cm grafana-"${dashboard}" folder=/tmp/dashboards/"${newFolder}" -nprometheus --overwrite
+    $KUBECTL label cm grafana-"${dashboard}" grafana_dashboard=1 monitoring=1 cluster-mgmt= -nprometheus --overwrite
+
+  elif [[ "$fileName" == "session-dashboard.json" ]]; then
+    dashboard="${dashboard}-sessionlocked"
+    newFolder="customer-dashboards"
+    newFilename="tmp/$fileRootName-sessionlocked.json"
+    python3 monitoring-dashboard-helper.py session $filePath >$newFilename
+
+    # Now the remote_access stuff needs to fixup all the links:
+    # When making a new cra user, copy these resource dashboards and the session DB:
+    # Change UID of all resource DB to prepend "cra-xxx". Watch out for 40char UID limit, may need to overwrite.
+    # Change UID of session DB to prepend "cra-xxx", also watch out for char limit.
+    # Then find all links (strings like d/<UID>-d/), and modify <UID>-s by above rule
+    $KUBECTL create cm grafana-"${dashboard}" --from-file="${newFilename}" -nprometheus  -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+    $KUBECTL annotate cm grafana-"${dashboard}" folder=/tmp/dashboards/"${newFolder}" -nprometheus --overwrite
+    $KUBECTL label cm grafana-"${dashboard}" grafana_dashboard=1 monitoring=1 cluster-mgmt= -nprometheus --overwrite
+
+  # Create the stamp-locked and session-locked Resource Details dashboards
+  elif [[ "$folder" == "resource-details" ]]; then
+    # stamp-locked
+    dashboardLocked="${dashboard}-stamplocked"
+    newFolder="cluster-admin-locked"
+    newFilename="tmp/$fileRootName-stamplocked.json"
+    python3 monitoring-dashboard-helper.py stamplock-resdb $filePath >$newFilename
+
+    $KUBECTL create cm grafana-"${dashboardLocked}" --from-file="${newFilename}" -nprometheus  -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+    $KUBECTL annotate cm grafana-"${dashboardLocked}" folder=/tmp/dashboards/"${newFolder}" -nprometheus --overwrite
+    $KUBECTL label cm grafana-"${dashboardLocked}" grafana_dashboard=1 monitoring=1 cluster-mgmt= -nprometheus --overwrite
+
+    # session-locked
+    dashboardLocked="${dashboard}-sessionlocked"
+    newFolder="customer-dashboards"
+    newFilename="tmp/$fileRootName-sessionlocked.json"
+    python3 monitoring-dashboard-helper.py sessionlock-resdb $filePath >$newFilename
+
+    # Now the remote_access stuff needs to fixup all the links:
+    # When making a new cra user, copy these resource dashboards and the session DB:
+    # Change UID of all resource DB to prepend "cra-xxx". Watch out for 40char UID limit, may need to overwrite.
+    # Change UID of session DB to prepend "cra-xxx", also watch out for char limit.
+    # Then find all links (strings like d/<UID>-d/), and modify <UID>-s by above rule
+    $KUBECTL create cm grafana-"${dashboardLocked}" --from-file="${newFilename}" -nprometheus  -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+    $KUBECTL annotate cm grafana-"${dashboardLocked}" folder=/tmp/dashboards/"${newFolder}" -nprometheus --overwrite
+    $KUBECTL label cm grafana-"${dashboardLocked}" grafana_dashboard=1 monitoring=1 cluster-mgmt= -nprometheus --overwrite
+
+  elif [[ "$folder" == "job-admin" ]]; then
+    dashboard="${dashboard}-sessionlocked"
+    newFolder="customer-dashboards"
+    newFilename="tmp/$fileRootName-sessionlocked.json"
+    python3 monitoring-dashboard-helper.py job $filePath >$newFilename
+
+    # Now the remote_access stuff needs to fixup all the links:
+    # When making a new cra user, copy these resource dashboards and the session DB:
+    # Change UID of all resource DB to prepend "cra-xxx". Watch out for 40char UID limit, may need to overwrite.
+    # Change UID of session DB to prepend "cra-xxx", also watch out for char limit.
+    # Then find all links (strings like d/<UID>-d/), and modify <UID>-s by above rule
+    $KUBECTL create cm grafana-"${dashboard}" --from-file="${newFilename}" -nprometheus  -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+    $KUBECTL annotate cm grafana-"${dashboard}" folder=/tmp/dashboards/"${newFolder}" -nprometheus --overwrite
+    $KUBECTL label cm grafana-"${dashboard}" grafana_dashboard=1 monitoring=1 cluster-mgmt= -nprometheus --overwrite
+
+  fi
+      
+done
+
+$HELM upgrade {{ monitoring_pkg_name }} ./monitoring --namespace prometheus --install --version {{ monitoring_version }}

@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+SCRIPT_FULL_PATH=$(cd "$(dirname "$SCRIPT_PATH")" && pwd)/$(basename "$SCRIPT_PATH")
+
+source "../pkg-common.sh"
+
+set -e
+
+system_namespace={{ system_namespace }}
+if [ -z "$debugviz_image" ]; then
+  debugviz_image={{debugviz_image}}
+fi
+
+additional=""
+
+if has_multiple_mgmt_nodes; then
+  # TODO: Remove this block in rel-2.6
+  # We typically set up the real subvolume during ceph deployment.
+  if ! kubectl -n $system_namespace get pvc debug-artifact-static-pvc; then
+    echo "Error: debug-artifact-static-pvc not found, was the debug artifact subvolume deployed?"
+    echo "Please deploy cluster server in the system namespace first."
+    exit 1
+  fi
+  additional+="--set path=/pvc/debug-artifact "
+  additional+='--set-json debugVolume={"name":"debug-volume","persistentVolumeClaim":{"claimName":"debug-artifact-static-pvc"}} '
+  additional+='--set-json debugMount={"name":"debug-volume","mountPath":"/pvc/debug-artifact"} '
+  additional+="--set replicas=3 "
+else
+  additional+="--set path=/n1/debug-artifact "
+  additional+='--set-json debugVolume={"name":"debug-volume","hostPath":{"path":"/n1/debug-artifact","type":"Directory"}} '
+  additional+='--set-json debugMount={"name":"debug-volume","mountPath":"/n1/debug-artifact"} '
+
+  # In kind clusters, we set to 0 replica only to test the deployment flow.
+  if [ ! -d /kind ]; then
+    additional+="--set replicas=1 "
+  fi
+fi
+
+nfs_workdir_volume=$(kubectl -n $system_namespace get cm cluster-server-volumes -o jsonpath='{.data}' | \
+  jq -r 'first(to_entries[] | (.value | fromjson) | select(.type == "nfs" and .labels["cerebras-internal"] == "true" and .labels["workdir-logs"] == "true"))')
+if [ -n "$nfs_workdir_volume" ]; then
+  server=$(echo $nfs_workdir_volume | jq -r '.server')
+  server_path=$(echo $nfs_workdir_volume | jq -r '.serverPath')
+  container_path=$(echo $nfs_workdir_volume | jq -r '.containerPath')
+  additional+="--set-json nfsWorkdirVolume={\"name\":\"nfs-workdir\",\"nfs\":{\"server\":\"$server\",\"path\":\"$server_path\"}} "
+  additional+="--set-json nfsWorkdirMount={\"name\":\"nfs-workdir\",\"mountPath\":\"$container_path\"} "
+fi
+
+# Set mgmt_host to add it to the ingress hosts list
+{% if is_kind_cluster %}
+mgmt_host="localhost"
+{% else %}
+mgmt_host=$(hostname)
+{% endif %}
+
+# chmod is needed here for non-root deployment.
+chmod a+r .
+
+# wait for at most 1min in case of concurrent deployment race conditions
+$HELM history debugviz-server --namespace ${system_namespace} --max 3 2>/dev/null || true
+for ((i = 0; i < 6; i++)); do
+  status=$($HELM status debugviz-server --namespace ${system_namespace} -o json | jq -r '.info.status // empty')
+  if echo "$status" | grep -q "pending"; then
+    if [ $i == 5 ]; then
+      kubectl logs deploy/debugviz-server --namespace ${system_namespace} --tail 100 || true
+      echo "$(date) warning: last deploy stuck in $status for 1min+, force cleanup and continue"
+      $HELM uninstall debugviz-server --namespace ${system_namespace} || true
+      break
+    fi
+    echo "$(date) warning: last deploy stuck in $status, retry after 10s"
+    sleep 10
+  else
+    break
+  fi
+done
+
+debug_viz_host0="ingress.debugVizHosts[0]=debug-viz.$cluster_name.$service_domain"
+additional_ingress=$(get_additional_ingress)
+if [ -n "$additional_ingress" ]; then
+  debug_viz_host1=",ingress.debugVizHosts[1]=debug-viz.$additional_ingress.$service_domain"
+fi
+
+$HELM upgrade debugviz-server charts \
+  --install --create-namespace --debug --namespace ${system_namespace} \
+  --atomic --wait --timeout 5m --force \
+  -f charts/values.yaml \
+  -f charts/values-override.yaml $additional \
+  --set system_namespace=$system_namespace \
+  --set image=$debugviz_image \
+  --set $debug_viz_host0$debug_viz_host1

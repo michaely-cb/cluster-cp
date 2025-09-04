@@ -1,0 +1,2 @@
+# User rules for centos
+%sudo ALL=(ALL) ALL

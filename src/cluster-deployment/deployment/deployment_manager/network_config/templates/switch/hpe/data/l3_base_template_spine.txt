@@ -1,0 +1,72 @@
+# L3 template for ${name}
+#
+no vrf definition ${vrf_name}
+vrf definition ${vrf_name}
+exit
+#
+vrf definition ${vrf_name} rd ${asn_colon}
+#
+ip routing vrf ${vrf_name}
+ip arp timeout vrf ${vrf_name} 28800
+#
+no ip prefix-list external_addrs
+ip prefix-list external_addrs
+   no seq 10
+   no seq 20
+   seq 10 deny ${base_prefix_sep} ge ${base_bits}
+   seq 20 permit 0.0.0.0 /0 le 32
+   commit
+#
+no ip prefix-list external_advert
+ip prefix-list external_advert
+   no seq 10
+   no seq 20
+   seq 10 permit ${base_prefix_sep}
+   commit
+#
+no ip prefix-list vip_addrs
+ip prefix-list vip_addrs
+   no seq 10
+   seq 10 permit ${vip_prefix_sep} eq 32
+   commit
+#
+no route-map allow_vip_addrs
+route-map allow_vip_addrs permit 10
+   match ip address vip_addrs
+   exit
+#
+no route-map external_routes
+route-map external_routes permit 10
+   match ip address external_addrs
+   exit
+#
+no route-map external_advertise
+route-map external_advertise permit 10
+   match ip address external_advert
+   exit
+#
+no route-map deny_all
+route-map deny_all deny 10
+exit
+#
+no protocol bfd
+protocol bfd
+no protocol bgp
+protocol bgp
+router bgp ${asn_num} vrf ${vrf_name}
+   neighbor exterior_switches peer-group
+   neighbor exterior_switches route-map external_routes in
+   neighbor exterior_switches route-map external_advertise out
+   neighbor exterior_switches maximum-prefix 12000
+   neighbor ws_cluster_switches peer-group
+   neighbor ws_cluster_switches fall-over bfd
+   neighbor ws_cluster_switches maximum-prefix 12000
+   neighbor management_node peer-group
+   neighbor management_node route-reflector-client
+   neighbor management_node route-map deny_all out
+   maximum-paths 12
+   bestpath as-path multipath-relax force
+   aggregate-address ${base_prefix_sep}
+   redistribute static
+   redistribute connected
+   exit

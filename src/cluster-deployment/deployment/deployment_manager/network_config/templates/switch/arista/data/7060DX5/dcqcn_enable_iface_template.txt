@@ -1,0 +1,7 @@
+!
+! Enable DCQCN for ${my_port}
+!
+interface ${my_port}
+    uc-tx-queue 5
+    random-detect ecn minimum-threshold ${ecn_min_threshold} maximum-threshold ${ecn_max_threshold} max-mark-probability ${ecn_probability} weight 0
+    random-detect ecn count

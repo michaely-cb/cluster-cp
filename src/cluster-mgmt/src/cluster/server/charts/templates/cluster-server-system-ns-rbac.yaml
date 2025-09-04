@@ -1,0 +1,33 @@
+{{- $isSystemNamespace := eq .Values.namespace .Values.system_namespace -}}
+{{- $rbacPrefix := printf "%s-" .Values.namespace -}}
+
+{{ if $isSystemNamespace }}
+---
+# Generate ClusterRole, ClusterRoleBinding for the system namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ $rbacPrefix }}cluster-server-cluster-role
+  annotations:
+  {{- if .Values.systemUpdate }}
+    system-update: "true"
+  {{- end }}
+rules:
+  {{- include "cluster-server-viewer-cluster-role.rules" . | nindent 2 }}
+  {{- include "cluster-server-editor-cluster-role.rules" . | nindent 2 }}
+  {{- include "cluster-server-editor-ns-role.rules" . | nindent 2 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ $rbacPrefix }}cluster-server-cluster-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ $rbacPrefix }}cluster-server-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: {{ include "cluster-server.serviceAccountName" . }}
+  namespace: {{ .Values.namespace }}
+---
+{{ end }}

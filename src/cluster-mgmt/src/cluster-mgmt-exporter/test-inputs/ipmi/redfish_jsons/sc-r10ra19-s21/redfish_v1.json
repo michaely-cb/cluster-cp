@@ -1,0 +1,84 @@
+{
+   "SessionService" : {
+      "@odata.id" : "/redfish/v1/SessionService"
+   },
+   "Oem" : {
+      "Dell" : {
+         "ManagerMACAddress" : "4c:d9:8f:16:58:ae",
+         "@odata.context" : "/redfish/v1/$metadata#DellServiceRoot.DellServiceRoot",
+         "ServiceTag" : "4Q6ZCV2",
+         "@odata.type" : "#DellServiceRoot.v1_0_0.DellServiceRoot",
+         "IsBranded" : 0
+      }
+   },
+   "Vendor" : "Dell",
+   "Fabrics" : {
+      "@odata.id" : "/redfish/v1/Fabrics"
+   },
+   "Managers" : {
+      "@odata.id" : "/redfish/v1/Managers"
+   },
+   "RedfishVersion" : "1.11.0",
+   "TelemetryService" : {
+      "@odata.id" : "/redfish/v1/TelemetryService"
+   },
+   "JobService" : {
+      "@odata.id" : "/redfish/v1/JobService"
+   },
+   "Product" : "Integrated Dell Remote Access Controller",
+   "Chassis" : {
+      "@odata.id" : "/redfish/v1/Chassis"
+   },
+   "Tasks" : {
+      "@odata.id" : "/redfish/v1/TaskService"
+   },
+   "CertificateService" : {
+      "@odata.id" : "/redfish/v1/CertificateService"
+   },
+   "@odata.context" : "/redfish/v1/$metadata#ServiceRoot.ServiceRoot",
+   "EventService" : {
+      "@odata.id" : "/redfish/v1/EventService"
+   },
+   "Id" : "RootService",
+   "JsonSchemas" : {
+      "@odata.id" : "/redfish/v1/JsonSchemas"
+   },
+   "UpdateService" : {
+      "@odata.id" : "/redfish/v1/UpdateService"
+   },
+   "ProtocolFeaturesSupported" : {
+      "ExpandQuery" : {
+         "Links" : true,
+         "ExpandAll" : true,
+         "Levels" : true,
+         "NoLinks" : true,
+         "MaxLevels" : 1
+      },
+      "OnlyMemberQuery" : true,
+      "SelectQuery" : true,
+      "FilterQuery" : true,
+      "ExcerptQuery" : false,
+      "DeepOperations" : {
+         "DeepPOST" : false,
+         "DeepPATCH" : false
+      }
+   },
+   "Links" : {
+      "Sessions" : {
+         "@odata.id" : "/redfish/v1/SessionService/Sessions"
+      }
+   },
+   "AccountService" : {
+      "@odata.id" : "/redfish/v1/AccountService"
+   },
+   "Systems" : {
+      "@odata.id" : "/redfish/v1/Systems"
+   },
+   "@odata.id" : "/redfish/v1",
+   "Registries" : {
+      "@odata.id" : "/redfish/v1/Registries"
+   },
+   "@odata.type" : "#ServiceRoot.v1_8_0.ServiceRoot",
+   "Description" : "Root Service",
+   "Name" : "Root Service"
+}

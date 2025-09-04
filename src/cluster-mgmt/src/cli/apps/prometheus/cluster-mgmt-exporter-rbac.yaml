@@ -1,0 +1,56 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-mgmt-exporter-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+      - update
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - update
+      - patch
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - probes
+    verbs:
+      - get
+      - list
+      - watch
+      - delete
+      - create
+      - update
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-mgmt-exporter-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-mgmt-exporter-role
+subjects:
+  - kind: ServiceAccount
+    name: cluster-mgmt-exporter
+    namespace: prometheus
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cluster-mgmt-exporter
+  namespace: prometheus

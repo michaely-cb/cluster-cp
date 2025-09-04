@@ -1,0 +1,50 @@
+{
+  "_comment": "single system with 2 unique KVSS pods with memory overrides (1 Gi + 3 Gi) with job sharing enabled",
+  "tasks": [
+    {
+      "taskType": "KVSS",
+      "resourceInfo": {
+        "linearMemoryRange": {
+          "intercept": 0,
+          "coefficient": 0,
+          "minX": 1,
+          "maxX": 2
+        }
+      },
+      "taskMap": [
+        {
+          "taskId": {
+            "taskId": 0,
+            "wseIds": [
+              0
+            ]
+          },
+          "addressBook": {
+            "wseDomains": [
+              0
+            ]
+          },
+          "linearMemoryRangeOverride": {
+            "coefficient": "1073741824"
+          }
+        },
+        {
+          "taskId": {
+            "taskId": 1,
+            "wseIds": [
+              0
+            ]
+          },
+          "addressBook": {
+            "wseDomains": [
+              0
+            ]
+          },
+          "linearMemoryRangeOverride": {
+            "coefficient": "3221225472"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+apiVersion: jobs.cerebras.com/v1
+kind: NamespaceReservation
+metadata:
+  name: nsr-sample
+spec:
+  # TODO(user): Add fields here

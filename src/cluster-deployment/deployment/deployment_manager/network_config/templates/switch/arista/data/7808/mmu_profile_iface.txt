@@ -1,0 +1,1 @@
+! Jericho-based switches do not support MMU profiles

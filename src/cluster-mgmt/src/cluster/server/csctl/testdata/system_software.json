@@ -1,0 +1,229 @@
+{
+  "product":{
+    "name":"Cerebras CS2",
+    "version":"1.9.0",
+    "buildid":"202306021618-5-58e0545b"
+  },
+  "execmode":"WEIGHT_STREAMING",
+  "components":[
+    {
+      "shortName":"buildroot",
+      "longName":"buildroot rootfs and sdk",
+      "version":"2018.11.4-00004-gaec543fac8",
+      "buildid":"202303030152-1075-aec543fa"
+    },
+    {
+      "shortName":"cbcore",
+      "longName":"Cerebras core coordinator and worker docker image",
+      "version":"1.9.0",
+      "buildid":"202306021618-5-708fe159"
+    },
+    {
+      "shortName":"cdiag",
+      "longName":"Diagnostics",
+      "version":"",
+      "buildid":"202306021618-5-708fe159"
+    },
+    {
+      "shortName":"dpl-examples",
+      "longName":"NXP dpl examples",
+      "version":"201910261951-1000-aa5c24f0",
+      "buildid":"201910261951-1000-aa5c24f0"
+    },
+    {
+      "shortName":"firmware",
+      "longName":"Firmware",
+      "version":"202305091113-60-d49f218c",
+      "buildid":"202305091113-60-d49f218c"
+    },
+    {
+      "shortName":"fman",
+      "longName":"Frame Manager Microcode",
+      "version":"201910261954-1000-eb29ab22",
+      "buildid":"201910261954-1000-eb29ab22"
+    },
+    {
+      "shortName":"itb-cm",
+      "longName":"Cerebras CM Image",
+      "version":"1.9.0",
+      "buildid":"202306021618-4-58e0545b"
+    },
+    {
+      "shortName":"itb-sm",
+      "longName":"Cerebras SM Image",
+      "version":"1.9.0",
+      "buildid":"202306021618-4-58e0545b"
+    },
+    {
+      "shortName":"linux-cm",
+      "longName":"CM kernel, dtb, and sdk",
+      "version":"4.9.35",
+      "buildid":"202204251834-9-0e928d22"
+    },
+    {
+      "shortName":"linux-sm",
+      "longName":"SM kernel, dtb, and sdk",
+      "version":"4.14.53",
+      "buildid":"202111300147-14-f2ebaa77"
+    },
+    {
+      "shortName":"monolith-cm",
+      "longName":"CM software",
+      "version":"monolith-flute/v0.1.309-289-g708fe159416b",
+      "buildid":"202306021618-5-708fe159"
+    },
+    {
+      "shortName":"monolith-wt",
+      "longName":"Watchtower",
+      "version":"1.9.0",
+      "buildid":"202306021618-5-708fe159"
+    },
+    {
+      "shortName":"monolith-wt-atpg",
+      "longName":"Watchtower ATPG files",
+      "version":"",
+      "buildid":"202004032126-7-42f014d2"
+    },
+    {
+      "shortName":"platform",
+      "longName":"CM+SM platform software",
+      "version":"1.9.0",
+      "buildid":"202306021618-5-c90158a7"
+    },
+    {
+      "shortName":"ppa-cm",
+      "longName":"Primary Protected Application, CM",
+      "version":"202003132129-1-e06e8355",
+      "buildid":"202003132129-1-e06e8355"
+    },
+    {
+      "shortName":"ppa-sm",
+      "longName":"Primary Protected Application, SM",
+      "version":"202003132134-1-3203b922",
+      "buildid":"202003132134-1-3203b922"
+    },
+    {
+      "shortName":"qoriq-mc-binary",
+      "longName":"NXP MC binary firmware",
+      "version":"201910261959-1000-66d3c6af",
+      "buildid":"201910261959-1000-66d3c6af"
+    },
+    {
+      "shortName":"rcw",
+      "longName":"Freescale RCW compiler",
+      "version":"201910261959-1000-ff28f01c",
+      "buildid":"201910261959-1000-ff28f01c"
+    },
+    {
+      "shortName":"uboot-cm",
+      "longName":"Das U-Boot -- the Universal Boot Loader",
+      "version":"2017.07",
+      "buildid":"202010071721-4-cf53c437"
+    },
+    {
+      "shortName":"uboot-sm",
+      "longName":"Das U-Boot -- the Universal Boot Loader",
+      "version":"2019.04",
+      "buildid":"202212071922-9-abf2c8bd"
+    }
+  ],
+  "upgradeDetails":{
+    "progress":100,
+    "status":"SUCCESS",
+    "phase":"DONE"
+  },
+  "upgradeMoreDetails":{
+    "imageVersion":"1.9.0-202306021618-5-58e0545b",
+    "currentBootPartition":"Side 1"
+  },
+  "fpgaProgress":null,
+  "selfTestDetails":{
+    "testId":"0b2dba17-e4cc-47ff-b1e3-68a777a80129",
+    "status":"PASS"
+  },
+  "uboot":[
+    {
+      "component":"SYSTEM",
+      "currentVersion":"",
+      "availableVersion":"2019.04-202212071922-9-abf2c8bd",
+      "needsUpgrade":true
+    },
+    {
+      "component":"IO",
+      "currentVersion":"",
+      "availableVersion":"2017.07-202010071721-4-cf53c437",
+      "needsUpgrade":true
+    }
+  ],
+  "availableImages":[
+
+  ],
+  "upgradeEvents":[
+    {
+      "id":"8286f794-3ddc-4acf-605b-4cef1b533da8",
+      "type":"EventUpgradeCompleted",
+      "severity":"INFO",
+      "triggerTime":"1685733377862",
+      "component":"UPGRADESVC",
+      "attrs":{
+        "runningVersion":"1.9.0-202306021618-5-58e0545b"
+      }
+    },
+    {
+      "id":"645f3a2f-2c34-459a-5a67-f8d436a3878f",
+      "type":"EventUpgradeStarted",
+      "severity":"INFO",
+      "triggerTime":"1685731966102",
+      "component":"UPGRADESVC",
+      "attrs":{
+        "imageName":"",
+        "imageVersion":"1.9.0-202306021618-5-58e0545b",
+        "runningVersion":"0.0.0-202305241632-3974-bc0c35fe"
+      }
+    },
+    {
+      "id":"e1042cc0-69c3-4700-785c-c60313118b70",
+      "type":"EventUpgradeCompleted",
+      "severity":"INFO",
+      "triggerTime":"1685063671961",
+      "component":"UPGRADESVC",
+      "attrs":{
+        "runningVersion":"0.0.0-202305241632-3974-bc0c35fe"
+      }
+    },
+    {
+      "id":"72644dd3-f029-496a-63bf-8b2918e9919e",
+      "type":"EventUpgradeStarted",
+      "severity":"INFO",
+      "triggerTime":"1685051107472",
+      "component":"UPGRADESVC",
+      "attrs":{
+        "imageName":"",
+        "imageVersion":"0.0.0-202305241632-3974-bc0c35fe",
+        "runningVersion":"0.0.0-202305161129-3957-319eee0d"
+      }
+    },
+    {
+      "id":"0f6d7ced-7edf-4b5d-6421-55d7f7805f6a",
+      "type":"EventUpgradeCompleted",
+      "severity":"INFO",
+      "triggerTime":"1684265673340",
+      "component":"UPGRADESVC",
+      "attrs":{
+        "runningVersion":"0.0.0-202305161129-3957-319eee0d"
+      }
+    },
+    {
+      "id":"60ca47d3-d428-4871-4ddd-9397d7706655",
+      "type":"EventUpgradeStarted",
+      "severity":"INFO",
+      "triggerTime":"1684263338111",
+      "component":"UPGRADESVC",
+      "attrs":{
+        "imageName":"",
+        "imageVersion":"0.0.0-202305161129-3957-319eee0d",
+        "runningVersion":"0.0.0-202301261129-3729-777e5e59"
+      }
+    }
+  ]
+}

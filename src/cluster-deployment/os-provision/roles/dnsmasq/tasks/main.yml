@@ -1,0 +1,53 @@
+- name: Make hosts directory
+  ansible.builtin.file:
+    path: /etc/hosts.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags: dns
+
+# Remove misnamed host file - file was added due to a regression
+# this block can be removed after 2.5
+- name: Remove misnamed file
+  ansible.builtin.file:
+    path: /etc/hosts.d/hosts
+    state: absent
+  tags: dns
+
+- name: Test dnsmasq config
+  shell: dnsmasq --test -C "{{ dhcp_config_dir }}/dnsmasq.conf"
+  tags: dns
+
+- name: Copy DNS hosts entries
+  ansible.builtin.copy:
+    src: "{{ dhcp_config_dir }}/hosts.conf"
+    dest: /etc/hosts.d/hosts.conf
+    owner: root
+    group: root
+    mode: '0644'
+  tags: dns
+
+- name: Copy dnsmasq config
+  ansible.builtin.copy:
+    src: "{{ dhcp_config_dir }}/dnsmasq.conf"
+    dest: /etc/dnsmasq.conf
+    owner: root
+    group: root
+    mode: '0644'
+  tags: dns
+
+- name: Enable and start dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
+    enabled: yes
+  tags: dns
+
+- name: Ensure ipxe boot script exists
+  ansible.builtin.copy:
+    src: "boot-rocky.ipxe"
+    dest: /var/ftpd/boot-rocky.ipxe
+    owner: root
+    group: root
+    mode: "0644"

@@ -1,0 +1,68 @@
+name: cg7
+racks:
+- template: wse1
+  names:
+    - rwse003
+    - wse033
+    - wse035
+    - wse037
+    - wse039
+    - wse041
+    - wse043
+    - wse045
+    - wse047
+    - wse049
+    - wse051
+    - wse053
+    - wse055
+    - wse057
+    - wse059
+    - wse061
+    - wse063
+- template: wse2
+  names:
+    - rwse004
+    - wse034
+    - wse036
+    - wse038
+    - wse040
+    - wse042
+    - wse044
+    - wse046
+    - wse048
+    - wse050
+    - wse052
+    - wse054
+    - wse056
+    - wse058
+    - wse060
+    - wse062
+    - wse064
+- template: br-rack-64node
+  names:
+    - net007
+    - net008
+    - net009
+    - net010
+    - net011
+    - net012
+- template: shared-spine
+  names:
+    - net301
+    - net302
+    - net303
+    - net304
+- template: memx-b
+  names:
+    - net106
+    - net108
+- template: memx-l
+  names:
+    - net110
+- template: memx-xl
+  names:
+    - net111
+- template: workers
+  names:
+    - net107
+    - net109

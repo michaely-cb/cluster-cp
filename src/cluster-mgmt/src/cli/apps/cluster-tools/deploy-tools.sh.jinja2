@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd $(dirname "$0")
+source "../pkg-common.sh"
+
+namespace="{{ namespace }}"
+system_namespace="{{ system_namespace }}"
+BIN_DIR="/usr/local/bin"
+TOOLS_DIR="/opt/cerebras/tools"
+
+# Atomically copy a given script to dest_path.
+atomic_copy_script() {
+  local script=$1
+  local staging_dir=$2
+  local dest_path=$3
+
+  if [ -d "$script" ]; then
+    echo "atomic_copy_script doesn't work for directories."
+    return 1
+  fi
+
+  cp "$script" "$staging_dir"
+  mv -f "$staging_dir/$(basename $script)" "$dest_path"
+}
+
+# Atomically copy a given directory to dest_path.
+atomic_copy_dir() {
+  local src_dir=$1
+  local staging_dir=$2
+  local dest_dir=$3
+
+  if [ ! -d "$src_dir" ]; then
+    echo "$src_dir is not a directory."
+    return 1
+  fi
+
+  rm -rf "$staging_dir/$(basename $src_dir)"
+  cp -r "$src_dir" "$staging_dir"
+  rm -rf "$dest_dir.bkup"
+  if [ -d "$dest_dir" ]; then
+    mv -f "$dest_dir" "$dest_dir.bkup"
+  fi
+  mv -f "$staging_dir/$(basename $src_dir)" "$dest_dir"
+}
+
+install_scripts() {
+  # kind requires a non-tmp staging dir else files get deleted on ssh exit
+  local staging_dir="/tmp/deploy-tools-$(date +%s)"
+  if [ -d /kind ]; then
+    staging_dir="/home/deploy-tools-$(date +%s)"
+  fi
+  mkdir -p $staging_dir
+  tar xzv -C $staging_dir -f cluster-mgmt-tools.tar.gz &>/dev/null
+
+  # "csctl version 2.0.2-202310292240-20-0d7a2e0e+0d7a2e0eec" -> "2.0"
+  # "csctl version 0.0.0-johndoe+c481ba92cd" -> "0.0"
+  chmod 755 $staging_dir/csctl
+  csctl_version=$($staging_dir/csctl --version | awk '{ print $3 }' | cut -d. -f1-2)
+
+  if [ "${namespace}" == "${system_namespace}" ] && [ -n "${namespace}" ]; then
+    echo "installing mgmt scripts to ${TOOLS_DIR}..."
+    mkdir -p "${TOOLS_DIR}"
+
+    mv -f $staging_dir/* "${TOOLS_DIR}/"
+    atomic_copy_script "${TOOLS_DIR}"/csctl "$staging_dir" "$BIN_DIR/csctl"
+    atomic_copy_script "${TOOLS_DIR}"/csctl "$staging_dir" "$BIN_DIR/csctl${csctl_version}"
+
+    chmod u+x "${TOOLS_DIR}"/cluster-volumes.sh
+    atomic_copy_script "${TOOLS_DIR}"/cluster-volumes.sh "$staging_dir" "$BIN_DIR/cluster-volumes.sh"
+
+    # install validations scripts
+    chmod u+x network-validation.sh
+    atomic_copy_script network-validation.sh "$staging_dir" "$BIN_DIR/network-validation.sh"
+    atomic_copy_script network-validation.sh "$staging_dir" "${TOOLS_DIR}/network-validation.sh"
+
+    chmod u+x software-validation.sh
+    atomic_copy_script software-validation.sh "$staging_dir" "${TOOLS_DIR}/software-validation.sh"
+
+    atomic_copy_script access-cached-compile-job.yaml "$staging_dir" "${TOOLS_DIR}/access-cached-compile-job.yaml"
+    atomic_copy_script access-log-export-job.yaml "$staging_dir" "${TOOLS_DIR}/access-log-export-job.yaml"
+    atomic_copy_script access-debug-artifact-job.yaml "$staging_dir" "${TOOLS_DIR}/access-debug-artifact-job.yaml"
+
+    atomic_copy_script ../csadm.sh "$staging_dir" "${TOOLS_DIR}/csadm.sh"
+    atomic_copy_dir ../csadm "$staging_dir" "${TOOLS_DIR}/csadm"
+
+    atomic_copy_script ../csadm.sh "$staging_dir" "${BIN_DIR}/csadm.sh"
+    atomic_copy_dir ../csadm "$staging_dir" "${BIN_DIR}/csadm"
+
+    if [ -f ./config_v2 ] && [ -s ./config_v2 ]; then
+      mv -f ./config_v2 /opt/cerebras/config_v2
+    fi
+
+    # For compilepods, the `get-cerebras-token` binary might be used in a running job, so replacing
+    # it unconditionally might cause 'Test file busy` error on running jobs. We only replace it
+    # when the version is changed.
+    local token_bin_exists=false
+    if [ -f "$BIN_DIR/get-cerebras-token" ]; then
+      chmod u+x "${TOOLS_DIR}/get-cerebras-token"
+      local old_version=$($BIN_DIR/get-cerebras-token version)
+      local new_version=$(${TOOLS_DIR}/get-cerebras-token version)
+      # Before 2.0, there is no version support in get-cerebras-token. Assuming it is v1.
+      if [[ $old_version == Token* ]]; then
+        old_version="version v1"
+      fi
+
+      if [ "$old_version" = "$new_version" ]; then
+        echo "get-cerebras-token already exists in $BIN_DIR"
+        token_bin_exists=true
+      fi
+    fi
+    if ! $token_bin_exists; then
+      atomic_copy_script "${TOOLS_DIR}"/get-cerebras-token "$staging_dir" "${BIN_DIR}/get-cerebras-token"
+      chmod 4751 "${BIN_DIR}"/get-cerebras-token
+    fi
+
+    mkdir -p "$USER_AUTH_SECRET_DIR"
+    if kubectl -n "$system_namespace" get secret kube-user-auth; then
+      auth_secret="$USER_AUTH_SECRET_DIR/user-auth-secret"
+      kubectl -n "$system_namespace" get secret kube-user-auth -ojsonpath='{.data.secret}' | base64 --decode -w 0 > "$auth_secret"
+      chmod 600 "$auth_secret"
+    fi
+  elif [ "${csctl_version}" != "0.0" ]; then
+    # If the csctl version is not "0.0", then it indicates the csctl executable is from
+    # a release build. We always deploy "csctlx.y" in that case.
+    echo "installing csctl to $BIN_DIR/csctl${csctl_version}"
+    mv -f $staging_dir/csctl "${BIN_DIR}/csctl${csctl_version}"
+  fi
+  rm -rf "${staging_dir}"
+}
+
+INITIAL_DEPLOY="false"
+if [ "$namespace" != "$system_namespace" ]; then
+  echo "skipping updating csctl config and user auth secret as the current namespace '$namespace' is not the system namespace."
+elif [ -z "$(kubectl -n $system_namespace get ingress cluster-server --ignore-not-found)" ]; then
+  echo "warning: cluster-server ingress not found, was cluster-server deployed in the system namespace?"
+  INITIAL_DEPLOY="true"
+else
+  config_v2="./config_v2"
+  generate_csctl_cfg "$config_v2" "$system_namespace"
+fi
+
+install_scripts
+
+if has_multiple_mgmt_nodes; then
+  # Delete any persisting old-style installer. This 'k delete ds' can be removed in 2.5 or later.
+  kubectl delete ds -n $namespace deploy-tools-node --ignore-not-found
+
+  installer_rollout_wait_or_warn installers cluster-tools-installer ./cluster-tools-installer.sh 180 no_toleration \
+   SYSTEM_NAMESPACE=$system_namespace \
+   DEPLOY_NAMESPACE=$namespace \
+   INITIAL_DEPLOY="$INITIAL_DEPLOY"
+fi

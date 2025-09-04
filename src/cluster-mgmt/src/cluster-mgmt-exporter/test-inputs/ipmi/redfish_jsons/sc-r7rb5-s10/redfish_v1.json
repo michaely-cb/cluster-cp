@@ -1,0 +1,79 @@
+{
+   "SessionService" : {
+      "@odata.id" : "/redfish/v1/SessionService"
+   },
+   "Vendor" : "Lenovo",
+   "Managers" : {
+      "@odata.id" : "/redfish/v1/Managers"
+   },
+   "RedfishVersion" : "1.16.0",
+   "LicenseService" : {
+      "@odata.id" : "/redfish/v1/LicenseService"
+   },
+   "TelemetryService" : {
+      "@odata.id" : "/redfish/v1/TelemetryService"
+   },
+   "JobService" : {
+      "@odata.id" : "/redfish/v1/JobService"
+   },
+   "UUID" : "72230F5C-E4D4-11EF-904C-8E3B4AC18D39",
+   "Chassis" : {
+      "@odata.id" : "/redfish/v1/Chassis"
+   },
+   "CertificateService" : {
+      "@odata.id" : "/redfish/v1/CertificateService"
+   },
+   "Tasks" : {
+      "@odata.id" : "/redfish/v1/TaskService"
+   },
+   "@odata.context" : "/redfish/v1/$metadata#ServiceRoot.ServiceRoot",
+   "EventService" : {
+      "@odata.id" : "/redfish/v1/EventService"
+   },
+   "Id" : "RootService",
+   "JsonSchemas" : {
+      "@odata.id" : "/redfish/v1/JsonSchemas"
+   },
+   "ServiceIdentification" : "",
+   "ProtocolFeaturesSupported" : {
+      "MultipleHTTPRequests" : true,
+      "ExpandQuery" : {
+         "Links" : true,
+         "ExpandAll" : true,
+         "Levels" : true,
+         "MaxLevels" : 2,
+         "NoLinks" : true
+      },
+      "OnlyMemberQuery" : true,
+      "SelectQuery" : true,
+      "FilterQuery" : true,
+      "ExcerptQuery" : true,
+      "DeepOperations" : {
+         "DeepPOST" : true,
+         "DeepPATCH" : true,
+         "MaxLevels" : 2
+      }
+   },
+   "UpdateService" : {
+      "@odata.id" : "/redfish/v1/UpdateService"
+   },
+   "Links" : {
+      "Sessions" : {
+         "@odata.id" : "/redfish/v1/SessionService/Sessions"
+      }
+   },
+   "AccountService" : {
+      "@odata.id" : "/redfish/v1/AccountService"
+   },
+   "@odata.etag" : "\"aeb3fe9444c433b6795b1\"",
+   "Systems" : {
+      "@odata.id" : "/redfish/v1/Systems"
+   },
+   "@odata.id" : "/redfish/v1/",
+   "Registries" : {
+      "@odata.id" : "/redfish/v1/Registries"
+   },
+   "@odata.type" : "#ServiceRoot.v1_14_0.ServiceRoot",
+   "Name" : "Root Service",
+   "Description" : "This resource is used to represent a service root for a Redfish implementation."
+}

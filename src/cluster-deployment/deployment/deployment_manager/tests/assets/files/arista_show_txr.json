@@ -1,0 +1,59 @@
+{
+  "interfaces": {
+    "Ethernet25/1": {
+      "vendorSn": "CRDR23480B8TP",
+      "mediaType": "400GBASE-DR4",
+      "narrowBand": false,
+      "updateTime": 1726764647.9163303,
+      "temperature": 56.046875,
+      "voltage": 3.2192000000000003,
+      "txBias": 69.696,
+      "txPower": 1.1684010241266378,
+      "rxPower": 2.132254727734008
+    },
+    "Ethernet25/2": {
+      "vendorSn": "CRDR23480B8TP",
+      "mediaType": "400GBASE-DR4",
+      "narrowBand": false,
+      "updateTime": 1726764647.9163306,
+      "temperature": 56.046875,
+      "voltage": 3.2192000000000003,
+      "txBias": 68.64,
+      "txPower": 1.2914184579228518,
+      "rxPower": 2.611438677006671
+    },
+    "Ethernet25/3": {
+      "vendorSn": "CRDR23480B8TP",
+      "mediaType": "400GBASE-DR4",
+      "narrowBand": false,
+      "updateTime": 1726764647.9163303,
+      "temperature": 56.046875,
+      "voltage": 3.2192000000000003,
+      "txBias": 74.44800000000001,
+      "txPower": 1.2593646696609362,
+      "rxPower": 2.676878798657391
+    },
+    "Ethernet25/4": {
+      "vendorSn": "CRDR23480B8TP",
+      "mediaType": "400GBASE-DR4",
+      "narrowBand": false,
+      "updateTime": 1726764647.9163303,
+      "temperature": 56.046875,
+      "voltage": 3.2192000000000003,
+      "txBias": 76.56,
+      "txPower": 0.9268556293749057,
+      "rxPower": -30.0
+    },
+    "Ethernet2/1/1": {
+      "vendorSn": "XXX",
+      "mediaType": "800BASE-DR8",
+      "narrowBand": false,
+      "updateTime": 1726764647.9163303,
+      "temperature": 56.046875,
+      "voltage": 3.2192000000000003,
+      "txBias": 74.44800000000001,
+      "txPower": 1.2593646696609362,
+      "rxPower": 2.676878798657391
+    }
+  }
+}

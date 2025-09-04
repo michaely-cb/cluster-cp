@@ -1,0 +1,5 @@
+#
+# SNMP configuration
+#
+set snmp community CerebrasColoSC
+set snmp routing-instance-access

@@ -1,0 +1,27 @@
+# This playbook disable all services on mgmt node. 
+# This is used when combining a couple of racks together.
+# It should be executed through ILO or KVM
+- hosts: mgmt-node
+  tasks:
+    - name: Disable and stop http service
+      systemd: name=httpd state=stopped enabled=yes
+
+    - name: Disable NTP
+      service:
+        name: chronyd
+        state: stopped
+        enabled: false
+
+    - name: Disable dnsmasq
+      systemd: name=dnsmasq state=stopped enabled=no
+
+
+    #- name: Set 1G NIC to DHCP auto
+    #  shell: nmcli con mod "{{ internal_nic }}" {{ item }}
+    #  loop:
+    #    - ipv4.method auto
+    #    - ipv4.address ""
+    #    - ipv4.gateway ""
+
+    #- name: Refresh connection
+    #  shell: nmcli con down "{{ internal_nic }}"; nmcli con up "{{ internal_nic }}"

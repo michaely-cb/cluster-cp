@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+set -e
+
+if is_incremental_deploy; then
+  # It's possible that cpingmesh pods are crashign because they were deployed by the daemonset 
+  # before the node was fully set up. Delete the pods to restart them.
+  CRASHING_PODS=$(kubectl get pods -n cpingmesh --field-selector=status.phase=Running -o json | \
+    jq -r '.items[] | select(.status.containerStatuses[]?.state.waiting?.reason=="CrashLoopBackOff") | .metadata.name')
+  if [ -n "$CRASHING_PODS" ]; then
+    kubectl delete pod $CRASHING_PODS -n cpingmesh
+  fi
+  exit 0
+fi
+
+# Values filled in by the template
+cping_agent_tag={{ cping_agent_tag }}
+cping_controller_tag={{ cping_controller_tag }}
+cping_viz_tag={{ cping_viz_tag }}
+
+
+# Can be DISABLED (not deployed) ENABLED (deployed but not running) or RUNNING (deployed and running)
+cping_setting=$(yq -r '.properties.cpingmesh.config // "RUNNING"' ${CLUSTER_PROPERTIES})
+
+# verify cping_setting is one of the allowed values
+if [ "$cping_setting" != "DISABLED" ] && [ "$cping_setting" != "ENABLED" ] && [ "$cping_setting" != "RUNNING" ]; then
+  echo "Invalid cpingmesh config value: $cping_setting"
+  exit 1
+fi
+
+# Can be DISABLED (not deployed) or ENABLED (deployed)
+cping_viz_setting=$(yq -r '.properties.cpingmesh.viz // "ENABLED"' ${CLUSTER_PROPERTIES})
+
+# verify cping_viz_setting is one of the allowed values
+if [ "$cping_viz_setting" != "DISABLED" ] && [ "$cping_viz_setting" != "ENABLED" ]; then
+  echo "Invalid cpingmesh viz value: $cping_viz_setting"
+  exit 1
+fi
+
+# Can be DISABLED (not deployed) or ENABLED (deployed)
+cs_pings_setting=$(yq -r '.properties.cpingmesh.cs_pings // "ENABLED"' ${CLUSTER_PROPERTIES})
+
+# verify cping_viz_setting is one of the allowed values
+if [ "$cs_pings_setting" != "DISABLED" ] && [ "$cs_pings_setting" != "ENABLED" ]; then
+  echo "Invalid cs pings setting: $cs_pings_setting"
+  exit 1
+fi
+
+enable_cs_pings="false"
+if [ "$cs_pings_setting" == "ENABLED" ]; then
+  enable_cs_pings="true"
+fi
+
+# if cping_setting is RUNNING, set the controller_args to "-n" otherwise set it to ""
+controller_args=""
+if [ "$cping_setting" == "RUNNING" ]; then
+  controller_args="\"-e\""
+fi
+
+cping_url=cpingmesh.${cluster_name}.${service_domain}
+cping_viz_listen_port=8000
+if has_multiple_mgmt_nodes; then
+  cping_viz_query_domain="thanos-query.prometheus"
+  cping_viz_query_port="9090"
+else
+  cping_viz_query_domain="prometheus-prometheus.prometheus"
+  cping_viz_query_port="9090"
+fi
+
+
+sed "s/\${CPING_AGENT_TAG}/${cping_agent_tag}/" ./cping-agent-daemonset.yaml > ./cping-agent-daemonset.updated.yaml
+
+sed "s/\${CPING_CONTROLLER_TAG}/${cping_controller_tag}/" ./cping-controller.yaml > ./cping-controller.updated.yaml
+sed -i "s/\${CPING_CONTROLLER_ARGS}/${controller_args}/" ./cping-controller.updated.yaml
+sed -i "s/\${CPING_ENABLE_CS_PINGS}/${enable_cs_pings}/" ./cping-controller.updated.yaml
+
+sed "s/\${CPING_VIZ_TAG}/${cping_viz_tag}/" ./cping-viz.yaml > ./cping-viz.updated.yaml
+sed -i "s/\${CPING_URL}/${cping_url}/" ./cping-viz.updated.yaml
+sed -i "s/\${CPING_VIZ_LISTEN_PORT}/${cping_viz_listen_port}/" ./cping-viz.updated.yaml
+sed -i "s/\${CPING_VIZ_QUERY_DOMAIN}/${cping_viz_query_domain}/" ./cping-viz.updated.yaml
+sed -i "s/\${CPING_VIZ_QUERY_PORT}/${cping_viz_query_port}/" ./cping-viz.updated.yaml
+sed -i "s/\${CPING_ENABLE_CS_PINGS}/${enable_cs_pings}/" ./cping-viz.updated.yaml
+
+# if cping_setting is not DISABLED, deploy the cpingmesh
+if [ "$cping_setting" != "DISABLED" ]; then
+  kubectl create namespace cpingmesh || true
+  kubectl apply -f ./cping-controller.updated.yaml
+  kubectl apply -f ./cping-agent-daemonset.updated.yaml
+  if [ "$cping_viz_setting" != "DISABLED" ]; then
+    source create-tls-secrets.sh
+    kubectl apply -f ./cping-viz.updated.yaml
+
+    # Add a new ingress to cping-viz if additional_ingress is specified
+    additional_ingress=$(get_additional_ingress)
+    if [ -n "$additional_ingress" ]; then
+      kubectl -n cpingmesh get ingress cping-viz-ingress -o json > cping-viz-ingress.new.json
+      ingress_host_http=$(cat cping-viz-ingress.new.json | jq '.spec.rules[0].http')
+      jq ".spec.rules += [{
+        \"host\": \"cpingmesh.${additional_ingress}.${service_domain}\",
+        \"http\": $ingress_host_http
+        }] |
+        .spec.tls[0].hosts += [\"cpingmesh.${additional_ingress}.${service_domain}\"]" cping-viz-ingress.new.json > cping-viz-ingress.new.updated.json
+      kubectl apply -f cping-viz-ingress.new.updated.json
+    fi
+  else 
+    kubectl delete -f ./cping-viz.updated.yaml || true
+  fi
+else
+  kubectl delete namespace cpingmesh || true
+fi
+

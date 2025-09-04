@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: $job_name
+  namespace: $ns
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 1800
+  activeDeadlineSeconds: 3000
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: registry.local/alpine-kubectl:$tag
+        command: ["bash", "-c", "source $cleanup_dir/logs/utils.sh && clean_local_logs $metadata_prefix"]
+        volumeMounts:
+        - mountPath: $ceph_pvc_mount_path
+          name: ceph-pvc-vol
+        - mountPath: $cleanup_dir
+          name: cleanup-vol
+        workingDir: $cleanup_dir
+        env:
+        - name: PVC_NAME
+          value: $pvc_name
+        - name: PVC_MOUNT_PATH
+          value: $ceph_pvc_mount_path
+        - name: metadata_dir
+          value: $metadata_dir
+        - name: dryrun
+          value: "$dryrun"
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+      volumes:
+      - name: ceph-pvc-vol
+        persistentVolumeClaim:
+          claimName: $pvc_name
+      - name: cleanup-vol
+        hostPath:
+          path: $cleanup_dir
+          type: Directory
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      nodeName: $node_name

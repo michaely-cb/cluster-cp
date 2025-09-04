@@ -1,0 +1,82 @@
+{
+    "enabled": true,
+    "ingressInterfacesEnabledDefault": true,
+    "egressInterfacesEnabledDefault": true,
+    "interfaces": {
+        "Ethernet1/1": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet2/1": {
+            "sFlows": {
+                "egress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet2/3": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                },
+                "egress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet2/5": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                },
+                "egress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet2/7": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                },
+                "egress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet3/1": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                },
+                "egress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet4/1": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                },
+                "egress": {
+                    "status": "running"
+                }
+            }
+        },
+        "Ethernet5/1": {
+            "sFlows": {
+                "ingress": {
+                    "status": "running"
+                },
+                "egress": {
+                    "status": "running"
+                }
+            }
+        }
+    },
+    "lagInterfaces": {}
+}

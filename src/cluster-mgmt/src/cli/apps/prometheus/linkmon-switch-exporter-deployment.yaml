@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-mgmt-linkmon-switch
+  namespace: prometheus
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: cluster-mgmt-linkmon-switch
+  template:
+    metadata:
+      labels:
+        app: cluster-mgmt-linkmon-switch
+        cluster-mgmt-exporter: ""
+    spec:
+      serviceAccountName: cluster-mgmt-exporter
+      containers:
+        - name: cluster-mgmt-linkmon-switch
+          image: registry.local/cluster-mgmt-exporter:${EXPORTER_TAG}
+          command: [ "python3.11", "linkmon.py", "-j", "/config/network_config.json.gz", "--no-nodes", "--no-systems", "-i", "300", "--prometheus"]
+          resources:
+            requests:
+              cpu: 500m
+            limits:
+              memory: 1G
+          ports:
+            - name: system
+              containerPort: 8005
+          volumeMounts:
+          - name: linkmon-cfgmap
+            mountPath: /config
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      nodeSelector:
+        "node-role.kubernetes.io/control-plane": ""
+      volumes:
+      - name: linkmon-cfgmap
+        configMap:
+          name: linkmon-network-config-json
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  namespace: prometheus
+  name: cluster-mgmt-linkmon-switch
+  labels:
+    app: cluster-mgmt-linkmon-switch
+spec:
+  selector:
+    matchLabels:
+      app: cluster-mgmt-linkmon-switch
+  namespaceSelector:
+    matchNames:
+      - prometheus
+  podMetricsEndpoints:
+    - port: system
+      interval: 300s
+      scrapeTimeout: 10s

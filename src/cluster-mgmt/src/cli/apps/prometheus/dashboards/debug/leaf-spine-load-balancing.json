@@ -1,0 +1,1059 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 992,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "For each uplink: the number of flows traversing the uplink, and the ratio of all uplink flows traversing this uplink.\n<br>\n<b>N.B.:</b> this only includes uplinks that have been observed through sFlow packet samples; if for some reason packets aren't being sent though a link (or sampled at that link), that link won't be included.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Average rate"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Switch port"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ifName"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 212
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Network Flows: switch ${__data.fields.switch} port ${__data.fields.ifName}",
+                    "url": "/d/fe73gtw6l7x1cd/network-flows?${__url_time_range}&var-switch=${__data.fields.switch}&var-port=${__data.fields.ifName}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #TX"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 232
+              },
+              {
+                "id": "unit",
+                "value": "pps"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-BlYlRd"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Flow Count"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 123
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-BlYlRd"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #Up ratio"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 338
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "lcd",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-BlYlRd"
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "fieldMinMax",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ratio"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 355
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Packet Rate"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 293
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "switch"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 192
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Ratio"
+          }
+        ]
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count by (switch, ifName) # we need switch for generating data link\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName, switch)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "Flow count"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"})\n/ on() group_left sum(count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "Up ratio"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(sum by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\")))\n   * on (ifName) group_left()\n   (interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))\n   * on () group_left avg(sflow_sampling_rate{agent=~\"$agent\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "TX"
+        }
+      ],
+      "title": "Uplink Flow Distribution",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "agent": true,
+              "ifName": false,
+              "portindex": false,
+              "switch": false,
+              "switch_id": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value #Flow count": 5,
+              "Value #TX": 4,
+              "Value #Up ratio": 6,
+              "agent": 2,
+              "ifName": 1,
+              "portindex": 3,
+              "switch_id": 7
+            },
+            "renameByName": {
+              "Value": "Avg Rate",
+              "Value #A": "pct",
+              "Value #Average rate": "Average rate",
+              "Value #B": "Flow count",
+              "Value #Flow count": "Flow Count",
+              "Value #TX": "Packet Rate",
+              "Value #Up ratio": "Ratio",
+              "agent": "Switch Agent",
+              "portindex": "Port Index"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "These are the uplinks currently being traversed by flows, as reported by sFlow packet samples.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "count(count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Number of Uplinks in Use",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Total number of flows traversing links to spine switches.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 3
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Total Uplink Flow Count",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Essentially `NUMBER_OF_FLOWS / NUMBER_OF_LINKS`",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 6
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))\n/ on() count(count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Ideal Number of Flows Per Link",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "The ratio of flows that is traversing the most congested uplink.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 9
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "max(\ncount by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"})\n/ on() group_left sum(count by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\"))\n    * on (ifName) group_left interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))\n)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Max Uplink Ratio",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "The aggregate TX rate across all uplinks.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 12
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\")))\n   * on (ifName) group_left()\n   (interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))\n   * on () group_left avg(sflow_sampling_rate{agent=~\"$agent\"})",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Total Uplink Rate",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 29,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "percent"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n        * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\")))\n    * on (ifName) group_left(switch_id)\n    (interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"})",
+          "legendFormat": "{{ifName}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Uplink Ratio",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(sum by (ifName)\n    ((rate(sflow_samples_per_flow_total{sport!~\"$sport_blacklist\", agent=~\"$agent\"}[$__rate_interval]) > $min_rate)\n                * on (agent, portindex) group_left(ifName)\n            (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n            \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n            \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n            \"ifName\", \"$1\", \"port\", \"(.*)\")))\n    * on (ifName) group_left(switch_id)\n    (interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))\n   * on () group_left avg(sflow_sampling_rate{agent=~\"$agent\"})",
+          "legendFormat": "{{ifName}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Uplink Packet Rate",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 10,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "The rate is inferred from the packet sample arrival rate : <code>packet sample rate * switch sampling rate * 2KB</code>. It assumes an average packet size of 2KB for all flows. The rate is averaged across the dashboard's selected time range.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "pps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 33
+          },
+          "id": 11,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "avg by (saddr, daddr, sport, dport)\n    (sum by (agent, saddr, daddr, sport, dport)\n        ((rate(sflow_samples_per_flow_total{agent=~\"$agent\", sport!~\"$sport_blacklist\"}[$__rate_interval]) > $min_rate)\n            * on (agent, portindex) group_left(ifName)\n                (label_replace(label_replace(label_replace(linkmon_switch_extra_labels{switch=~\"$switch\"},\n                \"portindex\", \"$1\", \"ifindex\", \"(.*)\"),\n                \"agent\", \"$1\", \"switch_mgmt_ip\", \"(.*)\"),\n                \"ifName\", \"$1\", \"port\", \"(.*)\"))\n             * on (ifName) group_left(switch_id)\n                (interface_watch_list{switch_id=~\"$switch\", conn_type=\"ISL\"}))\n* on () group_left avg(sflow_sampling_rate{agent=~\"$agent\"}))\n",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{saddr}}:{{sport}}-{{daddr}}:{{dport}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Flow Rate",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Flows",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "sc-r7rb6-400gsw32-2",
+          "value": "sc-r7rb6-400gsw32-2"
+        },
+        "definition": "label_values(interface_watch_list,switch_id)",
+        "description": "",
+        "includeAll": false,
+        "label": "Leaf Switch",
+        "name": "switch",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(interface_watch_list,switch_id)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "172.28.211.242",
+          "value": "172.28.211.242"
+        },
+        "definition": "label_values(linkmon_switch_extra_labels{switch=~\"$switch\"},switch_mgmt_ip)",
+        "description": "The switch agent name, as reported by the sFlow exporter. This is usually the management IP address of the switch.",
+        "includeAll": false,
+        "label": "sFlow Agent",
+        "name": "agent",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(linkmon_switch_extra_labels{switch=~\"$switch\"},switch_mgmt_ip)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "(50000|50001|50002)",
+          "value": "(50000|50001|50002)"
+        },
+        "description": "Flows with source ports that match this regex will be excluded. By default, ignore CPingmesh packets with source ports 50000 through 50002",
+        "label": "sport_blacklist_re",
+        "name": "sport_blacklist",
+        "options": [
+          {
+            "selected": true,
+            "text": "(50000|50001|50002)",
+            "value": "(50000|50001|50002)"
+          }
+        ],
+        "query": "(50000|50001|50002)",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "1",
+          "value": "1"
+        },
+        "description": "The dashboard will only show flows being sampled above this threshold.",
+        "label": "min_rate (samples/s)",
+        "name": "min_rate",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          }
+        ],
+        "query": "1",
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2025-04-14T18:22:46.000Z",
+    "to": "2025-04-14T18:35:24.000Z"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Leaf-Spine Load Balancing",
+  "uid": "beizrctlnitc0d",
+  "version": 11,
+  "weekStart": ""
+}

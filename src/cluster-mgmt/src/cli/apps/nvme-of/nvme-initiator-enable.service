@@ -1,0 +1,13 @@
+[Unit]
+Description=Monitor and Connect to NVMe over Fabrics devices
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nvme-initiator-enable.sh
+Restart=always
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+if [ -t 0 ] && [ "$(tty)" = "/dev/tty1" ] && [ -z "${INIT_IS_RAN:-}" ]; then
+  export INIT_IS_RAN=1
+  exec /entrypoint.sh
+fi

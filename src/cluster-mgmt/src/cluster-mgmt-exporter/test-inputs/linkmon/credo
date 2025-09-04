@@ -1,0 +1,206 @@
+root@p3box:~# Linux
+root@p3box:~# 16976226.77 11788666.19
+root@p3box:~# BMC Version: 00.06.00
+ALTBMC Version: 01.01.01-beta
+root@p3box:~# root@p3box:~# root@p3box:~# > > > > > > > > > > > > > > > > > > > > > > >
+
+Port:1,temp_volt: 28 bc 00 00 85 21,
+Port:1,power_current: 25 fc 00 00 00 00 00 00 4a de 00 00 00 00 00 00 4d c1 00 00 00 00 00 00,
+Port:1,fec_status: 80,
+Port:1,mod_cap: 25,
+Port:1,vendor: 49 6e 74 65 6c 20 43 6f 72 70 20 20 20 20 20 20,
+Port:1,pn: 53 50 54 53 4c 50 32 53 4c 43 44 45 20 20 20 20,
+Port:1,rev: 30 32,
+Port:1,sn: 50 4a 46 31 32 34 32 39 30 35 48 34 50 20 20 20,
+
+Port:2,temp_volt: 22 00 00 00 82 f5,
+Port:2,power_current: 37 bf 37 5f 35 46 38 be 0b f9 0b fe 0b fa 0b fe 20 c1 1d 67 1f 82 1f 77,
+Port:2,fec_status: 00,
+Port:2,mod_cap: 02,
+Port:2,vendor: 48 69 73 65 6e 73 65 20 20 20 20 20 20 20 20 20,
+Port:2,pn: 4c 54 41 38 35 33 31 2d 50 43 2b 2d 43 45 45 20,
+Port:2,rev: 30 31,
+Port:2,sn: 56 30 50 45 37 4a 41 30 30 4b 54 20 20 20 20 20,
+
+Port:3,temp_volt: 29 cd 00 00 85 b9,
+Port:3,power_current: 36 f7 00 00 00 00 00 00 4b 4d 00 00 00 00 00 00 47 85 00 00 00 00 00 00,
+Port:3,fec_status: 80,
+Port:3,mod_cap: 25,
+Port:3,vendor: 49 6e 74 65 6c 20 43 6f 72 70 20 20 20 20 20 20,
+Port:3,pn: 53 50 54 53 4c 50 32 53 4c 43 44 45 20 20 20 20,
+Port:3,rev: 30 32,
+Port:3,sn: 50 4a 46 31 32 34 32 39 30 33 34 39 50 20 20 20,
+
+Port:4,temp_volt: 25 00 00 00 82 d1,
+Port:4,power_current: 37 57 32 1c 32 8d 2c 7b 0b c9 0b cc 0b ca 0b cd 21 2e 20 45 20 64 23 c1,
+Port:4,fec_status: 00,
+Port:4,mod_cap: 02,
+Port:4,vendor: 48 69 73 65 6e 73 65 20 20 20 20 20 20 20 20 20,
+Port:4,pn: 4c 54 41 38 35 33 31 2d 50 43 2b 2d 43 43 45 20,
+Port:4,rev: 30 31,
+Port:4,sn: 56 30 50 45 37 4a 41 30 30 42 38 20 20 20 20 20,
+
+Port:5,temp_volt: 2a 0e 00 00 84 ba,
+Port:5,power_current: 40 94 00 00 00 00 00 00 54 9f 00 00 00 00 00 00 45 8c 00 00 00 00 00 00,
+Port:5,fec_status: 80,
+Port:5,mod_cap: 25,
+Port:5,vendor: 49 6e 74 65 6c 20 43 6f 72 70 20 20 20 20 20 20,
+Port:5,pn: 53 50 54 53 4c 50 32 53 4c 43 44 45 20 20 20 20,
+Port:5,rev: 30 32,
+Port:5,sn: 50 4a 46 31 32 34 32 39 30 37 48 38 50 20 20 20,
+
+Port:6,temp_volt: 2b 00 00 00 82 e9,
+Port:6,power_current: 30 a9 32 04 28 1d 2a 65 0b fa 0b fe 0b fb 0b ff 1e d0 1c 61 1d 03 20 a4,
+Port:6,fec_status: 00,
+Port:6,mod_cap: 02,
+Port:6,vendor: 48 69 73 65 6e 73 65 20 20 20 20 20 20 20 20 20,
+Port:6,pn: 4c 54 41 38 35 33 31 2d 50 43 2b 2d 43 45 20 20,
+Port:6,rev: 30 31,
+Port:6,sn: 56 30 50 45 37 4a 41 30 30 37 37 20 20 20 20 20,
+
+Port:7,temp_volt: 28 db 00 00 84 54,
+Port:7,power_current: 3c 7b 00 00 00 00 00 00 49 db 00 00 00 00 00 00 42 b6 00 00 00 00 00 00,
+Port:7,fec_status: 80,
+Port:7,mod_cap: 25,
+Port:7,vendor: 49 6e 74 65 6c 20 43 6f 72 70 20 20 20 20 20 20,
+Port:7,pn: 53 50 54 53 4c 50 32 53 4c 43 44 45 20 20 20 20,
+Port:7,rev: 30 32,
+Port:7,sn: 50 4a 46 31 32 34 32 39 30 37 31 37 50 20 20 20,
+
+Port:8,temp_volt: ,
+Port:8,power_current: ,
+Port:8,fec_status: ,
+Port:8,mod_cap: ,
+Port:8,vendor: ,
+Port:8,pn: ,
+Port:8,rev: ,
+Port:8,sn: ,
+ Board Mfg Date        : Wed Sep 11 09:21:00 2024 UTC
+ Board Mfg             : Wistron
+ Board Product         : P3 Box Main Board
+ Board Serial          : 65504V0100014360001EM0A1
+ Board Part Number     : 65504V010001
+ Product Manufacturer  : Wistron
+ Product Name          : P3 Box
+ Product Part Number   : CP3A32M-A0-HW
+ Product Serial        : WA8D4370002M
+ Product Extra         :
+root@p3box:~# P12V_STBY_BMC    | 12.100     | Volts      | ok    | na        | na        | na        | na        | na        | na
+P3V3_STBY_BMC    | 3.281      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P2V5_SB_BMC      | 2.506      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P1V2_SB_BMC      | 1.190      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P1V15_SB_BMC     | 1.141      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P5V              | 5.040      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P3V3_A           | 3.383      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P3V3_B           | 3.366      | Volts      | ok    | na        | na        | na        | na        | na        | na
+P12V             | 12.155     | Volts      | ok    | na        | na        | na        | na        | na        | na
+QDD_P01_P16_VOUT | 3.383      | Volts      | ok    | na        | na        | na        | na        | na        | na
+QDD_P17_P32_VOUT | 3.383      | Volts      | ok    | na        | na        | na        | na        | na        | na
+QDD_P01_P16_POUT | 39.200     | Watts      | ok    | na        | na        | na        | na        | na        | na
+QDD_P17_P32_POUT | 39.200     | Watts      | ok    | na        | na        | na        | na        | na        | na
+QDD_TOTAL_POUT   | 80.360     | Watts      | ok    | na        | na        | na        | na        | na        | na
+VR_P3V3_A_TMP    | 40.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+VR_P3V3_B_TMP    | 39.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+MB_U9_TMP1       | 30.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+MB_U11_TMP2      | 35.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+MB_U13_TMP3      | 30.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+MB_U10_TMP4      | 32.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU1_VIN_AC      | 229.900    | Volts      | ok    | na        | na        | na        | na        | na        | na
+PSU1_VOUT_DC     | 12.100     | Volts      | ok    | na        | na        | na        | na        | na        | na
+PSU1_PIN_AC      | 100.300    | Watts      | ok    | na        | na        | na        | na        | na        | na
+PSU1_POUT_DC     | 82.600     | Watts      | ok    | na        | na        | na        | na        | na        | na
+PSU1_IIN_AC      | 0.472      | Amps       | ok    | na        | na        | na        | na        | na        | na
+PSU1_IOUT_DC     | 7.000      | Amps       | ok    | na        | na        | na        | na        | na        | na
+PSU1_TMP         | 34.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU1_TMP2        | 37.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU1_TMP3        | 33.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU1_FAN_TACH1   | 2250.000   | RPM        | ok    | na        | na        | na        | na        | na        | na
+PSU2_VIN_AC      | 229.900    | Volts      | ok    | na        | na        | na        | na        | na        | na
+PSU2_VOUT_DC     | 12.100     | Volts      | ok    | na        | na        | na        | na        | na        | na
+PSU2_PIN_AC      | 106.200    | Watts      | ok    | na        | na        | na        | na        | na        | na
+PSU2_POUT_DC     | 88.500     | Watts      | ok    | na        | na        | na        | na        | na        | na
+PSU2_IIN_AC      | 0.531      | Amps       | ok    | na        | na        | na        | na        | na        | na
+PSU2_IOUT_DC     | 7.000      | Amps       | ok    | na        | na        | na        | na        | na        | na
+PSU2_TMP         | 40.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU2_TMP2        | 43.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU2_TMP3        | 37.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+PSU2_FAN_TACH1   | 2550.000   | RPM        | ok    | na        | na        | na        | na        | na        | na
+FAN_U7_TMP1      | 32.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+FAN_U8_TMP2      | 31.000     | degrees C  | ok    | na        | na        | na        | na        | na        | na
+FAN1_FRONT_TACH  | 22350.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN1_REAR_TACH   | 18300.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN2_FRONT_TACH  | 22500.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN2_REAR_TACH   | 18300.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN3_FRONT_TACH  | 22500.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN3_REAR_TACH   | 18150.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN4_FRONT_TACH  | 22350.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN4_REAR_TACH   | 18150.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN5_FRONT_TACH  | 22650.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN5_REAR_TACH   | 18150.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN6_FRONT_TACH  | 22500.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+FAN6_REAR_TACH   | 18450.000  | RPM        | ok    | na        | 1500.000  | na        | na        | na        | na
+XCVR1_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR1_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR2_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR2_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR3_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR3_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR4_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR4_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR5_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR5_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR6_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR6_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR7_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR7_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR8_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR8_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR9_VIN        | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR9_TMP        | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR10_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR10_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR11_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR11_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR12_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR12_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR13_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR13_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR14_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR14_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR15_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR15_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR16_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR16_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR17_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR17_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR18_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR18_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR19_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR19_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR20_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR20_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR21_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR21_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR22_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR22_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR23_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR23_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR24_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR24_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR25_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR25_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR26_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR26_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR27_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR27_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR28_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR28_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR29_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR29_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR30_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR30_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR31_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR31_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+XCVR32_VIN       | 0.000      | Volts      | ok    | na        | na        | na        | na        | na        | na
+XCVR32_TMP       | 0.000      | degrees C  | ok    | na        | na        | na        | na        | na        | na
+root@p3box:~# logout

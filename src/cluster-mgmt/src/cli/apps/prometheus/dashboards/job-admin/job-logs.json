@@ -1,0 +1,737 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 32772,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Job Debug",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/debcs3ata3ym8a-internal/job-debug"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Job Network Debug",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/feb8wbjsrh5a8a-internal/job-network-debug"
+    }
+  ],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 5,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "group by (job_type) (last_over_time(wsjob_annotation{name=\"$wsjob\", start!=\"\"}[$__range]))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Job Type",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "job_type",
+              "labels_k8s_cerebras_com_Model",
+              "labels_k8s_cerebras_com_model",
+              "node_groups",
+              "pod",
+              "service",
+              "start",
+              "system_count",
+              "systems",
+              "k8s_cerebras_com_wsjob_job_type",
+              "name",
+              "namespace"
+            ],
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "BUILD_BALANCED_BR_TREE": true,
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "container": true,
+              "customresource_group": true,
+              "customresource_kind": true,
+              "customresource_version": true,
+              "end": false,
+              "endpoint": true,
+              "execute": false,
+              "instance": true,
+              "job": true,
+              "job_type": false,
+              "k8s_cerebras_com_job_mode": true,
+              "k8s_cerebras_com_wsjob_cancel_reason": true,
+              "k8s_cerebras_com_wsjob_job_type": true,
+              "labels_k8s_cerebras_com_Model": true,
+              "labels_k8s_cerebras_com_model": true,
+              "name": true,
+              "namespace": true,
+              "node_groups": true,
+              "pod": true,
+              "service": true,
+              "start": true,
+              "system_count": true,
+              "systems": true,
+              "wsjob_annotation": true,
+              "{__name__=\"wsjob_annotation\", cerebras_workflow_id=\"wflow-emves6ehqxkmdsbjun5gsl\", container=\"kube-state-metrics\", current_status=\"Failed\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2025-01-29T05:37:00Z\", endpoint=\"http\", instance=\"100.64.30.233:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_job_mode=\"weight-streaming\", k8s_cerebras_com_wsjob_job_type=\"execute\", name=\"wsjob-dwzu4hjxsqeaw9otzretcn\", namespace=\"miq-250-ttfl-elf\", node_groups=\"nodegroup0,nodegroup2\", pod=\"prometheus-kube-state-metrics-5498879955-qfh4x\", prometheus=\"prometheus/prometheus-prometheus\", service=\"prometheus-kube-state-metrics\", start=\"2025-01-29T05:12:56Z\", system_count=\"2\", systems=\"xs20124,xs20129\", user_volumes=\"[{\"name\":\"training-data-volume-cortmxosy8dslhsqgaqfvl\",\"mountPath\":\"/cb/ml\"},{\"name\":\"tests-volume-tfbaxxtjvkjiewyyoqf6eh\",\"mountPath\":\"/cb/tests\"},{\"name\":\"home-volume-kjdf34glut5ss9w5tzsfqc\",\"mountPath\":\"/cb/home\"},{\"name\":\"customers-volume-orfktrjftkkmdmxydqnkvt\",\"mountPath\":\"/cb/customers\"}]\", username=\"lab\"}": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T14:21:58Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_wsjob_cancel_reason=\"canceled-by-client\", k8s_cerebras_com_wsjob_job_type=\"execute\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-dbyggs23gxjgxkhq8xgcnr\", namespace=\"cs3\", node_groups=\"nodegroup0,nodegroup1\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T13:46:45Z\", system_count=\"2\", systems=\"systems1,xs10003\"}": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeAsIsoNoDateIfToday"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 5,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^start$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "group by (start) (last_over_time(wsjob_annotation{name=\"$wsjob\", start!=\"\"}[$__range]))",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "Start"
+        }
+      ],
+      "title": "Job Start",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "job",
+              "job_type",
+              "k8s_cerebras_com_wsjob_job_type",
+              "labels_k8s_cerebras_com_Model",
+              "labels_k8s_cerebras_com_model",
+              "name",
+              "namespace",
+              "node_groups",
+              "pod",
+              "service",
+              "start",
+              "system_count",
+              "systems"
+            ],
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "BUILD_BALANCED_BR_TREE": true,
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "cerebras_workflow_id": true,
+              "container": true,
+              "current_status": true,
+              "customresource_group": true,
+              "customresource_kind": true,
+              "customresource_version": true,
+              "end": false,
+              "endpoint": true,
+              "instance": true,
+              "job": true,
+              "job_type": true,
+              "k8s_cerebras_com_job_mode": true,
+              "k8s_cerebras_com_wsjob_cancel_reason": true,
+              "k8s_cerebras_com_wsjob_job_type": true,
+              "labels_k8s_cerebras_com_Model": true,
+              "labels_k8s_cerebras_com_model": true,
+              "name": true,
+              "namespace": true,
+              "node_groups": true,
+              "pod": true,
+              "prometheus": true,
+              "service": true,
+              "start": false,
+              "system_count": true,
+              "systems": true,
+              "user_volumes": true,
+              "username": true,
+              "wsjob_annotation": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T14:21:58Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_wsjob_cancel_reason=\"canceled-by-client\", k8s_cerebras_com_wsjob_job_type=\"execute\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-dbyggs23gxjgxkhq8xgcnr\", namespace=\"cs3\", node_groups=\"nodegroup0,nodegroup1\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T13:46:45Z\", system_count=\"2\", systems=\"systems1,xs10003\"}": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "not ended yet",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeAsIsoNoDateIfToday"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 11,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^end$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "group by (end) (last_over_time(wsjob_annotation{name=\"$wsjob\", end!=\"\"}[$__range]))",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Job End",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "end"
+            ],
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "2025-01-21T01:36:02Z": false,
+              "2025-02-15T08:29:06Z": true,
+              "BUILD_BALANCED_BR_TREE": true,
+              "Time": true,
+              "__name__": true,
+              "container": true,
+              "customresource_group": true,
+              "customresource_kind": true,
+              "customresource_version": true,
+              "end": false,
+              "endpoint": true,
+              "instance": true,
+              "job": true,
+              "job_type": true,
+              "k8s_cerebras_com_job_mode": true,
+              "k8s_cerebras_com_wsjob_cancel_reason": true,
+              "k8s_cerebras_com_wsjob_disable_system_lock": true,
+              "k8s_cerebras_com_wsjob_job_type": true,
+              "labels_k8s_cerebras_com_Model": true,
+              "labels_k8s_cerebras_com_model": true,
+              "name": true,
+              "namespace": true,
+              "node_groups": true,
+              "pod": true,
+              "service": true,
+              "start": true,
+              "system_count": true,
+              "systems": true,
+              "wsjob_annotation": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T14:21:58Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_wsjob_cancel_reason=\"canceled-by-client\", k8s_cerebras_com_wsjob_job_type=\"execute\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-dbyggs23gxjgxkhq8xgcnr\", namespace=\"cs3\", node_groups=\"nodegroup0,nodegroup1\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T13:46:45Z\", system_count=\"2\", systems=\"systems1,xs10003\"}": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T17:15:09Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"compile\", k8s_cerebras_com_wsjob_disable_system_lock=\"true\", k8s_cerebras_com_wsjob_job_type=\"compile\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-zcqdmyttcncpvmnov4mhyy\", namespace=\"cs3\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T17:07:46Z\", system_count=\"0\"}": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "Stall detection status from coordinator logs. Possible states: UNKNOWN, CKPT_IN_PROGRESS, IDLE, INPUT_STARVATION, STALLED, COMPLETED, TERMINATED, PROGRESSING.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 100,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "super-light-green",
+                  "index": 0,
+                  "text": "CKPT_IN_PROGRESS"
+                },
+                "2": {
+                  "color": "yellow",
+                  "index": 1,
+                  "text": "IDLE"
+                },
+                "3": {
+                  "color": "red",
+                  "index": 2,
+                  "text": "INPUT_STARVATION"
+                },
+                "4": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "DEADLOCKED"
+                },
+                "5": {
+                  "color": "dark-green",
+                  "index": 4,
+                  "text": "COMPLETED"
+                },
+                "6": {
+                  "color": "dark-green",
+                  "index": 5,
+                  "text": "TERMINATED"
+                },
+                "7": {
+                  "color": "green",
+                  "index": 6,
+                  "text": "PROGRESSING"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 2,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "calcs": [
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{wsjob=\"$wsjob\", metric=\"stall_detect\"} | json status",
+          "format": "time_series",
+          "legendFormat": "state",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Training Status",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Line": true,
+              "id": true,
+              "iteration": true,
+              "labels": true,
+              "metric": true,
+              "metric_extracted": true,
+              "namespace": true,
+              "namespace_extracted": true,
+              "replica_id": true,
+              "replica_id_extracted": true,
+              "replica_type": true,
+              "replica_type_extracted": true,
+              "tsNs": true,
+              "wsjob": true,
+              "wsjob_extracted": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "labels": ""
+            }
+          }
+        }
+      ],
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 1,
+      "maxPerRow": 2,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.3.1",
+      "repeat": "replica_type",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{wsjob=\"$wsjob\", replica_type=~\"$replica_type\", stream=\"$stream\", replica_id=\"$replica_id\"} | json | line_format `id={{.replica_id}} type={{.replica_type}} stream={{.stream}} | {{.message}}`",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "$replica_type logs",
+      "type": "logs"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "",
+        "includeAll": true,
+        "label": "replica_types",
+        "name": "replica_type",
+        "options": [],
+        "query": {
+          "label": "replica_type",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "",
+        "includeAll": false,
+        "label": "replica_id",
+        "name": "replica_id",
+        "options": [],
+        "query": {
+          "label": "replica_id",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "",
+        "description": "",
+        "includeAll": false,
+        "label": "stream",
+        "name": "stream",
+        "options": [],
+        "query": {
+          "label": "stream",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "",
+        "name": "wsjob",
+        "options": [],
+        "query": {
+          "label": "wsjob",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Job Logs",
+  "uid": "eetypvyakxds0-internal",
+  "version": 1,
+  "weekStart": ""
+}

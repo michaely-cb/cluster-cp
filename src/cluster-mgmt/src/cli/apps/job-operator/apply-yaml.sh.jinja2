@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+
+SKIP_IF_INCREMENTAL=1
+
+set -e
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+if [ -z "$namespace" ]; then
+  namespace="{{ namespace }}"
+fi
+system_namespace="{{ system_namespace }}"
+
+if [ -z "$enable_multi_coordinator" ]; then
+  enable_multi_coordinator="{{ enable_multi_coordinator }}"
+elif [ "$enable_multi_coordinator" != "True" ]; then
+  enable_multi_coordinator="False"
+fi
+
+if [ -z "$disable_cluster_mode" ]; then
+  disable_cluster_mode="{{ disable_cluster_mode }}"
+elif [ "$disable_cluster_mode" != "True" ]; then
+  disable_cluster_mode="False"
+fi
+
+if [ -z "$system_deploy_force" ]; then
+  system_deploy_force="{{ system_deploy_force }}"
+elif [ "$system_deploy_force" != "True" ]; then
+  system_deploy_force="false"
+fi
+
+if [ "$namespace" != "$system_namespace" ]; then
+  if [ "$disable_cluster_mode" == "False" ] || [ -z "$disable_cluster_mode" ]; then
+    echo "Skip job-operator deployment for user namespace with cluster mode"
+    echo "If you wish to deploy non-cluster-mode user namespace job-operator, set disable_cluster_mode=True"
+    exit 0
+  fi
+fi
+
+if [ "$namespace" = "$system_namespace" ]; then
+  k8_yaml="{{ system_yaml_path }}"
+else
+  k8_yaml="{{ user_yaml_path }}"
+fi
+cp -f "$k8_yaml" "$k8_yaml".updated
+
+if [ "$namespace" != "$system_namespace" ]; then
+  sed -i "s/generic-user-namespace/$namespace/g" "$k8_yaml".updated
+fi
+
+sed -i "s/CRD_COMPILE_MIN_GI_SED_REPLACE/\"$(get_crd_compile_min_gi)\"/" "$k8_yaml".updated
+sed -i "s/CRD_EXECUTE_MIN_GI_SED_REPLACE/\"$(get_crd_execute_min_gi)\"/" "$k8_yaml".updated
+sed -i "s/CP_RESERVED_MEM_SED_REPLACE/\"$(get_cp_reserved_mem)\"/" "$k8_yaml".updated
+sed -i "s/CP_RESERVED_CPU_SED_REPLACE/\"$(get_cp_reserved_cpu)\"/" "$k8_yaml".updated
+sed -i "s/ENABLE_MANAGEMENT_SEPARATION_SED_REPLACE/\"$(get_enable_management_separation)\"/" "$k8_yaml".updated
+sed -i "s/^  MIN_MEMX_PER_POP_NODEGROUP:.*/  MIN_MEMX_PER_POP_NODEGROUP: \"$(get_min_memx_per_pop_group)\"/" "$k8_yaml".updated
+sed -i "s/^  RESOURCE_DETAILS_MEMX_PRIMARY_GROUP_COUNT:.*/  RESOURCE_DETAILS_MEMX_PRIMARY_GROUP_COUNT: \"$(get_memx_primary_group_count)\"/" "$k8_yaml".updated
+sed -i "s/^  RESOURCE_DETAILS_MEMX_SECONDARY_GROUP_COUNT:.*/  RESOURCE_DETAILS_MEMX_SECONDARY_GROUP_COUNT: \"$(get_memx_secondary_group_count)\"/" "$k8_yaml".updated
+sed -i "s/^  NODE_MIN_RESERVED_MEM:.*/  NODE_MIN_RESERVED_MEM: \"$(get_node_min_reserved_mem)\"/" "$k8_yaml".updated
+sed -i "s/^  NAMESPACE_SCALE_DOWN_CHECK_INTERVAL:.*/  NAMESPACE_SCALE_DOWN_CHECK_INTERVAL: \"$(get_job_operator_namespace_scale_down_check_interval)\"/" "$k8_yaml".updated
+sed -i "s/ENABLE_MULTI_COORDINATOR_SED_REPLACE/\"$enable_multi_coordinator\"/" "$k8_yaml".updated
+sed -i "s/DISABLE_CLUSTER_MODE_SED_REPLACE/\"$disable_cluster_mode\"/" "$k8_yaml".updated
+sed -i "s/^  DISABLE_INFERENCE_JOB_SHARING:.*/  DISABLE_INFERENCE_JOB_SHARING: \"$(get_disable_inference_job_sharing)\"/" "$k8_yaml".updated
+
+if is_genoa_server; then
+  sed -i "s/GENOA_SERVER_SED_REPLACE/\"true\"/" "$k8_yaml".updated
+else
+  sed -i "s/GENOA_SERVER_SED_REPLACE/\"false\"/" "$k8_yaml".updated
+fi
+
+if [ "$system_deploy_force" == "false" ] && [ "$namespace" == "$system_namespace" ]; then
+  sed -i "s/system-update: \"true\"/system-update: \"false\"/" "$k8_yaml".updated
+fi
+
+# update namespace labels: system/user-namespace=""
+namespace_label="user-namespace"
+if [ "$namespace" = "$system_namespace" ]; then
+  namespace_label="system-namespace"
+fi
+LABEL=$namespace_label yq -i 'select(length > 0 and .kind == "Namespace").metadata.labels[strenv(LABEL)]=""' "$k8_yaml".updated
+
+function is_multi_crd_mode() {
+  yq -e 'select(.data.ENABLE_MULTI_COORDINATOR == "True")' "${k8_yaml}.updated" &>/dev/null
+}
+
+if has_multiple_mgmt_nodes; then
+  sed -i "s/replicas: 1/replicas: 2/" "$k8_yaml".updated
+fi
+
+if has_multiple_mgmt_nodes || is_multi_crd_mode; then
+  SYSTEM_COUNT=$(get_system_count)
+  MEM_MI=2048
+  if ((MEM_MI < 50 * SYSTEM_COUNT)); then
+    MEM_MI=$((50 * SYSTEM_COUNT))
+  fi
+  sed -i "s/memory: [0-9]\+[GMK]i/memory: ${MEM_MI}Mi/" "$k8_yaml".updated
+fi
+
+# default to use coordinator node for user namespace deployment
+if [[ "${system_namespace}" != "${namespace}" ]]; then
+  sed -i "s/node-role-management/node-role-coordinator/" "$k8_yaml".updated
+fi
+
+$KUBECTL apply --server-side --force-conflicts -f "$k8_yaml".updated
+if $KUBECTL get deployment "${namespace}"-controller-manager -n "${namespace}" 2>/dev/null; then
+  # 5min in case of disk pressure
+  $KUBECTL rollout status deployment/"${namespace}"-controller-manager -n "${namespace}" --timeout=5m
+fi
+
+# After all cluster-server and job-operator have been upgraded to 3.0.0, we can
+# remove mutating webhook for ingresses.
+# kubectl -n kube-system delete mutatingwebhookconfigurations add-ingress-annotation

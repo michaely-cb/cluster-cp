@@ -1,0 +1,358 @@
+# HELP python_gc_objects_collected_total Objects collected during gc
+# TYPE python_gc_objects_collected_total counter
+python_gc_objects_collected_total{generation="0"} 284.0
+python_gc_objects_collected_total{generation="1"} 71.0
+python_gc_objects_collected_total{generation="2"} 0.0
+# HELP python_gc_objects_uncollectable_total Uncollectable objects found during GC
+# TYPE python_gc_objects_uncollectable_total counter
+python_gc_objects_uncollectable_total{generation="0"} 0.0
+python_gc_objects_uncollectable_total{generation="1"} 0.0
+python_gc_objects_uncollectable_total{generation="2"} 0.0
+# HELP python_gc_collections_total Number of times this generation was collected
+# TYPE python_gc_collections_total counter
+python_gc_collections_total{generation="0"} 40.0
+python_gc_collections_total{generation="1"} 3.0
+python_gc_collections_total{generation="2"} 0.0
+# HELP python_info Python platform information
+# TYPE python_info gauge
+python_info{implementation="CPython",major="3",minor="8",patchlevel="8",version="3.8.8"} 1.0
+# HELP process_virtual_memory_bytes Virtual memory size in bytes.
+# TYPE process_virtual_memory_bytes gauge
+process_virtual_memory_bytes 4.73284608e+08
+# HELP process_resident_memory_bytes Resident memory size in bytes.
+# TYPE process_resident_memory_bytes gauge
+process_resident_memory_bytes 2.3146496e+07
+# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1.75514543568e+09
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+process_cpu_seconds_total 0.1
+# HELP process_open_fds Number of open file descriptors.
+# TYPE process_open_fds gauge
+process_open_fds 6.0
+# HELP process_max_fds Maximum number of open file descriptors.
+# TYPE process_max_fds gauge
+process_max_fds 1024.0
+# HELP node_nic_stats_extra_labels extra labels
+# TYPE node_nic_stats_extra_labels gauge
+node_nic_stats_extra_labels{interface="ens2np0",mac="8c:84:74:01:b4:9a",max_speed="400000",node="sc-r7rb5-s10",opt_vendor_name="INNOLIGHT",opt_vendor_oui="44:7c:7f",opt_vendor_pn="T-GP4CNH-N00",opt_vendor_rev="1A",opt_vendor_sn="INPAA0550158"} 1.0
+node_nic_stats_extra_labels{interface="ens3np0",mac="8c:84:74:01:a3:ba",max_speed="400000",node="sc-r7rb5-s10",opt_vendor_name="INNOLIGHT",opt_vendor_oui="44:7c:7f",opt_vendor_pn="T-GP4CNH-N00",opt_vendor_rev="1A",opt_vendor_sn="INPAA0600135"} 1.0
+node_nic_stats_extra_labels{interface="ens4np0",mac="8c:84:74:01:ae:32",max_speed="400000",node="sc-r7rb5-s10",opt_vendor_name="INNOLIGHT",opt_vendor_oui="44:7c:7f",opt_vendor_pn="T-GP4CNH-N00",opt_vendor_rev="1A",opt_vendor_sn="INPAA0600095"} 1.0
+node_nic_stats_extra_labels{interface="ens5np0",mac="8c:84:74:01:8b:46",max_speed="400000",node="sc-r7rb5-s10",opt_vendor_name="INNOLIGHT",opt_vendor_oui="44:7c:7f",opt_vendor_pn="T-GP4CNH-N00",opt_vendor_rev="1A",opt_vendor_sn="INPAA0550154"} 1.0
+# HELP node_nic_stats_speed NIC current speed
+# TYPE node_nic_stats_speed gauge
+node_nic_stats_speed{interface="ens2np0",node="sc-r7rb5-s10"} 400000.0
+node_nic_stats_speed{interface="ens3np0",node="sc-r7rb5-s10"} 400000.0
+node_nic_stats_speed{interface="ens4np0",node="sc-r7rb5-s10"} 400000.0
+node_nic_stats_speed{interface="ens5np0",node="sc-r7rb5-s10"} 400000.0
+# HELP node_nic_stats_carrier NIC carrier present
+# TYPE node_nic_stats_carrier gauge
+node_nic_stats_carrier{interface="ens2np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_carrier{interface="ens3np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_carrier{interface="ens4np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_carrier{interface="ens5np0",node="sc-r7rb5-s10"} 1.0
+# HELP node_nic_stats_carrier_changes NIC carrier changes
+# TYPE node_nic_stats_carrier_changes gauge
+node_nic_stats_carrier_changes{interface="ens2np0",node="sc-r7rb5-s10"} 8.0
+node_nic_stats_carrier_changes{interface="ens3np0",node="sc-r7rb5-s10"} 8.0
+node_nic_stats_carrier_changes{interface="ens4np0",node="sc-r7rb5-s10"} 8.0
+node_nic_stats_carrier_changes{interface="ens5np0",node="sc-r7rb5-s10"} 8.0
+# HELP node_nic_stats_operstate NIC operating state
+# TYPE node_nic_stats_operstate gauge
+node_nic_stats_operstate{interface="ens2np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_operstate{interface="ens3np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_operstate{interface="ens4np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_operstate{interface="ens5np0",node="sc-r7rb5-s10"} 1.0
+# HELP node_nic_stats_ethtool_error NIC driver state
+# TYPE node_nic_stats_ethtool_error gauge
+node_nic_stats_ethtool_error{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_ethtool_error{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_ethtool_error{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_ethtool_error{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rx_crc_errors_phy NIC PHY CRC error count
+# TYPE node_nic_stats_rx_crc_errors_phy gauge
+node_nic_stats_rx_crc_errors_phy{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_crc_errors_phy{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_crc_errors_phy{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_crc_errors_phy{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rx_bytes NIC bytes received count
+# TYPE node_nic_stats_rx_bytes gauge
+node_nic_stats_rx_bytes{interface="ens2np0",node="sc-r7rb5-s10"} 2.8497448925119e+013
+node_nic_stats_rx_bytes{interface="ens3np0",node="sc-r7rb5-s10"} 2.2525501382725e+013
+node_nic_stats_rx_bytes{interface="ens4np0",node="sc-r7rb5-s10"} 2.3645066480585e+013
+node_nic_stats_rx_bytes{interface="ens5np0",node="sc-r7rb5-s10"} 2.3669278449036e+013
+# HELP node_nic_stats_rx_bytes_phy NIC PHY bytes received count
+# TYPE node_nic_stats_rx_bytes_phy gauge
+# HELP node_nic_stats_tx_bytes NIC bytes transmitted count
+# TYPE node_nic_stats_tx_bytes gauge
+node_nic_stats_tx_bytes{interface="ens2np0",node="sc-r7rb5-s10"} 3.1153341361143e+013
+node_nic_stats_tx_bytes{interface="ens3np0",node="sc-r7rb5-s10"} 3.1255478400356e+013
+node_nic_stats_tx_bytes{interface="ens4np0",node="sc-r7rb5-s10"} 2.9213452323471e+013
+node_nic_stats_tx_bytes{interface="ens5np0",node="sc-r7rb5-s10"} 2.9213332254803e+013
+# HELP node_nic_stats_tx_bytes_phy NIC PHY bytes transmitted count
+# TYPE node_nic_stats_tx_bytes_phy gauge
+# HELP node_nic_stats_rx_pcs_symbol_err_phy NIC PHY PCS symbol error count
+# TYPE node_nic_stats_rx_pcs_symbol_err_phy gauge
+node_nic_stats_rx_pcs_symbol_err_phy{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pcs_symbol_err_phy{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pcs_symbol_err_phy{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pcs_symbol_err_phy{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rx_corrected_bits_phy NIC FEC corrected bits count
+# TYPE node_nic_stats_rx_corrected_bits_phy gauge
+node_nic_stats_rx_corrected_bits_phy{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_corrected_bits_phy{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_corrected_bits_phy{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_corrected_bits_phy{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_packet_seq_err NIC packet_seq_err count
+# TYPE node_nic_stats_packet_seq_err gauge
+node_nic_stats_packet_seq_err{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_packet_seq_err{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_packet_seq_err{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_packet_seq_err{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_out_of_sequence NIC out_of_sequence count
+# TYPE node_nic_stats_out_of_sequence gauge
+node_nic_stats_out_of_sequence{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_out_of_sequence{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_out_of_sequence{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_out_of_sequence{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rnr_nak_retry_err NIC RNR NAK retry error count
+# TYPE node_nic_stats_rnr_nak_retry_err gauge
+node_nic_stats_rnr_nak_retry_err{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rnr_nak_retry_err{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rnr_nak_retry_err{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rnr_nak_retry_err{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_out_of_buffer NIC out of buffer count
+# TYPE node_nic_stats_out_of_buffer gauge
+node_nic_stats_out_of_buffer{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_out_of_buffer{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_out_of_buffer{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_out_of_buffer{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_req_cqe_error NIC request CQE error count
+# TYPE node_nic_stats_req_cqe_error gauge
+node_nic_stats_req_cqe_error{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_req_cqe_error{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_req_cqe_error{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_req_cqe_error{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_resp_cqe_error NIC response CQE error count
+# TYPE node_nic_stats_resp_cqe_error gauge
+node_nic_stats_resp_cqe_error{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_resp_cqe_error{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_resp_cqe_error{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_resp_cqe_error{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_np_cnp_sent NIC CNP packets sent count
+# TYPE node_nic_stats_np_cnp_sent gauge
+node_nic_stats_np_cnp_sent{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_np_cnp_sent{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_np_cnp_sent{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_np_cnp_sent{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_np_ecn_marked_roce_packets NIC RoCE congested packets received count
+# TYPE node_nic_stats_np_ecn_marked_roce_packets gauge
+node_nic_stats_np_ecn_marked_roce_packets{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_np_ecn_marked_roce_packets{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_np_ecn_marked_roce_packets{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_np_ecn_marked_roce_packets{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rp_cnp_handled NIC CNP packets handled count
+# TYPE node_nic_stats_rp_cnp_handled gauge
+node_nic_stats_rp_cnp_handled{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rp_cnp_handled{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rp_cnp_handled{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rp_cnp_handled{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rp_cnp_ignored NIC CNP packets ignored count
+# TYPE node_nic_stats_rp_cnp_ignored gauge
+node_nic_stats_rp_cnp_ignored{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rp_cnp_ignored{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rp_cnp_ignored{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rp_cnp_ignored{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_roce_slow_restart_cnps NIC CNP packets caused by RoCE slow restart count
+# TYPE node_nic_stats_roce_slow_restart_cnps gauge
+node_nic_stats_roce_slow_restart_cnps{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_slow_restart_cnps{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_slow_restart_cnps{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_slow_restart_cnps{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_roce_adp_retrans NIC adaptive retransmission count
+# TYPE node_nic_stats_roce_adp_retrans gauge
+node_nic_stats_roce_adp_retrans{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_adp_retrans{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_adp_retrans{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_adp_retrans{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_roce_adp_retrans_to NIC timeout due to adaptive retransmission count
+# TYPE node_nic_stats_roce_adp_retrans_to gauge
+node_nic_stats_roce_adp_retrans_to{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_adp_retrans_to{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_adp_retrans_to{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_roce_adp_retrans_to{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_tx_cqe_err NIC TX CQE error count
+# TYPE node_nic_stats_tx_cqe_err gauge
+# HELP node_nic_stats_rx_wqe_err NIC RX WQE error count
+# TYPE node_nic_stats_rx_wqe_err gauge
+# HELP node_nic_stats_opt_temperature NIC optics temperature
+# TYPE node_nic_stats_opt_temperature gauge
+node_nic_stats_opt_temperature{interface="ens2np0",node="sc-r7rb5-s10"} 81.83
+node_nic_stats_opt_temperature{interface="ens3np0",node="sc-r7rb5-s10"} 87.68
+node_nic_stats_opt_temperature{interface="ens4np0",node="sc-r7rb5-s10"} 56.08
+node_nic_stats_opt_temperature{interface="ens5np0",node="sc-r7rb5-s10"} 55.12
+# HELP node_nic_stats_opt_temperature_alarm NIC optics temperature in alarm condition
+# TYPE node_nic_stats_opt_temperature_alarm gauge
+node_nic_stats_opt_temperature_alarm{interface="ens2np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_opt_temperature_alarm{interface="ens3np0",node="sc-r7rb5-s10"} 1.0
+node_nic_stats_opt_temperature_alarm{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_opt_temperature_alarm{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_temperature NIC temperature
+# TYPE node_nic_stats_temperature gauge
+node_nic_stats_temperature{interface="ens2np0",node="sc-r7rb5-s10"} 79.0
+node_nic_stats_temperature{interface="ens3np0",node="sc-r7rb5-s10"} 77.0
+node_nic_stats_temperature{interface="ens4np0",node="sc-r7rb5-s10"} 56.0
+node_nic_stats_temperature{interface="ens5np0",node="sc-r7rb5-s10"} 64.0
+# HELP node_nic_stats_tx_pfc NIC TX PFC count
+# TYPE node_nic_stats_tx_pfc gauge
+node_nic_stats_tx_pfc{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pfc{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pfc{interface="ens4np0",node="sc-r7rb5-s10"} 8.468422e+06
+node_nic_stats_tx_pfc{interface="ens5np0",node="sc-r7rb5-s10"} 8.468984e+06
+# HELP node_nic_stats_rx_pfc NIC RX PFC count
+# TYPE node_nic_stats_rx_pfc gauge
+node_nic_stats_rx_pfc{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pfc{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pfc{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pfc{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_tx_pfc_duration NIC TX PFC duration
+# TYPE node_nic_stats_tx_pfc_duration gauge
+# HELP node_nic_stats_rx_pfc_duration NIC RX PFC duration
+# TYPE node_nic_stats_rx_pfc_duration gauge
+# HELP node_nic_stats_tx_discards_phy NIC PHY TX discards count
+# TYPE node_nic_stats_tx_discards_phy gauge
+node_nic_stats_tx_discards_phy{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_discards_phy{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_discards_phy{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_discards_phy{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rx_discards_phy NIC PHY RX discards count
+# TYPE node_nic_stats_rx_discards_phy gauge
+node_nic_stats_rx_discards_phy{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_discards_phy{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_discards_phy{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_discards_phy{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rx_discards_prio5 NIC RX prio5 discards count
+# TYPE node_nic_stats_rx_discards_prio5 gauge
+# HELP node_nic_stats_local_ack_timeout_err NIC local ack timeout error count
+# TYPE node_nic_stats_local_ack_timeout_err gauge
+node_nic_stats_local_ack_timeout_err{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_local_ack_timeout_err{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_local_ack_timeout_err{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_local_ack_timeout_err{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_implied_nak_seq_err NIC implied nak seq error count
+# TYPE node_nic_stats_implied_nak_seq_err gauge
+node_nic_stats_implied_nak_seq_err{interface="ens2np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_implied_nak_seq_err{interface="ens3np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_implied_nak_seq_err{interface="ens4np0",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_implied_nak_seq_err{interface="ens5np0",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_module_bad_shorted NIC PHY bad shorted count
+# TYPE node_nic_stats_module_bad_shorted gauge
+# HELP node_nic_stats_module_high_temp NIC PHY high temp conditions count
+# TYPE node_nic_stats_module_high_temp gauge
+# HELP node_nic_stats_tx_pause_storm_error_events NIC TX pause storm error events count
+# TYPE node_nic_stats_tx_pause_storm_error_events gauge
+# HELP node_nic_stats_rx_err_lane_phy NIC PHY lane RX error count
+# TYPE node_nic_stats_rx_err_lane_phy gauge
+# HELP node_nic_stats_tx_curr NIC TX current
+# TYPE node_nic_stats_tx_curr gauge
+node_nic_stats_tx_curr{interface="ens2np0",lane="1",node="sc-r7rb5-s10"} 12.252
+node_nic_stats_tx_curr{interface="ens2np0",lane="2",node="sc-r7rb5-s10"} 12.252
+node_nic_stats_tx_curr{interface="ens2np0",lane="3",node="sc-r7rb5-s10"} 12.252
+node_nic_stats_tx_curr{interface="ens2np0",lane="4",node="sc-r7rb5-s10"} 12.252
+node_nic_stats_tx_curr{interface="ens2np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens2np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens2np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens2np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens3np0",lane="1",node="sc-r7rb5-s10"} 10.640
+node_nic_stats_tx_curr{interface="ens3np0",lane="2",node="sc-r7rb5-s10"} 10.640
+node_nic_stats_tx_curr{interface="ens3np0",lane="3",node="sc-r7rb5-s10"} 13.212
+node_nic_stats_tx_curr{interface="ens3np0",lane="4",node="sc-r7rb5-s10"} 13.212
+node_nic_stats_tx_curr{interface="ens3np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens3np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens3np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens3np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens4np0",lane="1",node="sc-r7rb5-s10"} 9.264
+node_nic_stats_tx_curr{interface="ens4np0",lane="2",node="sc-r7rb5-s10"} 9.264
+node_nic_stats_tx_curr{interface="ens4np0",lane="3",node="sc-r7rb5-s10"} 9.896
+node_nic_stats_tx_curr{interface="ens4np0",lane="4",node="sc-r7rb5-s10"} 9.896
+node_nic_stats_tx_curr{interface="ens4np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens4np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens4np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens4np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens5np0",lane="1",node="sc-r7rb5-s10"} 7.210
+node_nic_stats_tx_curr{interface="ens5np0",lane="2",node="sc-r7rb5-s10"} 7.210
+node_nic_stats_tx_curr{interface="ens5np0",lane="3",node="sc-r7rb5-s10"} 7.700
+node_nic_stats_tx_curr{interface="ens5np0",lane="4",node="sc-r7rb5-s10"} 7.700
+node_nic_stats_tx_curr{interface="ens5np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens5np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens5np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_curr{interface="ens5np0",lane="8",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_tx_pwr NIC TX power
+# TYPE node_nic_stats_tx_pwr gauge
+node_nic_stats_tx_pwr{interface="ens2np0",lane="1",node="sc-r7rb5-s10"} 1.3241
+node_nic_stats_tx_pwr{interface="ens2np0",lane="2",node="sc-r7rb5-s10"} 1.3374
+node_nic_stats_tx_pwr{interface="ens2np0",lane="3",node="sc-r7rb5-s10"} 1.3720
+node_nic_stats_tx_pwr{interface="ens2np0",lane="4",node="sc-r7rb5-s10"} 1.1491
+node_nic_stats_tx_pwr{interface="ens2np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens2np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens2np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens2np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens3np0",lane="1",node="sc-r7rb5-s10"} 1.2265
+node_nic_stats_tx_pwr{interface="ens3np0",lane="2",node="sc-r7rb5-s10"} 1.0811
+node_nic_stats_tx_pwr{interface="ens3np0",lane="3",node="sc-r7rb5-s10"} 1.5655
+node_nic_stats_tx_pwr{interface="ens3np0",lane="4",node="sc-r7rb5-s10"} 1.3918
+node_nic_stats_tx_pwr{interface="ens3np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens3np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens3np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens3np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens4np0",lane="1",node="sc-r7rb5-s10"} 1.6078
+node_nic_stats_tx_pwr{interface="ens4np0",lane="2",node="sc-r7rb5-s10"} 1.5932
+node_nic_stats_tx_pwr{interface="ens4np0",lane="3",node="sc-r7rb5-s10"} 1.5736
+node_nic_stats_tx_pwr{interface="ens4np0",lane="4",node="sc-r7rb5-s10"} 1.4087
+node_nic_stats_tx_pwr{interface="ens4np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens4np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens4np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens4np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens5np0",lane="1",node="sc-r7rb5-s10"} 1.5041
+node_nic_stats_tx_pwr{interface="ens5np0",lane="2",node="sc-r7rb5-s10"} 1.6094
+node_nic_stats_tx_pwr{interface="ens5np0",lane="3",node="sc-r7rb5-s10"} 1.5923
+node_nic_stats_tx_pwr{interface="ens5np0",lane="4",node="sc-r7rb5-s10"} 1.3829
+node_nic_stats_tx_pwr{interface="ens5np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens5np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens5np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_tx_pwr{interface="ens5np0",lane="8",node="sc-r7rb5-s10"} 0.0
+# HELP node_nic_stats_rx_pwr NIC RX power
+# TYPE node_nic_stats_rx_pwr gauge
+node_nic_stats_rx_pwr{interface="ens2np0",lane="1",node="sc-r7rb5-s10"} 1.6019
+node_nic_stats_rx_pwr{interface="ens2np0",lane="2",node="sc-r7rb5-s10"} 1.8447
+node_nic_stats_rx_pwr{interface="ens2np0",lane="3",node="sc-r7rb5-s10"} 1.3538
+node_nic_stats_rx_pwr{interface="ens2np0",lane="4",node="sc-r7rb5-s10"} 1.1777
+node_nic_stats_rx_pwr{interface="ens2np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens2np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens2np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens2np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens3np0",lane="1",node="sc-r7rb5-s10"} 1.4043
+node_nic_stats_rx_pwr{interface="ens3np0",lane="2",node="sc-r7rb5-s10"} 1.1246
+node_nic_stats_rx_pwr{interface="ens3np0",lane="3",node="sc-r7rb5-s10"} 1.4974
+node_nic_stats_rx_pwr{interface="ens3np0",lane="4",node="sc-r7rb5-s10"} 1.5682
+node_nic_stats_rx_pwr{interface="ens3np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens3np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens3np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens3np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens4np0",lane="1",node="sc-r7rb5-s10"} 1.7098
+node_nic_stats_rx_pwr{interface="ens4np0",lane="2",node="sc-r7rb5-s10"} 1.4008
+node_nic_stats_rx_pwr{interface="ens4np0",lane="3",node="sc-r7rb5-s10"} 1.3771
+node_nic_stats_rx_pwr{interface="ens4np0",lane="4",node="sc-r7rb5-s10"} 1.4333
+node_nic_stats_rx_pwr{interface="ens4np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens4np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens4np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens4np0",lane="8",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens5np0",lane="1",node="sc-r7rb5-s10"} 1.2100
+node_nic_stats_rx_pwr{interface="ens5np0",lane="2",node="sc-r7rb5-s10"} 1.4047
+node_nic_stats_rx_pwr{interface="ens5np0",lane="3",node="sc-r7rb5-s10"} 1.3504
+node_nic_stats_rx_pwr{interface="ens5np0",lane="4",node="sc-r7rb5-s10"} 1.1391
+node_nic_stats_rx_pwr{interface="ens5np0",lane="5",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens5np0",lane="6",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens5np0",lane="7",node="sc-r7rb5-s10"} 0.0
+node_nic_stats_rx_pwr{interface="ens5np0",lane="8",node="sc-r7rb5-s10"} 0.0

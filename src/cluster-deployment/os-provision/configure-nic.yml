@@ -1,0 +1,50 @@
+- hosts: nodes
+  tasks:
+    - import_role:
+        name:  common
+        tasks_from: rename-nic-100g
+      when: 
+      - "inventory_hostname != management_node"
+
+    - import_role:
+        name: common
+        tasks_from: upgrade-fw
+      tags: upgrade-fw
+      when: (group_names is search("MX")) or 
+            (group_names is search("SX")) or 
+            (group_names is search("AX")) or
+            (group_names is search("WK"))
+
+- hosts: root-server
+  tasks:
+    - name: Wait 1 minutes for all the servers
+      pause:
+        minutes: 1
+
+- hosts: nodes
+  tasks:
+    - import_role:
+        name: common
+        tasks_from: dcqcn-enable
+      when: enable_dcqcn and
+            ((group_names is search("MX")) or
+            (group_names is search("SX")) or
+            (group_names is search("AX")))
+      tags: dcqcn-enable
+
+- hosts: nodes
+  tasks:
+    - name: Reboot non-mgmt nodes
+      reboot:
+        reboot_timeout: 600
+
+- hosts: nodes
+  tasks:
+    - import_role:
+        name: common
+        tasks_from: roce-setting
+      when: (group_names is search("MX")) or 
+            (group_names is search("SX")) or 
+            (group_names is search("AX")) or
+            (group_names is search("WK"))
+      tags: roce-setting

@@ -1,0 +1,107 @@
+{
+   "Status" : {
+      "Health" : "OK",
+      "State" : "Enabled"
+   },
+   "Oem" : {
+      "Hpe" : {
+         "MCTPEnabledOnServer" : true,
+         "@odata.context" : "/redfish/v1/$metadata#HpeServerChassis.HpeServerChassis",
+         "SystemMaintenanceSwitches" : {},
+         "ElConfigOverride" : false,
+         "Links" : {
+            "Devices" : {
+               "@odata.id" : "/redfish/v1/Chassis/1/Devices"
+            }
+         },
+         "Actions" : {
+            "#HpeServerChassis.FactoryResetMCTP" : {
+               "target" : "/redfish/v1/Chassis/1/Actions/Oem/Hpe/HpeServerChassis.FactoryResetMCTP"
+            },
+            "#HpeServerChassis.DisableMCTPOnServer" : {
+               "target" : "/redfish/v1/Chassis/1/Actions/Oem/Hpe/HpeServerChassis.DisableMCTPOnServer"
+            }
+         },
+         "@odata.type" : "#HpeServerChassis.v2_4_0.HpeServerChassis",
+         "Firmware" : {
+            "PowerManagementControllerBootloader" : {
+               "Current" : {
+                  "Family" : "25",
+                  "VersionString" : "1.1"
+               }
+            },
+            "PlatformDefinitionTable" : {
+               "Current" : {
+                  "VersionString" : "12.2.0 Build 10"
+               }
+            },
+            "SystemProgrammableLogicDevice" : {
+               "Current" : {
+                  "VersionString" : "0x1D"
+               }
+            },
+            "PowerManagementController" : {
+               "Current" : {
+                  "VersionString" : "1.1.0"
+               }
+            }
+         }
+      }
+   },
+   "Model" : "ProLiant DL325 Gen10 Plus v2",
+   "NetworkAdapters" : {
+      "@odata.id" : "/redfish/v1/Chassis/1/NetworkAdapters"
+   },
+   "Manufacturer" : "HPE",
+   "PCIeSlots" : {
+      "@odata.id" : "/redfish/v1/Chassis/1/PCIeSlots"
+   },
+   "Power" : {
+      "@odata.id" : "/redfish/v1/Chassis/1/Power"
+   },
+   "PCIeDevices" : {
+      "@odata.id" : "/redfish/v1/Chassis/1/PCIeDevices"
+   },
+   "SerialNumber" : "MXQD0J01X9",
+   "@odata.context" : "/redfish/v1/$metadata#Chassis.Chassis",
+   "Id" : "1",
+   "Thermal" : {
+      "@odata.id" : "/redfish/v1/Chassis/1/Thermal"
+   },
+   "AssetTag" : "",
+   "Links" : {
+      "Drives" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/1/Storage/DA000000/Drives/DA000000"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/1/Storage/DA000002/Drives/DA000002"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/1/Storage/DA000003/Drives/DA000003"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/1/Storage/DA000008/Drives/6AEEB1AA"
+         }
+      ],
+      "ComputerSystems" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/1"
+         }
+      ],
+      "ManagedBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Managers/1"
+         }
+      ]
+   },
+   "IndicatorLED" : "Off",
+   "ChassisType" : "RackMount",
+   "@odata.id" : "/redfish/v1/Chassis/1",
+   "@odata.etag" : "W/\"7AAB6FCB\"",
+   "LocationIndicatorActive" : false,
+   "@odata.type" : "#Chassis.v1_23_0.Chassis",
+   "PowerState" : "On",
+   "Name" : "Computer System Chassis",
+   "SKU" : "P38535-B21"
+}

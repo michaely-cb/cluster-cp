@@ -1,0 +1,11 @@
+This directory exists to resolve technical debt.
+
+Prior to this change, each run of install.sh of deployment_manager would trigger the creation of auto-generated
+migration files through django's makemigrations function. This is not a recommended practice since every installation
+of deployment manager has a different set of migrations. This made it difficult to do things like data migrations.
+
+This change is intended to be applied one time per installation. It contains the django models for the DB at the time
+of this commit. Django makemigrations is run a final time against this baseline set of models corresponding to
+the contents of deployment_manager/db/migrations/0001_baseline.py. It then resets the migrations table to appear as
+though only this baseline migration was the only migration ever applied. Now, any additional migrations in the
+deployment_manager/db/migrations directory can be applied according to best practices.

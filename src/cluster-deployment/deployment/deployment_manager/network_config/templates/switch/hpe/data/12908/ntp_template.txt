@@ -1,0 +1,7 @@
+#
+# NTP and clock setup
+#
+ntp-service unicast-server ${ntp_server} vpn-instance mgmt
+clock timezone UTC add 0
+# show ntp-server status
+# show clock

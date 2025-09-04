@@ -1,0 +1,20 @@
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: prom-pvc-size
+          storageClassName: ceph-filesystem
+
+grafana:
+  deploymentStrategy:
+    type: Recreate
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: ceph-filesystem
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi

@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: cluster-mgmt-sflow-exporter
+  namespace: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: cluster-mgmt-sflow-exporter
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        app: cluster-mgmt-sflow-exporter
+        cluster-mgmt-exporter: ""
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: cluster-mgmt-sflow-exporter
+          image: registry.local/sflow-exporter:SFLOW_EXPORTER_TAG
+          command: ["/entrypoint.sh"]
+          env:
+            - name: GOFLOW2_SFLOW_PORT
+              value: "6343"
+            - name: GOFLOW2_HTTP_PORT
+              value: "8008"
+            - name: GOFLOW2_SOCKETS
+              value: "4"
+            - name: GOFLOW2_WORKERS
+              value: "8"
+            - name: GOFLOW2_BLOCKING
+              value: "false"
+            - name: FLOW_PROM_EXPORTER_HTTP_PORT
+              value: "8282"
+            - name: FLOW_PROM_EXPORTER_FLOW_TIMEOUT
+              value: "1m"
+          resources:
+            requests:
+              cpu: 500m
+            limits:
+              memory: 1G
+          ports:
+            - name: sflow-samples
+              protocol: UDP
+              containerPort: 6343
+              hostPort: 6343
+            - name: sflow-metrics
+              protocol: TCP
+              containerPort: 8282
+          startupProbe:
+            tcpSocket:
+              port: sflow-metrics
+            periodSeconds: 5
+            failureThreshold: 60
+          livenessProbe:
+            tcpSocket:
+              port: sflow-metrics
+            periodSeconds: 3
+            failureThreshold: 3
+      hostNetwork: true
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      nodeSelector:
+        "node-role.kubernetes.io/control-plane": ""
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  namespace: prometheus
+  name: cluster-mgmt-sflow-exporter
+  labels:
+    app: cluster-mgmt-sflow-exporter
+spec:
+  selector:
+    matchLabels:
+      app: cluster-mgmt-sflow-exporter
+  namespaceSelector:
+    matchNames:
+      - prometheus
+  podMetricsEndpoints:
+    - port: sflow-metrics
+      interval: 30s
+      scrapeTimeout: 10s

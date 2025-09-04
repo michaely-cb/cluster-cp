@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-mgmt-system-exporter
+  namespace: prometheus
+spec:
+  replicas: SYSTEM_EXPORTER_REPLICA_SED_REPLACE
+  selector:
+    matchLabels:
+      app: cluster-mgmt-system-exporter
+  strategy:
+    rollingUpdate:
+      maxUnavailable: "33%"
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: cluster-mgmt-system-exporter
+        cluster-mgmt-exporter: ""
+    spec:
+      serviceAccountName: cluster-mgmt-exporter
+      containers:
+        - name: cluster-mgmt-system-exporter
+          image: registry.local/cluster-mgmt-exporter:${EXPORTER_TAG}
+          command: [ "python", "system_exporter.py" ]
+          env:
+            - name: SYSTEM_LOGIN_USER
+              value: SYSTEM_LOGIN_USER_SED_REPLACE
+            - name: SYSTEM_LOGIN_PASSWORD
+              value: SYSTEM_LOGIN_PASSWORD_SED_REPLACE
+            - name: EXPORT_SYSTEM_DEV_STATS
+              value: EXPORT_SYSTEM_DEV_STATS_SED_REPLACE
+            - name: MAX_CONCURRENT_CONNECTIONS
+              value: MAX_CONCURRENT_CONNECTIONS_SED_REPLACE
+          resources:
+            limits:
+              memory: SYSTEM_EXPORTER_RAM_MB_LIMIT_SED_REPLACE
+          ports:
+            - name: system
+              containerPort: 8006
+          volumeMounts:
+            - name: system-credential-volume
+              mountPath: /etc/secrets/system-credential
+              readOnly: true
+      volumes:
+        - name: system-credential-volume
+          secret:
+            secretName: system-credential
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      nodeSelector:
+        "node-role.kubernetes.io/control-plane": ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cluster-mgmt-system-exporter
+  name: cluster-mgmt-system-exporter
+  namespace: prometheus
+spec:
+  type: ClusterIP
+  ports:
+    - name: probe
+      port: 8006
+  selector:
+    app: cluster-mgmt-system-exporter
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: system-exporter-generator
+  namespace: prometheus
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 60
+      template:
+        spec:
+          serviceAccountName: cluster-mgmt-exporter
+          containers:
+            - name: system-exporter-generator
+              image: ${KUBECTL_IMAGE}
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/sh
+                - /tools/system_probe_targets_generate.sh
+              volumeMounts:
+                - name: generator-script
+                  mountPath: /tools
+              env:
+                - name: SYSTEM_NAMESPACE
+                  value: ${SYSTEM_NAMESPACE}
+          restartPolicy: OnFailure
+          volumes:
+            - name: generator-script
+              configMap:
+                name: system-exporter-generator
+          tolerations:
+            - key: node-role.kubernetes.io/master
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+          nodeSelector:
+            "node-role.kubernetes.io/control-plane": ""

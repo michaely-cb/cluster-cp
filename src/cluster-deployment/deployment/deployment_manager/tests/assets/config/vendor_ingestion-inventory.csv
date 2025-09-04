@@ -1,0 +1,22 @@
+location.rack,type,role,vendor.name,management_info.mac,IPMI default dns,ipmi_credentials.user,ipmi_credentials.password,name,location.unit,ipmi_info.mac,location.stamp
+wse001,SR,MG,hpe,112233445566,dx001mg123,xxx123,xxx123,,,aaaa.bbbb.cccc,stamp0
+wse001,SW,MG,arista,000100000000,,,,,,,stamp0
+wse001,SW,SP,arista,00-02-00-00-00-01,,,,,,,stamp0
+wse001,SW	,LF,dell,00-03-00-00-00-03,,,,,,,stamp0
+wse001,sw	,lf,ec,00-05-00-00-00-03,,,,,,,stamp0
+wse001,SR,MX,dell,11:22:11:22:11:22,hx000,xxx123,xxx123,,,ddeeffaabbcc,stamp0
+wse001,SR,MX,dell,13:24:35:25:66:11,hx001,xxx123,xxx123,,,ddeeffaabbcd,stamp0
+wse001,system,CS,cerebras,775500aabbcc,,,,xs10001,,,stamp0
+wse002,system,CS,cerebras,775500112233,,,,wse002-cs-sy01,,,stamp0
+wse002,switch,MG,arista,00:04:00:00:00:02,,,,,,,stamp0
+wse002,SERVER,MX,dell,1a2b2c732199,hx002,xxx123,xxx123,,,bb12cc34dd76,stamp0
+wse002,SR,MX,dell,ab:bc:cd:de:ef:fa,hx003,xxx123,xxx123,,1,a1bcddeffa77,stamp0
+wse002,SR,US,supermicro,af:fa:aa:11:22:3d,,xxx123,123xxx,,10,11:00:11:00:11:00,stamp0
+wse003,SW,MC,hp,00:05:00:00:00:00,,,,mc-001,11,,stamp0
+wse004,SW,MC,cr,00:06:00:00:00:00,,,,,,,stamp0
+wse002,console,IN,open-gear,00:07:00:00:00:00,,,,,,,stamp0
+wse002,SW,MA,AR,00:08:00:00:00:00,,,,,,,stamp0
+wse002,SW,FE,AR,00:09:00:00:00:00,,,,,,,stamp0
+wse002,PR,PU,VERTIV,00:0a:00:00:00:00,,,,,,,stamp0
+wse002,PR,PU,enlogic,00:0b:00:00:00:00,,,,,,,stamp0
+wse002,SR,IX,DL,aa.bb.cc.dd.ee.ff,xxxdellxxx,root,foo,,42,aabbccddeef1,stamp0

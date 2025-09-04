@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "kube-vip.name" . }}
+  namespace: {{ .Release.Namespace | default "kube-system" }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "kube-vip.selectorLabels" . | nindent 6 }}
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        {{- include "kube-vip.selectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - args:
+          - /kube-vip
+          - manager
+        env:
+          - name: HEALTH_PORT
+            value: "{{ .Values.healthPort }}"
+          - name: vip_nodename
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          {{- if eq .Values.env.cp_enable "true" }}
+          - name: vip_address
+            value: {{ required "A valid config.address required!" .Values.config.address}}
+          {{- end }}
+        {{- with .Values.env }}
+          {{- range $k, $v := . }}
+            {{- $name := $k }}
+            {{- $value := $v }}
+          - name: {{ quote $name }}
+            value: {{ quote $value }}
+          {{- end }}
+        {{- end }}
+      {{- with .Values.envFrom }}
+        envFrom:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: kube-vip
+        ports:
+        - name: health-port
+          containerPort: {{ .Values.healthPort }}
+          hostPort: {{ .Values.healthPort }}
+        startupProbe:
+          tcpSocket:
+            port: health-port
+          periodSeconds: 5
+          failureThreshold: 60
+        livenessProbe:
+          tcpSocket:
+            port: health-port
+          periodSeconds: 3
+          failureThreshold: 3
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
+      hostNetwork: true
+      serviceAccountName: {{ include "kube-vip.name" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

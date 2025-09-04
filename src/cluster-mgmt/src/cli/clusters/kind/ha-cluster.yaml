@@ -1,0 +1,24 @@
+kind: cluster-configuration
+name: ha-kind
+properties:
+  serviceDomain: cerebrassc.local
+systems:
+  - name: kapi-0
+    type: cs2
+    managementAddress: "8.8.8.8"
+    controlAddress: "~ws_kapi_model~:0"
+nodes:
+- name: kind-control-plane-1
+  role: management
+  properties:
+    controlplane: "true"
+- name: kind-control-plane-2
+  role: management
+  properties:
+    controlplane: "true"
+- name: kind-control-plane-3
+  role: management
+  properties:
+    controlplane: "true"
+- name: kind-worker-1
+  role: any

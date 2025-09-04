@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+{% if remote_log_path %}
+# in case of multi-crd mode
+PSSH_CRD "sh -c '$MKDIR -p {{ remote_log_path }} && $CHOWN 65532:65532 {{ remote_log_path }}'"
+{% endif %}

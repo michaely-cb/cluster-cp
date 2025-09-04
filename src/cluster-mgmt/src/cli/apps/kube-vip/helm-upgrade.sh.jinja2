@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+
+SKIP_IF_INCREMENTAL=1
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+set -e
+
+ANNOTATION_PREFIX="kube-vip-data"
+
+write_arp_values() {
+  local values_file="$1"
+  cat <<EOF | tee "${values_file}"
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+config:
+  address: $(get_data_vip)
+env:
+  vip_arp: "true"
+  vip_interface: eth0
+  WATCH_IP: $(get_data_vip)
+EOF
+}
+
+
+prepare_bgp_nodes() {
+  local cluster_doc=$1
+  for node in $(yq -r '.nodes[] | select(.properties.storage-type == "ceph") | .name // ""' ${CLUSTER_CONFIG}); do
+    node=$(echo "$node" | cut -d/ -f2)
+
+    # obtain 100G IP
+    addr=$(jq -r --arg name "${node}" '.nodes[] | select(.name == $name) | .networkInterfaces[0].address // ""' $cluster_doc)
+    if [ -z "$addr" ]; then
+      echo "error: missing required field networkInterfaces[0].address for node $node"
+      return 1
+    fi
+
+    group_name=$(jq -r --arg name "${node}" '.nodes[] | select(.name == $name) | (.properties.v2Group // .properties.group // "")' $cluster_doc)
+    if [ -z "$group_name" ]; then
+      group_name=$(jq -r --arg name "${node}" '.nodes[] | select(.name == $name) | .networkInterfaces[0].v2Group // ""' $cluster_doc)
+    fi
+    if [ -z "$group_name" ]; then
+      echo "error: $node did not have a v2Group or group membership!"
+      return 1
+    fi
+
+    switch_config=$(jq -r --arg name "$group_name" '.v2Groups[] | select(.name == $name) | .vlans[] | select(.name == "memx")' $cluster_doc 2>/dev/null || true)
+    if [ -z "$switch_config" ] ; then
+      switch_config=$(jq -r --arg name "$group_name" '.groups[] | select(.name == $name) | .switchConfig' $cluster_doc || true)
+    fi
+    if [ -z "$switch_config" ] ; then
+      echo "error: missing required configuration switchConfig/vlan::name=memx for group/v2Group $group_name"
+      return 1
+    fi
+
+    # obtain the 100G gateway and ASN. We'll join the nodes in the same ASN
+    gw=$(jq -r '.gateway // ""' <<<"$switch_config")
+    if [ -z "$gw" ]; then
+      echo "error: missing required field 'gateway' for group $group_name"
+      return 1
+    fi
+    peer_asn=$(jq -r '.asn // ""' <<<"$switch_config")
+    if [ -z "$peer_asn" ]; then
+      echo "error: missing field 'asn' for group $group_name"
+      return 1
+    else
+      # We join the ASN of the routing layer in the common case
+      if [[ "$peer_asn" =~ \. ]] ; then
+        high_val=$(( $(echo "$peer_asn" | cut -d. -f1) * 65536))
+        peer_asn=$(( $(echo "$peer_asn" | cut -d. -f2) + high_val))
+      fi
+      our_asn="$peer_asn"
+    fi
+
+    # Annotate the node with the settings for BGP
+    echo "annotate $node :: node-asn=$our_asn, src-ip=$addr, peer-asn=$peer_asn, peer-ip=$gw"
+    kubectl annotate node "$node" --overwrite \
+      "${ANNOTATION_PREFIX}/node-asn=${our_asn}" \
+      "${ANNOTATION_PREFIX}/src-ip=${addr}" \
+      "${ANNOTATION_PREFIX}/peer-asn=${peer_asn}" \
+      "${ANNOTATION_PREFIX}/peer-ip=${gw}"
+  done
+}
+
+write_bgp_values() {
+  local values_file="$1"
+  local cluster_doc="$2"
+
+  # get the first interface of the mgmt node, check all mgmt nodes have that interface
+  local inf=$(jq -e -r '.nodes[] | select(.properties.controlplane == "true") | .networkInterfaces[0].name' $cluster_doc | head -n1)
+  if ! jq -e --arg name $inf 'all(.nodes[] | select(.properties.controlplane == "true") | .networkInterfaces[0]; .name == $name)' $cluster_doc ; then
+    echo "error: not all controlplane nodes have interface $inf"
+    return 1
+  fi
+
+  vip=$(get_data_vip)
+
+  cat <<EOF | tee "${values_file}"
+# kube-vip should only run on storage nodes since private-registry will run only on storage nodes.
+# This simplifies vip setup as nginx runs on all mgmt nodes whereas private-registry runs on some
+# mgmt nodes which are storage nodes. Separating them probably requires 2 daemonsets and 2 VIPs -
+# this can be optimized later if needed.
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+config:
+  address: ${vip}
+env:
+  vip_interface: ${inf}
+  bgp_routerinterface: ${inf}
+  bgp_enable: true
+  annotation: ${ANNOTATION_PREFIX}
+  WATCH_IP: ${vip}
+  # BGP config obtained from annotations on host node prefixed with prefix/
+EOF
+}
+
+validate_bgp() {
+  echo "await all pods peer with router..."
+  for pod in $(kubectl get pods -nkube-system -lapp.kubernetes.io/instance=kube-vip-data -o jsonpath='{.items[*].metadata.name}'); do
+    {
+      CMD="while ! kubectl logs -n kube-system $pod | grep -q 'session_state:ESTABLISHED'; do sleep 1; done"
+      timeout 30 bash -c "$CMD" || echo $pod >> fail
+    } &
+  done
+  wait
+  if [ -f fail ] ; then
+    echo "kube-vip failed to peer with the router in time, check routes and router"
+    kubectl get pods -nkube-system -lapp.kubernetes.io/instance=kube-vip-data -owide
+    cat fail
+    rm -f fail
+    exit 1
+  fi
+  echo "all pods peered with router"
+}
+
+
+values_file="values-override.yaml"
+validate_install=""
+if has_multiple_mgmt_nodes ; then
+  echo "multiple management nodes with data network detected, setting up kube-vip"
+  if ! has_data_network ; then
+    echo "required data network configuration not found, exiting"
+    exit 1
+  fi
+  yq eval '.' -ojson "${CLUSTER_CONFIG}" > cluster
+  prepare_bgp_nodes cluster
+  write_bgp_values "${values_file}" cluster
+  validate_install=validate_bgp
+elif [ -d /kind ]; then
+  echo "kind detected, setting up kube-vip on management network"
+  write_arp_values "${values_file}"
+  validate_install='echo done'
+  # multus setup in kind makes nginx hang if go with local policy while snat won't help since kind has only one NIC
+  # todo: add another test to install nginx without data net for the vip test only
+  additional_args+="--set env.WATCH_NGINX= "
+else
+  echo "single mgmt node cluster, skipping kube-vip setup"
+  exit 0
+fi
+
+
+helm upgrade kube-vip-data ./kube-vip \
+    --install --wait --timeout 2m --debug \
+    --namespace kube-system \
+    -f ./kube-vip/values.yaml \
+    -f ./values.yaml \
+    -f "${values_file}" $additional_args \
+    --set image.tag="{{ image_tag }}"
+
+echo "await rollout..."
+sleep 3
+kubectl rollout status -nkube-system daemonset kube-vip --timeout=5m
+
+$validate_install
+
+# note: if deleting, cleanup step is manual -
+#   pssh -h /opt/cerebras/cluster/node_ips.list --inline ip a del <VIP_ADDR>/32 dev lo

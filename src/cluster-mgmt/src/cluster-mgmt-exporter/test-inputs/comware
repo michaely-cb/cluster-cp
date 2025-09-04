@@ -1,0 +1,1164 @@
+Current login succeeded at: Sat Oct 28 04:09:05 2023
+Last successfully login time: Sat Oct 28 04:04:25 2023
+
+******************************************************************************
+* Copyright (c) 2010-2023 Hewlett Packard Enterprise Development LP          *
+* Without the owner's prior written consent,                                 *
+* no decompiling or reverse-engineering shall be allowed.                    *
+******************************************************************************
+
+<sc-r15ra1-100gsw256-hpe>screen-length disable
+<sc-r15ra1-100gsw256-hpe>system-view
+System View: return to User View with Ctrl+Z.
+[sc-r15ra1-100gsw256-hpe]probe
+[sc-r15ra1-100gsw256-hpe-probe]show int HundredGigE 2/0/1 # faked to only show small number of ports
+HundredGigE2/0/1
+Current state: DOWN
+Line protocol state: DOWN
+Description: HundredGigE2/0/1 Interface
+Bandwidth: 100000000 kbps
+Maximum transmission unit: 1500
+Allow jumbo frames to pass
+Broadcast max-ratio: 100%
+Unknown-multicast max-ratio: 100%
+Unicast max-ratio: 100%
+Internet protocol processing: Disabled
+IP packet frame type: Ethernet II, hardware address: 5477-8a3b-0601
+IPv6 packet frame type: Ethernet II, hardware address: 5477-8a3b-0601
+Loopback is not set
+Media type is optical fiber, port hardware type is 100G_AOC_QSFP28
+Port priority: 0
+100Gbps-speed mode, full-duplex mode
+Link speed type is autonegotiation, link duplex type is autonegotiation
+Flow-control is not enabled
+The maximum frame length is 9964
+Last link flapping: Never
+Last clearing of counters: 02:38:43 Sat 09/30/2023
+Last hardware down reason: The interface receives the local fault from the peer device
+Current system time:2023-10-28 04:09:59 UTC+00:00:00
+Last time when physical state changed to up:-
+Last time when physical state changed to down:2023-09-27 08:12:40 UTC+00:00:00
+ Peak input rate: 0 bytes/sec, at 2023-09-30 02:38:46
+ Peak output rate: 0 bytes/sec, at 2023-09-30 02:38:46
+ Last 300 seconds input: 0 packets/sec 0 bytes/sec -%
+ Last 300 seconds output: 0 packets/sec 0 bytes/sec -%
+ Input (total):  0 packets, 0 bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Input (normal):  0 packets, - bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Input:  0 input errors, 0 runts, 0 giants, 0 throttles
+	 0 CRC, 0 frame, - overruns, 0 aborts
+	 - ignored, - parity errors
+ Output (total): 0 packets, 0 bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Output (normal): 0 packets, - bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Output: 0 output errors, - underruns, 0 buffer failures
+	 0 aborts, 0 deferred, 0 collisions, 0 late collisions
+	 0 lost carrier, - no carrier
+
+HundredGigE2/0/2
+Current state: UP
+Line protocol state: UP
+IP packet frame type: Ethernet II, hardware address: 303f-bb04-9c00
+Description: L2 to swx001-sx-sr01/eth100g1
+Bandwidth: 100000000 kbps
+Loopback is not set
+Media type is optical fiber, port hardware type is 100G_AOC_QSFP28
+100Gbps-speed mode, full-duplex mode
+Link speed type is autonegotiation, link duplex type is autonegotiation
+Flow-control is not enabled
+Maximum frame length: 9964
+Allow jumbo frames to pass
+Broadcast max-ratio: 100%
+Unknown-multicast max-ratio: 100%
+Unicast max-ratio: 100%
+PVID: 171
+MDI type: Automdix
+Port link-type: Access
+ Tagged VLANs:   None
+ Untagged VLANs: 171
+Port priority: 0
+Last link flapping: 20 weeks 1 days 1 hours 14 minutes
+Last clearing of counters: Never
+Last hardware down reason: -
+Current system time:2024-04-18 05:56:30
+Last time when physical state changed to up:2023-11-29 04:43:41
+Last time when physical state changed to down:2023-11-29 04:41:24
+ Peak input rate: 5335428933 bytes/sec, at 2024-02-28 16:27:21
+ Peak output rate: 2147811396 bytes/sec, at 2024-04-16 11:19:20
+ Last 300 seconds input: 532802 packets/sec 2187508326 bytes/sec 18%
+ Last 300 seconds output: 166721 packets/sec 602236560 bytes/sec 5%
+ Input (total):  4324523469937 packets, 17510265452274433 bytes
+	 4323764375472 unicasts, 198 broadcasts, 653224 multicasts, 758441043 pauses
+ Input (normal):  4323765028894 packets, - bytes
+	 4323764375472 unicasts, 198 broadcasts, 653224 multicasts, 758441043 pauses
+ Input:  2 input errors, 0 runts, 0 giants, 0 throttles
+	 0 CRC, 0 frame, - overruns, 0 aborts
+	 - ignored, - parity errors
+ Output (total): 2433835934867 packets, 9163772671164491 bytes
+	 2433721488878 unicasts, 20166395 broadcasts, 834781 multicasts, 93444813 pauses
+ Output (normal): 2433742490054 packets, - bytes
+	 2433721488878 unicasts, 20166395 broadcasts, 834781 multicasts, 93444813 pauses
+ Output: 0 output errors, - underruns, 0 buffer failures
+	 0 aborts, 0 deferred, 0 collisions, 0 late collisions
+	 0 lost carrier, - no carrier
+
+HundredGigE2/0/3
+Current state: DOWN
+Line protocol state: DOWN
+Description: HundredGigE2/0/3 Interface
+Bandwidth: 100000000 kbps
+Maximum transmission unit: 1500
+Allow jumbo frames to pass
+Broadcast max-ratio: 100%
+Unknown-multicast max-ratio: 100%
+Unicast max-ratio: 100%
+Internet protocol processing: Disabled
+IP packet frame type: Ethernet II, hardware address: 5477-8a3b-0601
+IPv6 packet frame type: Ethernet II, hardware address: 5477-8a3b-0601
+Loopback is not set
+Media type is optical fiber, port hardware type is STACK_QSFP56
+Port priority: 0
+100Gbps-speed mode, full-duplex mode
+Link speed type is autonegotiation, link duplex type is autonegotiation
+Flow-control is not enabled
+The maximum frame length is 9964
+Last link flapping: Never
+Last clearing of counters: 02:38:43 Sat 09/30/2023
+Last hardware down reason: The interface receives the local fault from the peer device
+Current system time:2023-10-28 04:10:05 UTC+00:00:00
+Last time when physical state changed to up:-
+Last time when physical state changed to down:2023-09-27 08:12:46 UTC+00:00:00
+ Peak input rate: 0 bytes/sec, at 2023-09-30 02:38:46
+ Peak output rate: 0 bytes/sec, at 2023-09-30 02:38:46
+ Last 300 seconds input: 0 packets/sec 0 bytes/sec -%
+ Last 300 seconds output: 0 packets/sec 0 bytes/sec -%
+ Input (total):  0 packets, 0 bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Input (normal):  0 packets, - bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Input:  0 input errors, 0 runts, 0 giants, 0 throttles
+	 0 CRC, 0 frame, - overruns, 0 aborts
+	 - ignored, - parity errors
+ Output (total): 0 packets, 0 bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Output (normal): 0 packets, - bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Output: 0 output errors, - underruns, 0 buffer failures
+	 0 aborts, 0 deferred, 0 collisions, 0 late collisions
+	 0 lost carrier, - no carrier
+
+HundredGigE3/0/1
+Current state: UP
+Line protocol state: UP
+IP packet frame type: Ethernet II, hardware address: 5477-8a3b-0600
+Description: HundredGigE3/0/1 Interface
+Bandwidth: 100000000 kbps
+Loopback is not set
+Media type is optical fiber, port hardware type is 100G_BASE_SR4_QSFP28
+100Gbps-speed mode, full-duplex mode
+Link speed type is autonegotiation, link duplex type is autonegotiation
+Flow-control is not enabled
+Maximum frame length: 9964
+Allow jumbo frames to pass
+Broadcast max-ratio: 100%
+Unknown-multicast max-ratio: 100%
+Unicast max-ratio: 100%
+PVID: 30
+MDI type: Automdix
+Port link-type: Access
+ Tagged VLANs:   None
+ Untagged VLANs: 30
+Port priority: 0
+Last link flapping: 4 weeks 2 days 2 hours 11 minutes
+Last clearing of counters: 02:38:44 Sat 09/30/2023
+Last hardware down reason: The interface receives the local fault from the peer device
+Current system time:2023-10-28 04:12:22 UTC+00:00:00
+Last time when physical state changed to up:2023-09-28 09:51:15 UTC+00:00:00
+Last time when physical state changed to down:2023-09-28 09:50:59 UTC+00:00:00
+ Peak input rate: 625595479 bytes/sec, at 2023-10-06 13:28:47
+ Peak output rate: 838124373 bytes/sec, at 2023-10-06 13:28:42
+ Last 300 seconds input: 0 packets/sec 11 bytes/sec 0%
+ Last 300 seconds output: 1 packets/sec 85 bytes/sec 0%
+ Input (total):  1817439047 packets, 6164555687605 bytes
+	 1817246781 unicasts, 3 broadcasts, 131508 multicasts, 60755 pauses
+ Input (normal):  1817378292 packets, - bytes
+	 1817246781 unicasts, 3 broadcasts, 131508 multicasts, 60755 pauses
+ Input:  0 input errors, 0 runts, 0 giants, 0 throttles
+	 7 CRC, 0 frame, - overruns, 0 aborts
+	 - ignored, - parity errors
+ Output (total): 2496483254 packets, 9047324805736 bytes
+	 2493247861 unicasts, 3130465 broadcasts, 104928 multicasts, 0 pauses
+ Output (normal): 2496483254 packets, - bytes
+	 2493247861 unicasts, 3130465 broadcasts, 104928 multicasts, 0 pauses
+ Output: 0 output errors, - underruns, 0 buffer failures
+	 0 aborts, 0 deferred, 0 collisions, 0 late collisions
+	 0 lost carrier, - no carrier
+
+HundredGigE3/0/2
+Current state: DOWN
+Line protocol state: DOWN
+Description: HundredGigE3/0/2 Interface
+Bandwidth: 100000000 kbps
+Maximum transmission unit: 1500
+Allow jumbo frames to pass
+Broadcast max-ratio: 100%
+Unknown-multicast max-ratio: 100%
+Unicast max-ratio: 100%
+Internet protocol processing: Disabled
+IP packet frame type: Ethernet II, hardware address: 5477-8a3b-0601
+IPv6 packet frame type: Ethernet II, hardware address: 5477-8a3b-0601
+Loopback is not set
+Media type is not sure, port hardware type is no connector
+Port priority: 0
+100Gbps-speed mode, full-duplex mode
+Link speed type is autonegotiation, link duplex type is autonegotiation
+Flow-control is not enabled
+The maximum frame length is 9964
+Last link flapping: Never
+Last clearing of counters: 02:38:44 Sat 09/30/2023
+Last hardware down reason: The interface receives the local fault from the peer device
+Current system time:2023-10-28 04:12:23 UTC+00:00:00
+Last time when physical state changed to up:-
+Last time when physical state changed to down:2023-09-27 08:21:39 UTC+00:00:00
+ Peak input rate: 0 bytes/sec, at 2023-09-30 02:38:48
+ Peak output rate: 0 bytes/sec, at 2023-09-30 02:38:48
+ Last 300 seconds input: 0 packets/sec 0 bytes/sec -%
+ Last 300 seconds output: 0 packets/sec 0 bytes/sec -%
+ Input (total):  0 packets, 0 bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Input (normal):  0 packets, - bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Input:  0 input errors, 0 runts, 0 giants, 0 throttles
+	 0 CRC, 0 frame, - overruns, 0 aborts
+	 - ignored, - parity errors
+ Output (total): 0 packets, 0 bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Output (normal): 0 packets, - bytes
+	 0 unicasts, 0 broadcasts, 0 multicasts, 0 pauses
+ Output: 0 output errors, - underruns, 0 buffer failures
+	 0 aborts, 0 deferred, 0 collisions, 0 late collisions
+	 0 lost carrier, - no carrier
+
+HundredGigE3/0/3
+Current state: UP
+Line protocol state: UP
+IP packet frame type: Ethernet II, hardware address: 5477-8a3b-0600
+Description: HundredGigE3/0/3 Interface
+Bandwidth: 100000000 kbps
+Loopback is not set
+Media type is optical fiber, port hardware type is 100G_AOC_QSFP28
+100Gbps-speed mode, full-duplex mode
+Link speed type is autonegotiation, link duplex type is autonegotiation
+Flow-control is not enabled
+Maximum frame length: 9964
+Allow jumbo frames to pass
+Broadcast max-ratio: 100%
+Unknown-multicast max-ratio: 100%
+Unicast max-ratio: 100%
+PVID: 30
+MDI type: Automdix
+Port link-type: Access
+ Tagged VLANs:   None
+ Untagged VLANs: 30
+Port priority: 0
+Last link flapping: 4 weeks 2 days 2 hours 14 minutes
+Last clearing of counters: 02:38:44 Sat 09/30/2023
+Last hardware down reason: The interface receives the local fault from the peer device
+Current system time:2023-10-28 04:12:25 UTC+00:00:00
+Last time when physical state changed to up:2023-09-28 09:48:00 UTC+00:00:00
+Last time when physical state changed to down:2023-09-28 09:47:43 UTC+00:00:00
+ Peak input rate: 531730164 bytes/sec, at 2023-10-06 13:28:47
+ Peak output rate: 729182918 bytes/sec, at 2023-10-06 13:28:42
+ Last 300 seconds input: 0 packets/sec 11 bytes/sec 0%
+ Last 300 seconds output: 1 packets/sec 85 bytes/sec 0%
+ Input (total):  1774451322 packets, 5975712906161 bytes
+	 1774259194 unicasts, 3 broadcasts, 131516 multicasts, 60609 pauses
+ Input (normal):  1774390713 packets, - bytes
+	 1774259194 unicasts, 3 broadcasts, 131516 multicasts, 60609 pauses
+ Input:  0 input errors, 4 runts, 0 giants, 0 throttles
+	 0 CRC, 0 frame, - overruns, 0 aborts
+	 - ignored, - parity errors
+ Output (total): 2421061571 packets, 8719925037254 bytes
+	 2417826186 unicasts, 3130464 broadcasts, 104921 multicasts, 0 pauses
+ Output (normal): 2421061571 packets, - bytes
+	 2417826186 unicasts, 3130464 broadcasts, 104921 multicasts, 0 pauses
+ Output: 0 output errors, - underruns, 0 buffer failures
+	 0 aborts, 0 deferred, 0 collisions, 0 late collisions
+	 0 lost carrier, - no carrier
+
+[sc-r15ra1-100gsw256-hpe-probe]display link-state-change statistics interface HundredGigE 2/0/* # fake
+Interface              Change-times  Last-change-time     Reset link-state time
+                                     Link-flap-begin      Link-flap-end
+HGE2/0/1               0             Never                Never
+                                     Never                Never
+HGE2/0/2               0             Never                Never
+                                     Never                Never
+HGE2/0/3               0             Never                Never
+                                     Never                Never
+HGE3/0/1               25            2023-09-28 09:51:15  Never
+                                     Never                Never
+HGE3/0/2               0             Never                Never
+                                     Never                Never
+HGE3/0/3               15            2023-09-28 09:48:00  Never
+                                     Never                Never
+[sc-r11ra18-100gsw-mhp-probe]display priority-flow-control interface hge
+Interface                        AdminMode  OperMode  Dot1pList   Prio  Recv       Send       Inpps      Outpps
+---------------------------------------------------------------------------------------------------
+HGE2/0/1                         Enabled    Enabled   5           5     977397189  181443     1          0
+HGE2/0/2                         Enabled    Enabled   5           5     34827218   92576984   0          0
+HGE2/0/3                         Enabled    Enabled   5           5     10869595   96557255   0          0
+HGE3/0/1                         Enabled    Enabled   5           5     59703424   4064690    0          0
+HGE3/0/2                         Enabled    Enabled   5           5     95873868   140111851  0          0
+HGE3/0/3                         Enabled    Enabled   5           5     105306409  183320309  0          0
+
+[sc-r11ra18-100gsw-mhp-probe]display packet-drop interface hge
+HundredGigE2/0/1:
+  Packets dropped due to STP non-forwarding state: 0
+  Packets dropped due to insufficient data buffer. Input dropped: 0 Output dropped:0
+
+HundredGigE2/0/2:
+  Packets dropped due to STP non-forwarding state: 0
+  Packets dropped due to insufficient data buffer. Input dropped: 0 Output dropped:0
+
+HundredGigE2/0/3:
+  Packets dropped due to STP non-forwarding state: 0
+  Packets dropped due to insufficient data buffer. Input dropped: 0 Output dropped:66
+
+HundredGigE3/0/1:
+  Packets dropped due to STP non-forwarding state: 0
+  Packets dropped due to insufficient data buffer. Input dropped: 0 Output dropped:0
+
+HundredGigE3/0/2:
+  Packets dropped due to STP non-forwarding state: 0
+  Packets dropped due to insufficient data buffer. Input dropped: 0 Output dropped:0
+
+HundredGigE3/0/3:
+  Packets dropped due to STP non-forwarding state: 0
+  Packets dropped due to insufficient data buffer. Input dropped: 0 Output dropped:117
+
+<swx01-100gsw-mhp>display version
+HPE Comware Software, Version 9.1.058, Release 5210P01
+Copyright (c) 2010-2023 Hewlett Packard Enterprise Development LP
+HPE FF 12908E uptime is 55 weeks, 3 days, 12 hours, 29 minutes
+Last reboot reason : User reboot
+
+Boot image: flash:/12900E-CMW910-BOOT-R5210P01.bin
+Boot image version: 9.1.058, Release 5210P01
+  Compiled Apr 19 2023 14:00:00
+System image: flash:/12900E-CMW910-SYSTEM-R5210P01.bin
+System image version: 9.1.058, Release 5210P01
+  Compiled Apr 19 2023 14:00:00
+
+
+MPU(M) 0:
+Uptime is 55 weeks,3 days,12 hours,30 minutes
+HPE FF 12908E MPU(M) with 1 D1518 Processor(s)
+BOARD TYPE:              LSXM1SUPER1
+DRAM:                    32768M bytes
+FLASH:                   3775M bytes
+NVRAM:                   512K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  113
+Extend Bootware Version: 113
+CPLD  1 Version:         004
+CPLD  2 Version:         003
+CPLD  3 Version:         004
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+MPU(S) 1:
+Uptime is 55 weeks,3 days,12 hours,33 minutes
+HPE FF 12908E MPU(S) with 1 D1518 Processor(s)
+BOARD TYPE:              LSXM1SUPER1
+DRAM:                    32768M bytes
+FLASH:                   3775M bytes
+NVRAM:                   512K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  113
+Extend Bootware Version: 113
+CPLD  1 Version:         005
+CPLD  2 Version:         004
+CPLD  3 Version:         005
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+LPU 2:
+Uptime is 55 weeks,3 days,12 hours,27 minutes
+HPE FF 12908E LPU with 1 C3558 Processor(s)
+BOARD TYPE:              LSXM1CGQ48KBR1
+DRAM:                    16384M bytes
+FLASH:                   7456M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.C
+PCB  3 Version:          VER.A
+Basic Bootware Version:  301
+Extend Bootware Version: 301
+CPLD  1 Version:         004
+CPLD  2 Version:         006
+CPLD  3 Version:         004
+FPGA 1 Version:          013
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+LPU 3:
+Uptime is 55 weeks,3 days,12 hours,28 minutes
+HPE FF 12908E LPU with 1 C3558 Processor(s)
+BOARD TYPE:              LSXM1CGQ48KBR1
+DRAM:                    16384M bytes
+FLASH:                   7456M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.C
+PCB  3 Version:          VER.A
+Basic Bootware Version:  301
+Extend Bootware Version: 301
+CPLD  1 Version:         004
+CPLD  2 Version:         006
+CPLD  3 Version:         004
+FPGA 1 Version:          013
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+LPU 4:
+Uptime is 55 weeks,3 days,12 hours,27 minutes
+HPE FF 12908E LPU with 1 C3558 Processor(s)
+BOARD TYPE:              LSXM1CGQ48KBR1
+DRAM:                    16384M bytes
+FLASH:                   7456M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.C
+PCB  3 Version:          VER.A
+Basic Bootware Version:  301
+Extend Bootware Version: 301
+CPLD  1 Version:         004
+CPLD  2 Version:         006
+CPLD  3 Version:         004
+FPGA 1 Version:          013
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+LPU 5:
+Uptime is 55 weeks,3 days,12 hours,29 minutes
+HPE FF 12908E LPU with 1 C3558 Processor(s)
+BOARD TYPE:              LSXM1CGQ48KBR1
+DRAM:                    16384M bytes
+FLASH:                   7456M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.C
+PCB  3 Version:          VER.A
+Basic Bootware Version:  301
+Extend Bootware Version: 301
+CPLD  1 Version:         004
+CPLD  2 Version:         006
+CPLD  3 Version:         004
+FPGA 1 Version:          013
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+LPU 6:
+Uptime is 55 weeks,3 days,12 hours,28 minutes
+HPE FF 12908E LPU with 1 C3558 Processor(s)
+BOARD TYPE:              LSXM1CGQ48KBR1
+DRAM:                    16384M bytes
+FLASH:                   7456M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.C
+PCB  3 Version:          VER.A
+Basic Bootware Version:  301
+Extend Bootware Version: 301
+CPLD  1 Version:         004
+CPLD  2 Version:         006
+CPLD  3 Version:         004
+FPGA 1 Version:          013
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+LPU 7:
+Uptime is 55 weeks,3 days,12 hours,29 minutes
+HPE FF 12908E LPU with 1 C3558 Processor(s)
+BOARD TYPE:              LSXM1CGQ48KBR1
+DRAM:                    16384M bytes
+FLASH:                   7456M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.C
+PCB  3 Version:          VER.A
+Basic Bootware Version:  301
+Extend Bootware Version: 301
+CPLD  1 Version:         004
+CPLD  2 Version:         006
+CPLD  3 Version:         004
+FPGA 1 Version:          013
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+NPU 10:
+Uptime is 55 weeks,3 days,12 hours,33 minutes
+HPE FF 12908E NPU with 1 C2538 Processor(s)
+BOARD TYPE:              LSXM1SFK08FR1
+DRAM:                    8192M bytes
+FLASH:                   3726M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  101
+Extend Bootware Version: 101
+CPLD  1 Version:         002
+CPLD  2 Version:         002
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+NPU 11:
+Uptime is 55 weeks,3 days,12 hours,34 minutes
+HPE FF 12908E NPU with 1 C2538 Processor(s)
+BOARD TYPE:              LSXM1SFK08FR1
+DRAM:                    8192M bytes
+FLASH:                   3726M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+PCB  3 Version:          VER.A
+Basic Bootware Version:  101
+Extend Bootware Version: 101
+CPLD  1 Version:         002
+CPLD  2 Version:         002
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+NPU 12:
+Uptime is 55 weeks,3 days,12 hours,32 minutes
+HPE FF 12908E NPU with 1 C2538 Processor(s)
+BOARD TYPE:              LSXM1SFK08FR1
+DRAM:                    8192M bytes
+FLASH:                   3726M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  101
+Extend Bootware Version: 101
+CPLD  1 Version:         002
+CPLD  2 Version:         002
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+NPU 13:
+Uptime is 55 weeks,3 days,12 hours,34 minutes
+HPE FF 12908E NPU with 1 C2538 Processor(s)
+BOARD TYPE:              LSXM1SFK08FR1
+DRAM:                    8192M bytes
+FLASH:                   3726M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  101
+Extend Bootware Version: 101
+CPLD  1 Version:         002
+CPLD  2 Version:         002
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+NPU 14:
+Uptime is 55 weeks,3 days,12 hours,34 minutes
+HPE FF 12908E NPU with 1 C2538 Processor(s)
+BOARD TYPE:              LSXM1SFK08FR1
+DRAM:                    8192M bytes
+FLASH:                   3726M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  101
+Extend Bootware Version: 101
+CPLD  1 Version:         002
+CPLD  2 Version:         002
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+
+NPU 15:
+Uptime is 55 weeks,3 days,12 hours,36 minutes
+HPE FF 12908E NPU with 1 C2538 Processor(s)
+BOARD TYPE:              LSXM1SFK08FR1
+DRAM:                    8192M bytes
+FLASH:                   3726M bytes
+NVRAM:                   0K bytes
+PCB  1 Version:          VER.A
+PCB  2 Version:          VER.A
+Basic Bootware Version:  101
+Extend Bootware Version: 101
+CPLD  1 Version:         002
+CPLD  2 Version:         002
+Release Version:         HPE FF 12908E-5210P01
+Patch Version:           None
+Reboot Cause:            UserReboot
+<swx01-100gsw-mhp>display environment
+ System temperature information (degree centigrade):
+ ----------------------------------------------------------------------
+ Slot  Sensor    Temperature  Lower  Warning  Alarm  Shutdown
+ 0     inflow  1 31           0      48       60     NA
+ 0     hotspot 1 42           0      75       90     NA
+ 0     hotspot 2 36           0      75       90     NA
+ 0     hotspot 3 29           0      75       90     NA
+ 0     cpu     1 49           0      102      102    NA
+ 1     inflow  1 30           0      48       60     NA
+ 1     hotspot 1 40           0      75       90     NA
+ 1     hotspot 2 36           0      75       90     NA
+ 1     hotspot 3 30           0      75       90     NA
+ 1     cpu     1 49           0      102      102    NA
+ 2     hotspot 1 59           0      75       90     95
+ 2     hotspot 2 42           0      75       90     95
+ 2     hotspot 3 41           0      75       90     95
+ 2     hotspot 4 61           0      75       90     95
+ 2     chip    0 76           0      88       102    110
+ 2     chip    0 75           0      88       102    110
+ 2     chip    0 68           0      88       102    110
+ 2     cpu     1 50           0      88       96     104
+ 3     hotspot 1 57           0      75       90     95
+ 3     hotspot 2 40           0      75       90     95
+ 3     hotspot 3 39           0      75       90     95
+ 3     hotspot 4 59           0      75       90     95
+ 3     chip    0 74           0      88       102    110
+ 3     chip    0 74           0      88       102    110
+ 3     chip    0 68           0      88       102    110
+ 3     cpu     1 47           0      88       96     104
+ 4     hotspot 1 54           0      75       90     95
+ 4     hotspot 2 39           0      75       90     95
+ 4     hotspot 3 39           0      75       90     95
+ 4     hotspot 4 56           0      75       90     95
+ 4     chip    0 70           0      88       102    110
+ 4     chip    0 69           0      88       102    110
+ 4     chip    0 63           0      88       102    110
+ 4     cpu     1 45           0      88       96     104
+ 5     hotspot 1 55           0      75       90     95
+ 5     hotspot 2 39           0      75       90     95
+ 5     hotspot 3 38           0      75       90     95
+ 5     hotspot 4 55           0      75       90     95
+ 5     chip    0 70           0      88       102    110
+ 5     chip    0 70           0      88       102    110
+ 5     chip    0 63           0      88       102    110
+ 5     cpu     1 43           0      88       96     104
+ 6     hotspot 1 54           0      75       90     95
+ 6     hotspot 2 40           0      75       90     95
+ 6     hotspot 3 39           0      75       90     95
+ 6     hotspot 4 57           0      75       90     95
+ 6     chip    0 70           0      88       102    110
+ 6     chip    0 69           0      88       102    110
+ 6     chip    0 63           0      88       102    110
+ 6     cpu     1 46           0      88       96     104
+ 7     hotspot 1 49           0      75       90     95
+ 7     hotspot 2 35           0      75       90     95
+ 7     hotspot 3 34           0      75       90     95
+ 7     hotspot 4 53           0      75       90     95
+ 7     chip    0 65           0      88       102    110
+ 7     chip    0 64           0      88       102    110
+ 7     chip    0 58           0      88       102    110
+ 7     cpu     1 43           0      88       96     104
+ 10    hotspot 1 45           0      75       90     95
+ 10    chip    0 62           0      88       102    110
+ 10    chip    1 60           0      88       102    110
+ 10    chip    0 59           0      88       102    110
+ 10    chip    1 55           0      88       102    110
+ 10    cpu     1 42           0      88       98     104
+ 11    hotspot 1 48           0      75       90     95
+ 11    chip    0 66           0      88       102    110
+ 11    chip    1 63           0      88       102    110
+ 11    chip    0 62           0      88       102    110
+ 11    chip    1 57           0      88       102    110
+ 11    cpu     1 47           0      88       98     104
+ 12    hotspot 1 52           0      75       90     95
+ 12    chip    0 72           0      88       102    110
+ 12    chip    1 67           0      88       102    110
+ 12    chip    0 68           0      88       102    110
+ 12    chip    1 63           0      88       102    110
+ 12    cpu     1 54           0      88       98     104
+ 13    hotspot 1 48           0      75       90     95
+ 13    chip    0 69           0      88       102    110
+ 13    chip    1 67           0      88       102    110
+ 13    chip    0 63           0      88       102    110
+ 13    chip    1 62           0      88       102    110
+ 13    cpu     1 45           0      88       98     104
+ 14    hotspot 1 43           0      75       90     95
+ 14    chip    0 63           0      88       102    110
+ 14    chip    1 62           0      88       102    110
+ 14    chip    0 59           0      88       102    110
+ 14    chip    1 59           0      88       102    110
+ 14    cpu     1 42           0      88       98     104
+ 15    hotspot 1 42           0      75       90     95
+ 15    chip    0 60           0      88       102    110
+ 15    chip    1 60           0      88       102    110
+ 15    chip    0 54           0      88       102    110
+ 15    chip    1 53           0      88       102    110
+ 15    cpu     1 42           0      88       98     104
+ 15    added by theo  89           0      88       98     104
+ 16    added by theo  100           0      88       98     104
+<swx01-100gsw-mhp>display power
+
+ Power supply policy     : Enabled
+ Surplus sleeping        : Disabled
+ Power modules installed : 8
+ Power modules usable    : 8
+ Total power             : 24000W
+ Redundant power         : 0W
+ Sleeping  power         : 0W
+ Available power         : 24000W
+ Out power               : 4669W
+ Allocated power         : 8372W
+ Remaining power         : 15628W
+
+ PowerID State     InPower(W)  Current(A)  Voltage(V)  OutPower(W)     Type        Input
+  1      Normal      3000       10.75        54.04       580.93     PSR3000-54A     AC
+  2      Normal      3000       10.50        54.04       567.42     PSR3000-54A     AC
+  3      Normal      3000       10.50        54.00       567.00     PSR3000-54A     AC
+  4      Normal      3000       12.00        53.96       647.52     PSR3000-54A     AC
+  5      Normal      3000       10.50        53.95       566.47     PSR3000-54A     AC
+  6      Normal      3000       10.25        53.99       553.39     PSR3000-54A     AC
+  7      Normal      3000       11.00        53.89       592.79     PSR3000-54A     AC
+  8      Normal      3000       11.00        54.00       594.00     PSR3000-54A     AC
+  9      Absent      0000       11.11        22.22       333.33     Added by theo   AC
+  10     Fault       0000       11.11        22.22       333.33     Added by theo   AC
+
+ Information about reserved power:
+
+  Slot  Status  Power(W)   Remarks
+   0    Normal     34      Powered on
+   1    Normal     34      Powered on
+   2    Normal    765      Powered on
+   3    Normal    765      Powered on
+   4    Normal    765      Powered on
+   5    Normal    765      Powered on
+   6    Normal    765      Powered on
+   7    Normal    765      Powered on
+  10    Normal    284      Powered on
+  11    Normal    284      Powered on
+  12    Normal    284      Powered on
+  13    Normal    284      Powered on
+  14    Normal    284      Powered on
+  15    Normal    284      Powered on
+
+ Power information for fans:
+  Fan[1]: 1000W
+  Fan[2]: 1000W
+
+
+ <swx01-100gsw-mhp>display fan
+ Fan-tray 1:
+ Status    : Normal
+ Fan Type  : LSXM108XFANH
+ Fan number: 3
+ Fan mode  : Auto
+ Airflow Direction: Fan-Panel-Exhaust
+ Fan  Speed(rpm)
+ ---  ----------
+  1   7122
+  2   5592
+  3   5597
+ Fan-tray 2:
+ Status    : Normal
+ Fan Type  : LSXM108XFANH
+ Fan number: 3
+ Fan mode  : Auto
+ Airflow Direction: Fan-Panel-Exhaust
+ Fan  Speed(rpm)
+ ---  ----------
+  1   7048
+  2   5613
+  3   5502
+ Fan-tray 3:
+ Status    : Absent
+ Fan Type  : Added by theo for testing
+ Fan number: 1
+ Fan mode  : Auto
+ Airflow Direction: Fan-Panel-Exhaust
+ Fan  Speed(rpm)
+ ---  ----------
+  1   3333
+ Fan-tray 4:
+ Status    : Fault
+ Fan Type  : Added by theo for testing
+ Fan number: 1
+ Fan mode  : Auto
+ Airflow Direction: Fan-Panel-Exhaust
+ Fan  Speed(rpm)
+ ---  ----------
+  1   4444
+
+[sc-r15ra1-100gsw256-hpe-probe]debug port command slot * phy/fecstat/0/* # fake
+---------------------
+u=0 p=1 fecmoncnt=10738
+***Table37 time:10/28/2023 04:10:37:060309***
+---INNER phy---
+uiIntFecCorrect=0x0
+uiIntFecUnCorrect=0x0
+uiIntFecCorrectRate=0x0
+uiIntFecUnCorrectRate=0x0
+uiIntFecCorrectRate_Ber=N/A
+---EXT phy SYSTEM---
+usSysieee_corr_cw_cnt=0x0
+usSysieee_uncorr_cw_cnt=0xc
+ucSysfec_link_stat=0x1
+ucSysfec_link_stat_sticky=0x0
+ucSyshi_ser_sticky=0x0
+ucSyspcs_hiber_stat=0x0
+ucSyspcs_hiber_sticky=0x0
+ucSyspcs_link_stat=0x1
+ucSyspcs_link_stat_sticky=0x0
+---EXT phy LINE---
+usLineieee_corr_cw_cnt=0x0
+usLineieee_uncorr_cw_cnt=0x0
+ucLinefec_link_stat=0x0
+ucLinefec_link_stat_sticky=0x0
+ucLinehi_ser_sticky=0x0
+ucLinepcs_hiber_stat=0x0
+ucLinepcs_hiber_sticky=0x0
+ucLinepcs_link_stat=0x0
+ucLinepcs_link_stat_sticky=0x0
+***end***
+---------------------
+u=0 p=2 fecmoncnt=2592
+***Table91 time:10/28/2023 04:10:38:235379***
+---INNER phy---
+uiIntFecCorrect=0xffffffff
+uiIntFecUnCorrect=0xffffffff
+uiIntFecCorrectRate=0x0
+uiIntFecUnCorrectRate=0xffffffff
+uiIntFecCorrectRate_Ber=N/A
+---EXT phy SYSTEM---
+usSysieee_corr_cw_cnt=0x0
+usSysieee_uncorr_cw_cnt=0xc
+ucSysfec_link_stat=0x1
+ucSysfec_link_stat_sticky=0x0
+ucSyshi_ser_sticky=0x0
+ucSyspcs_hiber_stat=0x0
+ucSyspcs_hiber_sticky=0x0
+ucSyspcs_link_stat=0x1
+ucSyspcs_link_stat_sticky=0x0
+---EXT phy LINE---
+usLineieee_corr_cw_cnt=0x0
+usLineieee_uncorr_cw_cnt=0x0
+ucLinefec_link_stat=0x0
+ucLinefec_link_stat_sticky=0x0
+ucLinehi_ser_sticky=0x0
+ucLinepcs_hiber_stat=0x0
+ucLinepcs_hiber_sticky=0x0
+ucLinepcs_link_stat=0x0
+ucLinepcs_link_stat_sticky=0x0
+***end***
+---------------------
+u=0 p=3 fecmoncnt=10680
+***Table79 time:10/28/2023 04:10:38:946073***
+---INNER phy---
+uiIntFecCorrect=0x0
+uiIntFecUnCorrect=0x0
+uiIntFecCorrectRate=0x0
+uiIntFecUnCorrectRate=0x0
+uiIntFecCorrectRate_Ber=N/A
+---EXT phy SYSTEM---
+usSysieee_corr_cw_cnt=0x0
+usSysieee_uncorr_cw_cnt=0x0
+ucSysfec_link_stat=0x1
+ucSysfec_link_stat_sticky=0x1
+ucSyshi_ser_sticky=0x0
+ucSyspcs_hiber_stat=0x0
+ucSyspcs_hiber_sticky=0x0
+ucSyspcs_link_stat=0x1
+ucSyspcs_link_stat_sticky=0x1
+---EXT phy LINE---
+usLineieee_corr_cw_cnt=0x0
+usLineieee_uncorr_cw_cnt=0x0
+ucLinefec_link_stat=0x0
+ucLinefec_link_stat_sticky=0x0
+ucLinehi_ser_sticky=0x0
+ucLinepcs_hiber_stat=0x0
+ucLinepcs_hiber_sticky=0x0
+ucLinepcs_link_stat=0x0
+ucLinepcs_link_stat_sticky=0x0
+***end***
+---------------------
+u=0 p=1 fecmoncnt=10659
+***Table58 time:10/28/2023 04:12:51:874581***
+---INNER phy---
+uiIntFecCorrect=0x14797b
+uiIntFecUnCorrect=0x0
+uiIntFecCorrectRate=0x0
+uiIntFecUnCorrectRate=0x0
+uiIntFecCorrectRate_Ber=N/A
+---EXT phy SYSTEM---
+usSysieee_corr_cw_cnt=0x0
+usSysieee_uncorr_cw_cnt=0x0
+ucSysfec_link_stat=0x1
+ucSysfec_link_stat_sticky=0x1
+ucSyshi_ser_sticky=0x0
+ucSyspcs_hiber_stat=0x0
+ucSyspcs_hiber_sticky=0x0
+ucSyspcs_link_stat=0x1
+ucSyspcs_link_stat_sticky=0x1
+---EXT phy LINE---
+usLineieee_corr_cw_cnt=0x0
+usLineieee_uncorr_cw_cnt=0x0
+ucLinefec_link_stat=0x1
+ucLinefec_link_stat_sticky=0x1
+ucLinehi_ser_sticky=0x0
+ucLinepcs_hiber_stat=0x0
+ucLinepcs_hiber_sticky=0x0
+ucLinepcs_link_stat=0x0
+ucLinepcs_link_stat_sticky=0x0
+***end***
+---------------------
+u=0 p=2 fecmoncnt=2567
+***Table66 time:10/28/2023 04:12:52:722770***
+---INNER phy---
+uiIntFecCorrect=0xffffffff
+uiIntFecUnCorrect=0xffffffff
+uiIntFecCorrectRate=0x0
+uiIntFecUnCorrectRate=0xffffffff
+uiIntFecCorrectRate_Ber=N/A
+---EXT phy SYSTEM---
+usSysieee_corr_cw_cnt=0x0
+usSysieee_uncorr_cw_cnt=0x0
+ucSysfec_link_stat=0x0
+ucSysfec_link_stat_sticky=0x0
+ucSyshi_ser_sticky=0x0
+ucSyspcs_hiber_stat=0x0
+ucSyspcs_hiber_sticky=0x0
+ucSyspcs_link_stat=0x0
+ucSyspcs_link_stat_sticky=0x0
+---EXT phy LINE---
+usLineieee_corr_cw_cnt=0x0
+usLineieee_uncorr_cw_cnt=0x0
+ucLinefec_link_stat=0x0
+ucLinefec_link_stat_sticky=0x0
+ucLinehi_ser_sticky=0x0
+ucLinepcs_hiber_stat=0x0
+ucLinepcs_hiber_sticky=0x0
+ucLinepcs_link_stat=0x0
+ucLinepcs_link_stat_sticky=0x0
+***end***
+---------------------
+u=0 p=3 fecmoncnt=5737
+***Table36 time:10/28/2023 04:12:53:354868***
+---INNER phy---
+uiIntFecCorrect=0x0
+uiIntFecUnCorrect=0x0
+uiIntFecCorrectRate=0x0
+uiIntFecUnCorrectRate=0x0
+uiIntFecCorrectRate_Ber=N/A
+---EXT phy SYSTEM---
+usSysieee_corr_cw_cnt=0x0
+usSysieee_uncorr_cw_cnt=0x0
+ucSysfec_link_stat=0x0
+ucSysfec_link_stat_sticky=0x0
+ucSyshi_ser_sticky=0x0
+ucSyspcs_hiber_stat=0x0
+ucSyspcs_hiber_sticky=0x0
+ucSyspcs_link_stat=0x0
+ucSyspcs_link_stat_sticky=0x0
+---EXT phy LINE---
+usLineieee_corr_cw_cnt=0x0
+usLineieee_uncorr_cw_cnt=0x0
+ucLinefec_link_stat=0x0
+ucLinefec_link_stat_sticky=0x0
+ucLinehi_ser_sticky=0x0
+ucLinepcs_hiber_stat=0x0
+ucLinepcs_hiber_sticky=0x0
+ucLinepcs_link_stat=0x0
+ucLinepcs_link_stat_sticky=0x0
+***end***
+
+[sc-r11ra18-100gsw-mhp-probe]show trans diag interface hge 2/0/1
+HundredGigE2/0/1 transceiver diagnostic information:
+  Current diagnostic parameters:
+[module]  Temp.(C)   Voltage(V)     Total RX power(dBm)   Total TX power(dBm)
+          34         3.29           4.95                  5.64
+[channel] Bias(mA)  RX power(dBm)  TX power(dBm)
+    1     6.50      -1.22          -0.42
+    2     6.50      -0.84          -0.65
+    3     6.50      -1.09          -0.07
+    4     6.50      -1.16          -0.42
+  Alarm thresholds:
+          Temp.(C)   Voltage(V)  Bias(mA)  RX power(dBm)  TX power(dBm)
+    High  75         3.63        15.00     3.40           3.40
+    Low   -5         2.97        0.00      -12.31         -10.40
+[sc-r11ra18-100gsw-mhp-probe]show trans diag interface hge 2/0/2
+HundredGigE2/0/2 transceiver diagnostic information:
+  Current diagnostic parameters:
+[module]  Temp.(C)   Voltage(V)     Total RX power(dBm)   Total TX power(dBm)
+          34         3.27           5.22                  5.91
+[channel] Bias(mA)  RX power(dBm)  TX power(dBm)
+    1     6.50      -1.01          -0.19
+    2     6.50      -0.73          -0.11
+    3     6.50      -0.69          -0.16
+    4     6.50      -0.76          0.02
+  Alarm thresholds:
+          Temp.(C)   Voltage(V)  Bias(mA)  RX power(dBm)  TX power(dBm)
+    High  75         3.63        15.00     3.40           3.40
+    Low   -5         2.97        0.00      -12.31         -10.40
+[sc-r11ra18-100gsw-mhp-probe]show trans diag interface hge 2/0/3
+HundredGigE2/0/3 transceiver diagnostic information:
+  Current diagnostic parameters:
+[module]  Temp.(C)   Voltage(V)     Total RX power(dBm)   Total TX power(dBm)
+          34         3.27           5.33                  5.52
+[channel] Bias(mA)  RX power(dBm)  TX power(dBm)
+    1     6.50      -0.95          -0.44
+    2     6.50      -0.52          -0.70
+    3     6.50      -0.46          -0.51
+    4     6.50      -0.86          -0.38
+  Alarm thresholds:
+          Temp.(C)   Voltage(V)  Bias(mA)  RX power(dBm)  TX power(dBm)
+    High  75         3.63        15.00     3.40           3.40
+    Low   -5         2.97        0.00      -12.31         -10.40
+[sc-r11ra18-100gsw-mhp-probe]show trans diag interface hge 3/0/1
+HundredGigE3/0/1 transceiver diagnostic information:
+  Current diagnostic parameters:
+[module]  Temp.(C)   Voltage(V)     Total RX power(dBm)   Total TX power(dBm)
+          34         3.31           5.24                  5.78
+[channel] Bias(mA)  RX power(dBm)  TX power(dBm)
+    1     6.50      -0.93          -0.21
+    2     6.50      -0.80          -0.18
+    3     6.50      -0.56          -0.28
+    4     6.50      -0.84          -0.31
+  Alarm thresholds:
+          Temp.(C)   Voltage(V)  Bias(mA)  RX power(dBm)  TX power(dBm)
+    High  75         3.63        15.00     3.40           3.40
+    Low   -5         2.97        0.00      -12.31         -10.40
+[sc-r11ra18-100gsw-mhp-probe]show trans diag interface hge 3/0/2
+HundredGigE3/0/2 transceiver diagnostic information:
+  Current diagnostic parameters:
+[module]  Temp.(C)   Voltage(V)     Total RX power(dBm)   Total TX power(dBm)
+          34         3.30           5.23                  5.87
+[channel] Bias(mA)  RX power(dBm)  TX power(dBm)
+    1     6.50      -0.88          -0.16
+    2     6.50      -0.64          -0.09
+    3     6.50      -0.67          -0.20
+    4     6.50      -0.96          -0.16
+  Alarm thresholds:
+          Temp.(C)   Voltage(V)  Bias(mA)  RX power(dBm)  TX power(dBm)
+    High  75         3.63        15.00     3.40           3.40
+    Low   -5         2.97        0.00      -12.31         -10.40
+[sc-r11ra18-100gsw-mhp-probe]show trans diag interface hge 3/0/3
+HundredGigE3/0/3 transceiver diagnostic information:
+  Current diagnostic parameters:
+[module]  Temp.(C)   Voltage(V)     Total RX power(dBm)   Total TX power(dBm)
+          33         3.29           5.27                  5.70
+[channel] Bias(mA)  RX power(dBm)  TX power(dBm)
+    1     6.50      -0.98          -0.30
+    2     6.50      -0.64          -0.38
+    3     6.50      -0.65          -0.43
+    4     6.50      -0.73          -0.20
+  Alarm thresholds:
+          Temp.(C)   Voltage(V)  Bias(mA)  RX power(dBm)  TX power(dBm)
+    High  75         3.63        15.00     3.40           3.40
+    Low   -5         2.97        0.00      -12.31         -10.40
+[sc-r11ra18-100gsw-mhp-probe]
+[sc-r11ra18-100gsw-mhp-probe]show trans int hge 2/0/1
+HundredGigE2/0/1 transceiver information:
+  Transceiver Type              : 100G_AOC_QSFP28
+  Connector Type                : No Separable Connector
+  Wavelength(nm)                : N/A
+  Transfer Distance(m)          : 3(No Separable Connector)
+  Digital Diagnostic Monitoring : YES
+  Vendor Name                   : TE Connectivity
+  Vendor Part Number            : 2428274-3
+Info:  This is not a supported transceiver for this platform.  HPE does not guarantee the normal operation or maintenance of unsupported transceivers.  Please review the platform datasheet on the HPE web site or contact your HPE sales rep for a list of supported transceivers.
+[sc-r11ra18-100gsw-mhp-probe]show trans int hge 2/0/2
+HundredGigE2/0/2 transceiver information:
+  Transceiver Type              : 100G_AOC_QSFP28
+  Connector Type                : No Separable Connector
+  Wavelength(nm)                : N/A
+  Transfer Distance(m)          : 3(No Separable Connector)
+  Digital Diagnostic Monitoring : YES
+  Vendor Name                   : TE Connectivity
+  Vendor Part Number            : 2428274-3
+Info:  This is not a supported transceiver for this platform.  HPE does not guarantee the normal operation or maintenance of unsupported transceivers.  Please review the platform datasheet on the HPE web site or contact your HPE sales rep for a list of supported transceivers.
+[sc-r11ra18-100gsw-mhp-probe]show trans int hge 2/0/3
+HundredGigE2/0/3 transceiver information:
+  Transceiver Type              : 100G_AOC_QSFP28
+  Connector Type                : No Separable Connector
+  Wavelength(nm)                : N/A
+  Transfer Distance(m)          : 3(No Separable Connector)
+  Digital Diagnostic Monitoring : YES
+  Vendor Name                   : TE Connectivity
+  Vendor Part Number            : 2428274-3
+Info:  This is not a supported transceiver for this platform.  HPE does not guarantee the normal operation or maintenance of unsupported transceivers.  Please review the platform datasheet on the HPE web site or contact your HPE sales rep for a list of supported transceivers.
+[sc-r11ra18-100gsw-mhp-probe]show trans int hge 3/0/1
+HundredGigE3/0/1 transceiver information:
+  Transceiver Type              : 100G_AOC_QSFP28
+  Connector Type                : No Separable Connector
+  Wavelength(nm)                : N/A
+  Transfer Distance(m)          : 3(No Separable Connector)
+  Digital Diagnostic Monitoring : YES
+  Vendor Name                   : TE Connectivity
+  Vendor Part Number            : 2428274-3
+Info:  This is not a supported transceiver for this platform.  HPE does not guarantee the normal operation or maintenance of unsupported transceivers.  Please review the platform datasheet on the HPE web site or contact your HPE sales rep for a list of supported transceivers.
+[sc-r11ra18-100gsw-mhp-probe]show trans int hge 3/0/2
+HundredGigE3/0/2 transceiver information:
+  Transceiver Type              : 100G_AOC_QSFP28
+  Connector Type                : No Separable Connector
+  Wavelength(nm)                : N/A
+  Transfer Distance(m)          : 3(No Separable Connector)
+  Digital Diagnostic Monitoring : YES
+  Vendor Name                   : TE Connectivity
+  Vendor Part Number            : 2428274-3
+Info:  This is not a supported transceiver for this platform.  HPE does not guarantee the normal operation or maintenance of unsupported transceivers.  Please review the platform datasheet on the HPE web site or contact your HPE sales rep for a list of supported transceivers.
+[sc-r11ra18-100gsw-mhp-probe]show trans int hge 3/0/3
+HundredGigE3/0/3 transceiver information:
+  Transceiver Type              : 100G_AOC_QSFP28
+  Connector Type                : No Separable Connector
+  Wavelength(nm)                : N/A
+  Transfer Distance(m)          : 3(No Separable Connector)
+  Digital Diagnostic Monitoring : YES
+  Vendor Name                   : TE Connectivity
+  Vendor Part Number            : 2428274-3
+Info:  This is not a supported transceiver for this platform.  HPE does not guarantee the normal operation or maintenance of unsupported transceivers.  Please review the platform datasheet on the HPE web site or contact your HPE sales rep for a list of supported transceivers.
+[sc-r11ra18-100gsw-mhp-probe]show trans manuinfo int hge 2/0/1
+HundredGigE2/0/1 transceiver manufacture information:
+  Manu. Serial Number : 5BQ6AFC2326064
+  Manufacturing Date  : 2023-06-27
+  Vendor Name         : TE Connectivity
+[sc-r11ra18-100gsw-mhp-probe]show trans manuinfo int hge 2/0/2
+HundredGigE2/0/2 transceiver manufacture information:
+  Manu. Serial Number : 5BQ6AFC2326070
+  Manufacturing Date  : 2023-06-27
+  Vendor Name         : TE Connectivity
+[sc-r11ra18-100gsw-mhp-probe]show trans manuinfo int hge 2/0/3
+HundredGigE2/0/3 transceiver manufacture information:
+  Manu. Serial Number : 5BQ6AFC2326177
+  Manufacturing Date  : 2023-06-27
+  Vendor Name         : TE Connectivity
+[sc-r11ra18-100gsw-mhp-probe]show trans manuinfo int hge 3/0/1
+HundredGigE3/0/1 transceiver manufacture information:
+  Manu. Serial Number : 5BQ6AFC2326174
+  Manufacturing Date  : 2023-06-27
+  Vendor Name         : TE Connectivity
+[sc-r11ra18-100gsw-mhp-probe]show trans manuinfo int hge 3/0/2
+HundredGigE3/0/2 transceiver manufacture information:
+  Manu. Serial Number : 5BQ6AFC2326105
+  Manufacturing Date  : 2023-06-27
+  Vendor Name         : TE Connectivity
+[sc-r11ra18-100gsw-mhp-probe]show trans manuinfo int hge 3/0/3
+HundredGigE3/0/3 transceiver manufacture information:
+  Manu. Serial Number : 5BQ6AFC2326054
+  Manufacturing Date  : 2023-06-27
+  Vendor Name         : TE Connectivity
+
+[sc-r15ra1-100gsw256-hpe-probe]exit
+[sc-r15ra1-100gsw256-hpe]exit
+<sc-r15ra1-100gsw256-hpe>exit

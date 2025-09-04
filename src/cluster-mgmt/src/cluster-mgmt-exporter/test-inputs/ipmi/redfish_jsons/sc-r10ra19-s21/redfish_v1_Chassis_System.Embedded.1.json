@@ -1,0 +1,332 @@
+{
+   "EnvironmentalClass" : null,
+   "Assembly" : {
+      "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Assembly"
+   },
+   "Status" : {
+      "HealthRollup" : "OK",
+      "Health" : "OK",
+      "State" : "Enabled"
+   },
+   "Oem" : {
+      "Dell" : {
+         "DellChassis" : {
+            "@odata.context" : "/redfish/v1/$metadata#DellChassis.DellChassis",
+            "Id" : "mainsystemchassis",
+            "SystemID" : 1815,
+            "Links" : {
+               "ComputerSystem" : {
+                  "@odata.id" : "/redfish/v1/Systems/System.Embedded.1"
+               }
+            },
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Oem/Dell/DellChassis/mainsystemchassis",
+            "CanBeFRUed" : true,
+            "@odata.type" : "#DellChassis.v1_0_0.DellChassis",
+            "Description" : "This resource shall provide information about the enclosure or chassis the system is in.",
+            "Name" : "DellChassis"
+         },
+         "@odata.type" : "#DellOem.v1_2_0.DellOemResources"
+      }
+   },
+   "Model" : "PowerEdge C4140",
+   "PartNumber" : "044WHVA02",
+   "Actions" : {
+      "#Chassis.Reset" : {
+         "target" : "/redfish/v1/Chassis/System.Embedded.1/Actions/Chassis.Reset",
+         "ResetType@Redfish.AllowableValues" : [
+            "On",
+            "ForceOff"
+         ]
+      }
+   },
+   "NetworkAdapters" : {
+      "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/NetworkAdapters"
+   },
+   "Manufacturer" : "Dell Inc.",
+   "Location" : {
+      "PostalAddress" : {
+         "Room" : "",
+         "Building" : ""
+      },
+      "InfoFormat" : "DataCenter;RoomName;Aisle;RackName;RackSlot",
+      "Info" : ";;;;1",
+      "Placement" : {
+         "Rack" : "",
+         "Row" : ""
+      }
+   },
+   "UUID" : "4c4c4544-0036-4b10-8051-b1c04f435632",
+   "PCIeSlots" : {
+      "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/PCIeSlots"
+   },
+   "Power" : {
+      "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Power"
+   },
+   "SerialNumber" : "CNIVC008CK0022",
+   "@odata.context" : "/redfish/v1/$metadata#Chassis.Chassis",
+   "Id" : "System.Embedded.1",
+   "Thermal" : {
+      "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal"
+   },
+   "PhysicalSecurity" : {
+      "IntrusionSensorReArm" : "Manual",
+      "IntrusionSensorNumber" : 115,
+      "IntrusionSensor" : "Normal"
+   },
+   "AssetTag" : null,
+   "Links" : {
+      "Processors@odata.count" : 2,
+      "CooledBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/2"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/3"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/4"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/5"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/6"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/7"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/8"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/9"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/10"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/11"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/12"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/13"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/14"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/15"
+         }
+      ],
+      "PCIeDevices@odata.count" : 25,
+      "Contains" : [],
+      "ComputerSystems@odata.count" : 1,
+      "ManagedBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Managers/iDRAC.Embedded.1"
+         }
+      ],
+      "Processors" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Processors/CPU.Socket.2"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Processors/CPU.Socket.1"
+         }
+      ],
+      "Storage@odata.count" : 4,
+      "ManagedBy@odata.count" : 1,
+      "PCIeDevices" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/2-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/1-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-28"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/193-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/183-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/191-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/185-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/195-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/177-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/187-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/181-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/94-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-17"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-31"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/5-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/6-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/42-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/32-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/40-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/34-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/44-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/26-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/36-0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/30-0"
+         }
+      ],
+      "Drives@odata.count" : 18,
+      "ManagersInChassis" : [
+         {
+            "@odata.id" : "/redfish/v1/Managers/iDRAC.Embedded.1"
+         }
+      ],
+      "ManagersInChassis@odata.count" : 1,
+      "PoweredBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerSupplies/0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerSupplies/1"
+         }
+      ],
+      "Drives" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/AHCI.Slot.2-1/Drives/Disk.Direct.0-0:AHCI.Slot.2-1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/AHCI.Slot.2-1/Drives/Disk.Direct.1-1:AHCI.Slot.2-1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-7"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-3"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-6"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-4"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-8"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-5"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C/Drives/PCIeSSD.Slot.6-2"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-7"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-3"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-6"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-4"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-8"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-5"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C/Drives/PCIeSSD.Slot.4-2"
+         }
+      ],
+      "ComputerSystems" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1"
+         }
+      ],
+      "Contains@odata.count" : 0,
+      "PoweredBy@odata.count" : 2,
+      "Storage" : [
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/AHCI.Embedded.1-1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/AHCI.Slot.2-1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.6-C"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage/PCIeSSD.Slot.4-C"
+         }
+      ],
+      "CooledBy@odata.count" : 16
+   },
+   "ChassisType" : "RackMount",
+   "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1",
+   "IndicatorLED" : "Lit",
+   "Memory" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Memory"
+   },
+   "Sensors" : {
+      "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Sensors"
+   },
+   "@odata.type" : "#Chassis.v1_13_0.Chassis",
+   "PowerState" : "On",
+   "Name" : "Computer System Chassis",
+   "Description" : "It represents the properties for physical components for any system.It represent racks, rackmount servers, blades, standalone, modular systems,enclosures, and all other containers.The non-cpu/device centric parts of the schema are all accessed either directly or indirectly through this resource.",
+   "SKU" : "16KQCV2"
+}

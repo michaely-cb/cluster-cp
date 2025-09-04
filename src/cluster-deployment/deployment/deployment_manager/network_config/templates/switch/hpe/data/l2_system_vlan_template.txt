@@ -1,0 +1,9 @@
+interface vlan ${system_vlan}
+   description "system subnet"
+   mtu ${mtu}
+   vrf forwarding ${vrf_name}
+   ip address ${system_switch_address} primary
+   exit
+
+router bgp ${asn_num} vrf ${vrf_name}
+  network ${system_switch_prefix_sep}

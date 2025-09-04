@@ -1,0 +1,16 @@
+- name: Enable and start mst
+  systemd: name=mst state=started enabled=yes
+
+- name: copy mlxup
+  copy:
+    src: /opt/mlnx_fw/mlxup
+    dest: /opt/mlnx/
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy change ib to eth script
+  template: src="change_ib_to_eth.py" dest="/tmp/change_ib_to_eth.py"
+
+- name: Change ib to eth
+  ansible.builtin.shell: python3 /tmp/change_ib_to_eth.py 2>&1 | tee /tmp/ib_to_eth.log

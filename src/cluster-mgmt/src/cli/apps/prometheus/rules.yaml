@@ -1,0 +1,1585 @@
+defaultRules:
+  disabled:
+    # disable since we have lots of NFS mounted disk which is out of scope
+    NodeFilesystemSpaceFillingUp: true
+    NodeFilesystemFilesFillingUp: true
+    NodeFilesystemAlmostOutOfSpace: true
+    KubePersistentVolumeFillingUp: true
+    NodeFilesystemAlmostOutOfFiles: true
+    # reduce alerts noise
+    TargetDown: true
+    KubeContainerWaiting: true
+    KubeJobFailed: true
+    KubePodNotReady: true
+    KubeDaemonSetMisScheduled: true
+    KubeDaemonSetRolloutStuck: true
+    KubeStatefulSetReplicasMismatch: true
+    CPUThrottlingHigh: true
+    NodeMemoryHighUtilization: true
+    # disable to override with our cluster_mgmt logic/label
+    KubeNodeUnreachable: true
+    KubeNodeNotReady: true
+    KubeNodeReadinessFlapping: true
+  rules:
+    # disable since swap is turned off
+    k8sContainerMemorySwap: false
+    # disable to override with our cluster_mgmt logic/label
+    network: false
+
+additionalPrometheusRulesMap:
+  cluster-mgmt:
+    groups:
+      - name: cluster-mgmt-recording-base
+        interval: 30s
+        rules:
+          # info recording rules used by downstream recording rules
+          # Management and activation nodes are recorded in the namespace_reserved_node metric while workers/memx are recorded in group membership, hence the 2 queries:
+          - record: node:namespace_group_role_info
+            expr: |-
+              group by (node, internal_ip, role, namespace) (
+                group by (namespace, node, role) (namespace_reserved_node) *
+                on (node) group_right (role, namespace) (job_operator_node_role{role=~"management|activation"})
+              )
+          - record: node:namespace_group_role_info
+            expr: |-
+              group by (node, internal_ip, role, group, namespace) (
+                group by (namespace, group) (namespace_reserved_node_group) *
+                on (group) group_right (namespace) group by (group, node, role) (job_operator_node_role{role=~"worker|memory"}) *
+                on (node) group_right (namespace, group, role) kube_node_info
+              )
+          - record: job:leaf_switch_port_info
+            expr: |-
+              label_replace(job_operator_wsjob_network_interface, "interface", "$1", "device", "(.*)")
+                * on (node, device) group_left(switch, port)
+                  label_replace(label_replace(interface_watch_list,
+                    "switch", "$1", "switch_id", "(.*)"),
+                    "port", "$1", "ifName", "(.*)")
+
+      - name: cluster-mgmt-recording
+        interval: 1m
+        rules:
+          - record: interface_watch_list:status
+            expr: |-
+              sum by (instance,device) (node_network_up)
+              * on (instance) group_left (node)
+              label_replace(group(kube_node_info) by (node, internal_ip), "instance", "$1:9100", "internal_ip", "(.*)")
+              * on (node, device) group_left
+              group(interface_watch_list) by (node, device)
+          - record: interface_watch_list:status_changes_total
+            expr: sum by (device, instance) (node_network_carrier_changes_total)
+              * on (instance) group_left (node)
+              label_replace(group(kube_node_info) by (node, internal_ip), "instance", "$1:9100", "internal_ip", "(.*)")
+              * on (node, device) group_left
+              group(interface_watch_list) by (node, device)
+
+          - record: role:node_memory_utilisation:avg_ratio
+            expr: |-
+              avg by (role) (
+                (
+                  instance:node_memory_utilisation:ratio
+                  * on (instance) group_left (node, role)
+                  label_replace(
+                      group by (node, role) (job_operator_node_role) * on (node)
+                      group_left (internal_ip) kube_node_info, "instance", "$1:9100", "internal_ip", "(.*)"
+                  )
+                )
+              )
+          - record: role:node_memory_utilisation:min_ratio
+            expr: |-
+              min by (role) (
+                (
+                  instance:node_memory_utilisation:ratio
+                  * on (instance) group_left (node, role)
+                  label_replace(
+                      group by (node, role) (job_operator_node_role) * on (node)
+                      group_left (internal_ip) kube_node_info, "instance", "$1:9100", "internal_ip", "(.*)"
+                  )
+                )
+              )
+          - record: role:node_memory_utilisation:max_ratio
+            expr: |-
+              max by (role) (
+                (
+                  instance:node_memory_utilisation:ratio
+                  * on (instance) group_left (node, role)
+                  label_replace(
+                      group by (node, role) (job_operator_node_role) * on (node)
+                      group_left (internal_ip) kube_node_info, "instance", "$1:9100", "internal_ip", "(.*)"
+                  )
+                )
+              )
+
+          - record: role_by_namespace:node_memory_utilisation:avg_ratio
+            expr: |-
+              avg by (role, cs_namespace) (
+                sum by (internal_ip, role, cs_namespace) (
+                    label_replace(node:namespace_group_role_info, "cs_namespace", "$1", "namespace", "(.*)")
+                  * on (internal_ip) group_left
+                    label_replace(instance:node_memory_utilisation:ratio, "internal_ip", "$1", "instance", "(.*):.*")
+                )
+              )
+          - record: role_by_namespace:node_memory_utilisation:min_ratio
+            expr: min by (role, cs_namespace) (sum by (internal_ip, role, cs_namespace) (label_replace(node:namespace_group_role_info, "cs_namespace", "$1", "namespace", "(.*)") * on (internal_ip) group_left label_replace(instance:node_memory_utilisation:ratio, "internal_ip", "$1", "instance", "(.*):.*")))
+          - record: role_by_namespace:node_memory_utilisation:max_ratio
+            expr: max by (role, cs_namespace) (sum by (internal_ip, role, cs_namespace) (label_replace(node:namespace_group_role_info, "cs_namespace", "$1", "namespace", "(.*)") * on (internal_ip) group_left label_replace(instance:node_memory_utilisation:ratio, "internal_ip", "$1", "instance", "(.*):.*")))
+
+          - record: role:container_cpu_usage_seconds:avg
+            expr: avg(sum by (node, role) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate * on (node) group_left (role) group by (node, role) (job_operator_node_role{role != ""}))) by (role)
+          - record: role:container_cpu_usage_seconds:min
+            expr: min(sum by (node, role) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate * on (node) group_left (role) group by (node, role) (job_operator_node_role{role != ""}))) by (role)
+          - record: role:container_cpu_usage_seconds:max
+            expr: max(sum by (node, role) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate * on (node) group_left (role) group by (node, role) (job_operator_node_role{role != ""}))) by (role)
+
+          - record: role_by_namespace:container_cpu_usage_seconds:avg
+            expr: |-
+              avg by (role, cs_namespace) (
+                sum by (node, role, cs_namespace) (
+                    label_replace(node:namespace_group_role_info, "cs_namespace", "$1", "namespace", "(.*)")
+                  * on (node) group_left
+                    sum by (node) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate)
+                )
+              )
+          - record: role_by_namespace:container_cpu_usage_seconds:min
+            expr: min by (role, cs_namespace) (sum by (node, role, cs_namespace) (label_replace(node:namespace_group_role_info, "cs_namespace", "$1", "namespace", "(.*)")* on (node) group_left sum by (node) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate)))
+          - record: role_by_namespace:container_cpu_usage_seconds:max
+            expr: max by (role, cs_namespace) (sum by (node, role, cs_namespace) (label_replace(node:namespace_group_role_info, "cs_namespace", "$1", "namespace", "(.*)")* on (node) group_left sum by (node) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate)))
+
+          - record: role_by_namespace:network_receive_bytes:sum
+            expr: |-
+              sum by (namespace, group, role) (
+                  node:namespace_group_role_info
+                * on (internal_ip) group_left
+                  sum by (internal_ip) (
+                    label_replace(
+                      network_receive_bytes_including_roce,
+                      "internal_ip",
+                      "$1",
+                      "instance",
+                      "(.*):.*"
+                    )
+                  )
+              )
+          - record: role_by_namespace:network_transmit_bytes:sum
+            expr: |-
+              sum by (namespace, group, role) (
+                  node:namespace_group_role_info
+                * on (internal_ip) group_left
+                  sum by (internal_ip) (
+                    label_replace(
+                      network_transmit_bytes_including_roce,
+                      "internal_ip",
+                      "$1",
+                      "instance",
+                      "(.*):.*"
+                    )
+                  )
+              )
+          - record: network_receive_bytes_including_roce
+            expr: |-
+              label_replace(node_nic_stats_rx_bytes_phy, "device", "$1", "interface", "(.*)")
+               * on (node, device) group_left group by (node, device)
+              (interface_watch_list)
+               * on (instance) group_left (role)
+              label_replace(group by (node, role) (job_operator_node_role)
+                             * on (node) group_left (internal_ip) group by (node, internal_ip)
+                            (kube_node_info), "instance", "$1:8004", "internal_ip", "(.*)")
+
+          - record: network_transmit_bytes_including_roce
+            expr: |-
+              label_replace(node_nic_stats_tx_bytes_phy, "device", "$1", "interface", "(.*)")
+               * on (node, device) group_left group by (node, device)
+              (interface_watch_list)
+               * on (instance) group_left (role)
+              label_replace(group by (node, role) (job_operator_node_role)
+                             * on (node) group_left (internal_ip) group by (node, internal_ip)
+                            (kube_node_info), "instance", "$1:8004", "internal_ip", "(.*)")
+
+          - record: marked_unusable_nodes_and_systems
+            expr: |-
+              group by (host) (
+                  label_replace(
+                      (kube_node_status_condition{condition=~"ClusterMgmt.*|ClusterDeploy.*|Csadm.*", condition!~".*NodeNIC.*", condition!~".*NodeSwitchPortError", status="true"} > 0)
+                          or on (node) kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} == 1,
+                      "host", "$1", "node", "(.*)")
+                  or
+                  label_replace(
+                      system_status_condition{type="CsadmSystemError"} > 0,
+                      "host", "$1", "system", "(.*)")
+              )
+
+      - name: cluster-mgmt-recording-cpingmesh
+        interval: 5m
+        rules:
+          - record: pingmesh:server_drops_avg30m
+            expr: |-
+              avg (
+                increase(pingmesh_server_drops_total[30m])
+                unless on (host, nic) # ignore these unhealthy/unreachable nics
+                (
+                    (pingmesh_server_healthy < 1) or
+                    (increase(pingmesh_server_pings_total[30m]) == 0)
+                )
+              )
+          - record: pingmesh:unreachable5m
+            expr: |-
+              (
+                  increase(pingmesh_server_pings_total[5m]) == 0
+              unless on (host, nic) # exclude unhealthy cpingmesh servers
+                  (pingmesh_server_healthy < 1)
+              unless on (host) # exclude unhealthy systems
+                  label_replace(
+                      min_over_time(system_overall_health[10m]) < -1 or 2 < max_over_time(system_overall_health[10m]),
+                      "host", "$1", "system", "(.*)")
+              ) == bool 0
+
+      - name: cluster-mgmt-cpingmesh-alerts
+        interval: 5m
+        rules:
+          - alert: CPingHostUnreachable
+            annotations:
+              message: "Host/port {{ $labels.host }}/{{ $labels.nic }} has not responded to pings for the past 10 minutes."
+              dashboard_url: "/d/feszr4h3wia68f/cpingmesh-health?var-host={{ $labels.host | urlquery}}&var-nic={{ $labels.nic | urlquery}}"
+            expr: |-
+              pingmesh:unreachable5m
+              unless on (host) # exclude nodes/systems marked as unusable anytime in the past 5m
+                (max_over_time(marked_unusable_nodes_and_systems[5m]) > 0)
+            for: 10m
+            labels:
+              instance: "{{ $labels.host }}/{{ $labels.nic }}"
+              severity: sev1
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: PingmeshServerUnhealthy
+            annotations:
+              message: "The CPingmesh server for {{ $labels.host }}/{{ $labels.nic }} is reporting itself as unhealthy."
+              dashboard_url: "/d/feszr4h3wia68f/cpingmesh-health?var-host={{ $labels.host | urlquery}}&var-nic={{ $labels.nic | urlquery}}"
+            expr: pingmesh_server_healthy < 1
+            for: 10m
+            labels:
+              instance: "{{ $labels.host }}/{{ $labels.nic }}"
+              severity: sev3
+              node_error: "true"
+              infra_error: "true"
+          - alert: PingmeshClientUnhealthy
+            annotations:
+              message: "The CPingmesh client for {{ $labels.host }}/{{ $labels.nic }} is reporting itself as unhealthy."
+              dashboard_url: "/d/feszr4h3wia68f/cpingmesh-health?var-host={{ $labels.host | urlquery}}&var-nic={{ $labels.nic | urlquery}}"
+            expr: pingmesh_client_healthy < 1
+            for: 10m
+            labels:
+              instance: "{{ $labels.host }}/{{ $labels.nic }}"
+              severity: sev3
+              node_error: "true"
+              infra_error: "true"
+
+      # warning only
+      - name: cluster-mgmt-warnings
+        interval: 1m
+        rules:
+          - alert: NodeFilesystemAlmostOutOfFiles
+            annotations:
+              message: "Disk '/' partition in {{ $labels.instance }} has less than 5% inodes available for more than 1 hour."
+              dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery}}"
+            expr: |-
+              (
+                node_filesystem_files_free{job="node-exporter", mountpoint="/"} / node_filesystem_files{job="node-exporter",mountpoint="/"} * 100 < 5
+              and
+                node_filesystem_readonly{job="node-exporter", mountpoint="/"} == 0
+              )
+            for: 1h
+            labels:
+              severity: sev3
+              node_error: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: ContainerNearingMemoryLimit
+            annotations:
+              message: "Container {{ $labels.pod }}/{{ $labels.container }} is {{ $value | humanizePercentage }} of its memory limit. Consider increasing the limit or reducing the memory usage."
+              summary: A container is exceeding 90% of its memory limit(1GB+) for 1 hour.
+              dashboard_url: "/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?var-pod={{ $labels.pod | urlquery}}"
+            expr: |-
+              (
+                  max(container_memory_working_set_bytes{pod!~"wsjob-.*|.*cleanup.*"}) by (pod,container)
+                / (max(kube_pod_container_resource_limits{resource="memory"}) by (pod, container) > 1048576000)
+              ) > 0.9
+            for: 1h
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev3
+              pod_error: "true"
+              infra_error: "true"
+          - alert: ContainerExceedsMemoryRequest
+            annotations:
+              message: "Container {{ $labels.pod }}/{{ $labels.container }} is {{ $value | humanizePercentage }} of its memory request. Consider increasing the request or reducing the memory usage."
+              summary: A container without memory limit is exceeding its memory request(1GB+) for 1 hour.
+              dashboard_url: "/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?var-pod={{ $labels.pod | urlquery}}"
+              # skip CP/cluster-mgmt pods for now but should eventually add limit to them + fix cilium/registry overshoot issue
+              # https://cerebras.atlassian.net/browse/SW-111617
+            expr: |-
+              (
+                max(container_memory_working_set_bytes{
+                    pod!~"etcd.*|coredns.*|kube-api.*|kube-controller-.*|kube-scheduler.*|cilium.*|log-export.*",
+                    container!~"private-registry"
+                }) by (pod,container) > 1048576000)
+              / (
+                  max(kube_pod_container_resource_requests{resource="memory"}
+                    unless on (pod,container) kube_pod_container_resource_limits) by (pod, container)
+                  > 0
+                ) > 1
+            for: 1h
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev3
+              pod_error: "true"
+              infra_error: "true"
+          - alert: IdleNodeLowAvailableMemory
+            annotations:
+              message: "Idle node {{ $labels.node }} has {{ $value | humanizePercentage }} of its total memory available."
+              summary: An idle MemX/AX node with available memory below 80%
+              dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery}}"
+            expr: |-
+              (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+                * on (instance) group_left (node, role)
+                  label_replace(
+                    (group by (node, internal_ip) (kube_node_info) * on(node) group_left
+                      group by (node, role) (job_operator_node_role{role=~"(activation)|(memory)"})
+                        unless on (node)
+                        (kube_pod_info * on (pod) group_left group by (pod)
+                          (kube_pod_status_phase{phase="Running", pod=~"wsjob-.*"} > 0))),
+                    "instance", "$1:9100", "internal_ip", "(.*)")
+                < 0.8
+            for: 10m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev4
+              node_error: "true"
+              infra_error: "true"
+          - alert: ContainerOOMKilled
+            annotations:
+              message: "Container {{ $labels.pod }}/{{ $labels.container }} was OOMKilled."
+              summary: A container was OOMKilled.
+              dashboard_url1: "/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?var-pod={{ $labels.pod | urlquery}}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-pod={{ $labels.pod | urlquery}}"
+              # keep alert for 12h only
+            expr: |-
+              (
+                sum(kube_pod_container_status_last_terminated_reason{reason="OOMKilled", pod!~"wsjob-.*"}) by (pod, container) > 0
+              and
+                sum(increase(kube_pod_container_status_restarts_total{pod!~"wsjob-.*"}[12h])) by (pod, container) > 0
+              ) > 0
+            for: 1m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev2
+              pod_error: "true"
+              infra_error: "true"
+          - alert: WsjobStuckAtTerminating
+            annotations:
+              message: "Wsjob pod {{ $labels.namespace }}/{{ $labels.pod }} was stuck at terminating for more than 10 minutes."
+              dashboard_url1: "/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?var-pod={{ $labels.pod | urlquery}}"
+              dashboard_url2: '/d/{{ $labels.namespace }}-debcs3ata3ym8a-session/job-debug?var-wsjob={{ $labels.pod | reReplaceAll "wsjob-([^-]\\+).*$" "wsjob-${1}" }}'
+              dashboard_url3: "/d/{{ $labels.namespace }}-feb8wbjsrh5a8a-session/job-network-debug?var-pod={{ $labels.pod | urlquery}}"
+            expr: |-
+              (
+                group by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Running", pod=~"wsjob.*"} > 0)
+              and
+                group by (namespace, pod) (kube_pod_deletion_timestamp offset 10m > 0)
+              )
+            for: 1m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev2
+          - alert: ClusterNodeRebooted
+            annotations:
+              message: "Cluster node {{ $labels.node }} was rebooted in last 30 minutes."
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery}}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: |-
+              (
+                sum by (instance) ((node_time_seconds-node_boot_time_seconds) / 60)
+                * on (instance) group_left (node)
+                label_replace(group(kube_node_info) by (node, internal_ip), "instance", "$1:9100", "internal_ip", "(.*)")
+              ) < 30
+            for: 1m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev2
+              node_error: "true"
+              infra_error: "true"
+          - alert: MlJobFailed
+            annotations:
+              summary: "{{ $labels.k8s_cerebras_com_job_mode }}/{{ $labels.k8s_cerebras_com_wsjob_job_type }} job {{ $labels.namespace }}/{{ $labels.name }} failed within last 5 minutes."
+              dashboard_url1: "/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?var-pod={{ $labels.pod | urlquery}}"
+              dashboard_url2: "/d/{{ $labels.namespace }}-debcs3ata3ym8a-session/job-debug?var-wsjob={{ $labels.name }}"
+              dashboard_url3: "/d/{{ $labels.namespace }}-feb8wbjsrh5a8a-session/job-network-debug?var-wsjob={{ $labels.name }}&var-pod={{ $labels.pod | urlquery}}"
+            expr: |-
+              (
+                group by (k8s_cerebras_com_job_mode, k8s_cerebras_com_wsjob_job_type, namespace, name) (wsjob_annotation{current_status="Failed"})
+              unless
+                group by (k8s_cerebras_com_job_mode, k8s_cerebras_com_wsjob_job_type, namespace, name) (wsjob_annotation{current_status="Failed"} offset 5m)
+              ) > 0
+            for: 1m
+            labels:
+              instance: "{{ $labels.name }}"
+              severity: sev2
+              type: MlJobError
+              ml_user: "true"
+          - alert: SystemWarningEvent
+            annotations:
+              summary: "System {{ $labels.system }} is reporting {{ $labels.severity }} {{ $labels.type }} from component {{ $labels.component }} "
+              dashboard_url1: "/d/df3huubwl3hfkd-internal/system-health-details?var-system={{ $labels.system }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-system={{ $labels.system }}"
+            expr: |-
+              (group by (system, severity, type, component) (system_events{type=~"EventVDDCHighSustCurrent|EventVDDCHighPeakCurrent"})) > 0
+            labels:
+              severity: sev2
+              type: SystemWarningEvent
+              instance: "{{ $labels.system }}"
+              hardware_warning: "true"
+              system_error: "true"
+              infra_error: "true"
+          - alert: NodeIPMIUnhealthy
+            annotations:
+              summary: "Node {{ $labels.node }}'s IPMI service is reporting poor health for more than 2 minutes, please check node status"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: max_over_time(node_ipmi_health_status{category="Overall"}[2m]) == 2
+            for: 1m
+            labels:
+              severity: sev2
+              type: NodeHWError_IPMIUnhealthy
+              instance: "{{ $labels.node }}"
+              hardware_warning: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: SwitchPortError
+            annotations:
+              summary: "Switch {{ $labels.switch_id }} has inter-switch port error for more than 2 minutes, please check switch network"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch_id | urlquery }}"
+              # The expr is "sum by switch_id", so we don't have the port label for this dashboard:
+              # dashboard_url2: "/d/dehh10cie0o3ka-internal/switch-port-details?var-switch={{ $labels.switch_id | urlquery }}&var-port={{ $labels.ifName | urlquery }}"
+            expr: |-
+              sum(
+                (group by (ifName, switch_id) (ifOperStatus != 1) or
+                 group by (ifName, switch_id) (label_replace(label_replace(((linkmon_switch_oper_status) != 1), "ifName", "$1", "port", "(.*)"), "switch_id", "$1", "switch", "(.*)")))
+                * on(ifName, switch_id) group_left() interface_watch_list{conn_type="ISL"}
+              ) by (switch_id) > 0
+            for: 2m
+            labels:
+              severity: sev2
+              type: NodeSwitchPortError
+              instance: "{{ $labels.switch_id }}"
+              hardware_warning: "true"
+              network_error: "true"
+              switch_error: "true"
+              infra_error: "true"
+          - alert: SwitchPortFlapping
+            annotations:
+              summary: "Switch {{ $labels.switch_id }} had inter-switch port flapping in last 10 minutes, please check switch network"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch_id | urlquery }}"
+            expr: |-
+              sum(
+                (group by (ifName, switch_id) (changes(ifLastChange[10m]) > 0) or
+                 group by (ifName, switch_id) (label_replace(label_replace((changes(linkmon_switch_oper_status[10m]) > 0), "ifName", "$1", "port", "(.*)"), "switch_id", "$1", "switch", "(.*)")))
+                * on(ifName, switch_id) group_left interface_watch_list{conn_type="ISL"}
+              ) by (switch_id) > 0
+            labels:
+              severity: sev2
+              type: NodeSwitchPortError
+              instance: "{{ $labels.switch_id }}"
+              hardware_warning: "true"
+              switch_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodePlatformSoftwareVersionMismatch
+            annotations:
+              summary: "Incorrect version {{ $labels.installed_version }} of {{ $labels.package }} found on {{ $labels.node }}. Expected version is {{ $labels.expected_version }}"
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+            expr: node_cluster_platform_version_mismatch == 1
+            for: 1m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev3
+              hardware_warning: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: NodeBiosVersionMismatch
+            annotations:
+              summary: "Incorrect BIOS version {{ $labels.installed_version }} found on {{ $labels.node }}. Expected version is {{ $labels.expected_version }}"
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+            expr: node_bios_version_mismatch == 1
+            for: 1m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev3
+              hardware_warning: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: DeviceRoceStatusMismatch
+            annotations:
+              summary: "Incorrect RoCE status {{ $labels.configured_status }} found on {{ $labels.device }}. Expected version is {{ $labels.expected_status }}"
+              # TODO: the metric has a device label, but missing a node label, which we need for this dashboard:
+              # dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+            expr: device_roce_status_mismatch == 1
+            for: 1m
+            labels:
+              instance: "{{ $labels.device }}"
+              severity: sev3
+              hardware_warning: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeBiosConfigMismatch
+            annotations:
+              # TODO: it doesn't look like this bios metric has $labels.device (see node exporter)
+              summary: "Incorrect BIOS config found on {{ $labels.device }}. {{ $labels.attribute }} is set to {{ $labels.configured_value }} but expected value is {{ $labels.expected_value }}"
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+            expr: node_bios_config_mismatch == 1
+            for: 1m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev3
+              hardware_warning: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: NodeNICASICHighTemperature
+            annotations:
+              summary: "The ASIC temperature is too high on node {{ $labels.node }}, NIC {{ $labels.interface }} for more than 2 minutes"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.interface | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.interface | urlquery }}"
+            expr: node_nic_stats_temperature > 95
+            for: 2m
+            labels:
+              severity: sev3
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              hardware_warning: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICTransceiverHighTemperature
+            annotations:
+              summary: "The transceiver on node {{ $labels.node }} NIC {{ $labels.interface }} reported a high temperature event in last 5 minutes"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.interface | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.interface | urlquery }}"
+            expr: increase(node_nic_stats_module_high_temp[5m]) > 0
+            for: 1m
+            labels:
+              severity: sev3
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              hardware_warning: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICTXPFCPauseDurationIncreasing
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.interface }} had an increase in the PFC pause duration (the pause duration increased at least 3 times with a total increase of at least 6 seconds)"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.interface | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.interface | urlquery }}"
+            expr: changes(node_nic_stats_tx_pfc_duration[5m]) > 2 and increase(node_nic_stats_tx_pfc_duration[5m]) > 6000000
+            for: 1m
+            labels:
+              debug: "true"
+              severity: sev3
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              hardware_warning: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICTXPFCPauseStorm
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.interface }} reported a PFC pause storm event"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.interface | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.interface | urlquery }}"
+            expr: increase(node_nic_stats_tx_pause_storm_error_events[10m]) > 0
+            for: 1m
+            labels:
+              debug: "true"
+              severity: sev3
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              hardware_warning: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICTXCQE
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.interface }} reported a TX CQE error"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.interface | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.interface | urlquery }}"
+            expr: increase(node_nic_stats_tx_cqe_err[10m]) > 0
+            for: 1m
+            labels:
+              debug: "true"
+              severity: sev3
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              hardware_warning: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NetworkConfigJsonMissing
+            annotations:
+              summary: "The network_config.json file is not present or is empty"
+            expr: absent(interface_watch_list) > 0
+            for: 15m
+            labels:
+              severity: sev3
+              node_error: "true"
+              infra_error: "true"
+          - alert: NetworkConfigJsonError
+            annotations:
+              summary: "Error in the network_config.json file: {{ $labels.switch_id }}/{{ $labels.ifName }} - {{ $labels.error }}"
+              dashboard_url1: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch_id | urlquery }}"
+              dashboard_url2: "/d/dehh10cie0o3ka-internal/switch-port-details?var-switch={{ $labels.switch_id | urlquery }}&var-port={{ $labels.ifName | urlquery }}"
+            expr: interface_watch_list_errors > 0
+            for: 15m
+            labels:
+              severity: sev3
+              node_error: "true"
+              infra_error: "true"
+          - alert: NodeCPUUsageHigh
+            annotations:
+              summary: "Node {{ $labels.node }} CPU usage is high"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: |-
+              avg by (instance) (
+                  sum without (mode) (
+                      rate(node_cpu_seconds_total{mode!="idle",mode!="iowait",mode!="steal"}[5m])
+                  )
+              )
+              * on (instance) group_left (node)
+              label_replace(group(kube_node_info) by (node, internal_ip), "instance", "$1:9100", "internal_ip", "(.*)") > 0.85
+            for: 15m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev3
+              hardware_warning: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: NodeMemoryUtilizationHigh
+            annotations:
+              summary: "Node {{ $labels.node }} is running out of memory"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: |-
+              1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+              * on (instance) group_left (node)
+              label_replace(group(kube_node_info) by (node, internal_ip), "instance", "$1:9100", "internal_ip", "(.*)") > 0.95
+            for: 15m
+            labels:
+              instance: "{{ $labels.node }}"
+              severity: sev3
+              hardware_warning: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: SwitchFanCritical
+            annotations:
+              summary: "Switch {{ $labels.switch }}'s fan '{{ $labels.desc }}' is reporting critical health for more than 2 minutes"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch | urlquery }}"
+            expr: linkmon_switch_fan_health == 2
+            for: 2m
+            labels:
+              instance: "{{ $labels.switch }}"
+              severity: sev4
+              type: SwitchHWHealth
+              hardware_warning: "true"
+              switch_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: SwitchTemperatureCritical
+            annotations:
+              summary: "Switch {{ $labels.switch }}'s temperature sensor '{{ $labels.desc }}' is reporting critical for more than 2 minutes"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch | urlquery }}"
+            expr: linkmon_switch_temperature_health == 2
+            for: 2m
+            labels:
+              instance: "{{ $labels.switch }}"
+              severity: sev4
+              type: SwitchHWHealth
+              hardware_warning: "true"
+              switch_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: SwitchPowerCritical
+            annotations:
+              summary: "Switch {{ $labels.switch }}'s PSU '{{ $labels.desc }}' is reporting critical for more than 2 minutes"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch | urlquery }}"
+            expr: linkmon_switch_psu_health == 2
+            for: 2m
+            labels:
+              instance: "{{ $labels.switch }}"
+              severity: sev4
+              type: SwitchHWHealth
+              hardware_warning: "true"
+              switch_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: SwitchRebooted
+            annotations:
+              summary: "Switch {{ $labels.switch }} was rebooted {{ $value | humanizeDuration }} ago"
+            expr: |-
+              (((delta(linkmon_switch_uptime[15m]) < bool 0) > 0) * on (switch) linkmon_switch_uptime)
+              or # if switch only supports sysUpTime:
+              (label_replace(
+                  ((delta(sysUpTime[15m]) < bool 0) > 0) * on (switch_id) sysUpTime,
+                  "switch", "$1", "switch_id", "(.*)")
+                unless on (switch) linkmon_switch_uptime)
+            for: 1m
+            labels:
+              instance: "{{ $labels.switch }}"
+              severity: sev4
+              type: SwitchHWHealth
+              hardware_warning: "true"
+              switch_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: VastAlarmSevere
+            annotations:
+              message: "{{ $labels.severity }} VAST alarm detected: {{ $labels.event_name }} on cluster {{ $labels.cluster }}. Object: {{ $labels.object_type }}/{{ $labels.object_id }}."
+              summary: "VAST storage alarm detected. Visit https://{{ $labels.instance }}/#/crud/monitor/alarms for more details."
+            expr: vast_vms_alarms{severity=~"MAJOR|CRITICAL", acknowledged="False"}
+            for: 1m
+            labels:
+              severity: critical
+          # Mimicking alert NodeNotPingable
+          - alert: UsernodeNotPingable
+            annotations:
+              summary: "Node exporter is not reachable/can't ping on usernode {{ $labels.instance }}, please check usernode network and probe"
+              # cannot join with node_uname_info when target is down, hence hostname not available for formatting url here
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details"
+            expr: up{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"} == 0
+            for: 1m
+            labels:
+              severity: sev2
+              type: NodeError_NotReachable
+              instance: "{{ $labels.instance }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+          # Mimicking alert ContainerOOMKilled
+          - alert: UsernodeOOMKilled
+            annotations:
+              message: "A process was OOMKilled on usernode {{ $labels.nodename }}"
+              summary: "OOMKill occurred on a usernode"
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.nodename | urlquery }}"
+            expr: |-
+              (increase(node_vmstat_oom_kill{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"}[5m]) > 0)
+              * on(instance) group_left(nodename) node_uname_info{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"}
+            for: 1m
+            labels:
+              instance: "{{ $labels.nodename }}"
+              severity: sev2
+              infra_error: "true"
+          # Mimicking alert NodeFilesystemAlmostOutOfFiles
+          - alert: UsernodeFilesystemAlmostOutOfFiles
+            annotations:
+              message: "Disk '/' partition in usernode {{ $labels.nodename }} has less than 5% inodes available for more than 1 hour."
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.nodename | urlquery }}"
+            expr: |-
+              (
+                node_filesystem_files_free{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/"} / node_filesystem_files{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/"} * 100 < 5
+              and
+                node_filesystem_readonly{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/"} == 0
+              )
+              * on(instance) group_left(nodename) node_uname_info{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"}
+            for: 1h
+            labels:
+              severity: sev3
+              node_error: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: UsernodeAlmostOutOfPIDs
+            annotations:
+              message: "Usernode {{ $labels.nodename }} has less than 5% PIDs available for more than 1 hour."
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.nodename | urlquery }}"
+            expr: |-
+              (node_processes_pids{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"} / node_processes_max_processes{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"} * 100 > 95)
+              * on(instance) group_left(nodename) node_uname_info{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"}
+            for: 1h
+            labels:
+              severity: sev3
+              node_error: "true"
+              infra_error: "true"
+          - alert: UsernodeBootPartitionUsageHigh
+            annotations:
+              message: "Disk '/boot' partition in usernode {{ $labels.nodename }} has more than 90% usage for more than 1 hour."
+              dashboard_url: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.nodename | urlquery }}"
+            expr: |-
+              (
+                (node_filesystem_size_bytes{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/boot"} - node_filesystem_avail_bytes{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/boot"})
+                / node_filesystem_size_bytes{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/boot"} * 100 > 90
+              and
+                node_filesystem_readonly{job="probe/prometheus/cluster-mgmt-usernode-node-exporter", mountpoint="/boot"} == 0
+              )
+              * on(instance) group_left(nodename) node_uname_info{job="probe/prometheus/cluster-mgmt-usernode-node-exporter"}
+            for: 1h
+            labels:
+              severity: sev3
+              node_error: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: NodeMgmtNetworkUsageHigh
+            annotations:
+              message: "The average RX rate of mgmt network NIC {{ $labels.node }}/{{ $labels.device }} exceeded 80% of the available bandwidth for 5 minutes."
+              dashboard_url: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.device | urlquery }}"
+            expr: |-
+              (
+                label_replace(kube_node_info, "address", "$1", "internal_ip", "(.*)") # IP address of each node
+                * on (address) group_right(node)
+                (node_network_address_info) # Map IP address to device (iface) name
+                * on (device, instance) group_left()
+                (rate(node_network_receive_bytes_total[1m]) / node_network_speed_bytes)
+              ) > 0.8
+            for: 5m
+            labels:
+              instance: "{{ $labels.node }}/{{ $labels.device }}"
+              severity: sev2
+              network_error: "true"
+              infra_error: "true"
+
+      # schedule alerts from k8s svc layer that may self recover so allowing longer pending period
+      # "cluster_mgmt" label deprecated but kept for backwards compatible, can be removed at rel-2.6
+      - name: cluster-mgmt-k8s-alerts
+        interval: 30s
+        rules:
+          - alert: NodeNotPingable
+            annotations:
+              summary: "Node {{ $labels.node }} is not reachable/can't ping, please check node network"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: (kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"}) == 1
+            for: 1m
+            labels:
+              severity: sev2
+              type: NodeError_NotReachable
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: KubeNodeNotReady
+            annotations:
+              summary: "Node {{ $labels.node }} is not ready for more than 2 minutes, please check kubelet status"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: |-
+              (
+                group by (node) (kube_node_status_condition{condition="Ready",status="true"} == 0)
+              unless
+                group by (node) (kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} == 1)
+              ) > 0
+            for: 2m
+            labels:
+              severity: sev2
+              type: NodeError_NotReady
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: KubeNodeReadinessFlapping
+            annotations:
+              summary: "Node {{ $labels.node }} readiness status was flapping during last 5 minutes, please check node network/kubelet status"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: sum(changes(kube_node_status_condition{status="true",condition="Ready"}[5m])) by (cluster, node) > 1
+            for: 1m
+            labels:
+              severity: sev2
+              type: NodeError_ReadinessFlapping
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: KubeNodeError
+            annotations:
+              summary: "Node {{ $labels.node }} has {{ $labels.condition }} for more than 1 minute, please check node status"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: kube_node_status_condition{condition!~"Ready|ClusterMgmt.*|Csadm.*",status="true"} == 1
+            for: 1m
+            labels:
+              severity: sev2
+              type: "NodeError_{{ $labels.condition }}"
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: NodeRdmaPluginError
+            annotations:
+              summary: "Node {{ $labels.node }} rdma device capacity dropped to zero for more than 5 minutes, please restart RDMA plugin"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444422251/Runbook+4+NodeRdmaPluginError"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+              message: |-
+                Seen when node OOM killer invoked. Requires restart of rdma plugin pod to return capacity to normal.
+                See SW-140662/181614
+            expr: group(kube_node_status_capacity{resource="rdma_hca_devices"} == 0) by (node)
+            for: 5m
+            labels:
+              severity: sev2
+              type: NodeError_RdmaResourcesMissing
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              control_plane_oncall: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeHealthCheckError
+            annotations:
+              summary: "Node {{ $labels.node }} has error of {{ $labels.error_type }}({{ $labels.message }}) for more than 5 minutes, please check node status"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: group by (node, error_type, message) (node_healthcheck_error) > 0
+            # node health check error may self recover, e.g. ceph connection issue
+            for: 5m
+            labels:
+              severity: sev2
+              type: "NodeError_{{ $labels.error_type }}"
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              infra_error: "true"
+
+      # schedule alerts from hardware that are critical to act as quick as possible
+      # "cluster_mgmt" label deprecated but kept for backwards compatible, can be removed at rel-2.6
+      - name: cluster-mgmt-hardware-alerts
+        interval: 30s
+        rules:
+          - alert: SystemError
+            annotations:
+              summary: "System {{ $labels.system }} is in error state, please check system health"
+              dashboard_url1: "/d/df3huubwl3hfkd-internal/system-health-details?var-system={{ $labels.system }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-system={{ $labels.system }}"
+            expr: |-
+              (group((system_overall_health != 1) and (system_overall_health != 2) and (system_overall_health != -1)) by (system) or group by (system) (system_overall_health) != bool(1)) > 0
+            labels:
+              severity: sev2
+              type: SystemError
+              instance: "{{ $labels.system }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              page_sev: "1"
+              system_error: "true"
+              infra_error: "true"
+          - alert: SystemPortDown
+            annotations:
+              summary: "System {{ $labels.system }} port {{ $labels.port }} is down, please check system network"
+              dashboard_url1: "/d/cehh15ni8ip6oa-internal/system-port-details?var-system={{ $labels.system }}&var-port={{ $labels.port | urlquery }}"
+              dashboard_url2: "/d/df3huubwl3hfkd-internal/system-health-details?var-system={{ $labels.system }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-system={{ $labels.system }}&var-system_port={{ $labels.port | urlquery }}"
+            expr: |-
+              (group by (system, port) (system_network_health != 1)) >0
+            labels:
+              severity: sev2
+              type: SystemPortError
+              device: "{{ $labels.port }}"
+              instance: "{{ $labels.system }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              page_sev: "1"
+              system_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: SystemPortFlapping
+            annotations:
+              summary: "System {{ $labels.system }} port {{ $labels.port }} was flapping during last 5 minutes, please check system network"
+              dashboard_url1: "/d/cehh15ni8ip6oa-internal/system-port-details?var-system={{ $labels.system }}&var-port={{ $labels.port | urlquery }}"
+              dashboard_url2: "/d/df3huubwl3hfkd-internal/system-health-details?var-system={{ $labels.system }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-system={{ $labels.system }}&var-system_port={{ $labels.port | urlquery }}"
+            # use threshold of 2 to filter out 1 change of up->down which will be captured by the interface down alert
+            # not using >1 because increase can return non-integer, https://prometheus.io/docs/prometheus/latest/querying/functions/#increase
+            expr: |-
+              (group by (system, port) (increase(system_network_flap_count[5m]) >= 2)) > 0
+            labels:
+              severity: sev2
+              type: SystemPortError
+              device: "{{ $labels.port }}"
+              instance: "{{ $labels.system }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              system_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: SystemInMaintenanceMode
+            annotations:
+              summary: "System {{ $labels.system }} is in maintenance mode"
+              dashboard_url1: "/d/df3huubwl3hfkd-internal/system-health-details?var-system={{ $labels.system }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-system={{ $labels.system }}"
+            expr: system_maintenance_mode == 1
+            labels:
+              severity: sev2
+              type: SystemError_InMaintenanceMode
+              instance: "{{ $labels.system }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              system_error: "true"
+              infra_error: "true"
+          - alert: NodeDiskOutOfSpace
+            annotations:
+              message: "Disk '/' partition in {{ $labels.instance }} has < 20% or < 50G disk free for more than 5 minutes."
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444749944/Runbook+3+NodeDiskOutOfSpace"
+              dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+            expr: |-
+              (
+                node_filesystem_avail_bytes{job="node-exporter", mountpoint="/"} / node_filesystem_size_bytes{job="node-exporter", mountpoint="/"} * 100 < 20
+              or
+                node_filesystem_avail_bytes{job="node-exporter", mountpoint="/"}/1024/1204/1024 < 50
+              )
+            for: 5m
+            labels:
+              severity: sev2
+              type: NodeError_DiskOutOfSpace
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              control_plane_oncall: "true"
+              node_error: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: NodeNICDown
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.device }} is down, please check node network"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.device | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.device | urlquery }}"
+            expr: interface_watch_list:status == 0
+            labels:
+              severity: sev2
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICFlapping
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.device }} was flapping in last 5 minutes, please check node network"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.device | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.device | urlquery }}"
+            # use threshold of 2 to filter out one status change of up=>down which will be captured by the interface down alert
+            # not using >1 because increase can return non-integer, https://prometheus.io/docs/prometheus/latest/querying/functions/#increase
+            expr: increase(interface_watch_list:status_changes_total[5m]) >= 2
+            labels:
+              severity: sev2
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICMissing
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.device }} metric was missing in last 5 minutes, please check node network"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.device | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.device | urlquery }}"
+            expr: group by (node, device) (job_operator_data_network_interface) unless group by (node, device) (interface_watch_list:status)
+            # keep longer grace period since it rarely happens to avoid false alarm
+            for: 5m
+            labels:
+              severity: sev2
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeNICTransceiverShorted
+            annotations:
+              summary: "Node {{ $labels.node }} NIC {{ $labels.interface }} reported a shorted transceiver event in last 5 minutes"
+              dashboard_url1: "/d/aehh1fckgpjpca-internal/node-port-details?var-node={{ $labels.node | urlquery }}&var-interface={{ $labels.interface | urlquery }}"
+              dashboard_url2: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url3: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}&var-node_port={{ $labels.interface | urlquery }}"
+            expr: increase(node_nic_stats_module_bad_shorted[5m]) > 0
+            labels:
+              severity: sev2
+              type: NodeNICError
+              instance: "{{ $labels.node }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              node_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeGroupSwitchPortError
+            annotations:
+              summary: "Switch {{ $labels.switch_id }} for node-group {{ $labels.group }} has inter-switch port error, please check switch network"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch_id | urlquery }}"
+            expr: |-
+              sum(
+                group by (group, switch_id) (job_operator_group_switch_info)
+                * on (switch_id) group_left
+                group by (switch_id) ((group by (ifName, switch_id) (ifOperStatus != 1) or
+                                       group by (ifName, switch_id) (label_replace(label_replace(((linkmon_switch_oper_status) != 1), "ifName", "$1", "port", "(.*)"), "switch_id", "$1", "switch", "(.*)")))
+                * on (ifName, switch_id) group_left interface_watch_list{conn_type="ISL"})
+              ) by (group, switch_id) > 0
+            labels:
+              severity: sev2
+              type: NodeSwitchPortError
+              instance: "{{ $labels.group }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              system_error: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: NodeGroupSwitchPortFlapping
+            annotations:
+              summary: "Switch {{ $labels.switch_id }} for node-group {{ $labels.group }} had inter-switch port flapping in last 10 minutes, please check switch network"
+              dashboard_url: "/d/eegifgali2igwd-internal/switch-health-details?var-switch={{ $labels.switch_id | urlquery }}"
+            # use threshold of 0 since ifLastChange can only show whether status changed but not how many times it changed
+            # use 10 minutes because switch scrape can be slow
+            expr: |-
+              sum(
+                group by (group, switch_id) (job_operator_group_switch_info)
+                * on (switch_id) group_left
+                group by (switch_id) ((group by (ifName, switch_id) (changes(ifLastChange[10m]) > 0) or
+                                       group by (ifName, switch_id) (label_replace(label_replace((changes(linkmon_switch_oper_status[10m]) > 0), "ifName", "$1", "port", "(.*)"), "switch_id", "$1", "switch", "(.*)")))
+                * on (ifName, switch_id) group_left interface_watch_list{conn_type="ISL"})
+              ) by (group, switch_id) > 0
+            labels:
+              severity: sev2
+              type: NodeSwitchPortError
+              instance: "{{ $labels.group }}"
+              cluster_mgmt: "true"
+              schedule_critical: "true"
+              system_error: "true"
+              network_error: "true"
+              infra_error: "true"
+      - name: cluster-mgmt-monitoring-status
+        interval: 1m
+        rules:
+          - alert: FluentBitDown
+            annotations:
+              message: "fluent-bit scrapes are failing on healthy cluster nodes"
+              dashboard_url1: "/d/d557c8f6-cac1-445f-8ade-4c351a9076b1/fluent-bit"
+              dashboard_url2: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              (
+                count(up{job="fluent-bit"} == 0) > (count(kube_node_status_condition{condition="Ready", status!="true"} == 1) or vector(0))
+              )
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: GrafanaServiceDown
+            annotations:
+              message: "Grafana services are down"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448583684/Runbook+13+GrafanaServiceDown"
+              dashboard_url1: "/d/6be0s85Mk/grafana-overview"
+              dashboard_url2: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              up{job="prometheus-grafana"} == 0
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: LokiDown
+            annotations:
+              message: "Loki services are down"
+              dashboard_url1: "/d/eeiwbf963045cb/loki-detailed"
+              dashboard_url2: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              up{job="loki/loki"} == 0
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: SystemExporterDown
+            annotations:
+              message: "system-exporter scrapes are failing"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              (
+                up{job="probe/prometheus/cluster-mgmt-system-exporter"} == 0
+              )
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              instance: "{{ $labels.instance }}"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: SnmpInterfaceWatchList
+            annotations:
+              message: "network_config.json parsing service is down"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              up{job="snmp-interface-watch"} == 0
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: SnmpScrapingDown
+            annotations:
+              message: "snmp scrapes are failing on more than 5% of switches"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              (
+                count(group by (switch_id) (ifOperStatus)) < (0.95*count(group by (switch_id)(interface_watch_list{conn_type != "exterior"})))
+              )
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: LinkmonScrapingDown
+            annotations:
+              message: "linkmon scrapes are failing on more than 5% of switches"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              (
+                count(group by (switch) (linkmon_switch_carrier_changes)) < (0.95*count(group by (switch_id)(interface_watch_list{conn_type != "exterior"})))
+              )
+            for: 5m
+            labels:
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+
+      - name: cluster-control-plane-alerts
+        interval: 30s
+        rules:
+          - alert: ControlPlaneNodeNotPingable
+            annotations:
+              summary: "Node {{ $labels.node }} is not reachable/can't ping, please check node network"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444946551/Runbook+1+ControlPlaneNodeNotPingable"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: |-
+              (max by (node) (kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"}) 
+              * on (node)
+              group_left kube_node_role{role="control-plane"}) == 1
+            for: 1m
+            labels:
+              severity: sev1
+              instance: "{{ $labels.node }}"
+              control_plane_oncall: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: ControlPlaneNodeNotReady
+            annotations:
+              summary: "Node {{ $labels.node }} is not ready for more than 2 minutes, please check kubelet status"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444618813/Runbook+2+ControlPlaneNodeNotReady"
+              dashboard_url1: "/d/eehh0zde6wo3ka-internal/node-health-details?var-node={{ $labels.node | urlquery }}"
+              dashboard_url2: "/d/feb8wbjsrh5a8a-internal/job-network-debug?var-node={{ $labels.node | urlquery }}"
+            expr: |-
+              (
+                (
+                  group by (node) (kube_node_status_condition{condition="Ready",status="true"} == 0)
+                unless
+                  group by (node) (kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} == 1)
+                ) * on(node)
+                group_left kube_node_role{role="control-plane"}
+              ) > 0
+            for: 2m
+            labels:
+              severity: sev1
+              instance: "{{ $labels.node }}"
+              control_plane_oncall: "true"
+              node_error: "true"
+              infra_error: "true"
+          - alert: ApiServerPodDown
+            annotations:
+              summary: "api-server pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444946578/Runbook+5+ApiServerPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"kube-apiserver.*", namespace="kube-system"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: KubeVip1GPodDown
+            annotations:
+              summary: "1G kube-vip pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444913739/Runbook+6+KubeVip1GPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"kube-vip-[a-zA-Z0-9]*-.*", namespace="kube-system"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: KubeVip100GPodDown
+            annotations:
+              summary: "100G kube-vip pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444684464/Runbook+7+KubeVip100GPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"kube-vip-[a-zA-Z0-9]*", namespace="kube-system"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              network_error: "true"
+              infra_error: "true"
+          - alert: EtcdPodDown
+            annotations:
+              summary: "etcd pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444913765/Runbook+8+EtcdPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"etcd.*", namespace="kube-system"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: RegistryPodDown
+            annotations:
+              summary: "registry pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444684481/Runbook+9+RegistryPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"private-registry-.*", namespace="kube-system"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: CoreDnsPodDown
+            annotations:
+              summary: "coredns pod {{ $labels.pod }} is not running for more than 2 minutes"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"coredns-.*", namespace="kube-system"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: NginxPodDown
+            annotations:
+              summary: "nginx pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444618843/Runbook+11+NginxPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"ingress-nginx-controller-.*", namespace="ingress-nginx"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: GrafanaPodDown
+            annotations:
+              summary: "grafana pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4447273238/Runbook+12+GrafanaPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"prometheus-grafana-.*", namespace="prometheus"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: PrometheusShardPodDown
+            annotations:
+              summary: "prometheus shard pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4444946598/Runbook+10+PrometheusShardPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"prometheus-prometheus-prometheus-.*", namespace="prometheus"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: ThanosQueryPodDown
+            annotations:
+              summary: "thanos query pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4478664705/Runbook+21+ThanosQueryPodDown"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"thanos-query-.*", namespace="prometheus"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: SystemExporterPodDown
+            annotations:
+              summary: "system-exporter pod {{ $labels.pod }} is not running for more than 2 minutes"
+              dashboard_url: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"cluster-mgmt-system-exporter-.*", namespace="prometheus"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              monitoring_error: "true"
+              infra_error: "true"
+          - alert: CephMdsPodDown
+            annotations:
+              summary: "ceph MDS pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448976913/Runbook+18+CephMdsPodDown"
+              dashboard_url1: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+              dashboard_url2: "/d/tb19LAiZK/ceph-cluster"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"rook-ceph-mds-ceph-filesystem-.*", namespace="rook-ceph"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: CephMonPodDown
+            annotations:
+              summary: "ceph MON pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448714948/Runbook+19+CephMonPodDown"
+              dashboard_url1: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+              dashboard_url2: "/d/tb19LAiZK/ceph-cluster"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"rook-ceph-mon-.*", namespace="rook-ceph"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: CephOsdPodDown
+            annotations:
+              summary: "ceph OSD pod {{ $labels.pod }} is not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448714976/Runbook+20+CephOsdPodDown"
+              dashboard_url1: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+              dashboard_url2: "/d/tb19LAiZK/ceph-cluster"
+              dashboard_url2: "/d/Fj6fAfzik/ceph-osd-single"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"rook-ceph-osd-[0-9].+", namespace="rook-ceph"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: PodFrequentRestarts
+            annotations:
+              summary: "pod {{ $labels.pod }} in namespace {{ $labels.namespace }} restarts more than 5 times in the last 5 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448682096/Runbook+17+PodFrequentRestarts"
+            expr: |-
+              max(increase(kube_pod_container_status_restarts_total[5m])) by (namespace, pod) > 5
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev2
+              control_plane_oncall: "true"
+              pod_error: "true"
+              infra_error: "true"
+          - alert: EtcdStorageOutOfSpace
+            annotations:
+              summary: "etcd storage is more than 80% full"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448780327/Runbook+14+EtcdStorageOutOfSpace"
+              dashboard_url1: "/d/c2f4e12cdf69feb95caa41a5a1b423d9/etcd"
+              dashboard_url2: "/d/hzhXdzznZn/etcd-cluster-overview"
+              dashboard_url3: "/d/aec3a3n17e2o0c/cluster-control-plane-health"
+            expr: |-
+              etcd_mvcc_db_total_size_in_bytes{job="kube-etcd"} / etcd_server_quota_backend_bytes{job="kube-etcd"} > 0.80
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              storage_error: "true"
+              infra_error: "true"
+          - alert: ClusterServerPodsDown
+            annotations:
+              summary: "all cluster-server pods in job-operator namespace are not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448354335/Runbook+15+ClusterServerPodsDown"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"cluster-server-.*", namespace="job-operator"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"
+          - alert: JobOperatorPodsDown
+            annotations:
+              summary: "all job-operator pods in job-operator namespace are not running for more than 2 minutes"
+              runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4448354351/Runbook+16+JobOperatorPodsDown"
+            expr: |-
+              group by (pod) (kube_pod_container_status_ready{pod=~"job-operator-.*", namespace="job-operator"} == 0)
+              and
+              group by (pod) (kube_pod_status_phase{phase="Running"} == 1)
+            for: 2m
+            labels:
+              instance: "{{ $labels.pod }}"
+              severity: sev1
+              control_plane_oncall: "true"
+              infra_error: "true"

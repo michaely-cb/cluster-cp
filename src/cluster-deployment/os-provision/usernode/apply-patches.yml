@@ -1,0 +1,5 @@
+# Apply security patches to the usernode
+- hosts: localhost
+  connection: local
+  roles:
+    - apply-patches

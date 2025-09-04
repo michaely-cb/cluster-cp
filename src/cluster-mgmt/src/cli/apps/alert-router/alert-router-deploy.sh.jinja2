@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+SCRIPT_PATH=$(dirname $0)
+cd $SCRIPT_PATH
+source "../pkg-common.sh"
+
+set -e
+
+# Create the K8s Config-Map
+kubectl apply -f alert-classification.yaml
+
+# Create the K8s Secret (if it doesn't already exist)
+EMPTY_CONTACTS=$(cat <<EOF
+contacts:
+  email: []
+  slack: []
+  pagerduty: []
+EOF
+)
+
+SECRET_NAME="cluster-operator-contacts"
+K8S_NAMESPACE="prometheus"
+
+if kubectl get secret "$SECRET_NAME" -n  "$K8S_NAMESPACE" >/dev/null 2>&1; then
+    echo "Secret '$SECRET_NAME' already exists in namespace '$K8S_NAMESPACE'."
+else
+    echo "Secret '$SECRET_NAME' not found, creating ..."
+
+    kubectl create secret generic "$SECRET_NAME" -n "$K8S_NAMESPACE" \
+        --from-literal=config="$EMPTY_CONTACTS"
+
+    echo "Secret '$SECRET_NAME' created in namespace '$K8S_NAMESPACE'"
+fi
+
+# Create the SMTP credentials Secret
+if ! create_smtp_credentials_secret "$K8S_NAMESPACE" "smtp-credentials"; then
+    echo "Error: Failed to create SMTP credentials secret. Alert router deployment will be skipped."
+    echo "Please ensure SMTP credentials are configured in pkg-properties.yaml and re-run deployment."
+    exit 1
+fi
+
+# Add permissions for the alert router to access the wsjobs API
+kubectl apply -f wsjob-reader.yaml
+
+# Create the K8s Deployment
+alert_router_tag="{{ alert_router_tag }}"
+cluster_domain_name="${cluster_name}.${service_domain}"
+
+echo "Deploying alert router with tag: $alert_router_tag and cluster name: $cluster_name"
+
+cp ./alert-router-deploy.yaml ./alert-router-deploy.updated.yaml
+sed -i "s/\${ALERT_ROUTER_TAG}/${alert_router_tag}/g" ./alert-router-deploy.updated.yaml
+sed -i "s/\${CLUSTER_NAME}/${cluster_name}/g" ./alert-router-deploy.updated.yaml
+sed -i "s/\${CLUSTER_DOMAIN_NAME}/${cluster_domain_name}/g" ./alert-router-deploy.updated.yaml
+
+kubectl apply -f alert-router-deploy.updated.yaml
+
+echo "Alert router deployed successfully"

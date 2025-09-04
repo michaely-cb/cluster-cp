@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-webhook
+  namespace: kube-system
+  labels:
+    app: kube-webhook
+spec:
+  ports:
+    - port: 443
+      targetPort: 443
+  selector:
+    app: kube-webhook
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-webhook
+  namespace: kube-system
+  labels:
+    app: kube-webhook
+spec:
+  replicas: ${REPLICA_COUNT}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: kube-webhook
+  template:
+    metadata:
+      name: kube-webhook
+      labels:
+        app: kube-webhook
+      annotations:
+        secret-hash: ${TLS_CRT_HASH}
+    spec:
+      containers:
+        - name: main
+          image: registry.local/kube-webhook:webhook-20250616-0
+          imagePullPolicy: IfNotPresent
+          args: [ "--tls-cert", "/secrets/tls.crt", "--tls-key", "/secrets/tls.key" ]
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: certs
+              mountPath: /secrets
+              readOnly: true
+          env:
+            - name: genoa_server
+              value: "${GENOA_SERVER}"
+          resources:
+            limits:
+              memory: 100Mi
+            requests:
+              cpu: 100m
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 443
+              scheme: HTTPS
+            initialDelaySeconds: 2
+            periodSeconds: 5
+      volumes:
+        - name: certs
+          secret:
+            secretName: kube-webhook
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 10
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - kube-webhook
+                topologyKey: "kubernetes.io/hostname"
+      nodeSelector:
+        'k8s.cerebras.com/node-role-management': ""
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kube-webhook-clusterrole
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "nodes" ]
+    verbs: [ "list" ]
+  - apiGroups: [ "" ]
+    resources: [ "namespaces" ]
+    verbs: [ "get" ]
+  - apiGroups: [ "jobs.cerebras.com" ]
+    resources: [ "namespacereservations" ]
+    verbs: [ "get" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-webhook-clusterrolebinding
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: kube-webhook-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kube-webhook
+  namespace: kube-system
+  annotations:
+    cfg-hash: ${TLS_CFG_HASH}
+type: kubernetes.io/tls
+data:
+  tls.crt: ${TLS_CRT}
+  tls.key: ${TLS_KEY}

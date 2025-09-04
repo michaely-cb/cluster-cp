@@ -1,0 +1,321 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+source common.sh
+
+RESTART=
+BRANCH="bringup-2.0.0"
+BUILDID=latest
+NETWORK_CONFIG=/opt/cerebras/cluster/network_config.json
+
+showHelp() {
+    cat <<EOF
+
+usage: $(basename $0) [<Options>] <mb-name>|<system-name>
+
+Options:
+-r|--restart
+      Option will delete the logfile and restart from the beginning
+--branch=<branch>
+      The cluster-pkg branch, e.g.folder under /cb/artifacts/release-stage/
+      Default is "$BRANCH"
+-b|--buildid=<buildid>
+      The cluster-pkg buildid.
+      Default is "$BUILDID"
+-n|--network_config=<path>
+      The path to the network config on the management node.
+      Default is $NETWORK_CONFIG
+
+EOF
+}
+
+options=$(getopt -l "help,restart,branch:,buildid:,network_config:" -o "hrb:n:" -a -- "$@")
+eval set -- "$options"
+
+while true; do
+    case "$1" in
+    -h | --help)
+        showHelp
+        exit 0
+        ;;
+    -r | --restart)
+        RESTART=1
+        ;;
+    --branch)
+        shift
+        BRANCH=$1
+        ;;
+    -b | --buildid)
+        shift
+        BUILDID=$1
+        ;;
+    -n | --network_config)
+        shift
+        NETWORK_CONFIG=$1
+        ;;
+    --)
+        shift
+        break
+        ;;
+    esac
+    shift
+done
+
+if [[ -z "$1" ]]; then
+    showHelp
+    exit 1
+fi
+
+set -eox pipefail
+
+
+artifact_path=/cb/artifacts/release-stage/$BRANCH/$BUILDID
+if [ ! -d "$artifact_path" ]; then
+    echo "ERROR: $artifact_path does not exist, check --branch and --buildid"
+    exit 1
+fi
+artifact_path=$(readlink -f "$artifact_path")
+
+mgmtpkg_aws="$(find "$artifact_path/components/cbcore/" -name 'cluster-pkg-*.tar.gz' | head -n 1)"
+mgmtpkg=$(basename $mgmtpkg_aws)
+mgmtpkg_colo="/cb/tests/cluster-mgmt/artifacts/$mgmtpkg"
+
+deploypkg_aws="$(find "$artifact_path/components/cbcore/" -name 'cluster-deploy-*.tar.gz' | head -n 1)"
+deploypkg=$(basename $deploypkg_aws)
+deploypkg_colo="/cb/tests/cluster-mgmt/artifacts/$deploypkg"
+
+
+# If the userpkg has same buildid as mgmtpkg, set USERPKG=DEFAULT
+# TODO: Instead of hardcoding the userpgk name, we should be able to look for it
+#       from the mgmtpkg tar file.
+#       Since mgmtpkg gets untar on management node to copy the userpkg to /opt,
+#       we can search for the userpkg filename from there.
+USERPKG=DEFAULT
+
+# get system/management/user nodes from MB DB (should only return one entry)
+get_devinfra_db_env "$1"
+if [ -z "$MGMTNODE" ] || [ -z "$USERNODE" ]; then
+    echo "systems-db has missing data for ${CLUSTER_NAME}"
+    echo "CLUSTER_JSON=$CLUSTER_JSON"
+    exit 1
+fi
+
+# Cached the systemdb cluster setup data
+# if the cached does not exists
+# or the current data is different from the cached
+# we should force the restart of the deployment
+CACHE_SETUP_FILE=./cached_setup/$CLUSTER_NAME.json
+DB_DATA=$(jq -r '.data[]' <<<$CLUSTER_JSON)
+mkdir -p ./cached_setup
+if [ -f $CACHE_SETUP_FILE ]; then
+    if [ "$(cat $CACHE_SETUP_FILE)" != "$(echo $DB_DATA)" ]; then
+        RESTART=1
+    fi
+else
+    RESTART=1
+fi
+# Cache the data
+echo $DB_DATA > $CACHE_SETUP_FILE
+
+mkdir -p ./logs
+logfile=./logs/deploy-cluster-$CLUSTER_NAME.log
+if [[ -n "${RESTART}" ]]; then
+    echo "RESTART set, clearing log file"
+    echo '' >$logfile
+fi
+
+UNPACK_CLUSTER_PKG_DONE="UNPACK_CLUSTER_PKG_DONE"
+CREATE_CONFIG_DONE="CREATE_CONFIG_DONE"
+UPDATE_SCHEDULER_DONE="UPDATE_SCHEDULER_DONE"
+CLUSTER_UNINSTALL_DONE="CLUSTER_UNINSTALL_DONE"
+CLUSTER_INSTALL_DONE="CLUSTER_INSTALL_DONE"
+USER_INSTALL_DONE="USER_INSTALL_DONE"
+COPY_CERTS_DONE="COPY_CERTS_DONE"
+CREATE_VOLUMES_DONE="CREATE_VOLUMES_DONE"
+
+
+check_and_run() {
+    local done_tag=$1
+    local fn=$2
+
+    if ! grep -q $done_tag $logfile; then
+        echo "${done_tag%_DONE} START" | tee -a $logfile
+        $fn | tee -a $logfile
+        echo $done_tag | tee -a $logfile
+    else
+        echo "${done_tag} exists, skipping"
+    fi
+}
+
+unpack_cluster_pkg() {
+    pkg_name_prefix=$1
+    pkg_tar_file=$2
+    pkg_colo_file=$3
+    pkg_aws_file=$4
+
+    # cleanup any prior cluster-pkgs to avoid filling up the root disk since
+    # bring up clusters are recycled continuously
+    $sshmgmt "rm -rf /root/$pkg_name_prefix-*" 2>&1 | tee -a $logfile
+
+    # optimization - if the package exists on /cb/ filesystem, then untar from
+    # there, else scp it first
+    if $sshmgmt "test -f $pkg_colo_file"; then
+        $sshmgmt "tar xzvf $pkg_colo_file" 2>&1 | tee -a $logfile
+    else
+        $scpmgmt $pkg_aws_file root@$MGMTNODE:/root/ | tee -a $logfile
+        $sshmgmt "tar xzvf /root/$pkg_tar_file" 2>&1 | tee -a $logfile
+        $sshmgmt "rm -f /root/$pkg_tar_file" 2>&1 | tee -a $logfile
+    fi
+}
+
+__cluster_missing_network_config() {
+    ! $sshmgmt test -f ${NETWORK_CONFIG}
+}
+
+unpack_cluster_pkgs() {
+    unpack_cluster_pkg cluster-pkg $mgmtpkg $mgmtpkg_colo $mgmtpkg_aws
+}
+
+__try_create_network_config() {
+    if ! [[ "$deploypkg" == cluster-deploy-2.4.0* ]]; then
+        return 0
+    fi
+    if ! __cluster_missing_network_config; then
+        return 0
+    fi
+
+    unpack_cluster_pkg cluster-deploy $deploypkg $deploypkg_colo $deploypkg_aws
+
+    $sshmgmt "cd $(basename $deploypkg .tar.gz); ./install.sh" 2>&1 | tee -a $logfile
+    $sshmgmt "if cscfg profile show | grep -q test-profile; then echo \"test-profile exists\"; else cscfg profile import test-profile; fi" 2>&1 | tee -a $logfile
+    $sshmgmt "if [[ ! -e \"/opt/cerebras/cluster/network_config.json\" ]]; then cd /opt/cerebras/cluster; ln -s /opt/cerebras/cluster-deployment/meta/test-profile/network_config.json .; fi" 2>&1 | tee -a $logfile
+}
+
+__try_create_cluster_config_from_network_config() {
+    if __cluster_missing_network_config; then
+        return 1
+    fi
+    local local_network_path="./logs/network_config_${CLUSTER_NAME}.json"
+    $scpmgmt "root@$MGMTNODE:${NETWORK_CONFIG}" "${local_network_path}"
+    cat "${local_network_path}" | tee -a $logfile
+    trap "rm -f ${local_network_path}" RETURN
+    "$GITTOP/src/cluster_mgmt/src/cli/cs_cluster.py" \
+        -v --cluster $CLUSTER_NAME cluster create-config \
+        --network ${local_network_path} \
+        -n $CLUSTER_NAME -u root -p $DEPLOY_ROOT_PASS --use-short-name 2>&1 | tee -a $logfile
+}
+
+create_config() {
+    $sshmgmt "mkdir -p /opt/cerebras/cluster"
+    $scpmgmt $GITTOP/src/cluster_mgmt/src/cli/apps/common/internal-pkg-properties.yaml \
+        root@$MGMTNODE:/opt/cerebras/cluster/pkg-properties.yaml
+
+    # due to a bug in 2.4, the network_config.json must exist or else all the nodes will be marked
+    # as error state. This is problematic since there are 3 possible cases:
+    # 1/ the cluster was deployed by IT and the network_config.json doesn't exist
+    # 2/ the cluster was deployed by IT and this script already created a psuedo network_config.json
+    # 3/ the cluster was deployed by cluster-deployment and there's a valid network_config.json
+    # in case (2), trying to create the cluster.yaml from psuedo-network_config.json will fail
+    # therefore if network_config.json exists, first try to create cluster.yaml. If it fails revert
+    # to the second method of creating the psuedo network_config.json from the scraped cluster.yaml
+
+    # This requirement for network_config.json is only for 2.4, so we can skip this step
+    # if the cluster-pkg is not 2.4
+
+    # this is the ideal flow - where the network config is already present and authoritative
+    if __try_create_cluster_config_from_network_config; then
+        return 0
+    fi
+
+    # this is a backup flow - if the network config doesn't exist, try to scrape the environment
+    # and re-populate a psuedo-network config
+    "$GITTOP/src/cluster_mgmt/src/cli/cs_cluster.py" \
+        -v --cluster $CLUSTER_NAME cluster create-config \
+        -n $CLUSTER_NAME -u root -p $DEPLOY_ROOT_PASS --use-short-name 2>&1 | tee -a $logfile
+    __try_create_network_config
+}
+
+update_scheduler() {
+    module load cbscheduler 2>&1 | tee -a $logfile
+    cbs_manage resource $SYSTEM new 2>&1 | tee -a $logfile
+    cbs_manage resource $CLUSTER_NAME new --sys-type=multibox 2>&1 | tee -a $logfile
+    cbs_manage resource $SYSTEM state active 2>&1 | tee -a $logfile
+    cbs_manage resource $CLUSTER_NAME state active 2>&1 | tee -a $logfile
+
+    # validate system in cbscheduler
+    cbs_show $CLUSTER_NAME 2>&1 | tee -a $logfile
+    if [[ ! $? == 0 ]]; then
+        echo "System not found in cbscheduler!"
+        exit
+    fi
+
+    # clear jobs
+    cbs_show $SYSTEM | grep running | awk '{print $2}' | xargs -r -n1 cbs_release || :
+    cbs_show $CLUSTER_NAME | grep running | awk '{print $2}' | xargs -r -n1 cbs_release || :
+}
+
+cluster_uninstall() {
+    echo "cleanup old k8s cluster if present" | tee -a $logfile
+    $sshmgmt "cd $(basename $mgmtpkg .tar.gz)/k8s && ./k8_init.sh lists_teardown_targets" 2>&1 | tee -a $logfile
+    $sshmgmt "cd $(basename $mgmtpkg .tar.gz)/k8s && ./k8_init.sh teardown_cluster -y" 2>&1 | tee -a $logfile
+}
+
+cluster_install() {
+    $sshmgmt "yq -r \".nodes[]|.networkInterfaces[0].address\" /opt/cerebras/cluster/cluster.yaml > /tmp/nodes.txt" 2>&1 | tee -a $logfile
+    $sshmgmt "pssh -h /tmp/nodes.txt -x \"$sshopts\" --inline \"mkdir -p /tmp/k8s/rpm\"" 2>&1 | tee -a $logfile
+
+    # make sure kubelet is at 1.30 version.
+    retry 3 1 $sshmgmt "pscp.pssh -r -h /tmp/nodes.txt -x \"$sshopts\" /root/$(basename $mgmtpkg .tar.gz)/k8s/rpm/1.30.4 /tmp/k8s/rpm" 2>&1 | tee -a $logfile
+    $sshmgmt "pssh -h /tmp/nodes.txt -x \"$sshopts\" --inline \"rpm -Uvh --force --replacepkgs '/tmp/k8s/rpm/1.30.4/*'\"" 2>&1 | tee -a $logfile
+    $sshmgmt "cd $(basename $mgmtpkg .tar.gz) && ./csadm.sh install manifest.json --debug --preflight --yes" 2>&1 | tee -a $logfile
+
+    $sshmgmt "/opt/cerebras/tools/network-validation.sh" cilium 2>&1 | tee -a $logfile
+    $sshmgmt "/opt/cerebras/tools/network-validation.sh" multus 2>&1 | tee -a $logfile
+    $sshmgmt "/opt/cerebras/tools/network-validation.sh" whereabouts 2>&1 | tee -a $logfile
+    $sshmgmt "/opt/cerebras/tools/network-validation.sh" cs 2>&1 | tee -a $logfile
+}
+
+user_install() {
+    if [[ "${USERPKG}" == "DEFAULT" ]]; then
+        userpkg="$(basename $mgmtpkg | sed 's/cluster/user/')"
+    else
+        userpkg=$USERPKG
+    fi
+
+    # transitioning to Rocky, need to create the same python executable path
+    # so shared venvs work between Rocky / Centos
+    if $sshuser "sh -c 'grep -i rocky /etc/os-release && test ! -f /opt/python3.8/bin/python3.8'" ; then
+        $sshuser yum install -y python38 python38-devel
+        $sshuser mkdir -p /opt/python3.8/bin/
+        $sshuser 'sh -c "ln -s $(which python3.8) /opt/python3.8/bin/python3.8"'
+    fi
+
+    local userpkg_dir=$(mktemp -d)
+    $scpmgmt "root@$MGMTNODE:/opt/cerebras/packages/$userpkg" "$userpkg_dir/"
+    $scpmgmt "$userpkg_dir/$userpkg" "root@$USERNODE:~/"
+    rm -rf "$userpkg_dir"
+    $sshuser "tar xzvf $userpkg"
+    $sshuser "cd $(basename $userpkg .tar.gz) && ./install.sh" 2>&1 | tee -a $logfile
+}
+
+copy_certs() {
+    $sshuser "mkdir -p /cb/ml/multibox_crt/$CLUSTER_NAME/"
+    $sshuser "cp /opt/cerebras/certs/job-operator-tls.crt /cb/ml/multibox_crt/$CLUSTER_NAME/tls.crt" || \
+        $sshuser "cp /opt/cerebras/certs/tls.crt /cb/ml/multibox_crt/$CLUSTER_NAME/"
+
+    $sshuser "if [[ -f /home/lab/.ssh/known_hosts  ]]; then echo '' > /home/lab/.ssh/known_hosts; fi"
+    $sshuser "csctl config view"
+}
+
+create_volumes() {
+    $sshmgmt "cd $(basename $mgmtpkg .tar.gz) && CEREBRAS_INTERNAL_DEPLOY=true DISABLE_INTERNAL_VOLUME_OPTION=true ./cerebras-internal-setup/init-volumes.sh" 2>&1 | tee -a $logfile
+}
+
+check_and_run $UNPACK_CLUSTER_PKG_DONE unpack_cluster_pkgs
+check_and_run $UPDATE_SCHEDULER_DONE update_scheduler
+check_and_run $CREATE_CONFIG_DONE create_config
+check_and_run $CLUSTER_UNINSTALL_DONE cluster_uninstall
+check_and_run $CLUSTER_INSTALL_DONE cluster_install
+check_and_run $USER_INSTALL_DONE user_install
+check_and_run $COPY_CERTS_DONE copy_certs
+check_and_run $CREATE_VOLUMES_DONE create_volumes

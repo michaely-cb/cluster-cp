@@ -1,0 +1,495 @@
+# Configure wsjoblog storage
+- import_playbook: ../../../os-provision/configure-wsjoblog-storage.yml
+
+# Playbook to apply all patches and Mellanox driver on cluster servers
+- name: Make sure ceph is healthy before update starts
+  hosts: ceph_nodes
+  tasks:
+    - name: Check if ceph is healthy
+      ansible.builtin.shell:
+        cmd: kubectl get cephcluster/rook-ceph -n rook-ceph -ojson | jq -r '.status.ceph.health'
+      register: status
+      retries: 1
+      delay: 30
+      until: status.stdout == 'HEALTH_OK'
+      delegate_to: "{{ control_plane_node | default(null, True) }}"
+      run_once: true
+      when:
+        - k8s_running
+
+- name: Set up repository
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - include_tasks: fix_k8s_repo.yaml
+
+    - name: Create /var/www/html directory
+      file:
+        path: /var/www/html
+        state: directory
+
+    - name: Create /var/repo directory
+      file:
+        path: /var/repo
+        state: directory
+
+    - name: Link /var/www/html/repo to /var/repo
+      file:
+        src: /var/repo
+        dest: /var/www/html/repo
+        state: link
+
+    - name: Check if Cerebras-patches repo exists
+      stat:
+        path: /var/repo/Cerebras-patches
+      register: repo
+
+    - name: Find the latest Cerebras patch tarball
+      ansible.builtin.shell:
+        # Ignore file not found error
+        cmd: ls -t {{ patch_dir }}/Cerebras-patches*.{tar.gz,tgz} 2> /dev/null || true
+      register: patch_files
+
+    - name: Stop if no repo and no patches tarball
+      fail:
+        msg: "No patches available.  Please check if {{ patch_dir }}/Cerebras-patches*.{tgz,tar.gz} exists."
+      when: repo.stat.exists == False and patch_files.stdout_lines | length == 0
+
+    # Post condition: either /var/repo/Cerebras_patches exists or patch tarball exists.
+
+    - name: Get the timestamp of the latest patch tarball
+      ansible.builtin.stat:
+        path: "{{ patch_files.stdout_lines[0] }}"
+      register: patch_tarball
+      when: patch_files.stdout_lines | length > 0
+
+    - name: Populate local rpm repository if needed
+      ansible.builtin.shell: |
+        rm -rf /var/repo/Cerebras-patches
+        echo "Creating repository using {{ patch_files.stdout_lines[0] }}"
+        tar zxf {{ patch_files.stdout_lines[0] }}
+      args:
+        chdir: /var/repo
+      when: (repo.stat.exists == False) or (patch_files.stdout_lines | length > 0 and patch_tarball.stat.ctime > repo.stat.ctime)
+
+    - name: Create local cerebras-patches-local.repo file
+      ansible.builtin.copy:  
+        content: |  
+          [cerebras-patches-local]  
+          name=Security Patches for Cerebras Clusters  
+          baseurl=file:///var/repo/Cerebras-patches
+          module_hotfixes=true
+        dest: /etc/yum.repos.d/cerebras-patches-local.repo  
+        owner: root  
+        group: root  
+        mode: '0644'  
+
+    - name: Install httpd if needed
+      # No easy way to only use the specified repo in ansible dnf module.
+      # This is required, otherwise, dnf will try to connect to other repos and
+      # will error out if there is no internet access.
+      ansible.builtin.command: dnf install --repo cerebras-patches-local --assumeyes httpd
+
+    - name: Copy httpd config
+      ansible.builtin.template:
+        # Make sure to use the same template as in push button 1 set up
+        src: "{{ playbook_dir }}/../../../os-provision/roles/root-server/templates/httpd.conf"
+        dest: /etc/httpd/conf/httpd.conf
+
+    - name: Enable and restart httpd
+      ansible.builtin.systemd:
+        name: httpd
+        state: restarted
+        enabled: yes
+        daemon_reload: true
+
+- name: Apply all patches
+  hosts: all
+  tasks:
+    - name: Copy set_nic_name script
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../../../os-provision/roles/common/files/set_nic_name.py"
+        dest: /tmp/set_nic_name.py
+
+    # Fix existing 100G network interface names to prevent changes due to
+    # kernel update and Mellanox driver installation.
+    - name: Fix existing 100G network interface names
+      ansible.builtin.command: python3 /tmp/set_nic_name.py fix_100g
+
+    - name: Remove set_nic_name script
+      ansible.builtin.file:
+        path: /tmp/set_nic_name.py
+        state: absent
+
+    - include_tasks: fix_k8s_repo.yaml
+
+    - name: Validate 100g IP address
+      ansible.builtin.command: ping -w 2 -c 1 {{ deploy_mgr_host_100g }}
+      register: ping
+      ignore_errors: True
+
+    - name: Set repo ip
+      ansible.builtin.set_fact:
+        repo_ip: "{{ deploy_mgr_host_100g if ping.rc == 0 else deploy_mgr_host }}"
+
+    - name: Create cerebras-patches.repo file
+      ansible.builtin.copy:  
+        content: |  
+          [cerebras-patches]  
+          name=Security Patches for Cerebras Clusters  
+          baseurl=http://{{ repo_ip }}:8080/repo/Cerebras-patches
+          module_hotfixes=true
+          max_parallel_downloads=5
+        dest: /etc/yum.repos.d/cerebras-patches.repo
+        owner: root  
+        group: root  
+        mode: '0644'  
+
+    - name: Apply all patches
+      ansible.builtin.command: dnf upgrade --refresh --repo cerebras-patches --skip-broken --nobest --assumeyes
+
+    - name: Install new packages
+      ansible.builtin.command: dnf install --repo cerebras-patches --skip-broken --nobest --assumeyes '*' 
+
+    - name: Define python 3.11 package directory
+      ansible.builtin.set_fact:
+        python_packages: http://{{ repo_ip }}:8080/repo/Cerebras-patches/packages
+
+    - name: Check if python packages directory exists, upgrade to python 3.11 if it exists
+      uri:
+        url: "{{ python_packages }}"
+        method: GET
+        return_content: no
+      register: http_response
+      failed_when: "http_response.status != 404 and http_response.status != 200"
+
+    - name: Store status code in variable
+      set_fact:
+        python_packages_exist: "{{ http_response.status == 200 }}"
+
+    - name: Copy python 3.11 package requirements.txt
+      ansible.builtin.get_url:
+        url: "{{ python_packages }}/requirements.txt"
+        dest: /tmp/requirements.txt
+      when: python_packages_exist
+
+    - name: Set up python 3.11 pip
+      ansible.builtin.shell:
+        cmd: |
+          python3.11 -m ensurepip
+          python3.11 -m pip install --upgrade pip --no-index -f {{ python_packages }} --trusted-host {{ repo_ip }}
+      when: python_packages_exist
+
+    - name: Deploy python 3.11 packages
+      ansible.builtin.command: python3.11 -m pip install -r /tmp/requirements.txt --no-index -f {{ python_packages }} --trusted-host {{ repo_ip }}
+      when: python_packages_exist
+
+    - name: Clean up requirements.txt
+      file:
+        path: /tmp/requirements.txt
+        state: absent
+      when: python_packages_exist
+
+    - name: Set python3 to python 3.11
+      ansible.builtin.command: update-alternatives --set python3 /usr/bin/python3.11
+      when: python_packages_exist
+
+    - name: Check if pssh2 exists
+      # We may use the latest script to work on older Cerebras-patches tarball,
+      # which may not have the pssh2 yet.
+      ansible.builtin.stat:
+        path: /var/www/html/repo/Cerebras-patches/pssh2
+      register: pssh2_status
+      run_once: true
+      delegate_to: localhost
+
+    - name: Copy pssh2
+      ansible.builtin.get_url:
+        url: http://{{ repo_ip }}:8080/repo/Cerebras-patches/pssh2
+        dest: /usr/local/bin/pssh2
+        mode: 0755
+        owner: root
+        group: root
+      when: pssh2_status.stat.exists
+
+    - name: Check if pscp2 exists
+      # We may use the latest script to work on older Cerebras-patches tarball,
+      # which may not have the pscp2 yet.
+      ansible.builtin.stat:
+        path: /var/www/html/repo/Cerebras-patches/pscp2
+      register: pscp2_status
+      run_once: true
+      delegate_to: localhost
+
+    - name: Copy pscp2
+      ansible.builtin.get_url:
+        url: http://{{ repo_ip }}:8080/repo/Cerebras-patches/pscp2
+        dest: /usr/local/bin/pscp2
+        mode: 0755
+        owner: root
+        group: root
+      when: pscp2_status.stat.exists
+
+    - name: Check if kernel is updated
+      ansible.builtin.command: needs-restarting -r
+      changed_when: false
+      failed_when: kernel_updated.rc != 0 and kernel_updated.rc != 1
+      check_mode: false
+      register: kernel_updated
+
+    - name: Check if awscli package exists
+      # We may use the latest script to work on older Cerebras-patches tarball,
+      # which may not have the awscli zip file yet.
+      ansible.builtin.stat:
+        path: /var/www/html/repo/Cerebras-patches/awscli-exe-linux-x86_64.zip
+      register: awscli_status
+      run_once: true
+      delegate_to: localhost
+
+    - name: Create tmp directory for installing awscli v2
+      file:
+        path: /tmp/awscli
+        state: directory
+        mode: '0755'
+      when: awscli_status.stat.exists
+
+    - name: Copy and unzip awscli v2
+      unarchive:
+        src: http://{{ repo_ip }}:8080/repo/Cerebras-patches/awscli-exe-linux-x86_64.zip
+        dest: /tmp/awscli
+        remote_src: yes
+      when: awscli_status.stat.exists
+
+    - name: Install/Update awscli v2
+      command:
+        cmd: ./install --update
+        chdir: /tmp/awscli/aws
+      when: awscli_status.stat.exists
+
+    - name: Validate awscli v2 is installed properly
+      command: /usr/local/bin/aws --version
+      register: command_result
+      failed_when: command_result.rc != 0
+      when: awscli_status.stat.exists
+
+    - name: Clean up awscli tmp directory
+      file:
+        path: /tmp/awscli
+        state: absent
+      when: awscli_status.stat.exists
+
+    - name: Check installed Mellanox driver version
+      ansible.builtin.shell:
+        cmd: "ofed_info -s | tr -d ':'"
+      register: installed_driver
+      check_mode: false  # ignore any error
+
+    - name: Determine Mellanox driver filename
+      ansible.builtin.shell:
+        cmd: curl -s http://{{ repo_ip }}:8080/repo/Cerebras-patches/ | grep 'MLNX' | cut -d '"' -f 8
+      register: driver_file
+
+    - name: Check if Mellanox driver update is needed
+      ansible.builtin.set_fact:
+        install_driver: "{{ kernel_updated.rc == 1 or force or not driver_file.stdout.startswith(installed_driver.stdout) }}" 
+
+    - name: Create temporary driver directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: driver
+      register: driver
+      when: install_driver
+
+    - name: Copy Mellanox driver to server
+      ansible.builtin.get_url:
+        url: 'http://{{ repo_ip }}:8080/repo/Cerebras-patches/{{ driver_file.stdout }}'
+        dest: '{{ driver.path }}'
+      when: install_driver
+      # TODO: tune parallelism
+      throttle: 200
+
+    - name: Find the name of the Mellanox .tgz file
+      ansible.builtin.find:
+        paths: '{{ driver.path }}'
+        patterns : 'MLNX_*.tgz'
+        file_type: file
+      register: tar_file
+      when: install_driver
+
+    - name: Unarchive Mellanox driver
+      ansible.builtin.unarchive:
+        src: '{{ tar_file.files[0].path }}'
+        dest: '{{ driver.path }}'
+        remote_src: yes
+      register: untar_out
+      when: install_driver
+
+    - name: Find the extracted directory
+      ansible.builtin.find:
+        paths: '{{ driver.path }}'
+        patterns : 'MLNX_*'
+        file_type: directory
+      register: extracted_dir
+      when: install_driver
+
+    - name: Find the latest installed kernel version
+      ansible.builtin.shell:
+        cmd: find /boot/vmlinuz-* | sort -V | tail -n 1 | sed 's|.*vmlinuz-||'
+      register: kernel_version
+      when: install_driver
+
+    - name: Install Mellanox driver
+      ansible.builtin.command:
+        cmd: timeout 900 ./mlnxofedinstall --force --without-fw-update -q -k {{ kernel_version.stdout }} -s /lib/modules/{{ kernel_version.stdout }}/build
+        chdir: '{{ extracted_dir.files[0].path }}'
+      when: install_driver
+
+    - name: Clean up Mellanox files
+      ansible.builtin.file:
+        path: '{{ driver.path }}'
+        state: absent
+      when: install_driver
+
+    - name: Clean up .repo file
+      ansible.builtin.file:
+        path: /etc/yum.repos.d/cerebras-patches.repo
+        state: absent
+
+    - name: Check if reboot required
+      ansible.builtin.set_fact:
+        needs_reboot: "{{ install_driver or kernel_updated.rc == 1 }}"
+        cacheable: yes
+
+    - name: Create initramfs boot image if Mellanox driver is installed
+      ansible.builtin.command: timeout 300 dracut -f --kver {{ kernel_version.stdout }}
+      register: result
+      # This process may hang on a coordinator node.  The initramfs file is
+      # created, but dracut hangs afterward in a restorecon call.  Not clear why
+      # this is happening. If we reboot the node, the boot image runs fine 
+      # afterward.
+      # Ignore the timeout (return code 124) for now, and proceed to reboot.
+      failed_when: result.rc != 0 and result.rc != 124
+      when: 
+        - install_driver 
+
+
+- name: Reboot non-ceph nodes in batches
+  hosts: non_ceph_nodes
+  tasks:
+    - name: Reboot patched node
+      include_tasks: reboot_nodes.yaml
+      when: 
+        - needs_reboot
+        - inventory_hostname != deploy_mgr_host
+
+- name: Reboot ceph nodes serially, except the ansible controller host
+  # The serial process is needed to ensure ceph is healthy.
+  hosts: ceph_nodes
+  serial: 1
+  tasks:
+    - name: Disable ceph balancing
+      ansible.builtin.shell: |
+        kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph osd set noout
+        kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph osd set norebalance
+      run_once: true
+      delegate_to: "{{ control_plane_node | default(null, True) }}"
+      when:
+        - k8s_running
+        - inventory_hostname != deploy_mgr_host
+        - needs_reboot
+
+    - name: Reboot node
+      include_tasks: reboot_nodes.yaml
+      when: 
+        - inventory_hostname != deploy_mgr_host
+        - needs_reboot
+
+    - name: Wait until tools_pod is ready
+      ansible.builtin.shell:
+        cmd: kubectl -n rook-ceph get pod -lapp=rook-ceph-tools | grep "Running" | awk '{print $1}'
+      register: tools_pod
+      run_once: true
+      delegate_to: "{{ control_plane_node | default(null, True) }}"
+      retries: 5 # pod may not come up right away, retry for 5 more times.
+      delay: 60
+      until: tools_pod.stdout != ""
+      when:
+        - k8s_running
+        - inventory_hostname != deploy_mgr_host
+        - needs_reboot
+
+    - name: Re-enable ceph balancing
+      ansible.builtin.shell: |
+        kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph osd unset noout
+        kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph osd unset norebalance
+      run_once: true
+      delegate_to: "{{ control_plane_node | default(null, True) }}"
+      when:
+        - k8s_running
+        - inventory_hostname != deploy_mgr_host
+        - needs_reboot
+
+    - name: Wait until all ceph placement groups (pgs) are clean
+      # Get clean_pgs and total_pgs
+      ansible.builtin.shell: |
+        kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph status -f json | jq -r '.pgmap.pgs_by_state[] | select(.state_name | startswith("active+clean")) | .count'
+        kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph status -f json | jq -r '.pgmap.num_pgs'
+      register: status
+      # Wait up to 20 mins
+      retries: 40
+      delay: 30
+      # Compare clean_pgs with total_pgs
+      until: status.stdout_lines[-2] == status.stdout_lines[-1]
+      run_once: true
+      delegate_to: "{{ control_plane_node | default(null, True) }}"
+      # Ignore timeout and move on to reboot the next ceph node, rely on the final ceph healthy check.
+      ignore_errors: true
+      when:
+        - k8s_running
+        - inventory_hostname != deploy_mgr_host
+        - needs_reboot
+
+- name: Refresh platform-version.json
+  hosts: all
+  tasks:
+    - name: Create /tmp/platform-version directory
+      ansible.builtin.file:
+        path: /tmp/platform-version
+        state: directory
+
+    - name: Copy platform version source files
+      ansible.builtin.copy:
+        src: "/opt/cerebras/cluster-deployment/deployment/deployment_manager/platform/manifests/{{ item }}"
+        dest: "/tmp/platform-version"
+      loop:
+        - data/package_manifest.json
+        - data/config_manifest.json
+        - data/cbcore_compatibility.json
+        - platform_version.py
+
+    - name: Generate platform-version.json file
+      ansible.builtin.shell: |
+        echo "python3 ./platform_version.py --package ./package_manifest.json --config ./config_manifest.json --cbcore ./cbcore_compatibility.json --output /opt/cerebras/platform-version.json --role {{ hostvars[inventory_hostname].role }} --vendor {{ hostvars[inventory_hostname].vendor }}" > rerun
+        chmod a+x rerun
+        ./rerun
+      args:
+        chdir: /tmp/platform-version
+        
+- name: Wait until ceph is healthy
+  hosts: ceph_nodes
+  tasks:
+    - name: Wait until ceph is healthy
+      ansible.builtin.shell:
+        cmd: kubectl get cephcluster/rook-ceph -n rook-ceph -ojson | jq -r '.status.ceph.health'
+      register: status
+      # Wait up to 30 mins
+      retries: 30
+      delay: 60
+      until: status.stdout == 'HEALTH_OK'
+      delegate_to: "{{ control_plane_node | default(null, True) }}"
+      run_once: true
+      # Ignore errors at the end
+      ignore_errors: true
+      when:
+        - k8s_running
+        - needs_reboot

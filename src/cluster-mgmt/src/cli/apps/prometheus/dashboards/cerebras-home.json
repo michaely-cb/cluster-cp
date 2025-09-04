@@ -1,0 +1,72 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 9414,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<a href=\"/dashboards\">Go to the dashboards</a>\n\n### Overview of Dashboard Folders\n\n#### cluster-admin\nThese dashboards are intended for administrators and cluster operators to monitor the overall cluster health.\n\n#### session-admin\nThese dashboards are intended for session owners who need to monitor the utilization and health of a session's resources and job statuses.\n\n#### job-admin\nThese dashboards are intended for users who want to monitor the status of a job and troubleshoot, if needed.\n\n#### resource-details\nThese dashboards are intended for administrators and cluster operators who want to view specific cluster resources and the ports/links that connect them.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.3.1",
+      "title": "Cerebras Monitoring Home",
+      "type": "text"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Cerebras Home",
+  "uid": "X965tG-4k",
+  "version": 1,
+  "weekStart": ""
+}

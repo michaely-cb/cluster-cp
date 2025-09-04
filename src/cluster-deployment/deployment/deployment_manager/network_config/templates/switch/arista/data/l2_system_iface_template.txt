@@ -1,0 +1,19 @@
+!
+! L2 config for ${my_port}
+!
+default interface ${my_port}
+interface ${my_port}
+    description L2 to ${neighbor}
+    mtu ${mtu}
+    switchport
+    switchport access vlan ${switch_vlan}
+    spanning-tree portfast
+    spanning-tree bpduguard enable
+    qos trust dscp
+    qos dscp 40
+    priority-flow-control on
+    priority-flow-control priority 5 no-drop
+    tx-queue 1
+    bandwidth guaranteed 10000000
+    no shutdown
+!

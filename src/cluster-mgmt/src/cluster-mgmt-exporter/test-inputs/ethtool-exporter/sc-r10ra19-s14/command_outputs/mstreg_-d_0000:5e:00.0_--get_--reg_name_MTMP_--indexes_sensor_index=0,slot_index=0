@@ -1,0 +1,19 @@
+Sending access register...
+
+Field Name                  | Data    
+=========================================
+sensor_index                | 0x00000000
+slot_index                  | 0x00000000
+temperature                 | 0x000001a8
+max_temperature             | 0x000001b0
+sdme                        | 0x00000000
+weme                        | 0x00000000
+mtr                         | 0x00000000
+mte                         | 0x00000001
+temperature_threshold_hi    | 0x00000348
+sdee                        | 0x00000000
+tee                         | 0x00000000
+temperature_threshold_lo    | 0x000002f8
+sensor_name_hi              | 0x00000000
+sensor_name_lo              | 0x00000000
+=========================================

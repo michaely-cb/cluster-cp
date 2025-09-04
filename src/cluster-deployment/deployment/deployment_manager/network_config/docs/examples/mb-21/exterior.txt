@@ -1,0 +1,4 @@
+sc-r9rb14-100gsw64	Ethernet25/1	10.250.1.62/31	sc-r9ra14-100gsw128-0	Ethernet2/2/1	10.250.1.63/31
+sc-r9rb15-100gsw64	Ethernet25/1	10.250.1.64/31	sc-r9ra14-100gsw128-0	Ethernet8/1/1	10.250.1.65/31
+sc-r9rb13-100gsw64	Ethernet25/1	10.250.1.66/31	sc-r9ra14-100gsw128-0	Ethernet4/2/1	10.250.1.67/31
+sc-r9rb12-100gsw64	Ethernet25/1	10.250.1.68/31	sc-r9ra14-100gsw128-0	Ethernet4/3/1	10.250.1.69/31

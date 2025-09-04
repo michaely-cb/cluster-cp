@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: rdma-device-plugin-test-not-br
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: rdma-device-plugin-test
+  template:
+    metadata:
+      labels:
+        name: rdma-device-plugin-test
+      annotations:
+        k8s.v1.cni.cncf.io/networks: job-operator/multus-data-net
+    spec:
+      terminationGracePeriodSeconds: 3
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: k8s.cerebras.com/node-role-broadcastreduce
+                operator: DoesNotExist
+              - key: cerebras/incremental-new
+                operator: Exists
+      containers:
+        - name: rdma-test
+          securityContext:
+            fsGroup: 1001
+            runAsGroup: 1001
+            runAsUser: 1000
+          image: registry.local/busybox:1.34.1
+          command: ["sleep", "infinity"]
+          securityContext:
+            capabilities:
+              add: [ "IPC_LOCK" ]
+          resources:
+            limits:
+              rdma/hca_devices: 1
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: rdma-device-plugin-test-br
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: rdma-device-plugin-test
+  template:
+    metadata:
+      labels:
+        name: rdma-device-plugin-test
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 3
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: k8s.cerebras.com/node-role-broadcastreduce
+                operator: Exists
+              - key: cerebras/incremental-new
+                operator: Exists
+      containers:
+        - name: rdma-test
+          securityContext:
+            fsGroup: 1001
+            runAsGroup: 1001
+            runAsUser: 1000
+          image: registry.local/busybox:1.34.1
+          command: ["sleep", "infinity"]
+          securityContext:
+            capabilities:
+              add: [ "IPC_LOCK" ]
+          resources:
+            limits:
+              rdma/hca_devices: 1

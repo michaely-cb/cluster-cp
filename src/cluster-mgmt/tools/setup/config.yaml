@@ -1,0 +1,26 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: v1.24.4
+apiServer:
+  extraArgs:
+    advertise-address: $NIC
+controllerManager:
+  extraArgs:
+    node-cidr-mask-size: 26
+    bind-address: 0.0.0.0
+scheduler:
+  extraArgs:
+    bind-address: 0.0.0.0
+networking:
+  podSubnet: 192.168.128.0/17
+  serviceSubnet: 192.168.0.0/17
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: $NIC
+  bindPort: 6443
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+metricsBindAddress: 0.0.0.0

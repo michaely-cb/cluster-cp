@@ -1,0 +1,110 @@
+{
+    "enabled": true,
+    "dropPacketSamplingEnabled": false,
+    "ipv4Destinations": [
+        {
+            "port": 6344,
+            "hostname": "10.250.228.33",
+            "datagramsCount": 83,
+            "ipv4Address": "10.250.228.33",
+            "vrfName": "cs1data"
+        },
+        {
+            "port": 6343,
+            "hostname": "10.250.228.34",
+            "datagramsCount": 8721,
+            "ipv4Address": "10.250.228.34",
+            "vrfName": "cs1data"
+        }
+    ],
+    "ipv6Destinations": [],
+    "ipv4DestinationsForDropSamples": [],
+    "ipv6DestinationsForDropSamples": [],
+    "ipv4Sources": [
+        {
+            "ipv4Address": "10.250.227.254",
+            "vrfName": "cs1data"
+        },
+        {
+            "ipv4Address": "0.0.0.0",
+            "vrfName": "default"
+        }
+    ],
+    "ipv6Sources": [
+        {
+            "ipv6Address": "::",
+            "vrfName": "cs1data"
+        },
+        {
+            "ipv6Address": "::",
+            "vrfName": "default"
+        }
+    ],
+    "ipv4SourcesForDropSamples": [],
+    "ipv6SourcesForDropSamples": [],
+    "ipv4Agents": [
+        {
+            "ipv4Address": "172.28.211.240",
+            "vrfName": "cs1data"
+        },
+        {
+            "ipv4Address": "172.28.211.240",
+            "vrfName": "default"
+        }
+    ],
+    "ipv6Agents": [
+        {
+            "ipv6Address": "::",
+            "vrfName": "cs1data"
+        },
+        {
+            "ipv6Address": "::",
+            "vrfName": "default"
+        }
+    ],
+    "sampleRate": 65536,
+    "sampleTruncateSize": 128,
+    "pollingInterval": 2.0,
+    "rewriteDscp": false,
+    "dscpValue": 0,
+    "running": true,
+    "dropPacketExportRunning": false,
+    "polling": true,
+    "samplingEnabled": true,
+    "bgpExports": [
+        {
+            "export": false,
+            "vrfName": "cs1data"
+        },
+        {
+            "export": false,
+            "vrfName": "default"
+        }
+    ],
+    "sendingDatagrams": [
+        {
+            "sending": true,
+            "reason": "noError",
+            "vrfName": "cs1data"
+        },
+        {
+            "sending": false,
+            "reason": "invalidSource",
+            "vrfName": "default"
+        }
+    ],
+    "sendingDatagramsForDropSamples": [],
+    "hardwareSampleRate": 65536,
+    "accelSupported": false,
+    "totalPackets": 6229753480441,
+    "softwareSamples": 12345678,
+    "samplePool": 0,
+    "hardwareSamples": 6749397,
+    "datagrams": 8721,
+    "dropSampleDatagrams": 0,
+    "dropSamplesReceived": 0,
+    "dropSamplesSent": 0,
+    "warnings": [
+        "Displaying counters that may be stale"
+    ]
+}

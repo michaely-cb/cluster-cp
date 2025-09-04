@@ -1,0 +1,19 @@
+- name: Configure internal NIC
+  shell: nmcli con mod "{{ connection_name }}" {{ item }}
+  loop:
+    - ipv4.address {{ dhcp_ip }}/{{ root_subnet }}
+    - ipv4.gateway {{ root_gateway }}
+    - ipv4.method manual
+    - ipv4.dns {{ dhcp_ip }}
+    - +ipv4.dns {{ root_gateway }}
+
+- name: Configure internal NIC dns
+  shell: nmcli con mod "{{ connection_name }}" +ipv4.dns "{{ item }}"
+  loop: "{{ dns_servers }}"
+  when: dns_servers is defined
+
+- name: Refresh connection
+  shell: nmcli con down "{{ connection_name }}"; sleep 5; nmcli con up "{{ connection_name }}"
+
+- name: Ping gateway
+  shell: ping -c 1 -w 2 {{ root_gateway }}

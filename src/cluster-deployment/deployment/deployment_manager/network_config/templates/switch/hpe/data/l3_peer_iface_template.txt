@@ -1,0 +1,13 @@
+#
+# L3 peering config between ${name} and ${neighbor}
+#
+default interface ethernet ${my_port_num}
+interface ethernet ${my_port_num}
+    description L3 to ${neighbor}
+    mtu ${mtu} force
+    no switchport force
+    vrf forwarding ${vrf_name}
+    no ip address
+    ip address ${my_address} primary
+    exit
+#

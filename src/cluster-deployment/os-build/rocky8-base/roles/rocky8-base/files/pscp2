@@ -1,0 +1,166 @@
+#!/usr/bin/python3.11
+"""
+Parallel SCP implementation using asyncssh
+Accepts some args from pscp: -p, -h, -e, -o
+Handles -r
+Ignores -h, always disables key checking for now
+"""
+
+import argparse
+import asyncio
+import os
+import sys
+import time
+from multiprocessing import Manager, Process
+from typing import List
+
+import asyncssh
+
+# pscp.pssh args used:
+# all -
+# -p NUM_THR
+# -r
+# -x '-o StrictHostKeyChecking=no'
+# -h hostlist
+# src and dest files
+# in some tests -
+
+
+async def run_client(
+    host: str, args: argparse.Namespace, ssh_args: argparse.Namespace, ssh_options: dict
+) -> None:
+    # asyncssh gives some args 3 states:
+    # the value (string or list) you specified
+    # None value you specified (disables host key checking, uses no key files, etc)
+    # (), typically by not giving the optional arg (does default thing, like searching standard keys)
+
+    if ssh_args.i:  # identity_file
+        ck_arg = ssh_args.i
+    else:
+        ck_arg = ()
+
+    if ssh_options.get("StrictHostKeyChecking") == "no":
+        kh_arg = None
+    else:
+        kh_arg = ()
+
+    # for timeout arg - prefer -o Timeout over --timeout
+    async with asyncssh.connect(
+        host,
+        known_hosts=kh_arg,
+        client_keys=ck_arg,
+        connect_timeout=ssh_options.get("Timeout", args.timeout),
+    ) as conn:
+        await asyncssh.scp(args.src, (conn, args.dest), recurse=args.recursive)
+
+
+async def run_multiple_clients(
+    hostlist: List[str],
+    host_offset: int,
+    args: argparse.Namespace,
+    ssh_args: argparse.Namespace,
+    ssh_options: dict,
+) -> None:
+    tasks = (run_client(host.rstrip(), args, ssh_args, ssh_options) for host in hostlist)
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    for i, result in enumerate(results, 1):
+        tstr = time.strftime("%H:%M:%S", time.localtime())
+        if isinstance(result, Exception):
+            print(f"[{i+host_offset}] {tstr} [FAILURE] {hostlist[i-1].rstrip()} {str(result)}")
+        else:
+            print(f"[{i+host_offset}] {tstr} [SUCCESS] {hostlist[i-1].rstrip()}")
+
+
+def worker(
+    hostlist: List[str],
+    worker_idx: int,
+    args: argparse.Namespace,
+    ssh_args: argparse.Namespace,
+    ssh_options: dict,
+) -> None:
+    s = worker_idx * int(len(hostlist) / args.processes)
+    if worker_idx == args.processes - 1:
+        e = len(hostlist)
+    else:
+        e = s + int(len(hostlist) / args.processes)
+    asyncio.get_event_loop().run_until_complete(
+        run_multiple_clients(hostlist[s:e], s, args, ssh_args, ssh_options)
+    )
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(add_help=False)
+
+    parser.add_argument('-r', '--recursive', action='store_true', help='Recurse directories')
+    parser.add_argument(
+        '-p', '--processes', type=int, default=4, help='Number of pscp processes to use'
+    )
+    parser.add_argument('-h', '--host-list', required=True, help='List of source/dest hosts')
+    parser.add_argument('-t', '--timeout', help='Timeout')
+    parser.add_argument('--help', help='Show help')
+
+    ssh_parser = argparse.ArgumentParser(add_help=False)
+    ssh_parser.add_argument('-o', action='append')
+    ssh_parser.add_argument('-i')
+
+    pssh_argv = []  # -p, -h, etc
+    ssh_argv = []  # -o Foo=Bar
+    src = None
+    dest = None
+
+    pssh_unary = "--version --help -v --verbose -A --askpass -r".split()
+    pssh_binary = "-h --hosts -H --host -l --user -p --par -o --outdir -e --errdir -t --timeout -O --option".split()
+    pssh_extra = "-x --extra-args -X --extra-arg".split()
+    i = 1
+    while i < len(sys.argv[1:]):
+        if sys.argv[i] in pssh_unary:
+            pssh_argv.append(sys.argv[i])
+            i += 1
+        elif sys.argv[i].split('=')[0] in pssh_binary:
+            pssh_argv.append(sys.argv[i])
+            i += 1
+            if '=' not in sys.argv[i - 1]:  # like --timeout 300  instead of --timeout=300
+                pssh_argv.append(sys.argv[i])
+                i += 1
+        elif sys.argv[i] in pssh_extra:
+            ssh_argv += sys.argv[i + 1].split()
+            i += 2
+        else:
+            src = sys.argv[i]
+            dest = sys.argv[i + 1]
+            break
+
+    args = parser.parse_args(pssh_argv)
+
+    setattr(args, "src", src)
+    setattr(args, "dest", dest)
+
+    if args.help:
+        parser.print_help()
+        sys.exit(0)
+
+    if args.processes < 1:
+        print("Process count must be greater than 0.", file=os.stderr)
+        sys.exit(1)
+
+    ssh_args = ssh_parser.parse_args(ssh_argv)
+    ssh_options = {}
+    if ssh_args.o:
+        for sopt in ssh_args.o:
+            k, v = sopt.split('=')
+            ssh_options[k] = v
+
+    with open(args.host_list, "r") as f:
+        hostlist = f.readlines()
+
+    with Manager() as manager:
+        results = []
+        procs = []
+        for pid in range(0, args.processes):
+            results.append(manager.list())
+            p = Process(target=worker, args=(hostlist, pid, args, ssh_args, ssh_options))
+            p.start()
+            procs.append(p)
+        for pid in range(0, args.processes):
+            procs[pid].join()

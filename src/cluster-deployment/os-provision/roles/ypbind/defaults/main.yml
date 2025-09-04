@@ -1,0 +1,4 @@
+nis_mirrors:
+  - 172.28.240.32
+  - 172.28.240.33
+nis_domain: cerebras.aws

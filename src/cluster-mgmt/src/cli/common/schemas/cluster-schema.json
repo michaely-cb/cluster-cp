@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://cerebras.com/cluster.schema.json",
+  "type": "object",
+  "title": "ClusterConfigurationSchema",
+  "required": [
+    "kind",
+    "name",
+    "systems",
+    "nodes"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "default": "cluster-configuration",
+      "title": "The kind of this document.",
+      "examples": [
+        "cluster-configuration"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "default": "",
+      "title": "The name of the cluster.",
+      "examples": [
+        "kind",
+        "multibox0"
+      ]
+    },
+    "properties": {
+      "type": "object",
+      "title": "The properties of the cluster.",
+      "default": {},
+      "properties": {
+        "serviceDomain": {
+          "type": "string",
+          "default": "cerebras.com",
+          "title": "The base domain for cluster services exposed by nginx ingress.",
+          "examples": [
+            "example.com"
+          ]
+        },
+        "alertSmtp": {
+          "type": "string",
+          "default": "",
+          "title": "The smtp server to use for sending alerts.",
+          "examples": []
+        }
+      },
+      "additionalProperties": true
+    },
+    "systems": {
+      "type": "array",
+      "default": [],
+      "title": "The list of systems in the cluster.",
+      "items": {
+        "type": "object",
+        "title": "A system",
+        "required": [
+          "name",
+          "type",
+          "controlAddress"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "title": "The name of system",
+            "examples": [
+              "systemf88"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "default": "cs2",
+            "title": "The type of system",
+            "enum": [
+              "cs2"
+            ]
+          },
+          "managementAddress": {
+            "type": "string",
+            "default": null,
+            "title": "IP of the systems' management address",
+            "examples": [
+              "10.0.0.1"
+            ],
+            "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
+          },
+          "managementUser": {
+            "type": "string",
+            "default": "admin",
+            "title": "Non-root management account user name for CS system"
+          },
+          "managementPassword": {
+            "type": "string",
+            "default": "admin",
+            "title": "Non-root management account's password for CS system"
+          },
+          "controlAddress": {
+            "type": "string",
+            "title": "IP of the systems' control address",
+            "examples": [
+              "10.0.0.1:9000"
+            ],
+            "pattern": "^(((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}:\\d+)|(~.+~:\\d+)$"
+          }
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "default": [],
+      "title": "The nodes of the cluster.",
+      "items": {
+        "type": "object",
+        "name": "node",
+        "required": [
+          "name",
+          "role"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "",
+            "title": "The name of the node. Usually the hostname.",
+            "examples": [
+              "scr10-ra10"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "default": "any",
+            "enum": [
+              "management",
+              "broadcastreduce",
+              "worker",
+              "memory",
+              "any"
+            ],
+            "title": "The hardware specialization of the node."
+          },
+          "hostname": {
+            "type": "string",
+            "default": "",
+            "title": "Optional hostname or IP of the node if the 'name' attribute is not a reachable address."
+          },
+          "networkInterfaces": {
+            "type": "array",
+            "title": "Array of network interfaces. Must be set for broadcastreduce type nodes",
+            "items": {
+              "type": "object",
+              "name": "networkInterface",
+              "required": [
+                "name",
+                "address"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "csPort": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                  ],
+                  "title": "One of 12 ports on the CS machine that the NIC is connected to. Must be set for a broadcastreduce role node."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "default": [],
+      "title": "Node groups. Usually sets of nodes having 1 hop communication routes.",
+      "items": {
+        "type": "object",
+        "name": "nodeGroup",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "The name of the nodegroup.",
+            "examples": [
+              "nodegroup0"
+            ]
+          },
+          "properties": {
+            "type": "object",
+            "title": "Key-value properties describing features of the group. Used by the scheduler.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "switchConfig": {
+            "type": "object",
+            "title": "Group's switch configuration.",
+            "required": [
+              "maxUsedIP",
+              "gateway",
+              "subnet",
+              "parentnet",
+              "firstFreeIP"
+            ],
+            "properties": {
+              "memoryNIC": {
+                "title": "Name of 100G NIC on memory node.",
+                "type": "string",
+                "pattern": ".+"
+              },
+              "workerNIC": {
+                "title": "Name of 100G NIC on worker node.",
+                "type": "string",
+                "pattern": ".+"
+              },
+              "managementNIC": {
+                "title": "Name of 100G NIC on management node.",
+                "type": "string",
+                "pattern": ".+"
+              },
+              "gateway": {
+                "type": "string",
+                "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
+              },
+              "parentnet": {
+                "type": "string",
+                "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}/\\d+$"
+              },
+              "firstFreeIP": {
+                "type": "string",
+                "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
+              },
+              "maxUsedIP": {
+                "type": "string",
+                "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "userNode": {
+      "type": "object",
+      "default": {},
+      "title": "An optional node specifying where user code will run",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "",
+          "title": "The name of the node. Usually the hostname.",
+          "examples": [
+            "scr10-ra10"
+          ]
+        },
+        "hostname": {
+          "type": "string",
+          "default": "",
+          "title": "Optional hostname or IP of the node if the 'name' attribute is not a reachable address."
+        }
+      }
+    }
+  }
+}

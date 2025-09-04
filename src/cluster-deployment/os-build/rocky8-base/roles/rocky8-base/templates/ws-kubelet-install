@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# repo file from https://kubernetes.io/blog/2023/08/15/pkgs-k8s-io-introduction/
+set -e
+
+# The version for the OS image used for deploying new clusters should be 
+# consistent with the version for upgrading existing clusters.
+# See in SUPPORTED_VERSIONS in src/cluster_mgmt/src/cli/apps/k8s/k8_init.sh
+version="1.32"
+full_version="${version}.6"
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://pkgs.k8s.io/core:/stable:/v${version}/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://pkgs.k8s.io/core:/stable:/v${version}/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
+EOF
+#####you can ignore this if you have already set the selinux to permissive####
+sudo setenforce 0      # Set SELinux in permissive mode (effectively disabling it)
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+##############################################################################
+sudo yum install -y kubelet-${full_version} kubectl-${full_version} kubeadm-${full_version} --disableexcludes=kubernetes
+sudo systemctl enable --now kubelet
+systemctl start kubelet
+
+# pre-pull images
+sudo kubeadm config images pull --kubernetes-version=v${full_version} --v=5

@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alert-router
+  namespace: prometheus
+spec:
+  externalTrafficPolicy: Local
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30080
+  selector:
+    app: alert-router
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alert-router
+  namespace: prometheus
+spec:
+  replicas: 1  # Number of replicas
+  selector:
+    matchLabels:
+      app: alert-router
+  template:
+    metadata:
+      labels:
+        app: alert-router
+    spec:
+      containers:
+      - name: alert-router
+        image: alert-router:${ALERT_ROUTER_TAG}
+        imagePullPolicy: Never # Don't go to remote registry, use local docker
+        ports:
+        - containerPort: 8080 
+        env:
+        - name: OPERATOR_CONTACTS_PATH
+          value: /etc/operator-alert-config/config
+        - name: ALERT_RULE_MAPPINGS_PATH
+          value: /etc/alert-rule-mappings/alert-classification.yaml
+        - name: SMTP_HOST
+          value: mailhog 
+        - name: SMTP_PORT
+          value: "1025"
+        # SMTP credentials are empty for mailhog (test environment)
+        - name: SMTP_INSECURE
+          value: "true"
+        - name: CLUSTER_NAME
+          value: ${CLUSTER_NAME}
+        - name: CLUSTER_DOMAIN_NAME
+          value: ${CLUSTER_DOMAIN_NAME}
+        - name: PROMETHEUS_URL
+          value: http://prometheus-prometheus.prometheus.svc.cluster.local:9090
+        volumeMounts:
+        - name: operator-email-config
+          mountPath: /etc/operator-alert-config
+        - name: alert-rule-mappings
+          mountPath: /etc/alert-rule-mappings
+      volumes:
+      - name: operator-email-config
+        secret:
+          secretName: cluster-operator-contacts
+      - name: alert-rule-mappings
+        configMap:
+          name: alert-classification

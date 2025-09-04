@@ -1,0 +1,18 @@
+prometheus:
+  prometheusSpec:
+    secrets:
+      - VAST_SECRET_NAME
+    additionalScrapeConfigs:
+      - job_name: vast_all
+        metrics_path: /api/prometheusmetrics/all
+        scrape_interval: 60s
+        scrape_timeout: 45s
+        scheme: https
+        static_configs:
+          - targets:
+              - VAST_ENDPOINT
+        tls_config:
+          insecure_skip_verify: true
+        basic_auth:
+          username_file: /etc/prometheus/secrets/VAST_SECRET_NAME/username
+          password_file: /etc/prometheus/secrets/VAST_SECRET_NAME/password

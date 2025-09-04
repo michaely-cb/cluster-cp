@@ -1,0 +1,153 @@
+loki:
+  commonConfig:
+    replication_factor: 1
+    retention_period: 7d
+  auth_enabled: false
+  storage:
+    type: 'filesystem'
+  server:
+    http_listen_port: 3100
+    grpc_listen_port: 9095
+    log_level: debug
+  config: |
+    auth_enabled: {{ .Values.loki.auth_enabled }}
+    {{- with .Values.loki.server }}
+    server:
+      {{- toYaml . | nindent 2}}
+    {{- end}}
+    common:
+      path_prefix: /var/loki
+      storage:
+        filesystem:
+          chunks_directory: /var/loki/chunks
+          rules_directory: /var/loki/rules
+      replication_factor: {{ .Values.loki.commonConfig.replication_factor }}
+      ring:
+        kvstore:
+          store: inmemory
+    query_range:
+      results_cache:
+        cache:
+          embedded_cache:
+            enabled: true
+            max_size_mb: 100
+    schema_config:
+      configs:
+        - from: 2023-01-01
+          store: boltdb-shipper
+          object_store: filesystem
+          schema: v12
+          index:
+            prefix: loki_index_
+            period: 24h
+    compactor:
+      shared_store: filesystem
+      compaction_interval: 10m
+      retention_delete_delay: 10m
+      retention_enabled: true
+    limits_config:
+      ingestion_rate_mb: 50  # default is 4mb which is too small for all fluent-bit as a single user
+      ingestion_burst_size_mb: 100 # default is 6mb which is too small for all fluent-bit as a single user
+      max_global_streams_per_user: 10000 # default is 5000 which is too small for all fluent-bit as a single user 
+      retention_period: {{ .Values.loki.retention_period }}
+      retention_stream:
+        - selector: '{metric!=""}'
+          priority: 1
+          period: 30d
+    query_scheduler:
+      max_outstanding_requests_per_tenant: 1000
+singleBinary:
+  nodeSelector:
+    "node-role.kubernetes.io/control-plane": ""
+  podAnnotations:
+    k8s.v1.cni.cncf.io/networks: job-operator/multus-data-net
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+  #    limits:
+  #      memory: 1Gi
+  replicas: 1
+  persistence:
+    # -- Enable persistent disk
+    enabled: true
+    # -- Size of persistent disk
+    size: 50Gi
+    # -- Storage class to be used.
+    # If defined, storageClassName: <storageClass>.
+    # If set to "-", storageClassName: "", which disables dynamic provisioning.
+    # If empty or set to null, no storageClassName spec is
+    # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+    storageClass: ""
+  initContainers:
+    - name: ep
+      image: registry.local/alpine-kubectl:latest
+      env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+      command:
+        - /bin/sh
+        - "-c"
+        - |
+          echo ${NODE_NAME}
+          IP=$(ip a | grep -A2 "net[0-9]" | grep "inet " | awk '{print $2}' | cut -d/ -f1)
+          echo ${IP}
+          kubectl apply -f - <<EOF
+          apiVersion: v1
+          kind: Endpoints
+          metadata:
+            name: loki-headless
+            namespace: loki
+          subsets:
+            - addresses:
+                - ip: $IP
+              ports:
+                - port: 3100
+                  protocol: TCP
+                  name: http-metrics
+          EOF
+
+gateway:
+  enabled: false
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  tls:
+    - secretName: loki-general-tls
+      hosts: [ ]
+  hosts: [ ]
+
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+  # unfortunately dashboard not supported for single binary mode yet
+  # https://github.com/grafana/loki/issues/7657
+  dashboards:
+    enabled: false
+  #    annotations:
+  #      folder: /tmp/dashboards/debug
+  #    labels:
+  #      grafana_dashboard: "1"
+  rules:
+    # disable recording rules
+    enabled: false
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+  lokiCanary:
+    enabled: false
+
+test:
+  enabled: false

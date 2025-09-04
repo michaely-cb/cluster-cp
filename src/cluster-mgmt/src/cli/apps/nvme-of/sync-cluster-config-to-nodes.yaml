@@ -1,0 +1,17 @@
+- name: Create the cluster directory
+  file:
+    path: "{{ dest_cluster_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy cluster.yaml to remote with backup
+  copy:
+    src: "{{ src_cluster_yaml }}"
+    dest: "{{ dest_cluster_yaml }}"
+    backup: yes
+
+- name: Copy nvme-targets.yaml to remote with backup
+  copy:
+    src: "{{ src_targets_yaml }}"
+    dest: "{{ dest_targets_yaml }}"
+    backup: yes

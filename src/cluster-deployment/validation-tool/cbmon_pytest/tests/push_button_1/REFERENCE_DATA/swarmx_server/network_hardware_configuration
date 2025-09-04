@@ -1,0 +1,8 @@
+H/W             path            Device          Class           Description
+/0/100/1.1/0    eth100g0        network         MT2892          Family [ConnectX-6 Dx]
+/0/100/1.1/0.1  eth100g1        network         MT2892          Family [ConnectX-6 Dx]
+/0/118/1.2/0    eno1            network         I350            Gigabit Network Connection
+/0/118/3.1/0    eth100g4        network         MT28908         Family [ConnectX-6]
+/0/118/3.1/0.1  eth100g5        network         MT28908         Family [ConnectX-6]
+/0/120/1.1/0    eth100g2        network         MT28800         Family [ConnectX-5 Ex]
+/0/120/1.1/0.1  eth100g3        network         MT28800         Family [ConnectX-5 Ex]

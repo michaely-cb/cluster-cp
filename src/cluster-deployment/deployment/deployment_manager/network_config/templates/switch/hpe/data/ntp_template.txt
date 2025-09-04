@@ -1,0 +1,10 @@
+#
+# NTP and clock setup
+#
+ntp enable
+ntp vrf mgmt enable force
+ntp server ${ntp_server}
+clock timezone UTC
+# show ntp
+# show clock
+

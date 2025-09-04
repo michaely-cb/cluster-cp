@@ -1,0 +1,2 @@
+${prefix} via ${gw} dev ${name} proto static src ${address} metric ${table_id} rto_min 1ms
+${prefix} via ${gw} dev ${name} proto static src ${address} metric ${table_id} rto_min 1ms table ${table_id}

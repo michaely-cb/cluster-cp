@@ -1,0 +1,47 @@
+
+-------------------------------------------------------------------------------
+NIC CLI v234.0.109.0 - Broadcom Inc. (c) 2025 (Bld-106.52.39.138.16.0) 
+-------------------------------------------------------------------------------
+
+NIC State                           : Up
+Device Type                         : THOR2
+PCI Vendor ID                       : 0x14E4
+PCI Device ID                       : 0x1760
+PCI Revision ID                     : 0x11
+PCI Subsys Vendor ID                : 0x14E4
+PCI Subsys Device ID                : 0x9120
+Device Interface Name               : ens3np0
+MAC Address                         : 8C:84:74:01:A3:BA
+Base MAC Address                    : 8C:84:74:01:A3:BA
+Serial Number                       : P22002424003P7FG
+Part Number                         : BCM957608-P2200GQF00
+PCI Address                         : 0000:e1:00.0
+Chip Number                         : BCM57608
+Chip Name                           : THOR2
+Description                         : Broadcom BCM57608 2x200G PCIe Ethernet NIC
+Firmware Name                       : PRIMATE_FW
+Firmware Version                    : 234.0.109.0
+RoCE Firmware Version               : 234.0.109.0
+HWRM Interface Spec                 : 1.10.3
+Kong mailbox channel                : Not Applicable
+Active Package Version              : 234.1.78.0
+Package Version on NVM              : 234.1.78.0
+Active NVM config version           : 234.0.48
+NVM config version                  : 0.0.48
+Reboot Required                     : No
+Firmware Reset Counter              : 0
+Error Recovery Counter              : 0
+Crash Dump Timestamp                : Not Available
+Secure Boot                         : Enabled
+Secure Firmware Update              : Enabled
+FW Image Status                     : Operational
+Crash Dump Available in DDR         : No
+Device Temperature                  : 77 Celsius
+PHY Temperature                     : Not Available
+Optical Module Temperature          : 88 Celsius
+DAC Cable Length                    : 0.00 meter
+DAC Cable AWG Information           : N/A
+Cable insertion loss                : 0 dB
+Device Health                       : Good
+
+

@@ -1,0 +1,112 @@
+# Ansible script to download the security patches and create the repository.
+- name: Restore original repo files
+  ansible.builtin.shell:
+    cmd: |
+      cp /tmp/Rocky-BaseOS.repo /tmp/Rocky-AppStream.repo /etc/yum.repos.d/
+      rm /etc/yum.repos.d/Cerebras-patches.repo
+      dnf clean all
+
+- name: Creates repo directory, including one for python packages
+  ansible.builtin.file:
+    path: /var/repo/Cerebras-patches/packages
+    state: directory
+
+- name: Extract the latest list of security patches and advisories
+  # Note that the list can be different each time we run this
+  ansible.builtin.shell:
+    cmd: dnf updateinfo list updates security > security_advisories.txt
+    chdir: /var/repo/Cerebras-patches
+
+- name: Download the latest patches
+  ansible.builtin.shell:
+    cmd: dnf upgrade --downloadonly --downloaddir /var/repo/Cerebras-patches --assumeyes
+
+- name: Download additional packages
+  ansible.builtin.dnf:
+    name:
+      - python3.11-devel
+    state: latest
+    download_only: yes
+    download_dir: /var/repo/Cerebras-patches
+
+- name: Remove older versions of rpm packages
+  ansible.builtin.shell:
+    # There is a bug in 'repomanage -o -k 1 .' that it includes a few new
+    # packages.
+    # Hence extra filtering is needed to prevent them from being removed.
+    # The command 'repomanage -O .' would create the correct list, but sadly
+    # this option is not available until after the patches are applied.
+    cmd: |
+      repomanage -o -k 1 . | sort > buggy_old_packages
+      repomanage -n . | sort > new_packages
+      comm -23 buggy_old_packages new_packages > old_packages
+      cat old_packages | xargs rm -f
+      rm -f buggy_old_packages new_packages keep_packages old_packages
+    chdir: /var/repo/Cerebras-patches
+
+- name: Create repo files
+  ansible.builtin.command:
+    cmd: createrepo .
+    chdir: /var/repo/Cerebras-patches
+
+- name: Copy awscli v2 zip file
+  ansible.builtin.get_url:
+    url: http://{{ mirror_server }}/repos/Rocky8/awscli-exe-linux-x86_64.zip
+    dest: "/var/repo/Cerebras-patches/"
+
+- name: Copy pssh2 script
+  ansible.builtin.copy:
+    src: pssh2
+    dest: "/var/repo/Cerebras-patches/"
+
+- name: Copy pscp2 script
+  ansible.builtin.copy:
+    src: pscp2
+    dest: "/var/repo/Cerebras-patches/"
+
+- name: Set up python 3.11, pip and pip_audit
+  ansible.builtin.shell:
+    # Note python 3.11 has been downloaded to repository directory, but not
+    # installed yet.
+    cmd: |
+      dnf install python3.11 python3.11-devel --assumeyes --setopt=keepcache=True
+      python3.11 -m ensurepip --upgrade
+      python3.11 -m pip install --upgrade pip
+      python3.11 -m pip install pip_audit
+      python3.11 -m pip install pylint pyupgrade
+
+- name: Migrate python 3.8 packages to 3.11, retain package version
+  ansible.builtin.shell:
+    # backports.zoneinfo is for python <= 3.9 only
+    cmd: |
+      python3.8 -m pip freeze | grep -v 'backports.zoneinfo' > requirements.txt
+      python3.11 -m pip install -r requirements.txt
+      rm requirements.txt
+
+- name: Apply security updates to python 3.11 packages
+  ansible.builtin.shell:
+    # pip_audit fails to fix ansible and gevent, upgrade them to latest version.
+    cmd: |
+      python3.11 -m pip_audit --fix || true
+      python3.11 -m pip install --upgrade ansible
+      python3.11 -m pip install --upgrade gevent
+
+- name: Download python 3.11 packages to repo/packages directory
+  ansible.builtin.shell:
+    cmd: |
+      python3.11 -m pip freeze > /var/repo/Cerebras-patches/packages/requirements.txt
+      python3.11 -m pip download -r /var/repo/Cerebras-patches/packages/requirements.txt -d /var/repo/Cerebras-patches/packages
+
+- name: Create local repository
+  # For installing the latest patches on the OS image, needed for generating
+  # the new Mellanox driver.
+  ansible.builtin.copy:
+    content: |
+      [cerebras-patches]
+      name=Security Patches for Cerebras Clusters
+      baseurl=file:///var/repo/Cerebras-patches
+      module_hotfixes=true
+    dest: /etc/yum.repos.d/Cerebras-patches.repo
+    owner: root  
+    group: root  
+    mode: '0644'  

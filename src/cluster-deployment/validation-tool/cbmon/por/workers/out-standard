@@ -1,0 +1,55 @@
+SYSINFO:0:	Kubelet Version
+SYSINFO:0:	Kubernetes v1.24.4
+SYSINFO:0:
+SYSINFO:0:	Root Partition Size
+SYSINFO:0:	 Size
+SYSINFO:0:	 446G
+SYSINFO:0:
+SYSINFO:0:	Mount Point Source
+SYSINFO:0:	Filesystem
+SYSINFO:0:	10.254.0.8:/cb
+SYSINFO:0:
+SYSINFO:0:	Linux Kernel Version
+SYSINFO:0:	4.18.0-348.el8.0.2.x86_64
+SYSINFO:0:
+SYSINFO:0:	Memory Installed (GiB)
+SYSINFO:0:	125
+SYSINFO:0:
+SYSINFO:0:	Swap Configured (GiB)
+SYSINFO:0:	639
+SYSINFO:0:
+SYSINFO:0:      Interface Driver Version
+SYSINFO:0:      version: 5.6-2.0.9
+SYSINFO:0:
+SYSINFO:0:	Interface Driver Name
+SYSINFO:0:	driver: mlx5_core
+SYSINFO:0:
+SYSINFO:0:	RAID Configuration
+SYSINFO:0:	    Active Devices : 3
+SYSINFO:0:
+SYSINFO:0:	Active Network Interfaces
+SYSINFO:0:	ens10f0
+SYSINFO:0:	ens2f0np0
+SYSINFO:0:
+SYSINFO:0:	Chassis Manufacturer
+SYSINFO:0:	HPE
+SYSINFO:0:
+SYSINFO:0:	Processor Version
+SYSINFO:0:	7713P
+SYSINFO:0:
+SYSINFO:0:	Processor Frequency
+SYSINFO:0:	2000 MHz
+SYSINFO:0:
+SYSINFO:0:	HyperThreading Flag
+SYSINFO:0:	1
+SYSINFO:0:
+SYSINFO:0:	TCP Liberal Flag
+SYSINFO:0:	1
+SYSINFO:0:
+SYSINFO:0:	Network Interface Cards & Driver
+SYSINFO:0:	/0/100/3.1/0          ens2f0np0       network        MT28908 Family [ConnectX-6]
+SYSINFO:0:	/0/100/3.1/0.1        ens2f1np1       network        MT28908 Family [ConnectX-6]
+SYSINFO:0:	/0/120/1.1/0          ens10f0         network        I350 Gigabit Network Connection
+SYSINFO:0:	/0/120/1.1/0.1        ens10f1         network        I350 Gigabit Network Connection
+SYSINFO:0:	/0/120/1.1/0.2        ens10f2         network        I350 Gigabit Network Connection
+SYSINFO:0:	/0/120/1.1/0.3        ens10f3         network        I350 Gigabit Network Connection

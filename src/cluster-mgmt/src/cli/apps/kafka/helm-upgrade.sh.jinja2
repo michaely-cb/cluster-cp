@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+set -e
+
+ns=kafka
+release_name=kafka
+num_kafka_nodes=$(get_num_kafka_nodes)
+replication_factor=$(get_kafka_replication_factor)
+persistence_size=$(get_kafka_pvc_size)
+
+function validate_kafka() {
+  echo ""
+  echo "validating kafka deployment by testing publishing and polling against the deployment topic..."
+  kubectl -n ${ns} delete job kafka-validation --ignore-not-found
+  export num_kafka_nodes
+  cat kafka-validation-job.yaml | envsubst '$num_kafka_nodes' | kubectl apply -f-
+  kubectl -n ${ns} wait --for=condition=complete job/kafka-validation --timeout=60s
+  kubectl delete -f kafka-validation-job.yaml
+  echo "kafka deployment is validated"
+}
+
+if [ "{{ validate_only }}" == "true" ]; then
+  validate_kafka
+  exit
+fi
+
+# unpackage charts
+rm -rf kafka
+tar xfz ./{{ kafka_pkg_name }}-{{ kafka_pkg_version }}.tgz -C .
+
+# deploy kafka namespace
+kubectl create namespace ${ns} --dry-run=client -o yaml 2>/dev/null | kubectl apply -f-
+
+if [ "{{ force }}" == "true" ]; then
+  sh ./cleanup.sh
+fi
+
+{% if is_kind_cluster %}
+# The 'standard' storage class in KIND fails to bound PVC
+export storage_class_name="custom-hostpath"
+cat ./custom-hostpath-sc.yaml.template | envsubst | kubectl apply -f-
+{% else %}
+export storage_class_name="standard"
+{% endif %}
+
+export persistence_size=${persistence_size}
+for ((i=0; i<num_kafka_nodes; i++))
+do
+  export pv_name="kafka-hostpath-pv-$i"
+  cat ./hostpath-pv.yaml.template | envsubst | kubectl apply -f-
+
+  # If PV is released, we clear the claim reference so the PVC can be bound to it again
+  phase=$(kubectl get pv ${pv_name} -o jsonpath='{.status.phase}')
+  if [ "${phase}" == "Released" ]; then
+    kubectl patch pv ${pv_name} -p '{"spec": {"claimRef": null}}'
+  fi
+done
+
+echo "Deploying kafka"
+
+# Storage expectations:
+# 1. Every job has its own topic for data isolation and predictable message retention ("Single Consumer Group per Topic" pattern)
+# 2. Every job has about 1000 messages to deliever, estimating each message won't exceed 1KB, hence the upper storage limit on each topic should be 1MB
+# 3. Every topic has only 1 partition. Data size is too small to make partitions meaningful.
+# 4. The baseline storage with kafka (no wsjob topics to begin with), is about 130M
+# 5. The PV has 10GB, which means:
+#    - a: without consider time-based retention, we could approximately hold messages from 10k jobs
+#    - b. by default we have a 7-day retention - if a log segment is older than 7 days, it's also eligible for deletion managed by kafka
+# 6. We will have a separate cleanup routine to delete the old topics (wsjob deleted or could not be found)
+# 7. Lastly, will adjust based on actual usage
+
+helm upgrade ${release_name} ./kafka \
+  --install --wait --timeout 120s \
+  --version {{ kafka_pkg_version }} --namespace ${ns} \
+  -f ./kafka/values.yaml -f ./values-override.yaml \
+  --set image.debug=true \
+  --set global.imageRegistry="${registry_url}" \
+  --set image.repository={{ image_repository }} \
+  --set image.tag={{ image_tag }} \
+  --set replicaCount=${num_kafka_nodes} \
+  --set defaultReplicationFactor=${replication_factor} \
+  --set numPartitions=${num_kafka_nodes} \
+  --set persistence.size=${persistence_size} \
+  --set persistence.storageClass=${storage_class_name} \
+  --set persistence.accessModes={ReadWriteOnce}
+
+validate_kafka
+

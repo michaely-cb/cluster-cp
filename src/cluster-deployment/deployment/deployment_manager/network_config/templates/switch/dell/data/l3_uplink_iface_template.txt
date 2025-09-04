@@ -1,0 +1,17 @@
+!
+! L3 uplink peering config between ${name} and ${neighbor}
+!
+default interface Eth ${my_port_num}
+interface Eth ${my_port_num}
+    description "L3 to ${neighbor}"
+    mtu ${mtu}
+    fec RS
+    unreliable-los auto
+    no switchport access Vlan
+    ip vrf forwarding Vrf_${vrf_name}
+    ! access lists need to be added in the future
+    no ip address
+    ip address ${my_address}
+    no shutdown
+    exit
+!

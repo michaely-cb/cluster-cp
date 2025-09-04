@@ -1,0 +1,284 @@
+- name: Creates repo directory
+  ansible.builtin.file:
+    path: /var/repo/Cerebras-patches
+    state: directory
+
+- name: Download base packages
+  yum:
+    name: "{{ yum_packages }}"
+    state: present
+    download_only: yes
+    download_dir: /var/repo/Cerebras-patches
+  when: create_patches
+
+- name: Install base packages
+  yum:
+    name: "{{ yum_packages }}"
+    state: present
+
+- name: Install singularity
+  yum:
+    name: "http://{{ mirror_server }}/repos/Rocky8/singularity-3.8.7-1.el8.x86_64.rpm"
+    disable_gpg_check: yes
+    state: present
+
+- name: Install epel repo
+  yum:
+    name: epel-release
+
+- name: Download misc. epel packages
+  yum:
+    name: "{{ epel_packages }}"
+    state: present
+    enablerepo: powertools
+    download_only: yes
+    download_dir: /var/repo/Cerebras-patches
+  when: create_patches
+
+- name: Install misc. epel packages
+  yum:
+    name: "{{ epel_packages }}"
+    state: present
+    enablerepo: powertools
+
+- name: Update pip version
+  pip:
+    executable: /usr/local/bin/pip3.8
+    name: pip
+    version: 23.0
+    state: present
+
+- name: Copy Python3.8 requirements.txt
+  template: src=requirements.txt dest=/tmp
+
+- name: Install Python 3.8 packages
+  pip:
+    executable: /usr/local/bin/pip3.8
+    requirements: /tmp/requirements.txt
+
+- name: Clean up requirements.txt
+  file:
+    path: /tmp/requirements.txt
+    state: absent
+
+- block:
+  - name: Copy go install script
+    template:
+      src: ws-go-install
+      dest: /tmp/ws-go-install
+      mode: 0755
+
+  - name: Run ws-go-install
+    command: /tmp/ws-go-install
+
+- block:
+  - name: Copy ws-containerd-install script to server
+    template:
+      src: ws-containerd-install
+      dest: /tmp/ws-containerd-install
+      mode: 0755
+
+  - name: Run ws-containerd-install script
+    command: /tmp/ws-containerd-install
+
+- block:
+  - name: Copy ws-kubelet-install script to server
+    template:
+      src: ws-kubelet-install
+      dest: /tmp/ws-kubelet-install
+      mode: 0755
+
+  - name: Run ws-kubelet-install script
+    command: /tmp/ws-kubelet-install
+
+- name: Clean up script installs
+  file:
+    path: /root/setup
+    state: absent
+
+- name: Upgrade jq
+  yum:
+    name: "http://{{ mirror_server }}/repos/Rocky8/jq-1.6-3.el8.x86_64.rpm"
+    state: present
+
+- name: Install yq from mirror
+  get_url:
+    url: "http://{{ mirror_server }}/repos/Rocky8/yq-4.27.5/yq_linux_amd64"
+    dest: /usr/local/bin/yq
+    mode: 0755
+
+- name: Install sshpass from mirror
+  yum:
+    name: "http://{{ mirror_server }}/repos/Rocky8/sshpass-1.09-4.el8.x86_64.rpm"
+    state: present
+
+# All required packages need to be installed by this point.
+# Any packages installed afterward will not get the security patches,
+# and may have package version incompatible error during installation.
+
+- name: Download latest security patches
+  include_tasks: setup_patches.yml
+  when: create_patches
+
+- name: Create cerebras-patches.repo file to use repo in mirror_server
+  ansible.builtin.copy:  
+    content: |
+      [cerebras-patches]
+      name=Cerebras patches
+      baseurl=http://{{ mirror_server }}/repos/Rocky8/Cerebras-patches-rel_{{ release }}
+      gpgcheck=0
+      enabled=1
+      module_hotfixes=true
+    dest: /etc/yum.repos.d/Cerebras-patches.repo  
+    owner: root  
+    group: root  
+    mode: '0644'  
+  when: not create_patches
+
+- name: Install Cerebras patches
+  command:
+    cmd: dnf upgrade --repo cerebras-patches --assumeyes --setopt=keepcache=True
+
+- name: Clean up dnf cache
+  ansible.builtin.command:
+    cmd: dnf clean all
+  when: not create_patches
+
+- name: Create tmp directory for installing awscli v2
+  file:
+    path: /tmp/awscli
+    state: directory
+    mode: '0755'
+
+- name: Copy awscli v2 from mirror server repo
+  ansible.builtin.get_url:
+    url: "http://{{ mirror_server }}/repos/Rocky8/Cerebras-patches-rel_{{ release }}/awscli-exe-linux-x86_64.zip"
+    dest: /tmp/awscli
+    mode: '0644'
+  when: not create_patches
+
+- name: Copy awscli v2 from local repo
+  copy:
+    src: "/var/repo/Cerebras-patches/awscli-exe-linux-x86_64.zip"
+    dest: /tmp/awscli
+    remote_src: yes
+  when: create_patches
+
+- name: Unzip awscli v2
+  unarchive:
+    src: /tmp/awscli/awscli-exe-linux-x86_64.zip
+    dest: /tmp/awscli
+    remote_src: yes
+
+- name: Install awscli v2
+  command:
+    cmd: ./install --update
+    chdir: /tmp/awscli/aws
+
+- name: Validate awscli v2 is installed properly
+  command:
+    cmd: /usr/local/bin/aws --version
+  register: command_result
+  failed_when: command_result.rc != 0
+
+- name: Clean up awscli tmp directory
+  file:
+    path: /tmp/awscli
+    state: absent
+
+- name: Define python 3.11 package directory
+  ansible.builtin.set_fact:
+    python_packages: "{{ 'file:///var/repo/Cerebras-patches/packages' if create_patches else 'http://' ~ mirror_server ~ '/repos/Rocky8/Cerebras-patches-rel_' ~ release ~ '/packages' }}"
+    trusted_host: "{{ '' if create_patches else '--trusted-host ' ~ mirror_server }}"
+
+- name: Copy python 3.11 package requirements.txt
+  ansible.builtin.get_url:
+    url: "{{ python_packages }}/requirements.txt"
+    dest: /tmp/requirements.txt
+    mode: '0644'
+
+- name: Set up python 3.11 pip
+  ansible.builtin.shell:
+    cmd: |
+      python3.11 -m ensurepip
+      python3.11 -m pip install --upgrade pip --no-index --find-links {{ python_packages }} {{ trusted_host }}
+
+- name: Deploy python 3.11 packages
+  ansible.builtin.command: python3.11 -m pip install -r /tmp/requirements.txt --no-index --find-links {{ python_packages }} {{ trusted_host }}
+
+- name: Clean up requirements.txt
+  file:
+    path: /tmp/requirements.txt
+    state: absent
+
+- name: Clean up pip cache
+  # Use for OS image creation case to save disk space.
+  # Cannot do this in create_patches case, as it will delete the 
+  # /var/repo/Cerebras-patches/packages directory.
+  ansible.builtin.command:
+    cmd: python3.11 -m pip cache purge
+  when: not create_patches
+
+- name: Set python3 to python 3.11
+  ansible.builtin.command: update-alternatives --set python3 /usr/bin/python3.11
+
+- name: Copy pssh2 from mirror server repo
+  ansible.builtin.get_url:
+    url: "http://{{ mirror_server }}/repos/Rocky8/Cerebras-patches-rel_{{ release }}/pssh2"
+    dest: /usr/local/bin/pssh2
+    mode: 0755
+    owner: root
+    group: root
+  when: not create_patches
+
+- name: Copy pssh2 from local repo
+  copy:
+    src: "/var/repo/Cerebras-patches/pssh2"
+    dest: /usr/local/bin/pssh2
+    remote_src: yes
+    mode: 0755
+    owner: root
+    group: root
+  when: create_patches
+
+- name: Copy pscp2 from mirror server repo
+  ansible.builtin.get_url:
+    url: "http://{{ mirror_server }}/repos/Rocky8/Cerebras-patches-rel_{{ release }}/pscp2"
+    dest: /usr/local/bin/pscp2
+    mode: 0755
+    owner: root
+    group: root
+  when: not create_patches
+
+- name: Copy pscp2 from local repo
+  copy:
+    src: "/var/repo/Cerebras-patches/pscp2"
+    dest: /usr/local/bin/pscp2
+    remote_src: yes
+    mode: 0755
+    owner: root
+    group: root
+  when: create_patches
+
+- name: Create SSH directory
+  file: path=/root/.ssh mode=0600 state=directory
+
+- name: Generate SSH key
+  command: ssh-keygen -t ed25519 -f /root/.ssh/id_ed25519 -N "" -C ""
+
+- name: Copy to authorized_keys
+  copy:
+    src: /root/.ssh/id_ed25519.pub
+    dest: /root/.ssh/authorized_keys
+    remote_src: yes
+
+- name: Disable firewalld
+  systemd: name=firewalld enabled=no
+
+- name: Add netfilter config
+  lineinfile:
+    path: /etc/sysctl.d/02-liberal-conntrack.conf
+    state: present
+    create: yes
+    regexp: '^net\.netfilter\.nf_conntrack_tcp_be_liberal.*'
+    line: net.netfilter.nf_conntrack_tcp_be_liberal = 1

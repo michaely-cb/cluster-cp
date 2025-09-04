@@ -1,0 +1,5 @@
+CSX_MAC_MATCHER = "70:55:f8:*:*:*"
+DEFAULT_PXE_BOOT_FILE = "undionly.kkpxe"
+DEFAULT_CEREBRAS_INTERNAL_DOMAIN = "cerebras.internal"
+DEFAULT_TFTP_PATH = "/var/ftpd"
+DEFAULT_HTTP_PATH = "/var/www/html"

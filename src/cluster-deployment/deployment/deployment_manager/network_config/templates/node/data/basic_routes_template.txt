@@ -1,0 +1,1 @@
+${prefix} dev ${name} proto static scope link src ${address} metric ${table_id} rto_min 1ms table ${table_id}

@@ -1,0 +1,393 @@
+{
+  "cluster_data_vip": {
+    "vip": "10.250.249.0/32"
+  },
+  "environment": {
+    "cluster_asns": [
+      {
+        "count": 128,
+        "starting_asn": "65001.1924"
+      }
+    ],
+    "cluster_data_vip_count": 1,
+    "cluster_prefix": "10.250.248.0/21",
+    "exterior_prefixes": [
+      "10.0.0.0/8"
+    ],
+    "overlay_prefix_mask_size": 25,
+    "overlay_prefixes": [
+      "100.64.0.0/15"
+    ],
+    "service_prefix": "100.66.0.0/15",
+    "topology": "memx_swarmx"
+  },
+  "management_nodes": [
+    {
+      "interfaces": [
+        {
+          "address": "10.250.248.5/24",
+          "name": "enp67s0np0",
+          "switch_name": "sc-r1rb1-100gsw32",
+          "switch_port": "Ethernet16/1"
+        }
+      ],
+      "name": "dmtest0",
+      "nodegroup": 0,
+      "rack": "1",
+      "rack_unit": 4,
+      "stamp": "1"
+    }
+  ],
+  "memoryx_nodes": [
+    {
+      "interfaces": [
+        {
+          "address": "10.250.248.1/24",
+          "name": "eth100g0",
+          "switch_name": "sc-r1rb1-100gsw32",
+          "switch_port": "Ethernet18/1"
+        }
+      ],
+      "name": "sc-r1rb1-s6",
+      "nodegroup": 0,
+      "rack": "1",
+      "rack_unit": 6,
+      "stamp": "1"
+    }
+  ],
+  "name": "mockcluster",
+  "root_server": {
+    "ip_address": "172.28.8.19",
+    "name": "dmtest0"
+  },
+  "switches": [
+    {
+      "address": "10.250.248.254/24",
+      "asn": "65001.1924",
+      "model": "7060",
+      "name": "sc-r1rb1-100gsw32",
+      "password": "CerebrasColo",
+      "prefix": "10.250.248.0/24",
+      "rack": "1",
+      "rack_unit": 18,
+      "stamp": "1",
+      "system_vlan": 13,
+      "tier": "AW",
+      "tier_pos": 0,
+      "username": "admin",
+      "vendor": "arista",
+      "virtual_addrs": {
+        "ending_address": "10.250.248.253/24",
+        "starting_address": "10.250.248.64/24"
+      },
+      "vlan": 11
+    }
+  ],
+  "system_connections": [
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:6a"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:69"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:62"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:63"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:61"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:66"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:6b"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:6c"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:68"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:67"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:64"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:2b:65"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:83"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:8b"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:81"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:8a"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:88"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:8c"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:84"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:89"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:82"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:86"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:85"
+    },
+    {
+      "switch_name": "sc-r1rb1-100gsw32",
+      "switch_port": "Eth1/4",
+      "system_name": "systemf000",
+      "system_port": "70:55:f8:00:32:87"
+    }
+  ],
+  "systems": [
+    {
+      "interfaces": [
+        {
+          "address": "10.250.248.16/24",
+          "name": "control0",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.17/24",
+          "name": "data0",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.18/24",
+          "name": "control1",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.19/24",
+          "name": "data1",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.20/24",
+          "name": "control2",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.21/24",
+          "name": "data2",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.22/24",
+          "name": "control3",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.23/24",
+          "name": "data3",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.24/24",
+          "name": "control4",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.25/24",
+          "name": "data4",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.26/24",
+          "name": "control5",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.27/24",
+          "name": "data5",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.28/24",
+          "name": "control6",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.29/24",
+          "name": "data6",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.30/24",
+          "name": "control7",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.31/24",
+          "name": "data7",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.32/24",
+          "name": "control8",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.33/24",
+          "name": "data8",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.34/24",
+          "name": "control9",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.35/24",
+          "name": "data9",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.36/24",
+          "name": "control10",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.37/24",
+          "name": "data10",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.38/24",
+          "name": "control11",
+          "switch_name": "sc-r1rb1-100gsw32"
+        },
+        {
+          "address": "10.250.248.39/24",
+          "name": "data11",
+          "switch_name": "sc-r1rb1-100gsw32"
+        }
+      ],
+      "name": "systemf000",
+      "nodegroup": 0,
+      "vip": "10.250.248.40/24"
+    }
+  ],
+  "tiers": [
+    {
+      "count": 1,
+      "min_physical": 48,
+      "name": "AW",
+      "starting_prefix": "10.250.248.0/24",
+      "virtual_physical": 253
+    }
+  ],
+  "vips": {
+    "prefix": "10.250.249.0/32"
+  },
+  "worker_nodes": [
+    {
+      "interfaces": [
+        {
+          "address": "10.250.248.4/24",
+          "name": "eth100g0",
+          "switch_name": "sc-r1rb1-100gsw32",
+          "switch_port": "Ethernet17/1"
+        }
+      ],
+      "name": "sc-r1rb1-s5",
+      "nodegroup": 0,
+      "rack": "1",
+      "rack_unit": 5,
+      "stamp": "1"
+    }
+  ],
+  "xconnect": {
+    "connections": []
+  }
+}

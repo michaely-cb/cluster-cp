@@ -1,0 +1,20 @@
+# permissions for end users to view resourcelocks.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: resourcelock-viewer-role
+rules:
+- apiGroups:
+  - jobs.cerebras.com
+  resources:
+  - resourcelocks
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - jobs.cerebras.com
+  resources:
+  - resourcelocks/status
+  verbs:
+  - get

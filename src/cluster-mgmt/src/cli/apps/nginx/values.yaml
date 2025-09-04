@@ -1,0 +1,110 @@
+controller:
+  # using deployment instead of DS to allow surge without requiring old nginx pods to be terminated first
+  # FW side has cases of stream calls not retryable which relies on connection to be kept as long as possible
+  # https://cerebras.atlassian.net/browse/SW-139802
+  kind: Deployment
+  # due to macvlan connectivity limitation with localhost, hostnetwork is not an option if Nginx running on the same host of CRD
+  # hostnetwork can also lead to port conflict if next generation of pods come up in same node
+  # but this can be revisited to simplify and remove svc+snat layer if we keep nginx pods separated from crd nodes
+  hostNetwork: false
+  service:
+    type: LoadBalancer
+    # Local policy is required for multi-mgmt node clusters.
+    # Without local, nginx svc can redirect to nginx pod on a different node which will be on 1G unless we expose nginx with 100G EPs.
+    externalTrafficPolicy: Local
+    healthCheckNodePort: 30254
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 34%
+      maxSurge: 100%
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: k8s.cerebras.com/node-role-management
+                operator: Exists
+          - matchExpressions:
+              - key: k8s.cerebras.com/node-role-coordinator
+                operator: Exists
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - ingress-nginx
+            topologyKey: kubernetes.io/hostname
+  topologySpreadConstraints:
+    - labelSelector:
+        matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+              - ingress-nginx
+      maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+  resources:
+    requests:
+      cpu: 3
+      memory: 3Gi
+  priorityClassName: system-node-critical
+  allowSnippetAnnotations: true
+  admissionWebhooks:
+    patch:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k8s.cerebras.com/node-role-management
+                    operator: Exists
+              - matchExpressions:
+                  - key: k8s.cerebras.com/node-role-coordinator
+                    operator: Exists
+  # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
+  config:
+    worker-shutdown-timeout: 12h
+    keep-alive-requests: 10000
+    error-log-level: info
+    # The risk for server-snippet is Critical: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations-risk/
+    annotations-risk-level: Critical
+  # 3600*12 = 12h
+  terminationGracePeriodSeconds: 43200
+  extraVolumeMounts:
+    - name: log
+      mountPath: /var/log/nginx
+  extraVolumes:
+    - name: log
+      hostPath:
+        path: /n0/cluster-mgmt/nginx
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+    serviceMonitor:
+      enabled: true
+      namespace: ingress-nginx
+      namespaceSelector:
+        any: true

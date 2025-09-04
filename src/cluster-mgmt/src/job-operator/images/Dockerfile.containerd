@@ -1,0 +1,39 @@
+ARG BASE=alpine:3.16.2
+ARG KANIKO_BASE=gcr.io/kaniko-project/executor:v1.9.1-debug
+FROM ${KANIKO_BASE} as builder
+
+FROM ${BASE}
+COPY --from=builder /kaniko /kaniko
+ENV PATH="${PATH}:/kaniko"
+
+# Ref: https://github.com/GoogleContainerTools/kaniko/issues/1045
+ENV LD_LIBRARY_PATH=/usr/lib64:/usr/lib
+
+# Ref: https://github.com/GoogleContainerTools/kaniko/issues/2214
+RUN rm -f /var/spool/mail
+
+COPY kaniko-utils /kaniko-utils
+RUN chmod -R 755 /kaniko-utils
+
+RUN apk update
+
+RUN apk upgrade
+
+RUN apk add --no-cache bash \
+  containerd \
+  curl \
+  jq \
+  openrc \
+  openssh \
+  openssh-client-default \
+  parallel \
+  pssh \
+  rsync \
+  shadow \
+  sshpass \
+  vim \
+  wget \
+  yq \
+  zip
+
+RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community kubectl nerdctl

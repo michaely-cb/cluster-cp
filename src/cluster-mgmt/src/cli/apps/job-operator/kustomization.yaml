@@ -1,0 +1,6 @@
+# local deploy is deploy job-operator to multibox development with log persistence setup
+
+resources:
+  - overlays/multibox
+patchesStrategicMerge:
+  - patch.yaml

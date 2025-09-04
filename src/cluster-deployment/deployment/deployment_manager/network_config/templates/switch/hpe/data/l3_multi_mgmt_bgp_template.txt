@@ -1,0 +1,6 @@
+#
+# BGP config for ${name} to support multiple mgmt nodes 
+#
+router bgp ${asn_num} vrf ${vrf_name}
+    bgp listen range ${prefix_sep} peer-group management_node remote-as ${asn_num}
+    exit

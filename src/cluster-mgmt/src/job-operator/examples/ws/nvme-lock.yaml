@@ -1,0 +1,384 @@
+apiVersion: jobs.cerebras.com/v1
+kind: ResourceLock
+metadata:
+  annotations:
+    cerebras/cached-compile-nfs-volume: ""
+    cerebras/client-workdir: mb32-cs-wse001-us-sr01:/n0/lab/tests/workdir-20241114.1258.41.339-29371/model_dir/cerebras_logs/20241114_221446/executors/000001
+    cerebras/coordinator-preferred-addr: ""
+    cerebras/disable-non-crd-services: "true"
+    cerebras/per-weight-shard-nvmf-disk-bytes-requested: "684326912"
+    cerebras/per-weight-shard-nvmf-disk-bytes-upperbound-requested: "1368653824"
+    cerebras/semantic-version-cluster-server: 1.0.3
+    cerebras/skip-br: "true"
+    cerebras/version-cluster-server: 0.0.0-build+9f2518c05c
+    cerebras/version-custom-worker: 3.8-73805fe604052c00809187d1a6fe28bb
+    cerebras/version-wsjob: build-9f2518c05c
+    cerebras/workdir-logs-nfs-volume: workdir-logs-volume
+    cerebras/wsjob-job-default-limits: "true"
+    k8s.cerebras.com/user-volumes: '[{"name":"training-data-volume-ibd6ffjgy4dcndqjcaiwmb","mountPath":"/cb/ml"},{"name":"customers-volume-xwhptobsakf3nsfgalfanr","mountPath":"/cb/customers"},{"name":"home-volume-lkfuqgk45zxyxs2japz9fd","mountPath":"/cb/home"},{"name":"tests-volume-hhsvxyaqxgp8cxsqxm6eqo","mountPath":"/cb/tests"}]'
+    runtime-targeted-domains: 2,2,2,3,3,0,0,1,1,1
+  creationTimestamp: "2024-11-14T22:16:32Z"
+  generation: 1
+  labels:
+    cerebras/workflow-id: 6839b1e3-7262-4802-b72d-64b9b7269772
+    k8s.cerebras.com/job-mode: weight-streaming
+    k8s.cerebras.com/wsjob-job-type: execute
+    training.kubeflow.org/job-name: wsjob-j9mmczca9dcz2nqnhzijuj
+  name: wsjob-j9mmczca9dcz2nqnhzijuj
+  namespace: debug-mlx
+  ownerReferences:
+    - apiVersion: jobs.cerebras.com/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: WSJob
+      name: wsjob-j9mmczca9dcz2nqnhzijuj
+      uid: 80fad6e9-1c8b-4182-9138-d3e7c1de6c3a
+  resourceVersion: "123497349"
+  uid: ad49d1e7-1be1-4598-8015-43499036d26b
+spec:
+  groupResourceRequestUpperBounds:
+    - name: Command
+      subresources:
+        memory: 2932
+        memory-limit: 8796093022207
+    - name: Weight
+      subresources:
+        memory: 6922
+        memory-limit: 8796093022207
+    - name: Activation
+      subresources:
+        memory: 640
+        memory-limit: 8796093022207
+  groupResourceRequests:
+    - count: 1
+      name: ng-primary
+      resourceRequests:
+        - count: 1
+          name: Chief
+          properties:
+            namespace:
+              - debug-mlx
+            role-memory:
+              - ""
+          subresources:
+            memory: 22528
+            pod: 1
+          type: node
+        - count: 1
+          name: Command
+          properties:
+            namespace:
+              - debug-mlx
+            role-memory:
+              - ""
+          subresources:
+            memory: 1466
+            pod: 1
+          type: node
+        - count: 24
+          name: Weight
+          properties:
+            memxPopulated:
+              - "true"
+            namespace:
+              - debug-mlx
+            role-memory:
+              - ""
+          subresources:
+            memory: 5261
+            pod: 1
+          type: node
+        - count: 1
+          name: Worker
+          properties:
+            namespace:
+              - debug-mlx
+            role-worker:
+              - ""
+          subresources:
+            memory: 58367
+            pod: 1
+          type: node
+        - count: 10
+          name: Activation
+          properties:
+            namespace:
+              - debug-mlx
+            role-memory:
+              - ""
+          subresources:
+            memory: 512
+            pod: 1
+          type: node
+  priority: 299
+  queueName: execute
+  resourceRequests:
+    - count: 1
+      name: System
+      properties:
+        namespace:
+          - debug-mlx
+      subresources:
+        port: 12
+        system: 1
+      type: system
+    - annotations:
+        cerebras/per-weight-shard-nvmf-disk-bytes-requested: "684326912"
+        cerebras/per-weight-shard-nvmf-disk-bytes-upperbound-requested: "1368653824"
+      count: 1
+      name: Coordinator
+      properties:
+        namespace:
+          - debug-mlx
+        role-coordinator:
+          - ""
+      subresources:
+        cpu: 16000
+        memory: 32768
+        pod: 1
+      type: node
+status:
+  groupResourceGrantUpperBounds:
+    - name: Command
+      subresources:
+        memory: 2932
+    - name: Weight
+      subresources:
+        memory: 6922
+    - name: Activation
+      subresources:
+        memory: 640
+  groupResourceGrants:
+    - annotations:
+        memxPopulated: "true"
+      groupingValue: nodegroup3
+      name: ng-primary-0
+      resourceGrants:
+        - name: Chief
+          resources:
+            - name: mb32-cs-wse001-ml-sr11
+              subresources:
+                memory: 22528
+                pod: 1
+              type: node
+        - name: Command
+          resources:
+            - name: mb32-cs-wse001-ml-sr01
+              subresources:
+                memory: 239512
+                pod: 1
+              type: node
+        - name: Worker
+          resources:
+            - name: mb32-cs-wse001-wk-sr01
+              subresources:
+                memory: 58367
+                pod: 1
+              type: node
+        - name: Activation
+          resources:
+            - name: mb32-cs-wse001-ml-sr01
+              subresources:
+                memory: 237220
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr02
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr03
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr04
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr05
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr06
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr07
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr08
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr09
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr10
+              subresources:
+                memory: 317057
+                pod: 1
+              type: node
+        - name: Weight
+          resources:
+            - name: mb32-cs-wse001-ml-sr11
+              subresources:
+                memory: 470604
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr12
+              subresources:
+                memory: 481868
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr01
+              subresources:
+                memory: 243502
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr02
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr03
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr04
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr05
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr06
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr07
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr08
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr09
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr10
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr01
+              subresources:
+                memory: 243502
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr02
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr03
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr04
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr05
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr06
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr07
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr08
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr09
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr10
+              subresources:
+                memory: 323339
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr11
+              subresources:
+                memory: 470604
+                pod: 1
+              type: node
+            - name: mb32-cs-wse001-ml-sr12
+              subresources:
+                memory: 481868
+                pod: 1
+              type: node
+  message: ""
+  nodeGroupGrants:
+    - name: ng-primary-0
+      nodeGroups:
+        - nodegroup3
+  resourceGrants:
+    - annotations:
+        NVMF_USABLE_RANGES: /dev/datanvme401:0-1368653824,/dev/datanvme402:0-1368653824,/dev/datanvme403:0-1368653824,/dev/datanvme401:1368653824-2737307648,/dev/datanvme402:1368653824-2737307648,/dev/datanvme403:1368653824-2737307648,/dev/datanvme401:2737307648-4105961472,/dev/datanvme402:2737307648-4105961472,/dev/datanvme403:2737307648-4105961472,/dev/datanvme401:4105961472-5474615296,/dev/datanvme402:4105961472-5474615296,/dev/datanvme403:4105961472-5474615296,/dev/datanvme401:5474615296-6843269120,/dev/datanvme402:5474615296-6843269120,/dev/datanvme403:5474615296-6843269120,/dev/datanvme401:6843269120-8211922944,/dev/datanvme402:6843269120-8211922944,/dev/datanvme403:6843269120-8211922944,/dev/datanvme401:8211922944-9580576768,/dev/datanvme402:8211922944-9580576768,/dev/datanvme403:8211922944-9580576768,/dev/datanvme401:9580576768-10949230592,/dev/datanvme402:9580576768-10949230592,/dev/datanvme403:9580576768-10949230592
+        cerebras/per-weight-shard-nvmf-disk-bytes-requested: "684326912"
+        cerebras/per-weight-shard-nvmf-disk-bytes-upperbound-requested: "1368653824"
+        nvme-of-target-id: "4"
+      name: Coordinator
+      resources:
+        - name: mb32-cs-wse004-mg-sr02
+          subresourceRanges:
+            nvmf-disk/1:
+              - end: 10949230592
+            nvmf-disk/2:
+              - end: 10949230592
+            nvmf-disk/3:
+              - end: 10949230592
+          subresources:
+            cpu: 16000
+            memory: 32768
+            pod: 1
+          type: node
+    - name: System
+      resources:
+        - name: wsperfdrop0
+          type: system
+  state: Granted
+  systemGrants:
+    - name: wsperfdrop0

@@ -1,0 +1,5 @@
+<BiosCfg>
+  <Menu name="Boot">
+    <Setting name="Boot Mode Select" selectedOption="Legacy" type="Option"/>
+  </Menu>
+</BiosCfg>

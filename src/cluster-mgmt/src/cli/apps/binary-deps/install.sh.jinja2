@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# GENERATED FILE - DO NOT EDIT
+
+cd "$(dirname "$0")"
+set -e
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+SKIP_CHECK=true source ../pkg-common.sh
+
+BIN_DIR=/usr/local/bin
+
+current_version="default"
+new_version={{ helm_version }}
+if which helm; then
+  current_version=$(helm version --short)
+  echo "helm current version: $current_version"
+fi
+if [[ "$new_version" != "$current_version" ]]; then
+  tar xfz {{ helm_tar }} -C .
+  cp ./linux-amd64/helm $BIN_DIR/helm
+  echo "helm $new_version installed"
+else
+  echo "helm $new_version already installed"
+fi
+
+current_version="default"
+new_version={{ nerdctl_version }}
+if which nerdctl; then
+  current_version=$(nerdctl -v)
+  echo "nerdctl current version: $current_version"
+fi
+if ! echo "$new_version" | grep "$current_version"; then
+  # delete possible hung process, see SW-90365
+  clean_up_stale_registry
+  tar xfz {{ nerdctl_tar }} -C .
+  cp -f nerdctl $BIN_DIR/nerdctl
+  echo "nerdctl $new_version installed"
+else
+  echo "nerdctl $new_version already installed"
+fi
+
+# if no new nodes and the standard container is available
+if ! is_incremental_deploy && check_image_in_registry alpine-containerd latest; then
+  # Upgrade an already-running cluster with no new nodes.
+  # Every existing node has some version of nerdctl. Use the installer to check for updates.
+  envvars="NEW_NERDCTL_VERSION=$new_version"
+  installer_rollout_wait_or_warn installers binary-deps-installer ./binary-deps-installer.sh 180 notready_ok "$envvars"
+else
+  # Incremental deploy to some new nodes, or the cluster hasn't passed the common-images step.
+  # In the incremental case, the PSSH call will only connect to new nodes.
+  check_and_copy "$BIN_DIR/nerdctl" "$BIN_DIR/nerdctl" "$NODE_LIST" "$SCRIPT_PATH/../pkg-functions/nodes.sh"
+fi

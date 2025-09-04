@@ -1,0 +1,7 @@
+# clear static route
+vtysh
+configure
+no ip route vrf ${vrf_name} ${dest}
+exit
+write memory
+exit

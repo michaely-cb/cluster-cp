@@ -1,0 +1,406 @@
+- name: Cluster preflight checks
+  hosts: localhost
+  any_errors_fatal: true
+  tasks:
+    - import_tasks: preflight.yaml
+
+- name: Set up NVMe-oF targets (coordinator nodes)
+  hosts: coordinator
+  any_errors_fatal: true
+  tasks:
+    - name: Coordinator nodes should have the Mellanox driver installed with nvmf option enabled
+      command: >
+        bash -c "ofed_info | grep -E -q '^(kmod-mlnx-nvme|mlnx-nvme)$'"
+      changed_when: false
+      register: result
+      ignore_errors: yes
+
+    - name: Display actionable message
+      fail:
+        msg: >
+          Mellanox driver did not have nvmf option enabled.
+          Please perform a platform update with rel-2.3.2 or greater versions to have the driver re-installed.
+          If the cluster expects nodes with lower versions, please skip the NVMe-oF setup.
+      when: result.rc != 0
+    
+    # This should not fail - it is only a sanity check
+    - name: Coordinator nodes should have the following 3 NVMe devices
+      command: >
+        bash -c "lsblk -n -o MOUNTPOINT /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1"
+      register: device_mountpoints
+      changed_when: false
+      failed_when: >
+        device_mountpoints.stdout_lines | select('match', '.+') | list | length > 0
+
+    - name: Get NVMe device sizes in bytes
+      command: >
+        bash -c "lsblk --bytes -dn -o SIZE /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1"
+      register: device_sizes
+      changed_when: false
+
+    - name: Find the minimum disk size among the NVMe devices after reserving 1GB worth of space
+      set_fact:
+        min_disk_size: "{{ device_sizes.stdout_lines | map('int') | list | min | int - 1000000000 }}"
+      changed_when: false
+
+    # This should not fail - it is only a sanity check
+    - name: Fail if min_disk_size is negative
+      fail:
+        msg: "The minimum disk size after reserving 1GB is negative ({{ min_disk_size }} bytes)."
+      when: min_disk_size | int < 0
+
+    - import_tasks: sync-cluster-config-to-nodes.yaml
+
+    - name: Retrieve existing NVMe target id if any
+      command: >
+        yq eval '.nodes[] | select(.name == "{{ inventory_hostname }}") |.properties.nvme-of-target-id // ""' "{{ src_cluster_yaml }}"
+      register: target_readiness_check
+      delegate_to: localhost
+      changed_when: false
+
+    - name: Set fact based on yq result
+      set_fact:
+        existing_nvme_of_target_id: "{{ target_readiness_check.stdout }}"
+    
+    - name: Ensure NVMe devices have the right permission
+      command: >
+        bash -c "chmod 666 /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1"
+
+    - name: Ensure the nvme kernel modules are loaded on reboot
+      lineinfile:
+        path: /etc/modules-load.d/nvme.conf
+        create: yes
+        line: "{{ item }}"
+      with_items:
+        - "nvme"
+        - "nvmet"
+        - "nvmet-rdma"
+        - "nvme-fabrics"
+
+    - name: Ensure NVMe p2p queues are enabled
+      lineinfile:
+        path: /etc/modprobe.d/nvme.conf
+        create: yes
+        line: "options nvme num_p2p_queues=1"
+
+    - name: Copy nvme-target-enable.sh
+      copy:
+        src: nvme-target-enable.sh
+        dest: /usr/local/bin/nvme-target-enable.sh
+        mode: '0755'
+
+    - name: Copy nvme-target-enable.service
+      copy:
+        src: nvme-target-enable.service
+        dest: /etc/systemd/system/nvme-target-enable.service
+        mode: '0644'
+
+    - name: Reload, enable, and restart nvme-target-enable.service
+      systemd:
+        name: nvme-target-enable.service
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
+      when: existing_nvme_of_target_id == ""
+
+    - name: Copy nvme-target-rename-rule.sh
+      copy:
+        src: nvme-target-rename-rule.sh
+        dest: /usr/local/bin/nvme-target-rename-rule.sh
+        mode: '0755'
+
+    - name: Copy nvme-target-udev.rules
+      copy:
+        src: nvme-target-udev.rules
+        dest: /etc/udev/rules.d/99-nvme.rules
+
+    - name: Reload and trigger udev rules
+      shell: |
+        udevadm control --reload-rules
+        udevadm trigger
+      when: existing_nvme_of_target_id == ""
+
+    - name: Generate a initramfs image
+      command: dracut -f
+      when: existing_nvme_of_target_id == ""
+
+    - name: Reboot the host
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+      ignore_errors: yes
+      when: allow_reboot and (existing_nvme_of_target_id == "")
+
+    # Check on all hosts regardless of an update was applied
+    - name: Check kernel loading and configuration post deploy
+      shell: |
+        lsmod | awk '{print $1}' | grep -wq nvme
+        lsmod | awk '{print $1}' | grep -wq nvmet
+        lsmod | awk '{print $1}' | grep -wq nvmet_rdma
+        lsmod | awk '{print $1}' | grep -wq nvme_fabrics
+        [ $(cat /sys/module/nvme/parameters/num_p2p_queues ) == "1" ]
+      changed_when: false
+
+    # Perform service check after reboot as nvmet and other modules may not have been loaded
+    # Symptoms:
+    # - modprobe: ERROR: could not insert 'nvmet': Unknown symbol in module, or unknown parameter (see dmesg)
+    # - ls: cannot access '/sys/kernel/config/nvmet/ports': No such file or directory
+    - name: Wait for nvme-target-enable service to succeed
+      shell: |
+        for i in {1..36}; do
+          if systemctl status nvme-target-enable.service | grep -q "status=0/SUCCESS"; then
+            exit 0
+          fi
+          sleep 5
+        done
+        exit 1
+      register: service_check
+      when: existing_nvme_of_target_id == ""
+      failed_when: service_check.rc != 0
+
+    # Device rename is not possible until the nvme-target-enable service succeeds
+    # We run the target rename regardless of an update was applied
+    - name: Apply device rename rules
+      shell: |
+        DEVNAME=/dev/nvme0n1 /usr/local/bin/nvme-target-rename-rule.sh 1
+        DEVNAME=/dev/nvme1n1 /usr/local/bin/nvme-target-rename-rule.sh 2
+        DEVNAME=/dev/nvme2n1 /usr/local/bin/nvme-target-rename-rule.sh 3
+
+    # Check on all hosts regardless of an update was applied
+    - name: Confirm /dev/datanvme* has exactly 3 devices
+      shell: "ls /dev/datanvme* 2>/dev/null | wc -l"
+      register: file_count
+      until: file_count.stdout|int == 3
+      changed_when: false
+
+    # Id retrieval is not possible until the nvme-target-enable service succeeds
+    - name: Retrieve new NVMe target id
+      command: >
+        yq eval -ojson '.nodes[] | select(.name == "{{ inventory_hostname }}") | {.name: .properties.nvme-of-target-id }' "{{ dest_cluster_yaml }}.staging"
+      register: new_target_check
+      changed_when: false
+      when: existing_nvme_of_target_id == ""
+
+    - name: Set fact based on yq result
+      set_fact:
+        new_nvme_of_target_id: "{{ new_target_check.stdout }}"
+      when: existing_nvme_of_target_id == ""
+
+    - name: Initialize new_nvme_of_targets on localhost
+      set_fact:
+        new_nvme_of_targets: {}
+      delegate_to: localhost
+      changed_when: false
+
+    - name: Collect new target IDs
+      set_fact:
+        new_nvme_of_targets: "{{ new_nvme_of_targets | combine(response_dict) }}"
+      vars:
+        response_dict: "{{ hostvars[item]['new_target_check']['stdout'] | from_json }}"
+      delegate_to: localhost
+      when: hostvars[item]['new_nvme_of_target_id'] is defined
+      with_items: "{{ groups['coordinator'] }}"
+      run_once: yes
+
+    - name: Back up local cluster config
+      delegate_to: localhost
+      copy:
+        src: "{{ src_cluster_yaml }}"
+        dest: "{{ src_cluster_yaml }}.{{ ansible_date_time.iso8601_basic }}~"
+        mode: '0644'
+      when: new_nvme_of_targets | length > 0
+      changed_when: false
+      run_once: true
+
+    - name: Update local cluster config with new NVMe target IDs
+      delegate_to: localhost
+      command: >
+        yq eval 'with(.nodes[]; select(.name == "{{ item.key }}") |
+          .properties.nvme-of-target-id = "{{ item.value }}" |
+          .properties.nvme-per-disk-bytes = "{{ min_disk_size }}")' -i "{{ src_cluster_yaml }}"
+      loop: "{{ query('dict', new_nvme_of_targets) }}"
+      when: new_nvme_of_targets | length > 0
+      run_once: true
+
+    - name: Update local nvme-targets file with new NVMe target IDs
+      delegate_to: localhost
+      command: >
+        yq eval '.["{{ item.key }}"] = "{{ item.value }}"' -i "{{ src_targets_yaml }}"
+      loop: "{{ query('dict', new_nvme_of_targets) }}"
+      when: new_nvme_of_targets | length > 0
+      run_once: true
+
+    - import_tasks: update-k8s-cluster-config.yaml
+      when:
+      - new_nvme_of_targets | length > 0
+      - not incremental_deploy
+
+- name: Sync cluster config to nodes
+  hosts: management:coordinator:memory
+  any_errors_fatal: true
+  tasks:
+    - import_tasks: sync-cluster-config-to-nodes.yaml
+
+- name: Set up NVMe-oF initiators (memoryx nodes)
+  hosts: memory
+  any_errors_fatal: true
+  tasks:
+    - name: Memoryx nodes should have the Mellanox driver installed with nvmf option enabled
+      command: >
+        bash -c "ofed_info | grep -E -q '^(kmod-mlnx-nvme|mlnx-nvme)$'"
+      changed_when: false
+      register: result
+      ignore_errors: yes
+
+    - name: Display actionable message
+      fail:
+        msg: >
+          Mellanox driver did not have nvmf option enabled.
+          Please perform a platform update with rel-2.3.2 or greater versions to have the driver re-installed.
+      when: result.rc != 0
+
+    - name: Retrieve existing NVMe initiator if any
+      command: >
+        yq eval '.nodes[] | select(.name == "{{ inventory_hostname }}") | .properties.nvme-of-initiator' "{{ dest_cluster_yaml }}"
+      register: initiator_readiness_check
+      changed_when: false
+
+    - name: Set fact based on yq result
+      set_fact:
+        existing_nvme_of_initiator: "{{ initiator_readiness_check.stdout }}"
+
+    - name: Ensure the nvme kernel modules are loaded on reboot
+      lineinfile:
+        path: /etc/modules-load.d/nvme.conf
+        create: yes
+        line: "{{ item }}"
+      with_items:
+        - "nvme"
+        - "nvmet"
+        - "nvmet-rdma"
+        - "nvme-fabrics"
+
+    - name: Copy nvme-initiator-enable.sh
+      copy:
+        src: nvme-initiator-enable.sh
+        dest: /usr/local/bin/nvme-initiator-enable.sh
+        mode: '0755'
+
+    - name: Copy nvme-initiator-enable.service
+      copy:
+        src: nvme-initiator-enable.service
+        dest: /etc/systemd/system/nvme-initiator-enable.service
+        mode: '0644'
+
+    - name: Reload, enable, and restart nvme-initiator-enable.service
+      systemd:
+        name: nvme-initiator-enable.service
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
+      when: existing_nvme_of_initiator == "null"
+
+    - name: Copy nvme-initiator-rename-rule.sh
+      copy:
+        src: nvme-initiator-rename-rule.sh
+        dest: /usr/local/bin/nvme-initiator-rename-rule.sh
+        mode: '0755'
+
+    - name: Copy nvme-initiator-udev.rules
+      copy:
+        src: nvme-initiator-udev.rules
+        dest: /etc/udev/rules.d/99-nvme.rules
+
+    - name: Reload and trigger udev rules
+      shell: |
+        udevadm control --reload-rules
+        udevadm trigger
+      when: existing_nvme_of_initiator == "null"
+
+    - name: Generate a initramfs image
+      command: dracut -f
+      when: new_nvme_of_initiator is defined
+
+    - name: Reboot the host
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+      ignore_errors: yes
+      when: allow_reboot and (existing_nvme_of_initiator == "null")
+
+    # Check on all hosts regardless of an update was applied
+    - name: Check kernel loading and configuration post deploy
+      shell: |
+        lsmod | awk '{print $1}' | grep -wq nvme
+        lsmod | awk '{print $1}' | grep -wq nvmet
+        lsmod | awk '{print $1}' | grep -wq nvmet_rdma
+        lsmod | awk '{print $1}' | grep -wq nvme_fabrics
+      changed_when: false
+
+    - name: Wait for nvme-initiator-enable service to succeed
+      shell: |
+        for i in {1..36}; do
+          if systemctl status nvme-initiator-enable.service | grep -q "status=0/SUCCESS"; then
+            exit 0
+          fi
+          sleep 5
+        done
+        exit 1
+      register: service_check
+      when: existing_nvme_of_initiator == "null"
+      failed_when: service_check.rc != 0
+
+    - name: Retrieve new NVMe initiators
+      command: >
+        yq eval -ojson '.nodes[] | select(.name == "{{ inventory_hostname }}" and .properties.nvme-of-initiator == "") | {.name: .properties.nvme-of-initiator}' "{{ dest_cluster_yaml }}.staging"
+      register: new_initiator_check
+      changed_when: false
+      when: existing_nvme_of_initiator == "null"
+
+    - name: Set fact based on yq result
+      set_fact:
+        new_nvme_of_initiator: "{{ new_initiator_check.stdout }}"
+      when: existing_nvme_of_initiator == "null"
+
+    - name: Initialize new_nvme_of_initiators on localhost
+      set_fact:
+        new_nvme_of_initiators: {}
+      delegate_to: localhost
+
+    - name: Collect new initiators
+      set_fact:
+        new_nvme_of_initiators: "{{ new_nvme_of_initiators | combine(response_dict) }}"
+      vars:
+        response_dict: "{{ hostvars[item]['new_initiator_check']['stdout'] | from_json }}"
+      delegate_to: localhost
+      when: hostvars[item]['new_nvme_of_initiator'] is defined
+      with_items: "{{ groups['memory'] }}"
+      run_once: yes
+
+    - name: Back up local cluster config
+      delegate_to: localhost
+      copy:
+        src: "{{ src_cluster_yaml }}"
+        dest: "{{ src_cluster_yaml }}.{{ ansible_date_time.iso8601_basic }}~"
+        mode: '0644'
+      when: new_nvme_of_initiators | length > 0
+      changed_when: false
+      run_once: true
+
+    - name: Update local cluster config with new NVMe initiators
+      delegate_to: localhost
+      command: >
+        yq eval 'with(.nodes[]; select(.name == "{{ item.key }}") | .properties.nvme-of-initiator = "{{ item.value }}")' -i "{{ src_cluster_yaml }}"
+      loop: "{{ query('dict', new_nvme_of_initiators) }}"
+      when: new_nvme_of_initiators | length > 0
+      run_once: true
+
+    - import_tasks: update-k8s-cluster-config.yaml
+      when:
+      - new_nvme_of_initiators | length > 0
+      - not incremental_deploy
+
+- name: Sync cluster config to nodes and cleanup
+  hosts: management:coordinator:memory
+  any_errors_fatal: true
+  tasks:
+    - import_tasks: sync-cluster-config-to-nodes.yaml
+    - import_tasks: cleanup.yaml

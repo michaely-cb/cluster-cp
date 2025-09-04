@@ -1,0 +1,224 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: cluster-mgmt-node-exporter
+  namespace: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: cluster-mgmt-node-exporter
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: "34%"
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: cluster-mgmt-node-exporter
+        cluster-mgmt-exporter: ""
+    spec:
+      hostNetwork: true
+      serviceAccountName: cluster-mgmt-exporter
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      volumes:
+        - name: cluster-platform-version
+          configMap:
+            name: cluster-platform-version
+        - name: cluster
+          configMap:
+            name: cluster
+        - name: node-health-check
+          configMap:
+            name: node-health-check
+        - name: cluster-server-volumes
+          configMap:
+            name: cluster-server-volumes
+        - name: opt-cerebras
+          hostPath:
+            path: /opt/cerebras
+        - name: host-mount
+          hostPath:
+            path: /
+        - name: journal
+          hostPath:
+            path: /run/log/journal
+      containers:
+        - name: cluster-mgmt-node-exporter
+          image: registry.local/cluster-mgmt-exporter:${EXPORTER_TAG}
+          command: [ "python", "node_exporter.py" ]
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "500M"
+            limits:
+              memory: "500M"
+          ports:
+            - name: system
+              containerPort: 8003
+          volumeMounts:
+            - name: cluster-platform-version
+              mountPath: /cluster-platform
+            - name: cluster
+              mountPath: /cluster-config
+            - name: node-health-check
+              mountPath: /node-health-check
+            - name: cluster-server-volumes
+              mountPath: /cluster-volumes
+            - name: opt-cerebras
+              mountPath: /opt/cerebras
+            - name: host-mount
+              mountPath: /host
+              readOnly: true
+            - name: journal
+              mountPath: /run/log/journal
+              readOnly: true
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: WB_LOG_PATH
+              value: /host/var/log/whereabouts.log
+          securityContext:
+            capabilities:
+              add: [ "NET_ADMIN", "SYS_ADMIN" ]
+        - name: cluster-mgmt-node-ipmi-exporter
+          image: registry.local/cluster-mgmt-exporter:${EXPORTER_TAG}
+          command: [ "python", "node_ipmi_exporter.py" ]
+          env:
+            - name: NODE_IPMI_LOGIN_USER
+              value: NODE_IPMI_LOGIN_USER_SED_REPLACE
+            - name: NODE_IPMI_LOGIN_PASSWORD
+              value: NODE_IPMI_LOGIN_PASSWORD_SED_REPLACE
+          resources:
+            limits:
+              memory: 100M
+          ports:
+            - name: system
+              containerPort: 8007
+          securityContext:
+            capabilities:
+              add: [ "NET_ADMIN", "SYS_ADMIN" ]
+        - name: cluster-mgmt-node-ethtool-exporter
+          image: registry.local/cluster-mgmt-exporter:${EXPORTER_TAG}
+          command: [ "python", "linkmon_ethtool_only.py" ]
+          resources:
+            requests:
+              cpu: ETHTOOL_CPU_SED_REPLACE
+              memory: "256M"
+            limits:
+              memory: "256M"
+          securityContext:
+            privileged: true
+            capabilities:
+              add: [ "NET_ADMIN" ]
+          ports:
+            - name: ethtoolport
+              containerPort: 8004
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cluster-config-sync
+  namespace: prometheus
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: cluster-mgmt-exporter
+          containers:
+            - name: cluster-config-sync
+              image: ${KUBECTL_IMAGE}
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/sh
+                - /tools/cluster-config-sync.sh
+              volumeMounts:
+                - name: cluster-config-sync
+                  mountPath: /tools
+              env:
+                - name: SYSTEM_NAMESPACE
+                  value: ${SYSTEM_NAMESPACE}
+          restartPolicy: OnFailure
+          volumes:
+            - name: cluster-config-sync
+              configMap:
+                name: cluster-config-sync
+          tolerations:
+            - key: node-role.kubernetes.io/master
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+          nodeSelector:
+            "node-role.kubernetes.io/control-plane": ""
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  namespace: prometheus
+  name: cluster-mgmt-node-exporter
+  labels:
+    app: cluster-mgmt-node-exporter
+spec:
+  selector:
+    matchLabels:
+      app: cluster-mgmt-node-exporter
+  namespaceSelector:
+    matchNames:
+      - prometheus
+  podMetricsEndpoints:
+    - port: system
+      interval: 60s
+      scrapeTimeout: 60s
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cluster-mgmt-node-exporter
+  name: cluster-mgmt-node-ipmi-exporter
+  namespace: prometheus
+spec:
+  type: ClusterIP
+  ports:
+    - name: probe
+      port: 8007
+  selector:
+    app: cluster-mgmt-node-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  namespace: prometheus
+  name: cluster-mgmt-node-ethtool-exporter
+  labels:
+    app: cluster-mgmt-node-exporter
+spec:
+  selector:
+    matchLabels:
+      app: cluster-mgmt-node-exporter
+  namespaceSelector:
+    matchNames:
+      - prometheus
+  podMetricsEndpoints:
+    - port: ethtoolport
+      interval: 60s
+      scrapeTimeout: 10s

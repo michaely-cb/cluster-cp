@@ -1,0 +1,10 @@
+driver: mlx5_core
+version: 23.10-3.2.2
+firmware-version: 16.32.2004 (DEL0000000005)
+expansion-rom-version: 
+bus-info: 0000:5e:00.0
+supports-statistics: yes
+supports-test: yes
+supports-eeprom-access: no
+supports-register-dump: no
+supports-priv-flags: yes

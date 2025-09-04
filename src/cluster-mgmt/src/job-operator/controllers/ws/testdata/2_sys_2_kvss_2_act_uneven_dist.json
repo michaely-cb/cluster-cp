@@ -1,0 +1,37 @@
+{
+  "_comment": "2 system, 2 kvss and 2 act, with max = -1, all targeting domain 2 to create an uneven distribution",
+  "tasks": [
+    {
+      "taskType": "KVSS",
+      "resourceInfo": {
+        "linearMemoryRange": {
+          "intercept": 10,
+          "coefficient": -1,
+          "minX": 1,
+          "maxX": -1
+        }
+      },
+      "taskMap": [
+        { "taskId": { "taskId": 0, "wseIds": [0] }, "addressBook": { "wseDomains": [2] },
+          "linearMemoryRangeOverride": {"coefficient": "104857600"} },
+        { "taskId": { "taskId": 1, "wseIds": [1] }, "addressBook": { "wseDomains": [2] },
+          "linearMemoryRangeOverride": {"coefficient": "104857600"} }
+      ]
+    },
+    {
+      "taskType": "ACT",
+      "resourceInfo": {
+        "linearMemoryRange": {
+          "intercept": 104857600,
+          "coefficient": 52428800,
+          "minX": 1,
+          "maxX": -1
+        }
+      },
+      "taskMap": [
+        { "taskId": { "taskId": 0, "wseIds": [0] }, "addressBook": { "wseDomains": [2] }},
+        { "taskId": { "taskId": 1, "wseIds": [1] }, "addressBook": { "wseDomains": [2] }}
+      ]
+    }
+  ]
+}

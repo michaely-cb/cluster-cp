@@ -1,0 +1,86 @@
+! L3 template for ${name}
+!
+vrf instance ${vrf_name}
+!
+ip routing vrf ${vrf_name}
+!
+interface vlan ${switch_vlan}
+   description "memx switch subnet"
+   mtu ${mtu}
+   vrf ${vrf_name}
+   no ip address
+   ip address ${switch_address}
+!
+ip prefix-list external_addrs
+   no seq 10
+   no seq 20
+   seq 10 deny ${base_prefix} ge ${base_bits}
+   seq 20 permit 0.0.0.0/0 le 32
+!
+ip prefix-list external_advertise
+   no seq 10
+   no seq 20
+   seq 10 permit ${base_prefix}
+!
+ip prefix-list vip_addrs
+   no seq 10
+   seq 10 permit ${vip_prefix} eq 32
+!
+route-map allow_vip_addrs permit 10
+   match ip address prefix-list vip_addrs
+!
+route-map external_routes permit 10
+   match ip address prefix-list external_addrs
+!
+route-map external_advertise permit 10
+   match ip address prefix-list external_advertise
+!
+route-map deny_all deny 10
+!
+no router bgp
+router bgp ${asn}
+   neighbor exterior_switches peer group
+   neighbor exterior_switches route-map external_routes in
+   neighbor exterior_switches route-map external_advertise out
+   neighbor exterior_switches maximum-routes 12000
+   neighbor ws_cluster_switches peer group
+   neighbor ws_cluster_switches bfd
+   neighbor ws_cluster_switches maximum-routes 12000
+   neighbor management_node peer group
+   neighbor management_node route-reflector-client
+   neighbor management_node route-map deny_all out
+   neighbor ws_cluster_csx peer-group
+   neighbor ws_cluster_csx timers 1 3
+   neighbor ws_cluster_csx route-map deny_all out
+   neighbor ws_cluster_csx maximum-routes 12000
+   !
+   vrf ${vrf_name}
+      router-id ${router_id}
+      maximum-paths 64 ecmp 64
+      network ${switch_prefix}
+      aggregate-address ${base_prefix}
+!
+qos map traffic-class 5 to dscp 40
+qos map dscp 40 to traffic-class 5
+qos map traffic-class 5 to uc-tx-queue 5
+qos map traffic-class 5 to priority 5
+!
+load-interval default 5
+!
+platform trident mmu queue profile mmu-profile-400g
+   ingress headroom cells 1050
+   ingress priority-group 5 threshold 1/16
+!
+platform trident mmu queue profile mmu-profile-800g
+   ingress headroom cells 1050
+   ingress priority-group 5 threshold 1/16
+!
+platform trident mmu queue profile mmu-profile-100g
+   ingress priority-group 5 threshold 1/64
+!
+platform trident mmu headroom-pool limit cells ${mmu_headroom_pool_limit_cells}
+!
+queue-monitor length
+!
+! switch forwarding-mode store-and-forward
+!

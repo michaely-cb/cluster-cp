@@ -1,0 +1,83 @@
+queryFrontend:
+  enabled: false
+
+query:
+  logLevel: debug
+  ingress:
+    enabled: true
+    extraTls:
+      - secretName: query-general-tls
+    ingressClassName: nginx
+  stores:
+    # use headless svc to get all endpoints instead of from the load balanced cluster svc
+    - dnssrv+_grpc._tcp.prometheus-thanos-discovery.prometheus
+    - dnssrv+_grpc._tcp.thanos-ruler-operated.prometheus
+  replicaCount: 1
+  replicaLabel: [ prometheus_replica ]
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  nodeSelector:
+    "node-role.kubernetes.io/control-plane": ""
+  extraFlags:
+    # This is the same as the default timeout in Grafana.
+    - --query.timeout=1m
+    # Basically time-to-first-byte. Ignores failed/failing stores.
+    - --store.response-timeout=10s
+    # The web config enables basic auth for thanos-query http server.
+    - --http.config=/etc/thanos-query/web_config/web-config.yaml
+  extraVolumeMounts:
+    - name: web-config
+      mountPath: /etc/thanos-query/web_config/web-config.yaml
+      readOnly: true
+      subPath: web-config.yaml
+  extraVolumes:
+    - name: web-config
+      secret:
+        secretName: thanos-query-web-config
+        defaultMode: 420  # this is how the prometheus-operator sets it
+  customLivenessProbe:
+    # default values - https://artifacthub.io/packages/helm/bitnami/thanos/15.8.1?modal=values&path=query.livenessProbe
+    enabled: true
+    initialDelaySeconds: 30
+    timeoutSeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 6
+    # passing credentials for basic auth
+    httpGet:
+      path: /-/healthy
+      port: http
+      scheme: HTTP
+      httpHeaders:
+        - name: Authorization
+          value: Basic BASE64_ENCODED_CREDENTIALS
+  customReadinessProbe:
+    # default values - https://artifacthub.io/packages/helm/bitnami/thanos/15.8.1?modal=values&path=query.readinessProbe
+    enabled: true
+    initialDelaySeconds: 30
+    timeoutSeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 6
+    # passing credentials for basic auth
+    httpGet:
+      path: /-/ready
+      port: http
+      scheme: HTTP
+      httpHeaders:
+        - name: Authorization
+          value: Basic BASE64_ENCODED_CREDENTIALS
+  resources:
+    requests:
+      cpu: 1
+      memory: 1Gi
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true

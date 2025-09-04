@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Fixup the automatic prefix route in the main table
+
+devname="$$1"
+action="$$2"
+
+if [ "$$action" != "up" ]; then
+   exit 0
+fi
+
+if [ "$$devname" != "${name}" ]; then
+   exit 0
+fi
+
+rtline="$$(/usr/sbin/ip route show ${prefix} dev ${name})"
+
+if ! [[ "$$rtline" =~ "rto_min" ]]; then
+   ip route change $$rtline dev ${name} rto_min 1ms
+fi
+
+

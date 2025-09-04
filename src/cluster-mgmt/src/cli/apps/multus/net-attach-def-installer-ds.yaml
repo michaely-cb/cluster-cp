@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: net-attach-def-installer
+  namespace: $NAMESPACE
+  labels:
+    app: net-attach-def-installer
+spec:
+  selector:
+    matchLabels:
+      app: net-attach-def-installer
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "34%"
+  template:
+    metadata:
+      labels:
+        app: net-attach-def-installer
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoSchedule
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoSchedule
+      - key: node.cilium.io/agent-not-ready
+        operator: Exists
+        effect: NoSchedule
+      initContainers:
+      - name: init-container
+        image: registry.local/alpine-containerd:$TAG
+        imagePullPolicy: IfNotPresent
+        command: ["bash", "/cluster-mgmt-scripts/net-attach-def-installer.sh"]
+        env:
+        - name: INCREMENTAL_DIR
+          value: $INCREMENTAL_DIR
+        - name: DEST_DIR
+          value: $DEST_DIR
+        - name: LEAD_MGMT_NODE
+          value: $LEAD_MGMT_NODE
+        - name: LEAD_MGMT_NODE_IP
+          value: $LEAD_MGMT_NODE_IP
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        volumeMounts:
+          - name: host-root
+            mountPath: /host-root/
+          - name: scripts
+            mountPath: /cluster-mgmt-scripts
+          - name: sshkey-secret-volume
+            readOnly: true
+            mountPath: "/etc/sshkey-secret-volume"
+      containers:
+      - name: main
+        image: registry.local/alpine-containerd:$TAG
+        command: ["sleep", "infinity"]
+      terminationGracePeriodSeconds: 1
+      priorityClassName: system-node-critical
+      volumes:
+        - name: host-root
+          hostPath:
+            path: /
+            type: Directory
+        - name: scripts
+          configMap:
+            name: net-attach-def-installer-scripts
+            items:
+            - key: net-attach-def-installer.sh
+              path: net-attach-def-installer.sh
+        - name: sshkey-secret-volume
+          secret:
+            secretName: cerebras-sshkey-pair
+            defaultMode: 384

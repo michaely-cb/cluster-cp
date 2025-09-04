@@ -1,0 +1,8 @@
+- name: Copy make ip static script
+  template:
+    src: make_ip_static.sh
+    dest: /tmp/make_ip_static.sh
+    mode: 0755
+
+- name: Run make ip static script
+  shell: /tmp/make_ip_static.sh

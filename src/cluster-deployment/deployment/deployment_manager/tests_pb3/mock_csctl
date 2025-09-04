@@ -1,0 +1,89 @@
+#!/bin/bash
+# This script is used to mock csctl calls in tests. Currently, it only simulates
+# csctl get cluster --node-only or csctl get cluster --system-only calls.
+# It also looks at an environment variable CSCTL_TEST_CASE to determine which output
+# to generate.
+
+set -e
+
+cmd="$@"
+
+if [[ "$cmd" =~ "get cluster --node-only" ]]; then
+    if [ "$CSCTL_TEST_CASE" == "test_migration_src" ]; then
+        cat <<EOF
+{
+  "items": [
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-control-plane-1"
+        }
+    },
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-control-plane-2"
+        }
+    },
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-control-plane-3"
+        }
+    }
+  ]
+}
+EOF
+    elif [ "$CSCTL_TEST_CASE" == "test_migration_dst" ]; then
+        cat <<EOF
+{
+  "items": [
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-control-plane-1"
+        }
+    },
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-control-plane-2"
+        }
+    },
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-control-plane-3"
+        }
+    },
+    {
+        "meta": {
+            "name": "$CLUSTER_NAME-worker-1"
+        }
+    }
+  ]
+}
+EOF
+    else
+        echo "Unknown CSCTL_TEST_CASE: $CSCTL_TEST_CASE"
+        exit 1
+    fi
+
+elif [[ "$cmd" =~ "get cluster --system-only" ]]; then
+    if [ "$CSCTL_TEST_CASE" == "test_migration_src" ]; then
+    cat <<EOF
+{
+  "items": [
+  ]
+}
+EOF
+    elif [ "$CSCTL_TEST_CASE" == "test_migration_dst" ]; then
+        cat <<EOF
+{
+  "items": [
+  ]
+}
+EOF
+    else
+        echo "Unknown CSCTL_TEST_CASE: $CSCTL_TEST_CASE"
+        exit 1
+    fi
+
+else
+    echo "Unknown csctl command: $cmd"
+    exit 1
+fi

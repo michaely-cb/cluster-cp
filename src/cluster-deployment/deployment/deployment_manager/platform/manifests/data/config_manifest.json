@@ -1,0 +1,108 @@
+{
+  "config_versions": [
+    {
+      "name": "rel-3.0",
+      "configs": [
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "dscp",
+          "roles": [
+            "AX",
+            "MX",
+            "SX",
+            "WK"
+          ]
+        },
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "pcp",
+          "roles": [
+            "MG"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rel-2.5",
+      "configs": [
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "dscp",
+          "roles": [
+            "AX",
+            "MX",
+            "SX",
+            "WK"
+          ]
+        },
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "pcp",
+          "roles": [
+            "MG"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rel-2.4",
+      "configs": [
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "dscp",
+          "roles": [
+            "AX",
+            "MX",
+            "SX",
+            "WK"
+          ]
+        },
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "pcp",
+          "roles": [
+            "MG"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rel-2.2.1",
+      "configs": [
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "dscp",
+          "roles": [
+            "AX",
+            "MX",
+            "SX"
+          ]
+        },
+        {
+          "name": "RoCE",
+          "get_command": "mlnx_qos -i `ifconfig -a | grep 'mtu 9000' | awk -F':' '{print $1; exit}'` | grep 'Priority trust state' | awk '{print $NF}'",
+          "set_command": "",
+          "output": "pcp",
+          "roles": [
+            "MG",
+            "WK"
+          ]
+        }
+      ]
+    }
+  ]
+}

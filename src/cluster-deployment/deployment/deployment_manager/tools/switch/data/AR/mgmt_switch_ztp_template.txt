@@ -1,0 +1,10 @@
+#!/usr/bin/Cli -p2
+
+copy http://${http_server_ip}:8080/${fw_image} flash://
+copy tftp://${tftp_server_ip}/${switch_name}.startup_config flash://startup-config
+
+config
+boot system flash:/${fw_image}
+end
+
+reload force

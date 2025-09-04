@@ -1,0 +1,27 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: add-ingress-annotation
+  namespace: kube-system
+  labels:
+    app: kube-webhook
+webhooks:
+  - name: kube-webhook-ingress.kube-system.svc.cluster.local
+    clientConfig:
+      caBundle: ${TLS_CRT}
+      service:
+        name: kube-webhook
+        namespace: kube-system
+        path: "/add-ingress-annotation"
+        port: 443
+    rules:
+      - operations: [ "CREATE", "UPDATE" ]
+        apiGroups: [ "networking.k8s.io" ]
+        apiVersions: [ "v1" ]
+        resources: [ "ingresses" ]
+        scope: "Namespaced"
+    sideEffects: None
+    timeoutSeconds: 5
+    reinvocationPolicy: Never
+    failurePolicy: Fail
+    admissionReviewVersions: [ "v1" ]

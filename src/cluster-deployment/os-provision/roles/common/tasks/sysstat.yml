@@ -1,0 +1,6 @@
+- name: Start/enable sysstat service
+  systemd:
+    name: sysstat
+    state: started
+    enabled: yes
+  tags: services

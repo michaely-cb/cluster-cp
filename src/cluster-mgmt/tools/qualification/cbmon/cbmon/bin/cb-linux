@@ -1,0 +1,222 @@
+#!/usr/bin/env python3
+import sys, subprocess, argparse, time, re
+def err_exit(msg):
+	print(msg, file=sys.stderr)
+	exit(1)
+
+def get_args():
+	parser = argparse.ArgumentParser()
+	parser.add_argument('host', help='host', metavar='HOST')
+	parser.add_argument('-p', '--port', type=int, help='Port number of the linux target', metavar='PORT', default=22)
+	parser.add_argument('-V', '--version', action='version', version='1.6')
+	for cls in Task.__subclasses__():
+		add_class_to_parser(cls, parser)
+	return parser.parse_args()
+
+def set_args_default(args):
+	if args.md5sum is None:
+		args.md5sum = Md5sum.FILES
+	else:
+		args.md5sum = Md5sum.FILES + args.md5sum
+	if args.allowedtimeoffset is None:
+		args.allowedtimeoffset = ['10S']
+
+def add_class_to_parser(cls, parser):
+	if cls.option:
+		parser.add_argument(f'-{cls.option}', f'--{cls.__name__.lower()}', help=cls.helpmsg, metavar=cls.metavar, action='append', nargs='?')
+	else:
+		parser.add_argument(f'--{cls.__name__.lower()}', help=cls.helpmsg, metavar=cls.metavar, action='append', nargs='?')
+	for subcls in cls.__subclasses__():
+		add_class_to_parser(subcls, parser)
+
+def add_class_to_task(cls, args, tasks):
+	for subcls in cls.__subclasses__():
+		add_class_to_task(subcls, args, tasks)
+	option = cls.__name__.lower()
+	params = getattr(args, option)
+	if option != 'sysinfo' :
+		if params is None: return
+	elif params is None:
+		params = [None]
+	for idx in range(len(params)):
+		tsk = cls(params[idx])
+		prefix = f'{option}:{idx}'.upper()
+		tsk.cmds = [ f' ( {c} ) 2>&1 | sed -e "s/^/{prefix}:\t/"' for c in tsk.cmds]
+		tasks[prefix] = tsk
+
+class Task():
+	option = None
+	def __init__(self):
+		self.cmds = []
+	def post_getln(self, prefix):
+		pass
+
+class DfCheck(Task):
+	option = 'd'
+	helpmsg = "check mountpoint usage with a percentage threshold and a comma-separated list of mountpoints or  filesystem type, or 'LOCAL'. Example: '-d 80P', '-d 50P:nfs4,xfs', '-d 85P:LOCAL'"
+	metavar = 'THRESHOLD%(:MOUNTPOINTS)'
+	def __init__(self, param):
+		super().__init__()
+		if ':' in param:
+			self.threshold, mountpoints = param.split(':')
+		else:
+			self.threshold, mountpoints = param, ''
+		if not self.threshold.endswith('P'):
+			err_exit('ERR-109: wrong operand for --dfcheck')
+		self.threshold = int(self.threshold[:-1])
+		for mp in mountpoints.split(','):
+			if mp == '':
+				cmd = f'df -hP'
+			elif mp == 'LOCAL':
+				cmd = f'df -hPl'
+			elif not mp.startswith('/'):
+				cmd = f'df -hPt {mp}'
+			else:
+				cmd = f'mountpoint {mp} &> /dev/null && df -hP {mp}'
+			self.cmds.append(f'{cmd} | tail -n +2 | grep -v /run/user')
+		self.lns = []
+	def getln(self, ln):
+		fs = ln.split()
+		try:
+			size = fs[1]
+			used = int(fs[4][:-1])
+			avail = fs[3]
+			if used >= self.threshold:
+				self.lns.append('%s\t%s\t%d%%\t%d%%\t%s\t%s' % (size, avail, used, self.threshold, fs[5], fs[0]))
+			else:
+				self.lns.append('%s\t\tOK\t\t%s\t%s' % (size, fs[5], fs[0]))
+		except:
+			return ln
+	def post_getln(self, prefix):
+		if prefix.endswith(':0'):
+			print(f'{prefix}:\tSize\tAvail\tUsed%\tThreshold%\tMounted on\tFilesystem')
+		for ln in self.lns:
+			print(f'{prefix}:\t{ln}')
+
+class Dmesg(Task):
+	option = 'm'
+	helpmsg = "search a list of KEYWORDS in dmesg output. Example: '-m failed'"
+	metavar = 'KEYWORDS'
+	def __init__(self, param):
+		super().__init__()
+		self.cmds.append(f'dmesg | grep -E "{param}" || true')
+	def getln(self, ln):
+		return ln
+
+class LoadCheck(Task):
+	option = 'l'
+	helpmsg = "print uptime if any of the three load average is greater than +F or less than -F. Example: '-l +1.5', '-l -99'"
+	metavar = '±THRESHOLD'
+	def __init__(self, param):
+		super().__init__()
+		self.check = float(param)
+		self.cmds.append('uptime')
+	def getln(self, ln):
+		loads = [float(s) for s in ln.split('load average: ')[1].split(', ')]
+		if self.check >= 0:
+			if max(loads) >= self.check:
+				return ln
+		elif min(loads) <= -self.check:
+				return ln
+
+class Command(Task):
+	option = 'c'
+	helpmsg = "run COMMAND on the target host. Example: '-c pidof ImportantProcess'"
+	metavar = 'COMMAND'
+	def __init__(self, param):
+		super().__init__()
+		self.cmds.append(param)
+	def getln(self, ln):
+		return ln
+
+class Stat(Task):
+	helpmsg = "'stat' permission and owner of FILES. Example: '--stat /home'"
+	metavar = 'FILES'
+	def __init__(self, param):
+		super().__init__()
+		for fl in param.split(','):
+			self.cmds.append(f"stat -c '%A\t%i\t%U\t%G\t%n' {fl}")
+	def getln(self, ln):
+		return ln
+
+class Md5sum(Task):
+	#FILES = ['.ssh/authorized_keys,/etc/passwd,/etc/ssh/sshd_config']
+	FILES = []
+	helpmsg = f"'md5sum' FILES in addition to {FILES}. Example: --md5sum /etc/MyPrivateKey"
+	metavar = 'FILES'
+	def __init__(self, param):
+		super().__init__()
+		for fl in param.split(','):
+			self.cmds.append(f'md5sum {fl}')
+	def getln(self, ln):
+		return ln
+
+class AllowedTimeOffset(Task):
+	option = 'o'
+	helpmsg = "check time offset in seconds with an allowed threshold. Example: '-o 30S'"
+	metavar = 'SECONDS'
+	def __init__(self, param):
+		super().__init__()
+		if not param.endswith('S'):
+			err_exit('ERR-113: wrong operand for --allowedtimeoffset')
+		self.check = int(param[:-1])
+		now = int(time.time())
+		self.cmds.append(f'date "+%s - {now}"')
+	def getln(self, ln):
+		fs = [int(s) for s in ln.split(' - ')]
+		diff = fs[0] - fs[1]
+		if diff < self.check: return
+		return f'{diff}'
+
+class Sysinfo(Task):
+	helpmsg = "check some standard system information. It supports only 'netoff', which turns off network checking. Example: '--sysinfo netoff'"
+	metavar = 'SWITCH'
+	def __init__(self, param):
+		super().__init__()
+		self.cmds += [
+			f'kubelet --version',
+			f'df -h / --output=size,source',
+			f'df -h /cb --output=size,source',
+			f'uname -r',
+			f'grep MemTotal /proc/meminfo',
+			f'grep SwapTotal /proc/meminfo',
+			f'[ ! -f /proc/mdstat ] || grep -v bitmap: /proc/mdstat',
+			f'nmcli -t -f DEVICE conn show --active | sort',
+			f'[ ! -f /proc/drbd ] || grep " cs:" /proc/drbd',
+		]
+		if param is None:
+			self.cmds += [
+				f'[ ! -f /proc/net/bonding/bond0 ] || cat /proc/net/bonding/bond*',
+				f'ip -br a',
+				f'ip r',			
+			]
+		elif param != 'netoff':
+			err_exit('ERR: wrong operand for --sysinfo')
+	def getln(self, ln):
+		if ln.startswith('CBSYSINFO:\t      bitmap:'): return
+		return ln
+
+def main():
+	args = get_args()
+	set_args_default(args)
+	tasks = {}
+	for cls in Task.__subclasses__():
+		add_class_to_task(cls, args, tasks)
+	cmds = []
+	for prefix in sorted(tasks.keys()):
+		cmds += tasks[prefix].cmds
+	p = subprocess.Popen(['ssh', '-o', 'LogLevel=error', '-o', 'BatchMode=yes', '-np', str(args.port), args.host, '((RTN=0)); ' + '; (($?==0)) || ((RTN+=1)); '.join([f'(set -Eeuo pipefail && {c})' for c in cmds]) + '; if [ $RTN -gt 0 ]; then echo ERROR: $RTN commands failed; exit 1; fi'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+	sshout = p.communicate()[0].decode('utf-8', 'ignore').rstrip()
+	for ln in sshout.split('\n'):
+		idx = ln.find(':\t')
+		if idx == -1: continue
+		prefix = ln[:idx]
+		ln = tasks[prefix].getln(ln[len(prefix)+2:])
+		if ln is None: continue
+		print(f'{prefix}:\t{ln}')
+	for prefix, tsk in sorted(tasks.items()):
+		tsk.post_getln(prefix)
+	if p.returncode != 0:
+		err_exit(f'ERR: ssh failed!')
+
+if __name__ == '__main__': main()

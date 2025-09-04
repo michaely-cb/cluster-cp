@@ -1,0 +1,68 @@
+- block:
+  # To be run only after applying patches and reboot
+  - name: Download and unarchive Mellanox OFED driver
+    ansible.builtin.unarchive:
+      src: http://{{ mirror_server }}/repos/Rocky8/{{ driver_dir }}/{{ driver }}.tgz
+      dest: /tmp
+      remote_src: yes
+
+  - name: Install Mellanox OFED driver
+    # Cannot use command module as mlnxofedinstall accesses shell environments
+    ansible.builtin.shell:
+      cmd: /tmp/{{ driver }}/mlnxofedinstall --force {{ install_options }}
+
+  - name: Find the compiled Mellanox OFED driver file
+    ansible.builtin.find:
+      paths: /tmp
+      patterns : '{{ compiled_driver }}.tgz'
+      file_type: file
+      recurse: True
+    register: driver_file
+    when: create_patches
+
+  - name: Move the compiled Mellanox OFED driver to Cerebras-patches repo
+    ansible.builtin.command:
+      cmd: mv {{ driver_file.files[0].path }} /var/repo/Cerebras-patches 
+    when: create_patches
+
+  - name: Clean up Mellanox install
+    ansible.builtin.shell:
+      cmd: |
+        rm -rf /tmp/{{ driver }}/
+        rm -rf /tmp/MLNX_OFED_LINUX*
+
+  - name: Create security patch tar ball Cerebras-patches.tgz
+    ansible.builtin.shell:
+      cmd: tar -cf - Cerebras-patches | pigz -9 > Cerebras-patches.tar.gz
+      chdir: /var/repo
+    when: create_patches
+
+  - name: Clean up repository
+    ansible.builtin.file:
+      path: /var/repo/Cerebras-patches
+      state: absent
+    when: create_patches
+
+  - name: Clean up .repo file
+    ansible.builtin.file:
+      path: /etc/yum.repos.d/Cerebras-patches.repo
+      state: absent
+
+  - name: Rebuild initramfs image to include all drivers
+    ansible.builtin.command:
+      cmd: dracut --force --no-hostonly
+
+  vars:
+    # With create_patches, we need to install from the original Mellanox
+    # driver.  A new compiled driver will be generated and copied into the
+    # Cerebras-patches directory.
+    driver: "{{ 'MLNX_OFED_LINUX-23.10-4.0.9.1-rhel8.10-x86_64' if create_patches else 'MLNX_OFED_LINUX-23.10-4.0.9.1-rhel8.10-ext' }}"
+    compiled_driver: 'MLNX_OFED_LINUX-23.10-4.0.9.1-rhel8.10-ext'
+    patch_dir: "Cerebras-patches-rel_{{ release }}"
+    driver_dir: "{{ '' if create_patches else patch_dir }}"
+    install_options: "{{ '--add-kernel-support' if create_patches else '' }}"
+
+
+# Placeholder for creating the golden manifest.json file that records the
+# packages and versions of the Rocky image.
+# TODO: generate manifest.json file.

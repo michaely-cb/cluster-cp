@@ -1,0 +1,2 @@
+# static route
+ip route vrf ${vrf_name} ${dest} ${via}

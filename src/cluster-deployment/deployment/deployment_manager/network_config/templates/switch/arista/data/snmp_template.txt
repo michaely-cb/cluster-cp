@@ -1,0 +1,4 @@
+!
+! SNMP configuration
+!
+snmp-server community CerebrasColoSC ro

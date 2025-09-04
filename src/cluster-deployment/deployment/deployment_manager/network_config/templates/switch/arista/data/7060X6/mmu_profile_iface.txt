@@ -1,0 +1,6 @@
+!
+! MMU profile for ${my_port}
+!
+interface ${my_port}
+    platform trident mmu queue interface-profile ${mmu_profile}
+!

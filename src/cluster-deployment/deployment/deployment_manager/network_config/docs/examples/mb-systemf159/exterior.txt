@@ -1,0 +1,1 @@
+sc-r11rb14-100gsw64	Ethernet32/1	10.250.1.56/31	sc-r11r11-100gsw-bot	Ethernet9/1	10.250.1.57/31

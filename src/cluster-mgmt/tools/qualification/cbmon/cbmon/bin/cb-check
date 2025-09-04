@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+set -Eeufo pipefail
+trap "exit 1" TERM
+function helpme {
+	if [ $# -gt 0 ]
+	then
+		echo -e "$1" 1>&2
+	else
+		grep '#' /proc/$$/fd/255 | sed -n '/^#HELPME_START/,/^#HELPME_END/p' | grep -v "^#HELPME_" | sed -e "s/#//" | tr -s '\t' 1>&2 #20220605
+	fi
+	kill -s TERM -- -$(cut -d ' ' -f 5 /proc/$$/stat)
+}
+function report_then_quit {
+	CutFrom=$1
+	let TS=$(date +%s)
+	Header="Count\tTime\tTask"
+	find . -type f -name diff-count | sort | while read F;
+	do
+		diff -q $F <(echo 0) > /dev/null && continue
+		if [ -f ${F::-11}/diff-previous ]
+		then
+			let T=$TS-$(ls -l --time-style='+%s' ${F::-11}/diff-previous | cut -d " " -f 6)
+			if [[ T -ge 86400 ]]
+			then
+				((T=T/86400))
+				T="${T}d"
+			elif [[ T -ge 3600 ]]
+			then
+				((T=T/3600))
+				T="${T}h"
+			elif [[ T -ge 60 ]]
+			then
+				((T=T/60))
+				T="${T}m"
+			else
+				T="${T}s"
+			fi
+		else
+			T=NA
+		fi
+		[ -z "$Header" ] || echo -e $Header && Header=""
+		echo -e "$(cat $F)\t$T\t$(realpath -s ${F::-11} |cut -c $CutFrom-)"
+	done
+	exit
+}
+All=NO
+Report=NO
+OptShort="hvar"
+OptLong="help,version,all,remove"
+Opts=$(getopt -o $OptShort --long $OptLong -n "$(basename $0)" -- "$@")
+eval set -- "$Opts"
+while [ $# -gt 0 ]
+do
+	case "$1" in
+#HELPME_START
+#SYNOPSIS
+#	cb-check [OPTION]...
+#EXAMPLE
+#	cd /opt/cbmon/var; cb-check
+#DESCRIPTION
+		-h | --help)	#print help information
+			helpme ;;
+		--version)	#print version
+			helpme 20220928 ;;
+		-v )	#verbose output
+			set -x
+			shift ;;
+		-a | --all)	#check all tasks, regardless of current directory
+			All=YES
+			shift ;;
+		-r | --report)	#print report
+			Report=YES
+			shift ;;
+		--)
+			shift
+			break ;;
+		*)
+			break ;;
+	esac
+done
+
+CbmonConf=/etc/cbmon.conf
+. $CbmonConf || helpme "ERR-100: Configuration file $CbmonConf is missing"
+[ -n "$CbmonHome" ] || helpme "ERR-101: CbmonHome is not defined in the configuration file $CbmonConf"
+if [ "$All" = "YES" ]
+then
+	cd $CbmonHome/var
+elif [[ $PWD != $CbmonHome/var* ]]
+then
+	helpme "ERR-102: cd to any directory under $CbmonHome/var at first, or use '-a'"
+fi
+CutFrom=$(echo $CbmonHome/var/ | wc -c)
+[ "$Report" != "YES" ] || report_then_quit $CutFrom
+for f in $(find $* -type d | sort)
+do
+	[ -f $f/lock ] || continue
+	[ -f $f/diff-count ] || continue
+	! diff -q $f/diff-count <(echo 0) > /dev/null || continue
+	[ -f $f/out-current -a -f $f/out-standard ] || continue
+	while :
+	do
+		clear
+		set +o pipefail
+		Md5sum=$(md5sum $f/out-current)
+		diff $f/out-current $f/out-standard | less -FXP "$(realpath -s $f | cut -c $CutFrom-)"
+		set -o pipefail
+		read -n 1 -r -p "Standardize '$(realpath -s $f | cut -c $CutFrom-)'? [y/nq]" ynq
+		echo
+		case "$ynq" in
+			Y|y )
+				(
+					flock -xn 99 || exit 1
+					echo $Md5sum | md5sum -c | grep -qw OK || exit 1
+					Ts=$(date +%FT%T)
+					mv $f/out-standard $f/history-$Ts-standard
+					mv $f/diff-count $f/history-$Ts-norm
+					cp $f/out-current $f/out-standard
+					echo 0 > $f/diff-count
+				) 99> $f/lock && break || read -n 1 -r -p "$f is locked by another process, press any key to check it again"
+				continue;;
+			N|n|q )
+				break;;
+			* )
+				echo "Please answer y, n or q";;
+		esac
+	done
+	echo
+done
