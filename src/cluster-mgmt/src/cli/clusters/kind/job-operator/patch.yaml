@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+        - name: manager
+          args:
+            - --log-file=/opt/cerebras/log/$(NAMESPACE)-controller-manager.log
+            - --also-stdout
+            - /manager
+            - --health-probe-bind-address=:8081
+            - --metrics-bind-address=127.0.0.1:8080
+            - --leader-elect
+            - --dev=true
+          volumeMounts:
+            - mountPath: /opt/cerebras/log
+              name: log
+      volumes:
+        - hostPath:
+            path: /n0/cluster-mgmt/job-operator
+            type: DirectoryOrCreate
+          name: log
+      nodeSelector:
+        "k8s.cerebras.com/node-role-management": ""
+      tolerations:
+        - effect: NoSchedule
+          key: "node-role.kubernetes.io/master"
+          operator: Equal
+          value: ""
+        - effect: NoSchedule
+          key: "node-role.kubernetes.io/control-plane"
+          operator: Equal
+          value: ""

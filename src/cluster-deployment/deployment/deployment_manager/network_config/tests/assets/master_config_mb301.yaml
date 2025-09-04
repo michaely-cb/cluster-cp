@@ -1,0 +1,204 @@
+misc:
+    rootServer: cs301-wse001-mg-sr01
+    topology: "leaf_spine"
+name: multibox-301
+network:
+    clusterNetwork:
+        clusterAsns:
+        -   count: 256
+            start: '65002.256'
+        clusterIpBlocks: []
+        clusterMemxInterfaces: 48
+        clusterMemxSubnetSize: 512
+        clusterSwarmxSubnetSize: 128
+        clusterSystemIpBlocks: []
+        clusterSystemSubnetSize: 128
+        crossConnects: 768
+        ipConfig:
+            clusterNetmaskPerRack: /24
+            ipSuperCidr: 10.251.32.0/19
+        systemsWithVlan: []
+        uplinks: []
+        vipCount: 128
+    exteriorNetwork:
+        prefixes:
+        - 10.0.0.0/8
+    managementNetwork:
+        gatewayNthAddress: 254
+        ipConfig:
+            dns:
+            - 172.28.243.5
+            - 172.28.243.6
+            gatewayOverwrite: 172.28.219.254
+            ipBlocks:
+            - 172.28.219.0/24
+            - 172.28.218.0/24
+            - 172.28.217.0/24
+            - 172.28.216.0/24
+            - 172.28.215.0/24
+            - 172.28.214.0/24
+            - 172.28.213.0/24
+            - 172.28.212.0/24
+            ipSuperCidr: ''
+            netmaskPerRack: /24
+            networkBetweenRacks: ''
+        podCidrs:
+        - 100.64.0.0/15
+        serviceCidr: 100.66.0.0/15
+        mgmtVip:
+            vip: 1.1.1.2
+            routerAsn: 4286054401
+            nodeAsn: 4259971583
+servers:
+-     name: cs301-wse001-mg-sr01
+      nodeGroup: 0
+      address: "172.22.0.1"
+      rackUnit:
+          rackNum: 1
+          unitNum: 1
+      role: MG
+      rootLogin:
+          password: xxx
+          username: root
+      vendor: HP
+switches:
+-   ip: 172.28.144.189
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb14-400gsw
+    rackUnit:
+        rackNum: 1
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.144.157
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb13-400gsw
+    rackUnit:
+        rackNum: 2
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.144.125
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb12-400gsw
+    rackUnit:
+        rackNum: 3
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.144.93
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb11-400gsw
+    rackUnit:
+        rackNum: 4
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.144.90
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb11-400gsw-spine1
+    rackUnit:
+        rackNum: 4
+        unitNum: 101
+    role: SP
+    vendor: AR
+-   ip: 172.28.144.91
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb11-400gsw-spine2
+    rackUnit:
+        rackNum: 4
+        unitNum: 102
+    role: SP
+    vendor: AR
+-   ip: 172.28.144.61
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb10-400gsw
+    rackUnit:
+        rackNum: 5
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.144.58
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb10-400gsw-spine1
+    rackUnit:
+        rackNum: 5
+        unitNum: 101
+    role: SP
+    vendor: AR
+-   ip: 172.28.144.59
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb10-400gsw-spine2
+    rackUnit:
+        rackNum: 5
+        unitNum: 102
+    role: SP
+    vendor: AR
+-   ip: 172.28.144.29
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb9-400gsw
+    rackUnit:
+        rackNum: 6
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.143.253
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb8-400gsw
+    rackUnit:
+        rackNum: 7
+        unitNum: 100
+    role: LF
+    vendor: AR
+-   ip: 172.28.143.221
+    login:
+        password: xxx
+        username: admin
+    name: sc-r7rb7-400gsw
+    rackUnit:
+        rackNum: 8
+        unitNum: 100
+    role: LF
+    vendor: AR
+systems:
+-   defaultHostname: "systemf0"
+    login:
+        password: admin
+        username: admin
+    name: wse001-cs-sy01
+    nodeGroup: -1
+    ports:
+    -   address: 172.28.99.215
+        dnsName: wse001-cs-sy01
+        mac: 70:55:f8:00:00:00
+        name: MGMT
+        networkType: L2
+        physicalName: MGMT
+    rackUnit:
+        rackNum: wse001
+        unitNum: 1
+    role: CS
+    stamp: default
+    systemVlan: false

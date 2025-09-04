@@ -1,0 +1,14 @@
+no interface vlan ${swarmx_vlan}
+interface vlan ${swarmx_vlan}
+   description "swarmx subnet"
+   mtu ${mtu}
+   ip vrf forwarding Vrf_${vrf_name}
+   no ip address
+   ip address ${swarmx_switch_address}
+   exit
+
+router bgp ${asn_num} vrf Vrf_${vrf_name}
+  address-family ipv4 unicast
+    network ${swarmx_switch_prefix}
+    exit
+  exit

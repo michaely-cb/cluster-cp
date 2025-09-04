@@ -1,0 +1,316 @@
+admin@net002-lf-sw01's password:
+Linux net002-lf-sw01 5.10.0-8-2-amd64 #1 SMP Debian 5.10.46-4 (2021-08-03) x86_64
+You are on
+  ____   ___  _   _ _  ____
+ / ___| / _ \| \ | (_)/ ___|
+ \___ \| | | |  \| | | |
+  ___) | |_| | |\  | | |___
+ |____/ \___/|_| \_|_|\____|
+
+-- Software for Open Networking in the Cloud --
+
+Unauthorized access and/or use are prohibited.
+All access and/or use are subject to monitoring.
+
+Help:    http://azure.github.io/SONiC/
+
+Last login: Thu Jun 13 07:41:38 2024 from 172.28.105.1
+admin@net002-lf-sw01:~$ intfutil -c status
+  Interface                            Lanes    Speed    MTU    Oper FEC            Alias    Vlan    Oper    Admin    ProtoDown    Eff Admin                                             Type    Asym PFC    Oper Speed
+-----------  -------------------------------  -------  -----  ----------  ---------------  ------  ------  -------  -----------  -----------  -----------------------------------------------  ----------  ------------
+  Ethernet0  130,131,132,133,134,135,136,137     400G   9100          rs      Eth1(Port1)  routed      up       up        False           up  QSFP-DD Double Density 8X Pluggable Transceiver         N/A          400G
+Ethernet192                          322,323     100G   9100          rs  Eth25/1(Port25)   trunk      up       up        False           up  QSFP-DD Double Density 8X Pluggable Transceiver         N/A          100G
+Ethernet256    98,99,100,101,102,103,104,105     400G   9100          rs    Eth33(Port33)   trunk      up       up        False           up  QSFP-DD Double Density 8X Pluggable Transceiver         N/A          400G
+Ethernet398                          512,513     100G   9100          rs  Eth50/4(Port50)   trunk      up       up        False           up  QSFP-DD Double Density 8X Pluggable Transceiver         N/A          100G
+Ethernet504  410,411,412,413,414,415,416,417     400G   9100          rs    Eth64(Port64)  routed    down       up        False           up                                              N/A         N/A          400G
+Ethernet513                              516      10G   9100        none    Eth66(Port66)  routed    down       up        False           up                                              N/A         N/A           10G
+admin@net002-lf-sw01:~$ intfutil -c description
+  Interface    Oper    Admin            Alias                          Description
+-----------  ------  -------  ---------------  -----------------------------------
+  Ethernet0      up       up      Eth1(Port1)
+Ethernet192      up       up  Eth25/1(Port25)                 L2_to_xs10048/Port_7
+Ethernet256      up       up    Eth33(Port33)  L2_to_cs307-net002-sx-sr01/eth400g5
+Ethernet398      up       up  Eth50/4(Port50)  L2_to_cs307-net004-sx-sr03/eth100g3
+Ethernet504    down       up    Eth64(Port64)
+Ethernet513    down       up    Eth66(Port66)
+admin@net002-lf-sw01:~$ show int counters
+      IFACE    STATE       RX_OK      RX_BPS    RX_UTIL    RX_ERR     RX_DRP    RX_OVR        TX_OK      TX_BPS    TX_UTIL    TX_ERR    TX_DRP    TX_OVR
+-----------  -------  ----------  ----------  ---------  --------  ---------  --------  -----------  ----------  ---------  --------  --------  --------
+  Ethernet0        U  21,577,336  352.14 B/s      0.00%         3          2         0    8,135,957  266.44 B/s      0.00%         0         0         0
+Ethernet192        U      78,594  145.05 B/s      0.00%         0          0         0      147,375  172.12 B/s      0.00%         0        14         0
+Ethernet256        U       6,911    0.55 B/s      0.00%         0        209         0      124,803   32.07 B/s      0.00%         0         3         0
+Ethernet398        U      12,072    2.27 B/s      0.00%         0          6         0      126,275   38.23 B/s      0.00%         0       105         0
+Ethernet504        D           0    0.00 B/s      0.00%         0          0         0            0    0.00 B/s      0.00%         0         0         0
+Ethernet513        D           0    0.00 B/s      0.00%         0          0         0            0    0.00 B/s      0.00%         0         0         0
+admin@net002-lf-sw01:~$ echo "addr cc rxb"
+addr cc rxb
+admin@net002-lf-sw01:~$ for iface in /sys/class/net/Eth*;do iface_name=`basename $iface`; addr=$(<$iface/address); cc=$(<$iface/carrier_changes); rxb=$(<$iface/statistics/rx_bytes); echo "$iface_name $addr $cc $rxb";done
+Ethernet0 b4:6a:d4:df:37:e8 2 59361170
+Ethernet16 b4:6a:d4:df:37:e8 4 59410186
+Ethernet192 b4:6a:d4:df:37:e8 6 23390232
+Ethernet194 b4:6a:d4:df:37:e8 2 23137950
+Ethernet196 b4:6a:d4:df:37:e8 4 23691862
+Ethernet198 b4:6a:d4:df:37:e8 4 23398605
+Ethernet234 b4:6a:d4:df:37:e8 1 0
+Ethernet24 b4:6a:d4:df:37:e8 4 59408741
+Ethernet256 b4:6a:d4:df:37:e8 4 2086027
+Ethernet264 b4:6a:d4:df:37:e8 4 2101477
+Ethernet32 b4:6a:d4:df:37:e8 2 57847807
+Ethernet398 b4:6a:d4:df:37:e8 8 3515991
+Ethernet504 b4:6a:d4:df:37:e8 1 0
+Ethernet512 b4:6a:d4:df:37:e8 1 0
+Ethernet513 b4:6a:d4:df:37:e8 1 0
+Ethernet8 b4:6a:d4:df:37:e8 2 59361478
+admin@net002-lf-sw01:~$ echo "phy"
+phy
+admin@net002-lf-sw01:~$ sonic-cli -c "terminal length 0" -c "show interface phy counters"
+Syntax error: Illegal parameter
+admin@net002-lf-sw01:~$ echo "dom"
+dom
+admin@net002-lf-sw01:~$ sonic-cli -c "terminal length 0" -c "show interface transceiver dom"
+Syntax error: Illegal parameter
+admin@net002-lf-sw01:~$ echo "eeprom"
+eeprom
+admin@net002-lf-sw01:~$ show int trans eeprom
+Ethernet0: SFP EEPROM detected
+        Active App Selection Host Lane 1: 1
+        Active App Selection Host Lane 2: 1
+        Active App Selection Host Lane 3: 1
+        Active App Selection Host Lane 4: 1
+        Active App Selection Host Lane 5: 1
+        Active App Selection Host Lane 6: 1
+        Active App Selection Host Lane 7: 1
+        Active App Selection Host Lane 8: 1
+        Active Firmware Version: 2.0
+        Application Advertisement:
+                1: 400GAUI-8 C2M (Annex 120E) | 400GBASE-DR4 (Cl 124)
+                2: 100GAUI-2 C2M (Annex 135G) | 100GBASE-DR (Cl 140)
+        CMIS Revision: 4.0
+        Connector: MPO 1x12
+        Encoding: N/A
+        Extended Identifier: Power Class 6 (12.0W Max)
+        Extended RateSelect Compliance: N/A
+        Hardware Revision: 1.1
+        Host Electrical Interface: 400GAUI-8 C2M (Annex 120E)
+        Host Lane Assignment Options: 1
+        Host Lane Count: 8
+        Identifier: QSFP-DD Double Density 8X Pluggable Transceiver
+        Inactive Firmware Version: 0.0
+        Length Cable Assembly(m): 0.0
+        Media Interface Code: 400GBASE-DR4 (Cl 124)
+        Media Interface Technology: 1310 nm DFB
+        Media Lane Assignment Options: 1
+        Media Lane Count: 4
+        Nominal Bit Rate(100Mbs): 0
+        Specification compliance: sm_media_interface
+        Supported Max Laser Frequency: N/AGHz
+        Supported Max TX Power: N/AdBm
+        Supported Min Laser Frequency: N/AGHz
+        Supported Min TX Power: N/AdBm
+        Vendor Date Code(YYYY-MM-DD Lot): 2023-12-18
+        Vendor Name: Intel Corp
+        Vendor OUI: 00-02-b3
+        Vendor PN: SPTSHP2PMCDF
+        Vendor Rev: 01
+        Vendor SN: CRDR23470ATSP
+
+Ethernet192: SFP EEPROM detected
+        Active App Selection Host Lane 1: 2
+        Active App Selection Host Lane 2: 2
+        Active App Selection Host Lane 3: 2
+        Active App Selection Host Lane 4: 2
+        Active App Selection Host Lane 5: 2
+        Active App Selection Host Lane 6: 2
+        Active App Selection Host Lane 7: 2
+        Active App Selection Host Lane 8: 2
+        Active Firmware Version: 1.1
+        Application Advertisement:
+                1: 400GAUI-8 C2M (Annex 120E) | 400GBASE-DR4 (Cl 124)
+                2: 100GAUI-2 C2M (Annex 135G) | 100GBASE-DR (Cl 140)
+        CMIS Revision: 4.0
+        Connector: MPO 1x12
+        Encoding: N/A
+        Extended Identifier: Power Class 6 (12.0W Max)
+        Extended RateSelect Compliance: N/A
+        Hardware Revision: 0.0
+        Host Electrical Interface: 100GAUI-2 C2M (Annex 135G)
+        Host Lane Assignment Options: 85
+        Host Lane Count: 2
+        Identifier: QSFP-DD Double Density 8X Pluggable Transceiver
+        Inactive Firmware Version: 0.0
+        Length Cable Assembly(m): 0.0
+        Media Interface Code: 100GBASE-DR (Cl 140)
+        Media Interface Technology: 1310 nm DFB
+        Media Lane Assignment Options: 15
+        Media Lane Count: 1
+        Nominal Bit Rate(100Mbs): 0
+        Specification compliance: sm_media_interface
+        Supported Max Laser Frequency: N/AGHz
+        Supported Max TX Power: N/AdBm
+        Supported Min Laser Frequency: N/AGHz
+        Supported Min TX Power: N/AdBm
+        Vendor Date Code(YYYY-MM-DD Lot): 2024-03-07
+        Vendor Name: JABIL
+        Vendor OUI: 78-1d-fd
+        Vendor PN: QD4CS3LCCCR0PAM
+        Vendor Rev: 01
+        Vendor SN: RMDR24080288S
+
+Ethernet256: SFP EEPROM detected
+        Active App Selection Host Lane 1: 1
+        Active App Selection Host Lane 2: 1
+        Active App Selection Host Lane 3: 1
+        Active App Selection Host Lane 4: 1
+        Active App Selection Host Lane 5: 1
+        Active App Selection Host Lane 6: 1
+        Active App Selection Host Lane 7: 1
+        Active App Selection Host Lane 8: 1
+        Active Firmware Version: 3.107
+        Application Advertisement:
+                1: 400GAUI-4-S C2M (Annex 120G) | 400GBASE-VR4 (Clause 167)
+                2: 400GAUI-4-L C2M (Annex 120G) | 400GBASE-VR4 (Clause 167)
+                3: 200GAUI-2-S C2M (Annex 120G) | 200GBASE-VR2 (Clause 167)
+                4: 200GAUI-2-L C2M (Annex 120G) | 200GBASE-VR2 (Clause 167)
+                5: 100GAUI-1-S C2M (Annex 120G) | 100GBASE-VR (Clause 167)
+                6: 100GAUI-1-L C2M (Annex 120G) | 100GBASE-VR (Clause 167)
+        CMIS Revision: 5.2
+        Connector: MPO 1x12
+        Encoding: N/A
+        Extended Identifier: Power Class 6 (11.0W Max)
+        Extended RateSelect Compliance: N/A
+        Hardware Revision: 1.1
+        Host Electrical Interface: 400GAUI-4-S C2M (Annex 120G)
+        Host Lane Assignment Options: 17
+        Host Lane Count: 4
+        Identifier: QSFP-DD Double Density 8X Pluggable Transceiver
+        Inactive Firmware Version: 0.0
+        Length Cable Assembly(m): 0.0
+        Media Interface Code: 400GBASE-VR4 (Clause 167)
+        Media Interface Technology: 1310 nm DFB
+        Media Lane Assignment Options: 17
+        Media Lane Count: 4
+        Nominal Bit Rate(100Mbs): 0
+        Specification compliance: nm_850_media_interface
+        Supported Max Laser Frequency: N/AGHz
+        Supported Max TX Power: N/AdBm
+        Supported Min Laser Frequency: N/AGHz
+        Supported Min TX Power: N/AdBm
+        Vendor Date Code(YYYY-MM-DD Lot): 2024-04-04
+        Vendor Name: Fast Photonics
+        Vendor OUI: 00-00-00
+        Vendor PN: 170-0477-01
+        Vendor Rev: 01
+        Vendor SN: 2833812432900E3
+
+Ethernet396: SFP EEPROM detected
+        Active App Selection Host Lane 1: 2
+        Active App Selection Host Lane 2: 2
+        Active App Selection Host Lane 3: 2
+        Active App Selection Host Lane 4: 2
+        Active App Selection Host Lane 5: 2
+        Active App Selection Host Lane 6: 2
+        Active App Selection Host Lane 7: 2
+        Active App Selection Host Lane 8: 2
+        Active Firmware Version: 1.1
+        Application Advertisement:
+                1: 400GAUI-8 C2M (Annex 120E) | 400GBASE-DR4 (Cl 124)
+                2: 100GAUI-2 C2M (Annex 135G) | 100GBASE-DR (Cl 140)
+        CMIS Revision: 4.0
+        Connector: MPO 1x12
+        Encoding: N/A
+        Extended Identifier: Power Class 6 (12.0W Max)
+        Extended RateSelect Compliance: N/A
+        Hardware Revision: 0.0
+        Host Electrical Interface: 100GAUI-2 C2M (Annex 135G)
+        Host Lane Assignment Options: 85
+        Host Lane Count: 2
+        Identifier: QSFP-DD Double Density 8X Pluggable Transceiver
+        Inactive Firmware Version: 0.0
+        Length Cable Assembly(m): 0.0
+        Media Interface Code: 100GBASE-DR (Cl 140)
+        Media Interface Technology: 1310 nm DFB
+        Media Lane Assignment Options: 15
+        Media Lane Count: 1
+        Nominal Bit Rate(100Mbs): 0
+        Specification compliance: sm_media_interface
+        Supported Max Laser Frequency: N/AGHz
+        Supported Max TX Power: N/AdBm
+        Supported Min Laser Frequency: N/AGHz
+        Supported Min TX Power: N/AdBm
+        Vendor Date Code(YYYY-MM-DD Lot): 2024-01-06
+        Vendor Name: JABIL
+        Vendor OUI: 78-1d-fd
+        Vendor PN: QD4CS3LCCCR0PAM
+        Vendor Rev: 01
+        Vendor SN: RMDR240103C3S
+
+Ethernet398: SFP EEPROM detected
+        Active App Selection Host Lane 1: 2
+        Active App Selection Host Lane 2: 2
+        Active App Selection Host Lane 3: 2
+        Active App Selection Host Lane 4: 2
+        Active App Selection Host Lane 5: 2
+        Active App Selection Host Lane 6: 2
+        Active App Selection Host Lane 7: 2
+        Active App Selection Host Lane 8: 2
+        Active Firmware Version: 1.1
+        Application Advertisement:
+                1: 400GAUI-8 C2M (Annex 120E) | 400GBASE-DR4 (Cl 124)
+                2: 100GAUI-2 C2M (Annex 135G) | 100GBASE-DR (Cl 140)
+        CMIS Revision: 4.0
+        Connector: MPO 1x12
+        Encoding: N/A
+        Extended Identifier: Power Class 6 (12.0W Max)
+        Extended RateSelect Compliance: N/A
+        Hardware Revision: 0.0
+        Host Electrical Interface: 100GAUI-2 C2M (Annex 135G)
+        Host Lane Assignment Options: 85
+        Host Lane Count: 2
+        Identifier: QSFP-DD Double Density 8X Pluggable Transceiver
+        Inactive Firmware Version: 0.0
+        Length Cable Assembly(m): 0.0
+        Media Interface Code: 100GBASE-DR (Cl 140)
+        Media Interface Technology: 1310 nm DFB
+        Media Lane Assignment Options: 15
+        Media Lane Count: 1
+        Nominal Bit Rate(100Mbs): 0
+        Specification compliance: sm_media_interface
+        Supported Max Laser Frequency: N/AGHz
+        Supported Max TX Power: N/AdBm
+        Supported Min Laser Frequency: N/AGHz
+        Supported Min TX Power: N/AdBm
+        Vendor Date Code(YYYY-MM-DD Lot): 2024-01-06
+        Vendor Name: JABIL
+        Vendor OUI: 78-1d-fd
+        Vendor PN: QD4CS3LCCCR0PAM
+        Vendor Rev: 01
+        Vendor SN: RMDR240103C3S
+
+Ethernet504: SFP EEPROM Not detected
+
+Ethernet513: SFP EEPROM Not detected
+admin@net002-lf-sw01:~$ echo "pktdrops"
+pktdrops
+admin@net002-lf-sw01:~$ show int pktdrops | grep -e FCS -e DISC
+Usage: show int [OPTIONS] COMMAND [ARGS]...
+Try "show int -h" for help.
+
+Error: No such command "pktdrops".
+admin@net002-lf-sw01:~$ show pfc counter
+    Port Rx    PFC0    PFC1    PFC2    PFC3    PFC4    PFC5    PFC6    PFC7
+-----------  ------  ------  ------  ------  ------  ------  ------  ------
+  Ethernet0       0       0       0       0       0       1       0       0
+Ethernet192       0       0       0       0       0       0       0       0
+Ethernet256       0       0       0       0       0       0       0       0
+Ethernet398       0       0       0       0       0       0       0       0
+Ethernet504       0       0       0       0       0       0       0       0
+Ethernet513       0       0       0       0       0       0       0       0
+
+    Port Tx    PFC0    PFC1    PFC2    PFC3    PFC4     PFC5    PFC6    PFC7
+-----------  ------  ------  ------  ------  ------  -------  ------  ------
+  Ethernet0       0       0       0       0       0      543       0       0
+Ethernet192       0       0       0       0       0        0       0       0
+Ethernet256       0       0       0       0       0        0       0       0
+Ethernet398       0       0       0       0       0        0       0       0
+Ethernet504       0       0       0       0       0        0       0       0
+Ethernet513       0       0       0       0       0        0       0       0

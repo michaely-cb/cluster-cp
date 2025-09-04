@@ -1,0 +1,17 @@
+{
+   "@odata.context" : "/redfish/v1/$metadata#PowerSupplyCollection.PowerSupplyCollection",
+   "Members@odata.count" : 2,
+   "@odata.etag" : "\"388af9c227be2966557\"",
+   "@odata.id" : "/redfish/v1/Chassis/1/PowerSubsystem/PowerSupplies",
+   "@odata.type" : "#PowerSupplyCollection.PowerSupplyCollection",
+   "Members" : [
+      {
+         "@odata.id" : "/redfish/v1/Chassis/1/PowerSubsystem/PowerSupplies/PSU1"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Chassis/1/PowerSubsystem/PowerSupplies/PSU2"
+      }
+   ],
+   "Description" : "A collection of power supply resource instances.",
+   "Name" : "Power Supplies"
+}

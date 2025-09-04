@@ -1,0 +1,8 @@
+#
+# L3 peering config between ${name} and ${neighbor}
+#
+protocol bgp
+router bgp ${asn_num} vrf ${vrf_name}
+    neighbor ${neighbor_address} remote-as ${neighbor_asn_num}
+    neighbor ${neighbor_address} peer-group ${peer_group}
+    exit

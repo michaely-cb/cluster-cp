@@ -1,0 +1,38 @@
+- name: Ensure directory for TFTP service override exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/tftp.service.d/
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Configure TFTP service with custom root and remap
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/tftp.service.d/override.conf
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=/usr/sbin/in.tftpd -s /var/ftpd -v
+    owner: root
+    group: root
+    mode: '0644'
+  register: tftp_service_change
+
+- name: Reload systemd if needed
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  when: tftp_service_change.changed
+
+- name: Ensure TFTP service is started and enabled
+  ansible.builtin.service:
+    name: tftp
+    state: started
+    enabled: yes
+
+- name: Ensure ipxe boot script exists
+  ansible.builtin.copy:
+    src: "boot-rocky.ipxe"
+    dest: /var/ftpd/boot-rocky.ipxe
+    owner: root
+    group: root
+    mode: "0644"

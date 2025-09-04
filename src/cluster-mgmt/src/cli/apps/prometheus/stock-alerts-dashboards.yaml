@@ -1,0 +1,63 @@
+- prometheusrules: prometheus-node-exporter
+  alerts:
+    NodeNetworkReceiveErrs:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeNetworkTransmitErrs:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeDiskIOSaturation:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeNetworkReceiveErrs:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeNetworkTransmitErrs:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeHighNumberConntrackEntriesUsed:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeTextFileCollectorScrapeError:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeClockSkewDetected:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeClockNotSynchronising:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeRAIDDegraded:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeRAIDDiskFailure:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeFileDescriptorLimit:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeFileDescriptorLimit:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeCPUHighUsage:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeSystemSaturation:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeMemoryMajorPagesFaults:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeDiskIOSaturation:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeSystemdServiceFailed:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+    NodeBondingDegraded:
+      dashboard_url: "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes?var-instance={{ $labels.instance | urlquery }}"
+- prometheusrules: prometheus-kubernetes-storage
+  alerts:
+    KubePersistentVolumeInodesFillingUp:
+      dashboard_url: "/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes?var-namespace={{ $labels.namespace }}&var-volume={{ $labels.persistentvolumeclaim }}"
+    KubePersistentVolumeErrors:
+      # This alert only has persistentvolume but not persistentvolumeclaim label, so we can't filter the dash
+      dashboard_url: "/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes"
+- prometheusrules: prometheus-kubernetes-resources
+  alerts:
+    KubeCPUOvercommit:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    KubeMemoryOvercommit:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    KubeCPUQuotaOvercommit:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    KubeMemoryQuotaOvercommit:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    KubeQuotaAlmostFull:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    KubeQuotaFullyUsed:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    KubeQuotaExceeded:
+      dashboard_url: "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"

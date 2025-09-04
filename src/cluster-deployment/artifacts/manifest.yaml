@@ -1,0 +1,121 @@
+metadata:
+  name: cluster-deploy-bundle
+  description: Switch and NIC firmware images, bootloaders, and utilities
+  release: filled in by the build system
+  build: filled in by the build system
+artifacts:
+- kind: switch_image
+  name: arista-data
+  description: Arista switch image - SP/LF DX6, DX5
+  path: switch-images/EOS64-4.33.1F.swi
+  sha256: 954da8d15c3a50ccc767d52738b2a2d7b10fdf5f464ae3e4cf4317e82f6c1fd4
+- kind: switch_image
+  name: arista-mgmt
+  description: Arista switch image - MG
+  path: switch-images/EOS64-4.32.0F.swi
+  sha256: 7c3806be218554f32cdf93630adfb092d877f44f68f5fa7dc16f49f0f5bb67a9
+- kind: switch_image
+  name: dell-mgmt
+  description: Dell OS10 mgmt switch image
+  path: switch-images/PKGS_OS10-Enterprise-10.5.6.4.162buster-installer-x86_64.bin
+  sha256: 5a9666c37a6c10d5fadcea5af5746feb9c3278a12de5259b75ec4c17d761d3a9
+- kind: switch_image
+  name: juniper-qfx
+  description: Juniper switch image - QFX
+  path: switch-images/junos-evo-install-qfx-ms-x86-64-23.4R2-S3.11-EVO.iso
+  sha256: cd2a933d8a6b8f91cd9ea8bb698d9d72dac310f27a921f71d8fd71a2c85afab8
+- kind: switch_image
+  name: juniper-ex
+  description: Juniper switch image - MG/EX4100
+  path: switch-images/junos-install-ex-arm-64.tgz
+  sha256: f408e7400bd0b294f179af78f9348e654735eef79b5c3e5aaa987e2df1de07d4
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX5-rel-16_32_2004-0VC496_06FKDT_Ax-FlexBoot-3.6.502.bin.zip
+  sha256: c71a47c6ca7e6dbeb8570da990510061063b2e206387b1b59bd14d9f59bb04e9
+  properties:
+    target_nic_model: 0VC496_06FKDT_Ax
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX5-rel-16_35_1012-MCX516A-CDA_Ax_Bx-UEFI-14.28.15-FlexBoot-3.6.804.bin.zip
+  sha256: 0c074b2cc9ab56161a8ea6265c3fcc3ead32dc88a9f25eb752dadfbdb455d3cc
+  properties:
+    target_nic_model: MCX516A-CDA_Ax_Bx
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX5-rel-16_35_1012-MCX555A-ECA_Ax_Bx-UEFI-14.28.15-FlexBoot-3.6.804.bin.zip
+  sha256: a78f27b4deb078a2899069935ef12632984757654f16bcdcb9ef79ea3599eb3b
+  properties:
+    target_nic_model: MCX555A-ECA_Ax_Bx
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX6Dx-rel-22_36_1010-0F6FXM_08P2T2_Ax-UEFI-14.29.14-FlexBoot-3.6.901.signed.bin.zip
+  sha256: 96f87acc7b7ddaab812c90e14eb9b2dea93b122e23396484a91d64b0b5b3ab52
+  properties:
+    target_nic_model: 0F6FXM_08P2T2_Ax
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX6Dx-rel-22_38_1900-MCX623106AC-CDA_Ax-UEFI-14.31.20-FlexBoot-3.7.201.signed.bin.zip
+  sha256: 134144ac89dbbc9a8e704739fe181ea22ae9934003fd30324a47d4c264e11659
+  properties:
+    target_nic_model: MCX623106AC-CDA_Ax
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX6Dx-rel-22_39_3004-MCX623436MS-CDA_Ax-UEFI-14.32.17-FlexBoot-3.7.300.signed.bin.zip
+  sha256: d7c387bbc6422f0eace08d306a65e2fba00c172eb0c8aee1e7d47665060f344f
+  properties:
+    target_nic_model: MCX623436MS-CDA_Ax
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX6Dx-rel-22_40_1000-0FD63G_Ax-UEFI-14.33.10-FlexBoot-3.7.300.signed.bin.zip
+  sha256: 79d7e03ae0ce5bd8ebf09cc95945253ae34a92369b2f34402bb14e2008d38c76
+  properties:
+    target_nic_model: 0FD63G_Ax
+- kind: nic_firmware
+  description: HPE MG Mellanox firmware image
+  path: fw/fw-ConnectX6-rel-20_37_1700-MCX653106A-ECA_HPE_Ax-UEFI-14.30.13-FlexBoot-3.7.102.tar.gz
+  sha256: 9fc83bc4339f5e00ff78e9c44e2c4ff0ab0b1a9ab62a0bd191d8e0418ca66e53
+  properties:
+    target_nic_model: MCX653106A-ECA_HPE_Ax
+- kind: nic_firmware
+  description: HPE MG Mellanox firmware image
+  path: fw/fw-ConnectX6-rel-20_37_1700-MCX653436A-HDA_HPE_Ax-UEFI-14.30.13-FlexBoot-3.7.102.tar.gz
+  sha256: 451dfe36e6479b1a364869d7a662ede904de17b4143b74efeb6f7ad7953e90fb
+  properties:
+    target_nic_model: MCX653436A-HDA_HPE_Ax
+- kind: nic_firmware
+  description: HPE MG Mellanox firmware image
+  path: fw/fw-ConnectX6-rel-20_42_1000-MCX653105A-ECA_HPE_Ax-UEFI-14.35.15-FlexBoot-3.7.500.tar.gz
+  sha256: f6b414229d8cfdfe4e6dbdd480c7d4e014fedaf23489b92a19db0821c48ad47e
+  properties:
+    target_nic_model: MCX653105A-ECA_HPE_Ax
+- kind: nic_firmware
+  description: Mellanox firmware image
+  path: fw/fw-ConnectX7-rel-28_39_3004-MCX75310AAS-NEA_Ax-UEFI-14.32.17-FlexBoot-3.7.300.signed.bin.zip
+  sha256: 79b1dcd99ec8d1fc992bfc23b9b9e6de08ad0c507f3fe9dceb5a23c19c288c08
+  properties:
+    target_nic_model: MCX75310AAS-NEA_Ax
+- kind: binary
+  description: Mellanox utility
+  path: fw/mlxup
+  sha256: aea74991950b885420ca3645410aa4a6ab8bcd8bf5a1c924357b1ffedf494608
+- kind: binary
+  description: Supermicro BIOS updater
+  name: sum
+  path: bin/sum
+  sha256: 83e328b81562d301516d70df3cf0728f5888de8e6a8be1a38d3afddbd9d9da7c
+- kind: binary
+  name: ipxe-bios
+  description: iPXE BIOS bootloader
+  path: usb-installer/undionly.kkpxe
+  sha256: cf37c248f6aabd0384e0f735d2ab90f9a5f3dcfd9b473851a2319d644a3eb2a7
+- kind: binary
+  name: ipxe-uefi
+  description: iPXE UEFI bootloader
+  path: usb-installer/ipxe.efi
+  sha256: f6271f0dd2ecd5e4c699db200b6798ff7276a6eef569afed5daefc55647577b5
+- kind: binary
+  name: rocky8-boot-media
+  description: PXE bootable Rocky kernel/initrd
+  path: usb-installer/Rocky8.tgz
+  sha256: b2f24ad91c41cd09e968049919014592985e7345e74ff40f87acc137c2336415

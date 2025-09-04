@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+cd $(dirname "$0")
+source "../pkg-common.sh"
+
+set -e
+
+kubectl config set-context --current --namespace "${SYSTEM_NAMESPACE}"
+if [ "$(grep -c 'alias k=' /root/.bashrc)" -gt 1 ]; then
+  # fix an earlier issue where alias k was added multiple times
+  sed -i '/alias k=kubectl/d' /root/.bashrc
+fi
+if ! grep -q 'alias k=' /root/.bashrc; then
+  echo "alias k=kubectl" >>/root/.bashrc
+fi
+
+# Downstream service deploys depend on these node-selectors.
+for node in $(get_all_mgmt_nodes); do
+  kubectl label --overwrite node $node k8s.cerebras.com/node-role-management=
+  kubectl label --overwrite node $node k8s.cerebras.com/node-role-coordinator=
+done
+
+if is_incremental_deploy; then
+  if [ -r ${INCREMENTAL_DIR}/new_br ]; then
+    for node in $(cat ${INCREMENTAL_DIR}/new_br); do
+      kubectl label --overwrite node $node k8s.cerebras.com/node-role-broadcastreduce=
+    done
+  fi
+  exit 0
+fi
+
+for node in $(yq -r '.nodes[] | select(.role == "broadcastreduce") | .name' ${CLUSTER_CONFIG}); do
+  kubectl label --overwrite node $node k8s.cerebras.com/node-role-broadcastreduce=
+done
+
+# install monitoring CRD as prerequisite for subsequent installs
+kubectl apply --server-side --force-conflicts -f ./monitoring.coreos.com_servicemonitors.yaml
+kubectl apply --server-side --force-conflicts -f ./monitoring.coreos.com_podmonitors.yaml
+kubectl apply --server-side --force-conflicts -f ./monitoring.coreos.com_probes.yaml
+kubectl apply --server-side --force-conflicts -f ./monitoring.coreos.com_prometheusrules.yaml
+
+if [ "{{ install_deps }}" == "true" ]; then
+  bash "../binary-deps/install.sh"
+  bash "../registry/apply-registry.sh"
+fi

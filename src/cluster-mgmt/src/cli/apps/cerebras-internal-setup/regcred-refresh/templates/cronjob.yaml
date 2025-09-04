@@ -1,0 +1,127 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "colovore-secret-cron.name" . }}
+  labels:
+    {{- include "colovore-secret-cron.labels" . | nindent 4 }}
+spec:
+  concurrencyPolicy: Replace
+  schedule: "0 */4 * * *" # every 4 hours
+  successfulJobsHistoryLimit: 1
+  suspend: false
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 300
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "colovore-secret-cron.selectorLabels" . | nindent 12 }}
+        spec:
+          serviceAccountName: {{ include "colovore-secret-cron.name" . }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: regcred-refresh
+              image: "{{ .Values.imageRef }}"
+              env:
+                - name: NAMESPACE
+                  value: {{ .Release.Namespace }}
+              {{- if .Values.hasAwsEcrCredential }}
+              command:
+                - /bin/ash
+                - -c
+                - |-
+                  set -e
+                  CREDENTIAL=$(kubectl get secret -n "${namespace}" aws-ecr-credential -ojson)
+                  if [ -z "$CREDENTIAL" ]; then
+                    echo "failed to find secret aws-ecr-credential in namespace ${namespace}."
+                    exit 1
+                  fi
+                  for field in key secret account_id region; do
+                    value=$(echo "$CREDENTIAL" | jq -r ".data.${field}" | base64 -d)
+                    if [ -z "$value" ]; then
+                      echo "failed to find .data.${field} in secret aws-ecr-credential in namespace ${namespace}."
+                      exit 1
+                    fi
+                    # Uppercase field name to use as variable (KEY SECRET ACCOUNT_ID REGION)
+                    varname=$(echo "$field" | tr 'a-z' 'A-Z')
+                    eval "$varname=\"\$value\""
+                  done
+
+                  aws configure set aws_access_key_id ${KEY}
+                  aws configure set aws_secret_access_key ${SECRET}
+                  ECR_TOKEN=$(aws ecr get-authorization-token --output text --query 'authorizationData[].authorizationToken' --region ${REGION})
+                  if [ -z "$ECR_TOKEN" ]; then
+                    echo "failed to retrieve ECR token from AWS ${REGION} using secret aws-ecr-credential in namespace ${namespace}."
+                    exit 1
+                  fi
+                  REGISTRY="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
+                  TEMP_FILE="/tmp/tmpfile_$$.txt"
+                  jq -n --arg reg "$REGISTRY" --arg token "$ECR_TOKEN" '{auths: {($reg): {auth: ($token)}}}' > "$TEMP_FILE"
+
+                  echo "writing ECR token for registry ${REGISTRY}"
+                  # we could unset the aws credential here, but since cronjob pod gets destoryed right after running, it should be fine
+                  if ! kubectl create secret docker-registry regcred --from-file=.dockerconfigjson=${TEMP_FILE} --dry-run=client -oyaml --save-config | kubectl apply -f- ; then
+                    echo "failed to update docker secret"
+                    rm $TEMP_FILE
+                    exit 1
+                  fi
+                  rm $TEMP_FILE
+                  echo "updated ECR token"
+              {{- else }}
+              command:
+                - /bin/ash
+                - -c
+                - |-
+                  set -e
+                  if ! test -f "/home/config.json"; then
+                    echo "/home/config.json does not exist, exiting"
+                    exit 1
+                  fi
+                  CMSUM=$(kubectl get secret regcred --ignore-not-found -n $NAMESPACE -ojsonpath='{.data.\.dockerconfigjson}' | base64 -d | sha1sum)
+                  FSSUM=$(cat /home/config.json | sha1sum)
+                  if [ "$CMSUM" = "$FSSUM" ] ; then
+                    echo "file unchanged, exiting"
+                    exit 0
+                  fi
+                  if ! kubectl create secret docker-registry regcred --from-file=.dockerconfigjson=/home/config.json --dry-run=client -oyaml --save-config | kubectl apply -f- ; then
+                    echo "failed to update docker secret"
+                    exit 1
+                  fi
+                  echo "file changed, updated"
+              volumeMounts:
+                - mountPath: /home
+                  name: regcred-volume
+                  readOnly: true
+                  {{- if ne .Values.nfsServer "" }}
+                  subPath: {{ .Values.nfsSubPath }}
+                  {{- end }}
+              {{- end }}
+          restartPolicy: Never
+          {{- if not .Values.hasAwsEcrCredential }}
+          volumes:
+            - name: regcred-volume
+              {{- if ne .Values.nfsServer "" }}
+              nfs:
+                path: {{ .Values.nfsPath }}
+                server: {{ .Values.nfsServer }}
+              {{- else }}
+              hostPath:
+                path: /cb/ecr-token/
+                type: Directory
+              {{- end }}
+          {{- end }}

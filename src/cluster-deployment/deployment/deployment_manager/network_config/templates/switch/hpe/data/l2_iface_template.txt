@@ -1,0 +1,15 @@
+#
+# L2 config for ${my_port}
+#
+vlan ${switch_vlan}
+exit
+
+default interface ethernet ${my_port_num}
+interface ethernet ${my_port_num}
+    description L2 to ${neighbor}
+    mtu ${mtu} force
+    switchport access vlan ${switch_vlan}
+    spanning-tree port type edge
+    spanning-tree bpduguard enable
+    exit
+#

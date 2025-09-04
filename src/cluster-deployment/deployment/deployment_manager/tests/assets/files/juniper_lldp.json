@@ -1,0 +1,924 @@
+{
+    "lldp-neighbors-information" : [
+    {
+        "attributes" : {"xmlns" : "http://xml.juniper.net/junos/23.4R0/lldp-mtx", 
+                        "junos:style" : "detail"
+                       }, 
+        "lldp-neighbor-information" : [
+        {
+            "lldp-index" : [
+            {
+                "data" : "1"
+            }
+            ], 
+            "lldp-ttl" : [
+            {
+                "data" : "120"
+            }
+            ], 
+            "lldp-timemark" : [
+            {
+                "data" : "Fri Sep 13 08:36:24 2024"
+            }
+            ], 
+            "lldp-age" : [
+            {
+                "data" : "6"
+            }
+            ], 
+            "lldp-local-interface" : [
+            {
+                "data" : "re0:mgmt-0"
+            }
+            ], 
+            "lldp-local-parent-interface-name" : [
+            {
+                "data" : "-"
+            }
+            ], 
+            "lldp-local-port-id" : [
+            {
+                "data" : "193"
+            }
+            ], 
+            "lldp-local-port-ageout-count" : [
+            {
+                "data" : "0"
+            }
+            ], 
+            "lldp-remote-chassis-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-chassis-id" : [
+            {
+                "data" : "28:e7:1d:1b:d3:69"
+            }
+            ], 
+            "lldp-remote-port-id-subtype" : [
+            {
+                "data" : "Interface name"
+            }
+            ], 
+            "lldp-remote-port-id" : [
+            {
+                "data" : "Ethernet48"
+            }
+            ], 
+            "lldp-remote-system-name" : [
+            {
+                "data" : "sc-r15rb6-1gsw"
+            }
+            ], 
+            "lldp-system-description" : [
+            {
+                "lldp-remote-system-description" : [
+                {
+                    "data" : "Arista Networks EOS version 4.23.0F running on an Arista Networks DCS-7010T-48"
+                }
+                ]
+            }
+            ], 
+            "lldp-remote-system-capabilities-supported" : [
+            {
+                "data" : "Bridge Router "
+            }
+            ], 
+            "lldp-remote-system-capabilities-enabled" : [
+            {
+                "data" : "Bridge "
+            }
+            ], 
+            "lldp-remote-management-address-type" : [
+            {
+                "data" : "IPv4(1)"
+            }
+            ], 
+            "lldp-remote-management-address" : [
+            {
+                "data" : "172.28.136.252"
+            }
+            ], 
+            "lldp-remote-management-address-port-id" : [
+            {
+                "data" : "2000936"
+            }
+            ], 
+            "lldp-remote-management-address-interface-subtype" : [
+            {
+                "data" : "ifIndex(2)"
+            }
+            ], 
+            "lldp-remote-management-addr-oid" : [
+            {
+            }
+            ], 
+            "lldp-org-specific-tlv" : [
+            {
+                "lldp-remote-oui-802-1" : [
+                {
+                    "data" : "0080c2"
+                }
+                ], 
+                "lldp-remote-subtype-port-vid" : [
+                {
+                    "data" : "1"
+                }
+                ], 
+                "lldp-remote-subtype-vlan-id" : [
+                {
+                    "data" : "957"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "1"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-lag" : [
+                {
+                    "data" : "3"
+                }
+                ], 
+                "lldp-remote-subtype-lag-status" : [
+                {
+                    "data" : "supported, disabled (0x1)"
+                }
+                ], 
+                "lldp-remote-subtype-lag-portid" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "2"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-mtu" : [
+                {
+                    "data" : "4"
+                }
+                ], 
+                "lldp-remote-subtype-mtu-size" : [
+                {
+                    "data" : "9236"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "3"
+                }
+                ]
+            }
+            ]
+        }, 
+        {
+            "lldp-index" : [
+            {
+                "data" : "79"
+            }
+            ], 
+            "lldp-ttl" : [
+            {
+                "data" : "100"
+            }
+            ], 
+            "lldp-timemark" : [
+            {
+                "data" : "Fri Sep 13 08:36:01 2024"
+            }
+            ], 
+            "lldp-age" : [
+            {
+                "data" : "29"
+            }
+            ], 
+            "lldp-local-interface" : [
+            {
+                "data" : "et-0/0/54:4"
+            }
+            ], 
+            "lldp-local-parent-interface-name" : [
+            {
+                "data" : "-"
+            }
+            ], 
+            "lldp-local-port-id" : [
+            {
+                "data" : "1172"
+            }
+            ], 
+            "lldp-local-port-ageout-count" : [
+            {
+                "data" : "0"
+            }
+            ], 
+            "lldp-remote-chassis-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-chassis-id" : [
+            {
+                "data" : "58:a2:e1:0a:f3:d0"
+            }
+            ], 
+            "lldp-remote-port-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-port-id" : [
+            {
+                "data" : "58:a2:e1:0a:f3:ce"
+            }
+            ], 
+            "lldp-remote-port-description" : [
+            {
+                "data" : "ConnectX-6 Dx, 100G/50G/40G/25G/10G/1G QSFP"
+            }
+            ]
+        }, 
+        {
+            "lldp-index" : [
+            {
+                "data" : "33"
+            }
+            ], 
+            "lldp-ttl" : [
+            {
+                "data" : "120"
+            }
+            ], 
+            "lldp-timemark" : [
+            {
+                "data" : "Fri Sep 13 08:36:19 2024"
+            }
+            ], 
+            "lldp-age" : [
+            {
+                "data" : "11"
+            }
+            ], 
+            "lldp-local-interface" : [
+            {
+                "data" : "et-0/0/10"
+            }
+            ], 
+            "lldp-local-parent-interface-name" : [
+            {
+                "data" : "-"
+            }
+            ], 
+            "lldp-local-port-id" : [
+            {
+                "data" : "526"
+            }
+            ], 
+            "lldp-local-port-ageout-count" : [
+            {
+                "data" : "0"
+            }
+            ], 
+            "lldp-remote-chassis-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-chassis-id" : [
+            {
+                "data" : "6c:62:fe:a2:0c:ee"
+            }
+            ], 
+            "lldp-remote-port-id-subtype" : [
+            {
+                "data" : "Interface name"
+            }
+            ], 
+            "lldp-remote-port-id" : [
+            {
+                "data" : "et-0/0/10"
+            }
+            ], 
+            "lldp-remote-port-description" : [
+            {
+                "data" : "et-0/0/10"
+            }
+            ], 
+            "lldp-remote-system-name" : [
+            {
+                "data" : "net007-sp-sw02"
+            }
+            ], 
+            "lldp-system-description" : [
+            {
+                "lldp-remote-system-description" : [
+                {
+                    "data" : "Juniper Networks, Inc. qfx5240-64od internet router, JUNOS 23.4R2.14-EVO, Build date: 2024-07-05 03:04:36 UTC Copyright (c) 1996-2024 Juniper Networks, Inc."
+                }
+                ]
+            }
+            ], 
+            "lldp-remote-system-capabilities-supported" : [
+            {
+                "data" : "Bridge Router "
+            }
+            ], 
+            "lldp-remote-system-capabilities-enabled" : [
+            {
+                "data" : "Bridge Router "
+            }
+            ], 
+            "lldp-remote-management-address-type" : [
+            {
+                "data" : "IPv4(1)"
+            }
+            ], 
+            "lldp-remote-management-address" : [
+            {
+                "data" : "172.28.156.248"
+            }
+            ], 
+            "lldp-remote-management-address-port-id" : [
+            {
+                "data" : "193"
+            }
+            ], 
+            "lldp-remote-management-address-interface-subtype" : [
+            {
+                "data" : "ifIndex(2)"
+            }
+            ], 
+            "lldp-remote-management-addr-oid" : [
+            {
+                "data" : "1.3.6.1.2.1.31.1.1.1.1.193."
+            }
+            ], 
+            "lldp-org-specific-tlv" : [
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-mac" : [
+                {
+                    "data" : "1"
+                }
+                ], 
+                "lldp-remote-subtype-mac-autonegotiation" : [
+                {
+                    "data" : "supported, disabled (0x1)"
+                }
+                ], 
+                "lldp-remote-subtype-mac-pmd" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-subtype-mac-mau" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "1"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-lag" : [
+                {
+                    "data" : "3"
+                }
+                ], 
+                "lldp-remote-subtype-lag-status" : [
+                {
+                    "data" : "supported, disabled (0x1)"
+                }
+                ], 
+                "lldp-remote-subtype-lag-portid" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "2"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-mtu" : [
+                {
+                    "data" : "4"
+                }
+                ], 
+                "lldp-remote-subtype-mtu-size" : [
+                {
+                    "data" : "9216"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "3"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-1" : [
+                {
+                    "data" : "0080c2"
+                }
+                ], 
+                "lldp-remote-subtype-link-aggregation-8021" : [
+                {
+                    "data" : "7"
+                }
+                ], 
+                "lldp-remote-subtype-link-aggregation-8021-status" : [
+                {
+                    "data" : "supported, disabled, Aggregator Port %(0x1)"
+                }
+                ], 
+                "lldp-remote-subtype-link-aggregation-8021-portid" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "4"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-juniper" : [
+                {
+                    "data" : "009069"
+                }
+                ], 
+                "lldp-remote-subtype-cloud-connect-event" : [
+                {
+                    "data" : "12"
+                }
+                ], 
+                "lldp-remote-subtype-cloud-connect-event-info" : [
+                {
+                    "data" : "Boot complete"
+                }
+                ], 
+                "lldp-remote-cc-state" : [
+                {
+                    "data" : "101"
+                }
+                ], 
+                "lldp-remote-cc-error-code" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "5"
+                }
+                ]
+            }
+            ]
+        }, 
+        {
+            "lldp-index" : [
+            {
+                "data" : "54"
+            }
+            ], 
+            "lldp-ttl" : [
+            {
+                "data" : "120"
+            }
+            ], 
+            "lldp-timemark" : [
+            {
+                "data" : "Fri Sep 13 08:36:10 2024"
+            }
+            ], 
+            "lldp-age" : [
+            {
+                "data" : "20"
+            }
+            ], 
+            "lldp-local-interface" : [
+            {
+                "data" : "et-0/0/34:1"
+            }
+            ], 
+            "lldp-local-parent-interface-name" : [
+            {
+                "data" : "-"
+            }
+            ], 
+            "lldp-local-port-id" : [
+            {
+                "data" : "707"
+            }
+            ], 
+            "lldp-local-port-ageout-count" : [
+            {
+                "data" : "0"
+            }
+            ], 
+            "lldp-remote-chassis-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-chassis-id" : [
+            {
+                "data" : "9c:05:91:1a:3c:00"
+            }
+            ], 
+            "lldp-remote-port-id-subtype" : [
+            {
+                "data" : "Interface name"
+            }
+            ], 
+            "lldp-remote-port-id" : [
+            {
+                "data" : "Eth1/10"
+            }
+            ], 
+            "lldp-remote-port-description" : [
+            {
+            }
+            ], 
+            "lldp-remote-system-name" : [
+            {
+                "data" : "switch-97f872"
+            }
+            ], 
+            "lldp-system-description" : [
+            {
+                "lldp-remote-system-description" : [
+                {
+                    "data" : "MSN3700cM,Onyx,SWv3.10.4302"
+                }
+                ]
+            }
+            ], 
+            "lldp-remote-system-capabilities-supported" : [
+            {
+                "data" : "Bridge Router "
+            }
+            ], 
+            "lldp-remote-system-capabilities-enabled" : [
+            {
+                "data" : "Bridge "
+            }
+            ], 
+            "lldp-remote-management-address-type" : [
+            {
+                "data" : "IPv4(1)"
+            }
+            ], 
+            "lldp-remote-management-address" : [
+            {
+                "data" : "172.28.84.103"
+            }
+            ], 
+            "lldp-remote-management-address-port-id" : [
+            {
+                "data" : "0"
+            }
+            ], 
+            "lldp-remote-management-address-interface-subtype" : [
+            {
+                "data" : "ifIndex(2)"
+            }
+            ], 
+            "lldp-remote-management-addr-oid" : [
+            {
+                "data" : "43.6.1.2.1.2.2.1.1.0."
+            }
+            ], 
+            "lldp-org-specific-tlv" : [
+            {
+                "lldp-remote-oui-802-1" : [
+                {
+                    "data" : "0080c2"
+                }
+                ], 
+                "lldp-remote-subtype" : [
+                {
+                    "data" : "(9)"
+                }
+                ], 
+                "lldp-remote-value" : [
+                {
+                    "data" : "08012345670C0D0C0D0C0D0C0D0202020202020202 "
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "1"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-1" : [
+                {
+                    "data" : "0080c2"
+                }
+                ], 
+                "lldp-remote-subtype" : [
+                {
+                    "data" : "(10)"
+                }
+                ], 
+                "lldp-remote-value" : [
+                {
+                    "data" : "00012345670C0D0C0D0C0D0C0D0202020202020202 "
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "2"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-1" : [
+                {
+                    "data" : "0080c2"
+                }
+                ], 
+                "lldp-remote-subtype" : [
+                {
+                    "data" : "(11)"
+                }
+                ], 
+                "lldp-remote-value" : [
+                {
+                    "data" : "0820 "
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "3"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-1" : [
+                {
+                    "data" : "0080c2"
+                }
+                ], 
+                "lldp-remote-subtype" : [
+                {
+                    "data" : "(12)"
+                }
+                ], 
+                "lldp-remote-value" : [
+                {
+                    "data" : "00 "
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "4"
+                }
+                ]
+            }
+            ]
+        }, 
+        {
+            "lldp-index" : [
+            {
+                "data" : "228"
+            }
+            ], 
+            "lldp-ttl" : [
+            {
+                "data" : "120"
+            }
+            ], 
+            "lldp-timemark" : [
+            {
+                "data" : "Fri Sep 13 08:36:22 2024"
+            }
+            ], 
+            "lldp-age" : [
+            {
+                "data" : "8"
+            }
+            ], 
+            "lldp-local-interface" : [
+            {
+                "data" : "et-0/0/40:3"
+            }
+            ], 
+            "lldp-local-parent-interface-name" : [
+            {
+                "data" : "-"
+            }
+            ], 
+            "lldp-local-port-id" : [
+            {
+                "data" : "1042"
+            }
+            ], 
+            "lldp-local-port-ageout-count" : [
+            {
+                "data" : "0"
+            }
+            ], 
+            "lldp-remote-chassis-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-chassis-id" : [
+            {
+                "data" : "c4:cb:e1:c1:70:54"
+            }
+            ], 
+            "lldp-remote-port-id-subtype" : [
+            {
+                "data" : "Mac address"
+            }
+            ], 
+            "lldp-remote-port-id" : [
+            {
+                "data" : "58:a2:e1:46:9f:d1"
+            }
+            ], 
+            "lldp-remote-port-description" : [
+            {
+                "data" : "eth100g3"
+            }
+            ], 
+            "lldp-remote-system-name" : [
+            {
+                "data" : "cs306-net006-sx-sr03.cerebras.internal"
+            }
+            ], 
+            "lldp-system-description" : [
+            {
+                "lldp-remote-system-description" : [
+                {
+                    "data" : "Rocky Linux 8.5 (Green Obsidian) Linux 4.18.0-513.24.1.el8_9.x86_64 #1 SMP Thu Apr 4 18:13:02 UTC 2024 x86_64"
+                }
+                ]
+            }
+            ], 
+            "lldp-remote-system-capabilities-supported" : [
+            {
+                "data" : "Bridge WLAN Access Point Router Station Only "
+            }
+            ], 
+            "lldp-remote-system-capabilities-enabled" : [
+            {
+                "data" : "Router "
+            }
+            ], 
+            "lldp-remote-management-address-type" : [
+            {
+                "data" : "IPv4(1)"
+            }
+            ], 
+            "lldp-remote-management-address" : [
+            {
+                "data" : "10.250.208.43"
+            }
+            ], 
+            "lldp-remote-management-address-port-id" : [
+            {
+                "data" : "4"
+            }
+            ], 
+            "lldp-remote-management-address-interface-subtype" : [
+            {
+                "data" : "ifIndex(2)"
+            }
+            ], 
+            "lldp-remote-management-addr-oid" : [
+            {
+            }
+            ], 
+            "lldp-remote-management-address-type" : [
+            {
+                "data" : "IPv6(2)"
+            }
+            ], 
+            "lldp-remote-management-address" : [
+            {
+                "data" : "fe80::a288:c2ff:fe8c:9602"
+            }
+            ], 
+            "lldp-remote-management-address-port-id" : [
+            {
+                "data" : "4"
+            }
+            ], 
+            "lldp-remote-management-address-interface-subtype" : [
+            {
+                "data" : "ifIndex(2)"
+            }
+            ], 
+            "lldp-remote-management-addr-oid" : [
+            {
+            }
+            ], 
+            "lldp-org-specific-tlv" : [
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-lag" : [
+                {
+                    "data" : "3"
+                }
+                ], 
+                "lldp-remote-subtype-lag-status" : [
+                {
+                    "data" : "supported, disabled (0x1)"
+                }
+                ], 
+                "lldp-remote-subtype-lag-portid" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "1"
+                }
+                ]
+            }, 
+            {
+                "lldp-remote-oui-802-3" : [
+                {
+                    "data" : "00120f"
+                }
+                ], 
+                "lldp-remote-subtype-mac" : [
+                {
+                    "data" : "1"
+                }
+                ], 
+                "lldp-remote-subtype-mac-autonegotiation" : [
+                {
+                    "data" : "supported, enabled (0x3)"
+                }
+                ], 
+                "lldp-remote-subtype-mac-pmd" : [
+                {
+                    "data" : "8085"
+                }
+                ], 
+                "lldp-remote-subtype-mac-mau" : [
+                {
+                    "data" : "77"
+                }
+                ], 
+                "lldp-remote-index" : [
+                {
+                    "data" : "2"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

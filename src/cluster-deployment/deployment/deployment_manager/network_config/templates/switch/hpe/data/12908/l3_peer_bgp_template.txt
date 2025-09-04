@@ -1,0 +1,10 @@
+#
+# L3 peering config between ${name} and ${neighbor}
+#
+bgp ${asn_num}
+    ip vpn-instance ${vrf_name}
+      peer ${neighbor_address} as-number ${neighbor_asn_num}
+      peer ${neighbor_address} group ${peer_group}
+      Y
+      exit
+    exit

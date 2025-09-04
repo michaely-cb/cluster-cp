@@ -1,0 +1,2 @@
+# System BGP group
+set routing-instances ${vrf_name} protocols bgp group ws_cluster_csx export deny-all

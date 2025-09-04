@@ -1,0 +1,140 @@
+! L3 template for ${name}
+!
+no ip vrf Vrf_${vrf_name}
+ip vrf Vrf_${vrf_name}
+!
+no interface vlan ${switch_vlan}
+interface vlan ${switch_vlan}
+   description "memx switch subnet"
+   mtu ${mtu}
+   ip vrf forwarding Vrf_${vrf_name}
+   no ip address
+   ip address ${switch_address}
+   exit
+!
+interface range Ethernet 0-257
+  no priority-flow-control priority 3
+  no priority-flow-control priority 4
+  exit
+!
+no ip prefix-list external_addrs
+ip prefix-list external_addrs seq 10 deny ${base_prefix} ge ${base_bits}
+ip prefix-list external_addrs seq 20 permit 0.0.0.0/0 le 32
+!
+no ip prefix-list external_advert
+ip prefix-list external_advert seq 10 permit ${base_prefix}
+!
+no ip prefix-list vip_addrs
+ip prefix-list vip_addrs seq 10 permit ${vip_prefix} ge 32
+!
+no route-map allow_vip_addrs
+route-map allow_vip_addrs permit 10
+   match ip address prefix-list vip_addrs
+   exit
+!
+no route-map external_routes
+route-map external_routes permit 10
+   match ip address prefix-list external_addrs
+   exit
+!
+no route-map external_advertise
+route-map external_advertise permit 10
+   match ip address prefix-list external_advert
+   exit
+!
+no route-map deny_all
+route-map deny_all deny 10
+exit
+!
+router bgp ${asn_num} vrf Vrf_${vrf_name}
+   router-id ${router_id}
+   bestpath as-path multipath-relax
+   address-family ipv4 unicast
+      maximum-paths 64
+      network ${switch_prefix}
+      aggregate-address ${base_prefix} 
+      redistribute connected
+   peer-group exterior_switches
+      address-family ipv4 unicast
+         route-map external_routes in
+         route-map external_advertise out
+         activate
+         exit
+      exit
+   peer-group ws_cluster_switches
+      bfd check-control-plane-failure
+      address-family ipv4 unicast
+         activate
+      exit
+   peer-group ws_cluster_csx
+      bfd check-control-plane-failure
+      address-family ipv4 unicast
+         activate
+      exit
+   peer-group management_node
+      address-family ipv4 unicast
+         route-reflector-client
+         route-map deny_all out
+         activate
+         exit
+      exit
+   exit
+!
+qos map dscp-tc ROCE
+  dscp 0-63 traffic-class 0
+  dscp 40 traffic-class 5
+  dscp 48 traffic-class 5
+exit
+!
+qos map dot1p-tc ROCE
+  dot1p 0-7 traffic-class 0
+  dot1p 5 traffic-class 5
+  dot1p 6 traffic-class 6
+exit
+!
+qos map tc-queue ROCE
+  traffic-class 0 queue 0
+  traffic-class 1 queue 1
+  traffic-class 2 queue 2
+  traffic-class 3 queue 5
+  traffic-class 4 queue 6
+  traffic-class 5 queue 3
+  traffic-class 6 queue 4
+  traffic-class 7 queue 7
+exit
+!
+qos map tc-pg ROCE
+  traffic-class 0-7 priority-group 7
+  traffic-class 5 priority-group 3
+  traffic-class 6 priority-group 4
+exit
+!
+qos map pfc-priority-queue ROCE
+  pfc-priority 0 queue 0
+  pfc-priority 1 queue 1
+  pfc-priority 2 queue 2
+  pfc-priority 5 queue 3
+  pfc-priority 6 queue 4
+  pfc-priority 3 queue 5
+  pfc-priority 4 queue 6
+  pfc-priority 7 queue 7
+exit
+!
+qos map pfc-priority-pg ROCE
+  pfc-priority 0 pg 0
+  pfc-priority 1 pg 1
+  pfc-priority 2 pg 2
+  pfc-priority 5 pg 3
+  pfc-priority 6 pg 4
+  pfc-priority 3 pg 5
+  pfc-priority 4 pg 6
+  pfc-priority 7 pg 7
+exit
+!
+
+! clear default priority 3,4 after apply ROCE --force-defaults
+interface range Ethernet 0-257
+  no priority-flow-control priority 3,4
+  exit
+
+spanning-tree mode mst

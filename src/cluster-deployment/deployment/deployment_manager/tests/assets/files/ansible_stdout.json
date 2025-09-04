@@ -1,0 +1,141 @@
+{
+    "custom_stats": {},
+    "global_custom_stats": {},
+    "plays": [
+        {
+            "play": {
+                "duration": {
+                    "end": "2024-10-03T16:52:30.842459Z",
+                    "start": "2024-10-03T16:52:30.089746Z"
+                },
+                "id": "3cecef7d-2522-7c4e-daa2-000000000005",
+                "name": "Run shell command and parse output"
+            },
+            "tasks": [
+                {
+                    "hosts": {
+                        "localhost": {
+                            "_ansible_no_log": false,
+                            "action": "ansible.builtin.template",
+                            "changed": false,
+                            "checksum": "36ee2d096e437e2d6972a1fc1a8e857236bfe99c",
+                            "dest": "/tmp/script.py",
+                            "diff": {
+                                "after": {
+                                    "path": "/tmp/script.py"
+                                },
+                                "before": {
+                                    "path": "/tmp/script.py"
+                                }
+                            },
+                            "gid": 0,
+                            "group": "root",
+                            "invocation": {
+                                "module_args": {
+                                    "_diff_peek": null,
+                                    "_original_basename": "script.py",
+                                    "access_time": null,
+                                    "access_time_format": "%Y%m%d%H%M.%S",
+                                    "attributes": null,
+                                    "dest": "/tmp/script.py",
+                                    "follow": true,
+                                    "force": false,
+                                    "group": null,
+                                    "mode": null,
+                                    "modification_time": null,
+                                    "modification_time_format": "%Y%m%d%H%M.%S",
+                                    "owner": null,
+                                    "path": "/tmp/script.py",
+                                    "recurse": false,
+                                    "selevel": null,
+                                    "serole": null,
+                                    "setype": null,
+                                    "seuser": null,
+                                    "src": null,
+                                    "state": "file",
+                                    "unsafe_writes": false
+                                }
+                            },
+                            "mode": "0644",
+                            "owner": "root",
+                            "path": "/tmp/script.py",
+                            "secontext": "unconfined_u:object_r:admin_home_t:s0",
+                            "size": 39,
+                            "state": "file",
+                            "uid": 0
+                        }
+                    },
+                    "task": {
+                        "duration": {
+                            "end": "2024-10-03T16:52:30.565520Z",
+                            "start": "2024-10-03T16:52:30.103346Z"
+                        },
+                        "id": "3cecef7d-2522-7c4e-daa2-000000000007",
+                        "name": "copy"
+                    }
+                },
+                {
+                    "hosts": {
+                        "localhost": {
+                            "_ansible_no_log": false,
+                            "action": "shell",
+                            "changed": true,
+                            "cmd": "set -e -o pipefail\npython /tmp/script.py | tee /tmp/log.txt\n",
+                            "delta": "0:00:00.019645",
+                            "end": "2024-10-03 16:52:30.824282",
+                            "failed": true,
+                            "invocation": {
+                                "module_args": {
+                                    "_raw_params": "set -e -o pipefail\npython /tmp/script.py | tee /tmp/log.txt\n",
+                                    "_uses_shell": true,
+                                    "argv": null,
+                                    "chdir": null,
+                                    "creates": null,
+                                    "executable": null,
+                                    "removes": null,
+                                    "stdin": null,
+                                    "stdin_add_newline": true,
+                                    "strip_empty_ends": true,
+                                    "warn": false
+                                }
+                            },
+                            "msg": "non-zero return code",
+                            "rc": 1,
+                            "start": "2024-10-03 16:52:30.804637",
+                            "stderr": "Traceback (most recent call last):\n  File \"/tmp/script.py\", line 3, in <module>\n    raise Exception(\"error\")\nException: error",
+                            "stderr_lines": [
+                                "Traceback (most recent call last):",
+                                "  File \"/tmp/script.py\", line 3, in <module>",
+                                "    raise Exception(\"error\")",
+                                "Exception: error"
+                            ],
+                            "stdout": "foo",
+                            "stdout_lines": [
+                                "foo"
+                            ]
+                        }
+                    },
+                    "task": {
+                        "duration": {
+                            "end": "2024-10-03T16:52:30.842459Z",
+                            "start": "2024-10-03T16:52:30.571100Z"
+                        },
+                        "id": "3cecef7d-2522-7c4e-daa2-000000000008",
+                        "name": "Run a shell command"
+                    }
+                }
+            ]
+        }
+    ],
+    "stats": {
+        "localhost": {
+            "changed": 0,
+            "failures": 1,
+            "ignored": 0,
+            "ok": 1,
+            "rescued": 0,
+            "skipped": 0,
+            "unreachable": 0
+        }
+    }
+}

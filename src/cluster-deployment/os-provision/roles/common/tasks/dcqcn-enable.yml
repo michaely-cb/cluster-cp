@@ -1,0 +1,15 @@
+# This playbook configures Mellanox NICs for DCQCN
+
+- name: Configure 100G NICs 
+  shell: |
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4125_pciconf0 set RPG_AI_RATE_P1=4 RPG_AI_RATE_P2=4 RPG_HAI_RATE_P1=4 RPG_HAI_RATE_P2=4
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4125_pciconf0.1 set RPG_AI_RATE_P1=4 RPG_AI_RATE_P2=4 RPG_HAI_RATE_P1=4 RPG_HAI_RATE_P2=4
+  when: (group_names is search("MX")) or
+        (group_names is search("SX"))
+
+- name: Configure 400G NICs
+  shell: |
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4129_pciconf0 set RPG_AI_RATE_P1=8 RPG_HAI_RATE_P1=8 RPG_MAX_RATE_P1=100000
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4129_pciconf1 set RPG_AI_RATE_P1=8 RPG_HAI_RATE_P1=8 RPG_MAX_RATE_P1=100000
+  when: (group_names is search("SX")) or
+        (group_names is search("AX"))

@@ -1,0 +1,1851 @@
+Last login: Fri Oct 27 18:04:11 2023 from 172.28.81.16
+sc-r15ra2-100gsw>terminal length 0
+Pagination disabled.
+sc-r15ra2-100gsw>show int
+Ethernet1/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is c069.1102.7275
+  Description: L3 to sc-r15ra1-100gsw256-hpe
+  Internet address is 10.250.226.130/31
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes , BW 100000000 kbit
+  Full-duplex, 100Gb/s, auto negotiation: off, uni-link: n/a
+  Up 29 days, 7 hours, 30 minutes, 27 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 29 days, 3:23:44 ago
+  5 seconds input rate 224 Mbps (0.2% with framing overhead), 9631 packets/sec
+  5 seconds output rate 52.9 Mbps (0.1% with framing overhead), 4201 packets/sec
+     9061425941 packets input, 32570174802336 bytes
+     Received 0 broadcasts, 83927 multicast
+     2 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 53328 input discards
+     0 PAUSE input
+     13969208310 packets output, 55311385746121 bytes
+     Sent 0 broadcasts, 83927 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 1468 output discards
+     0 PAUSE output
+Ethernet2/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is c069.1102.7275
+  Description: L3 to sc-r15ra1-100gsw256-hpe
+  Internet address is 10.250.226.132/31
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes , BW 100000000 kbit
+  Full-duplex, 100Gb/s, auto negotiation: off, uni-link: n/a
+  Up 32 days, 1 hour, 31 minutes, 13 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 29 days, 3:23:44 ago
+  5 seconds input rate 274 Mbps (0.3% with framing overhead), 10264 packets/sec
+  5 seconds output rate 58.7 Mbps (0.1% with framing overhead), 5089 packets/sec
+     9029079262 packets input, 32979717992932 bytes
+     Received 0 broadcasts, 83927 multicast
+     0 runts, 0 giants
+     4 input errors, 0 CRC, 0 alignment, 0 symbol, 100493 input discards
+     0 PAUSE input
+     15203362804 packets output, 60378146889557 bytes
+     Sent 0 broadcasts, 83926 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 343 output discards
+     0 PAUSE output
+Ethernet3/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is c069.1102.7275
+  Description: L3 to sc-r15ra1-100gsw256-hpe
+  Internet address is 10.250.226.134/31
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes , BW 100000000 kbit
+  Full-duplex, 100Gb/s, auto negotiation: off, uni-link: n/a
+  Up 32 days, 1 hour, 31 minutes, 12 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 29 days, 3:23:44 ago
+  5 seconds input rate 315 Mbps (0.3% with framing overhead), 13651 packets/sec
+  5 seconds output rate 496 Mbps (0.5% with framing overhead), 17398 packets/sec
+     8919870336 packets input, 32802280958554 bytes
+     Received 0 broadcasts, 83927 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 111871 input discards
+     0 PAUSE input
+     15556763603 packets output, 61737927401860 bytes
+     Sent 0 broadcasts, 83927 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 1755 output discards
+     0 PAUSE output
+Ethernet4/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is c069.1102.7275
+  Description: L3 to sc-r15ra1-100gsw256-hpe
+  Internet address is 10.250.226.136/31
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes , BW 100000000 kbit
+  Full-duplex, 100Gb/s, auto negotiation: off, uni-link: n/a
+  Up 32 days, 1 hour, 31 minutes, 13 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 29 days, 3:23:44 ago
+  5 seconds input rate 252 Mbps (0.3% with framing overhead), 9696 packets/sec
+  5 seconds output rate 43.5 Mbps (0.0% with framing overhead), 3301 packets/sec
+     8894794285 packets input, 32399883641657 bytes
+     Received 0 broadcasts, 83927 multicast
+     0 runts, 0 giants
+     0 input errors, 5 CRC, 0 alignment, 0 symbol, 116394 input discards
+     0 PAUSE input
+     16435850975 packets output, 65503175252551 bytes
+     Sent 0 broadcasts, 83927 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 278 output discards
+     0 PAUSE output
+Management1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is c069.1102.7274 (bia c069.1102.7274)
+  Internet address is 172.28.136.61/22
+  Broadcast address is 255.255.255.255
+  IP MTU 1500 bytes (default) , BW 1000000 kbit
+  Full-duplex, 1Gb/s, auto negotiation: on, uni-link: n/a
+  Up 33 days, 3 hours, 1 minute, 57 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 29 days, 3:23:44 ago
+  5 seconds input rate 11.1 kbps (0.0% with framing overhead), 14 packets/sec
+  5 seconds output rate 56.6 kbps (0.0% with framing overhead), 13 packets/sec
+     2808659 packets input, 251941320 bytes
+     Received 293699 broadcasts, 83924 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     4439128 packets output, 1609076212 bytes
+     Sent 0 broadcasts, 83927 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Vlan11 is up, line protocol is up (connected)
+  Hardware is Vlan, address is c069.1102.7275 (bia c069.1102.7275)
+  Description: "whole switch subnet"
+  Internet address is 10.250.224.254/24
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes
+  Up 31 days, 10 hours, 7 minutes, 20 seconds
+sc-r15ra2-100gsw>show hostname
+Hostname: sc-r15ra2-100gsw
+FQDN:     sc-r15ra2-100gsw
+sc-r15ra2-100gsw>show int phy detail
+Current System Time: Sun Oct 29 02:45:48 2023
+Ethernet1/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  PHY state                   linkUp                 13   29 days, 7:31:53 ago
+  Interface state             up                     12   29 days, 7:31:52 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:19 ago
+  Transceiver SN              V0PD8JA005X
+  Oper speed                  100Gbps
+  Interrupt Count                                    31
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                        10   29 days, 7:31:56 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:26 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                  12   29 days, 7:31:56 ago
+  RX_LOS since insertion                             10
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      5   29 days, 6:49:39 ago
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  528
+  FEC alignment lock          ok                      9   29 days, 7:31:56 ago
+  FEC corrected codewords     8897                    8   29 days, 7:31:56 ago
+  FEC uncorrected codewords   5                       5   29 days, 7:51:07 ago
+  FEC lane corrected symbols
+    Lane 0                    8                       4   29 days, 7:51:07 ago
+    Lane 1                    9773                    7   29 days, 7:31:56 ago
+    Lane 2                    3                       5   29 days, 7:51:07 ago
+    Lane 3                    5                       4   29 days, 7:51:07 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  PCS RX link status          up                     23   29 days, 7:31:55 ago
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 0
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    30     1    0,2   10  -6  29,-16,  3, 11,  3,  0     0  8, 49,55, 0, 0
+Ethernet1/2
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:19 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:19 ago
+  Transceiver SN              V0PD8JA005X
+  Oper speed                  unknown
+  Interrupt Count                                    31
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                        10   29 days, 7:31:56 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:26 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                  12   29 days, 7:31:56 ago
+  RX_LOS since insertion                             10
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      5   29 days, 6:49:39 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 1
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   18    34    -1    0,2   11 -16  30,-15,  3,  7, -4,  6     0  8, 49,55, 0, 0
+Ethernet1/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:19 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:19 ago
+  Transceiver SN              V0PD8JA005X
+  Oper speed                  unknown
+  Interrupt Count                                    31
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                        10   29 days, 7:31:56 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:26 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                  12   29 days, 7:31:56 ago
+  RX_LOS since insertion                             10
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      5   29 days, 6:49:39 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 2
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    31     0    0,2   10  -1  29,-13,  2, 16, -2,  1     0  8, 49,55, 0, 0
+Ethernet1/4
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:19 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:19 ago
+  Transceiver SN              V0PD8JA005X
+  Oper speed                  unknown
+  Interrupt Count                                    31
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                        10   29 days, 7:31:56 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:26 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                  12   29 days, 7:31:56 ago
+  RX_LOS since insertion                             10
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      5   29 days, 6:49:39 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 3
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    33     3    0,2    9 -10  30,-16,  2,  6,  0,  6     0  8, 49,55, 0, 0
+Ethernet2/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  PHY state                   linkUp                 11   32 days, 1:32:38 ago
+  Interface state             up                     10   32 days, 1:32:38 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:07 ago
+  Transceiver SN              V0PD8JA0039
+  Oper speed                  100Gbps
+  Interrupt Count                                    18
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:14 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  528
+  FEC alignment lock          ok                      5   32 days, 1:32:41 ago
+  FEC corrected codewords     114726                  5   32 days, 1:32:41 ago
+  FEC uncorrected codewords   661                     4   32 days, 1:32:41 ago
+  FEC lane corrected symbols
+    Lane 0                    3                       4   32 days, 1:32:46 ago
+    Lane 1                    2                       2   32 days, 1:32:46 ago
+    Lane 2                    178419                  2   32 days, 1:32:41 ago
+    Lane 3                    4                       1   32 days, 1:39:02 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  PCS RX link status          up                     17   32 days, 1:32:40 ago
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 0
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    30    -1    0,1    8 -10  33,-11,  3, 13,  3,  2     0  8, 49,55, 0, 0
+Ethernet2/2
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:07 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:07 ago
+  Transceiver SN              V0PD8JA0039
+  Oper speed                  unknown
+  Interrupt Count                                    18
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:14 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 1
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    31     0    0,1   12   9  31, -9,  5, 12,  8,  0     0  8, 49,55, 0, 0
+Ethernet2/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:07 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:07 ago
+  Transceiver SN              V0PD8JA0039
+  Oper speed                  unknown
+  Interrupt Count                                    18
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:14 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 2
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    33     3    0,1   10  -9  29,-11,  0, 13,  0,  6     0  8, 49,55, 0, 0
+Ethernet2/4
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:07 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:07 ago
+  Transceiver SN              V0PD8JA0039
+  Oper speed                  unknown
+  Interrupt Count                                    18
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:14 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 3
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    32     0    0,1    8   4  34, -4,  3,  9,  6,  0     0  8, 49,55, 0, 0
+Ethernet3/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  PHY state                   linkUp                  9   32 days, 1:32:38 ago
+  Interface state             up                      8   32 days, 1:32:37 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:13 ago
+  Transceiver SN              V0PD8JA004B
+  Oper speed                  100Gbps
+  Interrupt Count                                    25
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:20 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  528
+  FEC alignment lock          ok                      5   32 days, 1:32:37 ago
+  FEC corrected codewords     10                      3   32 days, 1:32:47 ago
+  FEC uncorrected codewords   3                       3   32 days, 1:32:47 ago
+  FEC lane corrected symbols
+    Lane 0                    12                      2   32 days, 1:32:47 ago
+    Lane 1                    5                       2   32 days, 1:32:47 ago
+    Lane 2                    22                      3   32 days, 1:32:47 ago
+    Lane 3                    2                       2   32 days, 1:32:47 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  PCS RX link status          up                     15   32 days, 1:32:40 ago
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 0
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   18    35     3    0,2   11  -3  30,-20,  3,  9,  6, -2     0  8, 49,55, 0, 0
+Ethernet3/2
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:13 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:13 ago
+  Transceiver SN              V0PD8JA004B
+  Oper speed                  unknown
+  Interrupt Count                                    25
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:20 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 1
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    37     1    0,2    8 -12  28,-17,  0, 13, -4,  3     0  8, 49,55, 0, 0
+Ethernet3/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:13 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:13 ago
+  Transceiver SN              V0PD8JA004B
+  Oper speed                  unknown
+  Interrupt Count                                    25
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:20 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 2
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    32     0    0,1   10 -13  31, -7,  3, 19,  6,  3     0  8, 49,55, 0, 0
+Ethernet3/4
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:12:13 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:12:13 ago
+  Transceiver SN              V0PD8JA004B
+  Oper speed                  unknown
+  Interrupt Count                                    25
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:41 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:20 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:41 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 3
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    32     0    0,2    9   3  29,-17,  0, 15, -7,  6     0  8, 49,55, 0, 0
+Ethernet4/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  PHY state                   linkUp                  9   32 days, 1:32:39 ago
+  Interface state             up                      8   32 days, 1:32:38 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:11:58 ago
+  Transceiver SN              V0PD8JA0007
+  Oper speed                  100Gbps
+  Interrupt Count                                    16
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:40 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:06 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:42 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  528
+  FEC alignment lock          ok                      5   32 days, 1:32:40 ago
+  FEC corrected codewords     9                       3   32 days, 1:32:45 ago
+  FEC uncorrected codewords   3                       3   32 days, 1:32:45 ago
+  FEC lane corrected symbols
+    Lane 0                    11                      3   32 days, 1:32:45 ago
+    Lane 1                    6                       2   32 days, 1:32:45 ago
+    Lane 2                    5                       2   32 days, 1:32:45 ago
+    Lane 3                    4                       2   32 days, 1:32:45 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  PCS RX link status          up                     15   32 days, 1:32:41 ago
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 0
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   18    37     2    0,1    9 -25  30,-17,  0, 12,  6, -4     0  8, 49,55, 0, 0
+Ethernet4/2
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:11:58 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:11:58 ago
+  Transceiver SN              V0PD8JA0007
+  Oper speed                  unknown
+  Interrupt Count                                    16
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:40 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:06 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:42 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 1
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    36    -1    0,1    9  -1  31,-10,  3,  9,  6,  3     0  8, 49,55, 0, 0
+Ethernet4/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:11:58 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:11:58 ago
+  Transceiver SN              V0PD8JA0007
+  Oper speed                  unknown
+  Interrupt Count                                    16
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:40 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:06 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:42 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 2
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   20    33     1    0,1    9   8  28,-11,  0, 14,  1,  0     0  8, 49,55, 0, 0
+Ethernet4/4
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+*** WARNING: some information is stale.
+  PHY state                   errDisabled             1   33 days, 7:51:07 ago
+  Interface state             down                    4   33 days, 7:11:58 ago
+  HW resets                                           0                  never
+  Transceiver                 100GBASE-SR4            4   33 days, 7:11:58 ago
+  Transceiver SN              V0PD8JA0007
+  Oper speed                  unknown
+  Interrupt Count                                    16
+  Transceiver Reset Count                             0                  never
+  Transceiver Interrupt Count                         6   32 days, 1:32:40 ago
+  Transceiver Smbus Failures                          0                  never
+  Diags mode                  normalOperation
+  Model                       Bcm56965-tscf (A) (0x00c086,0x37,0xc2d5)
+  Loopback                    none
+  Xcvr EEPROM read timeout                            0                  never
+  Spurious xcvr detection                             0                  never
+  DOM control/status fail                             0
+  Presence indication         xcvrPresent             5   33 days, 7:12:06 ago
+  Bad EEPROM checksums                                0                  never
+  RX_LOS since system boot    False                   8   32 days, 1:32:42 ago
+  RX_LOS since insertion                              6
+  TX_FAULT since system boot  False                   0                  never
+  TX_FAULT since insertion                            0
+  PMA/PMD RX signal detect    ok                      3   32 days, 8:49:47 ago
+  PCS RX link status          down                    0                  never
+  PCS high BER                ok                      0                  never
+  PCS BER                     0                       0                  never
+  PCS error blocks            0                                          never
+Lane 3
+RXPPM CLK90 CLKP1 PF(M,L) VGA DCO DFE(1,2,3,4,5,6)        TXPPM TXEQ(n1,m,p1,2,3)
+   19    35     0    0,1    8  -8  33, -4,  3, 10,  6,  3     0  8, 49,55, 0, 0
+sc-r15ra13-100gsw>show int trans dom
+Ch: Channel, N/A: not applicable, TX: transmit, RX: receive
+mA: milliamperes, dBm: decibels (milliwatts), C: Celsius, V: Volts
+
+Port 1
+Last update: 0:00:01 ago
+                                             Value
+                                        ----------------
+   Temperature                              45.00 C
+   Voltage                                   3.22 V
+Ethernet1/1
+   TX bias current
+      Channel        1                       6.33 mA
+      Channel        2                       6.34 mA
+      Channel        3                       6.33 mA
+      Channel        4                       6.34 mA
+   Optical TX power
+      Channel        1                      -0.62 dBm
+      Channel        2                      -1.02 dBm
+      Channel        3                      -1.03 dBm
+      Channel        4                      -0.56 dBm
+   Optical RX power
+      Channel        1                      -0.40 dBm
+      Channel        2                      -0.51 dBm
+      Channel        3                      -0.85 dBm
+      Channel        4                      -1.19 dBm
+
+Port 2
+Last update: 0:00:00 ago
+                                             Value
+                                        ----------------
+   Temperature                              46.00 C
+   Voltage                                   3.23 V
+Ethernet2/1
+   TX bias current
+      Channel        1                       6.33 mA
+      Channel        2                       6.34 mA
+      Channel        3                       6.33 mA
+      Channel        4                       6.34 mA
+   Optical TX power
+      Channel        1                       0.66 dBm
+      Channel        2                      -0.02 dBm
+      Channel        3                       0.39 dBm
+      Channel        4                       0.36 dBm
+   Optical RX power
+      Channel        1                      -0.62 dBm
+      Channel        2                      -0.62 dBm
+      Channel        3                      -0.76 dBm
+      Channel        4                      -0.40 dBm
+
+Port 3
+Last update: 0:00:05 ago
+                                             Value
+                                        ----------------
+   Temperature                              44.00 C
+   Voltage                                   3.22 V
+Ethernet3/1
+   TX bias current
+      Channel        1                       6.33 mA
+      Channel        2                       6.34 mA
+      Channel        3                       6.33 mA
+      Channel        4                       6.34 mA
+   Optical TX power
+      Channel        1                      -0.69 dBm
+      Channel        2                      -1.14 dBm
+      Channel        3                      -1.09 dBm
+      Channel        4                      -1.10 dBm
+   Optical RX power
+      Channel        1                      -0.06 dBm
+      Channel        2                       0.00 dBm
+      Channel        3                      -0.51 dBm
+      Channel        4                      -0.50 dBm
+
+Port 4
+Last update: 0:00:01 ago
+                                             Value
+                                        ----------------
+   Temperature                              44.00 C
+   Voltage                                   3.23 V
+Ethernet4/1
+   TX bias current
+      Channel        1                       6.23 mA
+      Channel        2                       6.24 mA
+      Channel        3                       6.24 mA
+      Channel        4                       6.24 mA
+   Optical TX power
+      Channel        1                      -0.62 dBm
+      Channel        2                      -0.55 dBm
+      Channel        3                      -0.54 dBm
+      Channel        4                      -1.27 dBm
+   Optical RX power
+      Channel        1                      -0.87 dBm
+      Channel        2                      -0.46 dBm
+      Channel        3                      -0.83 dBm
+      Channel        4                      -0.36 dBm
+sc-r15ra13-100gsw>show priority-flow-control counters
+Port                 RxPfc           TxPfc
+Et1/1            897875284      2359769705
+Et2/1           1199789375      2760380883
+Et3/1           1319496919      2688539247
+Et4/1           1692088617      2414241463
+Ma1                      0               0
+sc-r15ra2-100gsw>show hostname
+Hostname: sc-r15ra2-100gsw
+FQDN:     sc-r15ra2-100gsw
+sc-r7rb6-400gsw-arista#show snmp mib ifmib ifindex
+Ethernet1/1: Ifindex = 1001
+Ethernet2/1: Ifindex = 2001
+Ethernet3/1: Ifindex = 3001
+Ethernet4/1: Ifindex = 4001
+sc-r15ra13-100gsw>show int count disc
+Port               InDiscards    OutDiscards
+--------------- ---------------- -----------
+Et1/1                       4          69804
+Et2/1                      20          53220
+Et3/1                      37         487034
+Et4/1                      18          88517
+Ma1                         0              0
+---------           ---------      ---------
+Totals                6103312       35892785
+
+sc-r15ra13-100gsw>show interfaces counters queue detail
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et1/1    UC0              0                  0              0                  0
+Et1/1    UC1       12663856        58271954758              0                  0
+Et1/1    UC2              0                  0              0                  0
+Et1/1    UC3              0                  0              0                  0
+Et1/1    UC4              0                  0              0                  0
+Et1/1    UC5    57156051643    216763341854506           1111               5678
+Et1/1    UC6       18893094         1428703676              0                  0
+Et1/1    UC7              0                  0              0                  0
+Et1/1    UC8          57672           13898952              0                  0
+Et1/1    MC0              0                  0              0                  0
+Et1/1    MC1              2                128              0                  0
+
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et2/1    UC0              0                  0              0                  0
+Et2/1    UC1        5259493        19974450565              0                  0
+Et2/1    UC2              0                  0              0                  0
+Et2/1    UC3              0                  0              0                  0
+Et2/1    UC4              0                  0              0                  0
+Et2/1    UC5    55328669787    209590812432834           2222                  0
+Et2/1    UC6       19519347         1477095478              0                  0
+Et2/1    UC7              0                  0              0                  0
+Et2/1    UC8          57556           13870996              0                  0
+Et2/1    MC0              0                  0              0                  0
+Et2/1    MC1              2                128              0                  0
+
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et3/1    UC0              0                  0              0                  0
+Et3/1    UC1        4009329        13760898886              0                  0
+Et3/1    UC2              0                  0              0                  0
+Et3/1    UC3              0                  0              0                  0
+Et3/1    UC4              0                  0              0                  0
+Et3/1    UC5    56906491064    215173690845096           3333                  0
+Et3/1    UC6       19511835         1476501900              0                  0
+Et3/1    UC7              0                  0              0                  0
+Et3/1    UC8          57556           13870996              0                  0
+Et3/1    MC0              0                  0              0                  0
+Et3/1    MC1              3                192              0                  0
+
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et4/1    UC0              0                  0              0                  0
+Et4/1    UC1        5776303        18555577031              0                  0
+Et4/1    UC2              0                  0              0                  0
+Et4/1    UC3              0                  0              0                  0
+Et4/1    UC4              0                  0              0                  0
+Et4/1    UC5    56532302553    214851432640462           4444                  0
+Et4/1    UC6       19073722         1442186637              0                  0
+Et4/1    UC7              0                  0              0                  0
+Et4/1    UC8          57557           13871237              0                  0
+Et4/1    MC0              0                  0              0                  0
+Et4/1    MC1              3                192              0                  0
+
+sc-r15ra13-100gsw>show int count rate
+Port      Name        Intvl   In Mbps      %  In Kpps  Out Mbps      % Out Kpps
+Et1/1     L3 to sc-r1  0:05      10.1   0.0%        0       5.1   0.0%        0
+Et2/1     L3 to sc-r1  0:05       0.0   0.0%        0       0.1   0.0%        0
+Et3/1     L3 to sc-r1  0:05       0.1   0.0%        0       0.1   0.0%        0
+Et4/1     L3 to sc-r1  0:05       0.0   0.0%        0       0.1   0.0%        0
+Ma1                    0:05       0.0   0.0%        0       0.0   0.0%        0
+
+sc-r15ra2-100gsw>show hostname
+Hostname: sc-r15ra2-100gsw
+FQDN:     sc-r15ra2-100gsw
+sc-r15ra2-100gsw>show interfaces status errdisabled
+   Port         Name                       Status         Reason
+------------ -------------------------- ----------------- ------
+   Et4/1       L3 to sc-r7rb6-400gs       errdisabled    lfs
+sc-r15ra2-100gsw>show hostname
+Hostname: sc-r15ra2-100gsw
+FQDN:     sc-r15ra2-100gsw
+sc-r1rb2-100gsw32>show version | json
+{
+    "memTotal": 8104364,
+    "uptime": 48271281.9,
+    "modelName": "DCS-7060CX-32S-F",
+    "internalVersion": "4.23.0F-13614065.4230F",
+    "mfgName": "Arista",
+    "serialNumber": "JPE20320659",
+    "systemMacAddress": "d4:af:f7:3d:c4:29",
+    "bootupTimestamp": 1693337314.0,
+    "memFree": 6462768,
+    "version": "4.23.0F",
+    "architecture": "i686",
+    "isIntlVersion": false,
+    "internalBuildId": "158ef907-fbb0-49af-950b-a2a8e86f3d07",
+    "hardwareRevision": "12.11"
+}
+sc-r15ra13-100gsw>show environment power | json
+{
+    "powerSupplies": {
+        "1": {
+            "modelName": "PWR-2411-AC-RED",
+            "capacity": 2400.0,
+            "dominant": false,
+            "inputCurrent": 1.380859375,
+            "outputCurrent": 22.9375,
+            "inputVoltage": 232.25,
+            "outputVoltage": 12.009765625,
+            "outputPower": 274.0,
+            "state": "ok",
+            "uptime": 1740616187.0672982,
+            "fans": {
+                "FanP1/1": {
+                    "status": "ok",
+                    "speed": 34
+                }
+            },
+            "tempSensors": {
+                "TempSensorP1/1": {
+                    "status": "ok",
+                    "temperature": 39.75
+                },
+                "TempSensorP1/3": {
+                    "status": "ok",
+                    "temperature": 61.625
+                },
+                "TempSensorP1/2": {
+                    "status": "ok",
+                    "temperature": 55.375
+                }
+            },
+            "managed": true
+        },
+        "2": {
+            "modelName": "PWR-2411-AC-RED",
+            "capacity": 2400.0,
+            "dominant": false,
+            "inputCurrent": 1.3671875,
+            "outputCurrent": 23.09375,
+            "inputVoltage": 231.75,
+            "outputVoltage": 12.015625,
+            "outputPower": 276.0,
+            "state": "AC Loss",
+            "uptime": 1740616186.8243728,
+            "fans": {
+                "FanP2/1": {
+                    "status": "ok",
+                    "speed": 34
+                }
+            },
+            "tempSensors": {
+                "TempSensorP2/1": {
+                    "status": "ok",
+                    "temperature": 43.75
+                },
+                "TempSensorP2/3": {
+                    "status": "ok",
+                    "temperature": 62.25
+                },
+                "TempSensorP2/2": {
+                    "status": "ok",
+                    "temperature": 54.75
+                }
+            },
+            "managed": true
+        }
+    }
+}
+sc-r15ra13-100gsw>show system environment temperature | json
+{
+    "systemStatus": "temperatureOk",
+    "shutdownOnOverheat": false,
+    "powercycleOnOverheat": true,
+    "actionOnOverheat": "actionPowercycle",
+    "recoveryModeOnOverheat": "recoveryModeNA",
+    "ambientThreshold": 45,
+    "tempSensors": [
+        {
+            "relPos": "1",
+            "name": "TempSensor1",
+            "description": "Cpu temp sensor",
+            "overheatThreshold": 90.0,
+            "criticalThreshold": 95.0,
+            "targetTemperature": 70.0,
+            "hwStatus": "ok",
+            "currentTemperature": 36.692074981807096,
+            "setPointTemperature": 72.6,
+            "maxTemperature": 40.3299716775,
+            "maxTemperatureLastChange": 1740616188.6177664,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "2",
+            "name": "TempSensor2",
+            "description": "CPU board temp sensor",
+            "overheatThreshold": 75.0,
+            "criticalThreshold": 85.0,
+            "targetTemperature": 55.0,
+            "hwStatus": "Overheating",
+            "currentTemperature": 38.125,
+            "setPointTemperature": 57.6,
+            "maxTemperature": 39.0,
+            "maxTemperatureLastChange": 1740704799.350047,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 1,
+            "lastPidDriverTime": 1740616185.0530145
+        },
+        {
+            "relPos": "3",
+            "name": "TempSensor3",
+            "description": "Back-panel temp sensor",
+            "overheatThreshold": 75.0,
+            "criticalThreshold": 85.0,
+            "targetTemperature": 55.0,
+            "hwStatus": "Critical",
+            "currentTemperature": 36.875,
+            "setPointTemperature": 57.6,
+            "maxTemperature": 37.75,
+            "maxTemperatureLastChange": 1740704744.2295454,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "4",
+            "name": "TempSensor4",
+            "description": "POSVDD_CPU_S0 Pol Loop0",
+            "overheatThreshold": 115.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 105.0,
+            "hwStatus": "Unknown",
+            "currentTemperature": 41.0,
+            "setPointTemperature": 107.6,
+            "maxTemperature": 42.0,
+            "maxTemperatureLastChange": 1741129126.4081895,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "5",
+            "name": "TempSensor5",
+            "description": "POSVDD_SOC_S0 Pol Loop1",
+            "overheatThreshold": 115.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 105.0,
+            "hwStatus": "ok",
+            "currentTemperature": 41.0,
+            "setPointTemperature": 107.6,
+            "maxTemperature": 42.0,
+            "maxTemperatureLastChange": 1741129126.408191,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "6",
+            "name": "TempSensor6",
+            "description": "Switch Card temp sensor",
+            "overheatThreshold": 95.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 85.0,
+            "hwStatus": "ok",
+            "currentTemperature": 38.375,
+            "setPointTemperature": 87.6,
+            "maxTemperature": 39.1875,
+            "maxTemperatureLastChange": 1741093636.6399093,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "7",
+            "name": "TempSensor7",
+            "description": "Air Exit Behind TH4",
+            "overheatThreshold": 95.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 85.0,
+            "hwStatus": "ok",
+            "currentTemperature": 41.3125,
+            "setPointTemperature": 87.625,
+            "maxTemperature": 42.125,
+            "maxTemperatureLastChange": 1740799586.8971379,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "8",
+            "name": "TempSensor8",
+            "description": "Air Inlet",
+            "overheatThreshold": 95.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 85.0,
+            "hwStatus": "ok",
+            "currentTemperature": 31.5625,
+            "setPointTemperature": 87.625,
+            "maxTemperature": 32.6875,
+            "maxTemperatureLastChange": 1740793231.8806112,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "9",
+            "name": "TempSensor9",
+            "description": "Front Panel Inlet",
+            "overheatThreshold": 75.0,
+            "criticalThreshold": 85.0,
+            "targetTemperature": 65.0,
+            "hwStatus": "ok",
+            "currentTemperature": 29.875,
+            "setPointTemperature": 67.625,
+            "maxTemperature": 30.75,
+            "maxTemperatureLastChange": 1740839127.1049867,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "10",
+            "name": "TempSensor10",
+            "description": "PhyChip0-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 57.34302956005567,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 58.1851399655271,
+            "maxTemperatureLastChange": 1741093628.9727504,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "11",
+            "name": "TempSensor11",
+            "description": "PhyChip0-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 57.39256546625987,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 58.38328359034389,
+            "maxTemperatureLastChange": 1741093625.7866285,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "12",
+            "name": "TempSensor12",
+            "description": "PhyChip1-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 51.89407987759353,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 52.785726189269155,
+            "maxTemperatureLastChange": 1740800649.8753905,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "13",
+            "name": "TempSensor13",
+            "description": "PhyChip1-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 53.182013438902764,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 54.17273156298679,
+            "maxTemperatureLastChange": 1740800657.894186,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "14",
+            "name": "TempSensor14",
+            "description": "PhyChip2-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 43.076688573245704,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 44.36462213455494,
+            "maxTemperatureLastChange": 1740823954.0951283,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 5,
+            "lastPidDriverTime": 1740616235.0612855
+        },
+        {
+            "relPos": "15",
+            "name": "TempSensor15",
+            "description": "PhyChip2-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 43.67111944769612,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 45.00858891520956,
+            "maxTemperatureLastChange": 1740823965.3572817,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "16",
+            "name": "TempSensor16",
+            "description": "PhyChip3-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 45.75162750827258,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 46.94048925717341,
+            "maxTemperatureLastChange": 1740823953.308902,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "17",
+            "name": "TempSensor17",
+            "description": "PhyChip3-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 46.8909533509692,
+            "setPointTemperature": 97.625,
+            "maxTemperature": 48.228422818482635,
+            "maxTemperatureLastChange": 1740823950.1215937,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "18",
+            "name": "TempSensor18",
+            "description": "Tomahawk4 PVT0 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 43.9,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 45.5,
+            "maxTemperatureLastChange": 1741037464.6590908,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "19",
+            "name": "TempSensor19",
+            "description": "Tomahawk4 PVT1 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 44.3,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 45.8,
+            "maxTemperatureLastChange": 1741115189.9145832,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "20",
+            "name": "TempSensor20",
+            "description": "Tomahawk4 PVT2 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 45.5,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 47.2,
+            "maxTemperatureLastChange": 1740717266.3090851,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "21",
+            "name": "TempSensor21",
+            "description": "Tomahawk4 PVT3 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 45.1,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 47.0,
+            "maxTemperatureLastChange": 1741115690.5236561,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "22",
+            "name": "TempSensor22",
+            "description": "Tomahawk4 PVT4 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 42.7,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 45.1,
+            "maxTemperatureLastChange": 1740799000.8971817,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "23",
+            "name": "TempSensor23",
+            "description": "Tomahawk4 PVT5 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 41.5,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 44.1,
+            "maxTemperatureLastChange": 1740715721.726125,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "24",
+            "name": "TempSensor24",
+            "description": "Tomahawk4 PVT6 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 44.1,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 46.0,
+            "maxTemperatureLastChange": 1741021710.5972593,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "25",
+            "name": "TempSensor25",
+            "description": "Tomahawk4 PVT7 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 44.8,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 47.0,
+            "maxTemperatureLastChange": 1741021669.7260425,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "26",
+            "name": "TempSensor26",
+            "description": "Tomahawk4 PVT8 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 43.4,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 45.3,
+            "maxTemperatureLastChange": 1741021544.6265123,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "27",
+            "name": "TempSensor27",
+            "description": "Tomahawk4 PVT9 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 41.5,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 43.6,
+            "maxTemperatureLastChange": 1741040225.800589,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "28",
+            "name": "TempSensor28",
+            "description": "Tomahawk4 PVT10 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 42.7,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 44.6,
+            "maxTemperatureLastChange": 1740800668.3867579,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "29",
+            "name": "TempSensor29",
+            "description": "Tomahawk4 PVT11 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 43.2,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 45.3,
+            "maxTemperatureLastChange": 1741020421.9295824,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "30",
+            "name": "TempSensor30",
+            "description": "Tomahawk4 PVT12 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 42.0,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 43.9,
+            "maxTemperatureLastChange": 1741117160.87355,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "31",
+            "name": "TempSensor31",
+            "description": "Tomahawk4 PVT13 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 41.3,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 44.1,
+            "maxTemperatureLastChange": 1741020441.9461665,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "32",
+            "name": "TempSensor32",
+            "description": "Tomahawk4 PVT14 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 41.7,
+            "setPointTemperature": 92.625,
+            "maxTemperature": 42.9,
+            "maxTemperatureLastChange": 1741020091.0680664,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        }
+    ],
+    "cardSlots": [],
+    "powerSupplySlots": [
+        {
+            "relPos": "1",
+            "entPhysicalClass": "PowerSupply",
+            "tempSensors": [
+                {
+                    "relPos": "1",
+                    "name": "TempSensorP1/1",
+                    "description": "Inlet",
+                    "overheatThreshold": 75.0,
+                    "criticalThreshold": 85.0,
+                    "targetTemperature": 60.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 39.25,
+                    "setPointTemperature": 62.625,
+                    "maxTemperature": 43.0,
+                    "maxTemperatureLastChange": 1740616187.0673008,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                },
+                {
+                    "relPos": "2",
+                    "name": "TempSensorP1/2",
+                    "description": "Secondary hotspot",
+                    "overheatThreshold": 120.0,
+                    "criticalThreshold": 125.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 55.25,
+                    "setPointTemperature": 72.625,
+                    "maxTemperature": 62.25,
+                    "maxTemperatureLastChange": 1740616187.0672975,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 4,
+                    "lastPidDriverTime": 1740616205.0555131
+                },
+                {
+                    "relPos": "3",
+                    "name": "TempSensorP1/3",
+                    "description": "Primary hotspot",
+                    "overheatThreshold": 110.0,
+                    "criticalThreshold": 115.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 61.375,
+                    "setPointTemperature": 72.625,
+                    "maxTemperature": 63.0,
+                    "maxTemperatureLastChange": 1741115531.6680574,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 3659,
+                    "lastPidDriverTime": 1741132533.3846934
+                }
+            ]
+        },
+        {
+            "relPos": "2",
+            "entPhysicalClass": "PowerSupply",
+            "tempSensors": [
+                {
+                    "relPos": "1",
+                    "name": "TempSensorP2/1",
+                    "description": "Inlet",
+                    "overheatThreshold": 75.0,
+                    "criticalThreshold": 85.0,
+                    "targetTemperature": 60.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 43.75,
+                    "setPointTemperature": 62.625,
+                    "maxTemperature": 45.25,
+                    "maxTemperatureLastChange": 1741091923.789423,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                },
+                {
+                    "relPos": "2",
+                    "name": "TempSensorP2/2",
+                    "description": "Secondary hotspot",
+                    "overheatThreshold": 120.0,
+                    "criticalThreshold": 125.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 54.5,
+                    "setPointTemperature": 72.625,
+                    "maxTemperature": 58.625,
+                    "maxTemperatureLastChange": 1740616186.824382,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                },
+                {
+                    "relPos": "3",
+                    "name": "TempSensorP2/3",
+                    "description": "Primary hotspot",
+                    "overheatThreshold": 110.0,
+                    "criticalThreshold": 115.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 61.75,
+                    "setPointTemperature": 72.625,
+                    "maxTemperature": 63.875,
+                    "maxTemperatureLastChange": 1741116064.6530616,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 8084,
+                    "lastPidDriverTime": 1741132643.3977768
+                }
+            ]
+        }
+    ]
+}
+sc-r15ra13-100gsw>show system environment cooling | json
+{
+    "overrideFanSpeed": 0,
+    "coolingMode": "automatic",
+    "powerSupplySlots": [
+        {
+            "status": "ok",
+            "fans": [
+                {
+                    "status": "ok",
+                    "uptime": 1693337534.002394,
+                    "maxSpeed": 23000,
+                    "lastSpeedStableChangeTime": 1694802225.8625522,
+                    "configuredSpeed": 51,
+                    "actualSpeed": 50,
+                    "speedHwOverride": false,
+                    "speedStable": true,
+                    "label": "PowerSupply1/1"
+                }
+            ],
+            "speed": 51,
+            "label": "PowerSupply1"
+        },
+        {
+            "status": "ok",
+            "fans": [
+                {
+                    "status": "ok",
+                    "uptime": 1693337533.702905,
+                    "maxSpeed": 23000,
+                    "lastSpeedStableChangeTime": 1694802220.507713,
+                    "configuredSpeed": 51,
+                    "actualSpeed": 50,
+                    "speedHwOverride": false,
+                    "speedStable": true,
+                    "label": "PowerSupply2/1"
+                }
+            ],
+            "speed": 51,
+            "label": "PowerSupply2"
+        }
+    ],
+    "fanTraySlots": [
+        {
+            "status": "ok",
+            "fans": [
+                {
+                    "status": "ok",
+                    "uptime": 1693337515.4580846,
+                    "maxSpeed": 17500,
+                    "lastSpeedStableChangeTime": 1693337536.2631047,
+                    "configuredSpeed": 51,
+                    "actualSpeed": 51,
+                    "speedHwOverride": false,
+                    "speedStable": true,
+                    "label": "1/1"
+                }
+            ],
+            "speed": 51,
+            "label": "1"
+        },
+        {
+            "status": "ok",
+            "fans": [
+                {
+                    "status": "Not Inserted",
+                    "uptime": 1693337515.4582925,
+                    "maxSpeed": 17500,
+                    "lastSpeedStableChangeTime": 1693337538.2639146,
+                    "configuredSpeed": 51,
+                    "actualSpeed": 51,
+                    "speedHwOverride": false,
+                    "speedStable": true,
+                    "label": "2/1"
+                }
+            ],
+            "speed": 51,
+            "label": "2"
+        },
+        {
+            "status": "ok",
+            "fans": [
+                {
+                    "status": "Failed",
+                    "uptime": 1693337515.4583926,
+                    "maxSpeed": 17500,
+                    "lastSpeedStableChangeTime": 1693337538.264004,
+                    "configuredSpeed": 51,
+                    "actualSpeed": 51,
+                    "speedHwOverride": false,
+                    "speedStable": true,
+                    "label": "3/1"
+                }
+            ],
+            "speed": 51,
+            "label": "3"
+        },
+        {
+            "status": "ok",
+            "fans": [
+                {
+                    "status": "Unknown",
+                    "uptime": 1693337515.4581838,
+                    "maxSpeed": 17500,
+                    "lastSpeedStableChangeTime": 1693337538.2640364,
+                    "configuredSpeed": 51,
+                    "actualSpeed": 51,
+                    "speedHwOverride": false,
+                    "speedStable": true,
+                    "label": "4/1"
+                }
+            ],
+            "speed": 51,
+            "label": "4"
+        }
+    ],
+    "minFanSpeed": 0,
+    "shutdownOnInsufficientFans": true,
+    "ambientTemperature": 41.0,
+    "systemStatus": "coolingOk",
+    "airflowDirection": "frontToBackAirflow"
+}
+sc-r15ra13-100gsw>show qos interfaces ecn counters queue
+Ethernet1/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+Ethernet2/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+Ethernet3/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+Ethernet4/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+      

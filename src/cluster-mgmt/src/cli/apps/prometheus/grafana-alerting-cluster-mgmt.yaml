@@ -1,0 +1,78 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: alrt-grp-cluster-control-plane
+    folder: debug
+    interval: 30s
+    rules:
+      - uid: cenza6ylgzmdcd
+        title: AlertmanagerPodDown
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              # Some fields aren't necessary here: editorMode, legendFormat, and range fields
+              expr: min(kube_pod_container_status_ready{pod=~"alertmanager-prometheus-alertmanager-.*", namespace="prometheus"}) by (pod) == bool 0
+              format: table
+              instant: true
+              refId: A
+        dashboardUid: aec3a3n17e2o0c # Cluster Control Plane Health
+        panelId: 13 # Alertmanager pods pane
+        noDataState: OK
+        execErrState: Error
+        for: 2m
+        annotations:
+          __dashboardUid__: aec3a3n17e2o0c
+          __panelId__: "13"
+          runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4486234113/Runbook+22+AlertmanagerPodDown"
+          summary: "alertmanager pod {{ $labels.pod }} is not running for more than 2 minutes"
+        labels:
+          control_plane_oncall: "true"
+          severity: sev1
+        isPaused: false
+        notification_settings:
+          receiver: slack-cluster-uptime-on-call
+      - uid: fepuxl56k696oa
+        title: ThanosRulerPodDown
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              # Some fields aren't necessary here: editorMode, legendFormat, and range fields
+              expr: min(kube_pod_container_status_ready{pod=~"thanos-ruler-prometheus-thanos-ruler-.*", namespace="prometheus"}) by (pod) == bool 0
+              format: table
+              instant: true
+              refId: A
+        dashboardUid: aec3a3n17e2o0c # Cluster Control Plane Health
+        panelId: 19 # Thanos Ruler pods pane
+        noDataState: OK
+        execErrState: Error
+        for: 2m
+        annotations:
+          __dashboardUid__: aec3a3n17e2o0c
+          __panelId__: "19"
+          runbook_url: "https://cerebras.atlassian.net/wiki/spaces/runtime/pages/4551245991/Runbook+23+ThanosRulerPodDown"
+          summary: "thanos ruler pod {{ $labels.pod }} is not running for more than 2 minutes"
+        labels:
+          control_plane_oncall: "true"
+          severity: sev1
+        isPaused: false
+        notification_settings:
+          receiver: slack-cluster-uptime-on-call
+contactPoints:
+  - orgId: 1
+    name: slack-cluster-uptime-on-call
+    receivers:
+      - uid: eems2dg1t29z5b
+        type: slack
+        settings:
+          url: HOOK_URL
+        disableResolveMessage: true

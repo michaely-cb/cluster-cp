@@ -1,0 +1,37 @@
+- name: Retrieve local cluster config
+  command: cat "{{ src_cluster_yaml }}"
+  register: cluster_config
+  changed_when: false
+
+- name: Cluster should contains at least 3 managegment nodes
+  command: >
+    bash -c "echo '{{ cluster_config.stdout }}' | yq '.nodes | map(select(.role == \"management\")) | length'"
+  register: num_mgmt_nodes
+  changed_when: false
+  failed_when: num_mgmt_nodes.stdout | int < 3
+
+- name: Cluster should have Ceph deployed
+  command: >
+    bash -c "echo '{{ cluster_config.stdout }}' | yq '.nodes | map(select(.role == \"management\" and .properties.storage-type == \"ceph\")) | length'"
+  register: num_ceph_nodes
+  changed_when: false
+  failed_when: num_ceph_nodes.stdout | int == 0
+
+- name: Cluster should contains at least 1 non-Ceph management nodes
+  command: >
+    bash -c "echo '{{ cluster_config.stdout }}' | yq '.nodes | map(select(.role == \"management\" and .properties.storage-type != \"ceph\")) | length'"
+  register: num_coord_nodes
+  changed_when: false
+  failed_when: num_coord_nodes.stdout | int < 1
+
+- name: Get deploy node short hostname
+  command: hostname -s
+  register: deploy_node
+  changed_when: false
+
+- name: The playbook should only be run from a control plane node
+  command: >
+    bash -c "echo '{{ cluster_config.stdout }}' | yq '.nodes[] | select(.name == \"{{ deploy_node.stdout }}\") | .properties.controlplane == \"true\"'"
+  register: is_control_plane
+  changed_when: false
+  failed_when: is_control_plane.stdout != "true"

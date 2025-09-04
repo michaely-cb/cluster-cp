@@ -1,0 +1,28 @@
+kind: cluster-configuration
+name: kind
+properties:
+  serviceDomain: cerebrassc.local
+  topology: v2
+systems:
+  - name: kapi-0
+    type: cs2
+    managementAddress: "8.8.8.8"
+    controlAddress: "~ws_kapi_model~:0"
+  - name: kapi-1
+    type: cs2
+    managementAddress: "8.8.8.8"
+    controlAddress: "~ws_kapi_model~:1"
+nodes:
+- name: kind-control-plane
+  role: management
+  properties:
+    group: nodegroup0
+    controlplane: "true"
+- name: kind-worker
+  role: any
+  properties:
+    group: nodegroup0
+groups:
+- name: nodegroup0
+  properties:
+    systemAffinity: kapi-0

@@ -1,0 +1,8 @@
+Name,Role,Device,Rack,Unit,IPMI default DNS,IPMI IP,IPMI MAC,IPMI username,IPMI password,MGMT port IP,MGMT port MAC,Root username,Root password,Vendor,Node group,Stamp
+sc-r1rb1-s4,MG,SR,1,4,sc-r1rb1-s4-ipmi,172.28.8.131,3c:ec:ef:6f:1c:76,ADMIN,Admin123,172.28.8.19,3c:ec:ef:6f:1b:74,root,5cerebras,SM,0,stamp1
+sc-r1rb1-s5,WK,SR,1,5,sc-r1rb1-s5-ipmi,172.28.8.132,3c:ec:ef:6f:ad:38,ADMIN,Admin123,172.28.8.20,3c:ec:ef:6f:ac:8a,root,5cerebras,SM,0,stamp1
+sc-r1rb1-s6,MX,SR,1,6,sc-r1rb1-s6-ipmi,172.28.8.133,3c:ec:ef:6f:ad:3d,ADMIN,Admin123,172.28.8.21,3c:ec:ef:6f:ac:92,root,5cerebras,SM,0,stamp1
+sc-r1rb1-s7,MX,SR,1,7,sc-r1rb1-s7-ipmi,172.28.8.134,3c:ec:ef:7a:a8:06,ADMIN,Admin123,172.28.8.22,3c:ec:ef:7a:a5:6a,root,5cerebras,SM,0,stamp1
+sc-r1rb1-s8,MX,SR,1,8,sc-r1rb1-s8-ipmi,172.28.8.135,3c:ec:ef:77:54:42,ADMIN,Admin123,172.28.8.23,3c:ec:ef:77:52:c4,root,5cerebras,SM,0,stamp1
+sc-r1rb1-1gsw,MG,SW,1,17,,,,,,172.28.0.140,,admin,CerebrasColo,AR,0,stamp1
+sc-r1rb1-100gsw32,MX,SW,1,18,,,,,,172.28.0.141,,admin,CerebrasColo,AR,0,stamp1

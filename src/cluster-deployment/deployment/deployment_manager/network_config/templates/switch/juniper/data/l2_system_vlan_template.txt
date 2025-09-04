@@ -1,0 +1,9 @@
+# System VLAN
+#
+set vlans vlan${system_vlan} vlan-id ${system_vlan}
+set vlans vlan${system_vlan} l3-interface irb.${system_vlan}
+set vlans vlan${system_vlan} description "system subnet"
+set routing-instances ${vrf_name} interface irb.${system_vlan}
+set interfaces irb mtu ${mtu}
+set interfaces irb unit ${system_vlan} family inet mtu ${mtu}
+set interfaces irb unit ${system_vlan} family inet address ${system_switch_address}

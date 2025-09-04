@@ -1,0 +1,3137 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 18977,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Job Network Debug",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/feb8wbjsrh5a8a-internal/job-network-debug"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Job Logs",
+      "tooltip": "",
+      "type": "link",
+      "url": "/d/eetypvyakxds0-internal/job-logs"
+    }
+  ],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 5,
+        "x": 0,
+        "y": 0
+      },
+      "id": 47,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "group by (job_type) (last_over_time(wsjob_annotation{name=\"$wsjob\", start!=\"\"}[$__range]))",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Job Type",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "job_type",
+              "labels_k8s_cerebras_com_Model",
+              "labels_k8s_cerebras_com_model",
+              "node_groups",
+              "pod",
+              "service",
+              "start",
+              "system_count",
+              "systems",
+              "k8s_cerebras_com_wsjob_job_type",
+              "name",
+              "namespace"
+            ],
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "BUILD_BALANCED_BR_TREE": true,
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "container": true,
+              "customresource_group": true,
+              "customresource_kind": true,
+              "customresource_version": true,
+              "end": false,
+              "endpoint": true,
+              "execute": false,
+              "instance": true,
+              "job": true,
+              "job_type": false,
+              "k8s_cerebras_com_job_mode": true,
+              "k8s_cerebras_com_wsjob_cancel_reason": true,
+              "k8s_cerebras_com_wsjob_job_type": true,
+              "labels_k8s_cerebras_com_Model": true,
+              "labels_k8s_cerebras_com_model": true,
+              "name": true,
+              "namespace": true,
+              "node_groups": true,
+              "pod": true,
+              "service": true,
+              "start": true,
+              "system_count": true,
+              "systems": true,
+              "wsjob_annotation": true,
+              "{__name__=\"wsjob_annotation\", cerebras_workflow_id=\"wflow-emves6ehqxkmdsbjun5gsl\", container=\"kube-state-metrics\", current_status=\"Failed\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2025-01-29T05:37:00Z\", endpoint=\"http\", instance=\"100.64.30.233:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_job_mode=\"weight-streaming\", k8s_cerebras_com_wsjob_job_type=\"execute\", name=\"wsjob-dwzu4hjxsqeaw9otzretcn\", namespace=\"miq-250-ttfl-elf\", node_groups=\"nodegroup0,nodegroup2\", pod=\"prometheus-kube-state-metrics-5498879955-qfh4x\", prometheus=\"prometheus/prometheus-prometheus\", service=\"prometheus-kube-state-metrics\", start=\"2025-01-29T05:12:56Z\", system_count=\"2\", systems=\"xs20124,xs20129\", user_volumes=\"[{\"name\":\"training-data-volume-cortmxosy8dslhsqgaqfvl\",\"mountPath\":\"/cb/ml\"},{\"name\":\"tests-volume-tfbaxxtjvkjiewyyoqf6eh\",\"mountPath\":\"/cb/tests\"},{\"name\":\"home-volume-kjdf34glut5ss9w5tzsfqc\",\"mountPath\":\"/cb/home\"},{\"name\":\"customers-volume-orfktrjftkkmdmxydqnkvt\",\"mountPath\":\"/cb/customers\"}]\", username=\"lab\"}": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T14:21:58Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_wsjob_cancel_reason=\"canceled-by-client\", k8s_cerebras_com_wsjob_job_type=\"execute\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-dbyggs23gxjgxkhq8xgcnr\", namespace=\"cs3\", node_groups=\"nodegroup0,nodegroup1\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T13:46:45Z\", system_count=\"2\", systems=\"systems1,xs10003\"}": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeAsIsoNoDateIfToday"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 5,
+        "y": 0
+      },
+      "id": 45,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^start$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "group by (start) (last_over_time(wsjob_annotation{name=\"$wsjob\", start!=\"\"}[$__range]))",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "Start"
+        }
+      ],
+      "title": "Job Start",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "job",
+              "job_type",
+              "k8s_cerebras_com_wsjob_job_type",
+              "labels_k8s_cerebras_com_Model",
+              "labels_k8s_cerebras_com_model",
+              "name",
+              "namespace",
+              "node_groups",
+              "pod",
+              "service",
+              "start",
+              "system_count",
+              "systems"
+            ],
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "BUILD_BALANCED_BR_TREE": true,
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "cerebras_workflow_id": true,
+              "container": true,
+              "current_status": true,
+              "customresource_group": true,
+              "customresource_kind": true,
+              "customresource_version": true,
+              "end": false,
+              "endpoint": true,
+              "instance": true,
+              "job": true,
+              "job_type": true,
+              "k8s_cerebras_com_job_mode": true,
+              "k8s_cerebras_com_wsjob_cancel_reason": true,
+              "k8s_cerebras_com_wsjob_job_type": true,
+              "labels_k8s_cerebras_com_Model": true,
+              "labels_k8s_cerebras_com_model": true,
+              "name": true,
+              "namespace": true,
+              "node_groups": true,
+              "pod": true,
+              "prometheus": true,
+              "service": true,
+              "start": false,
+              "system_count": true,
+              "systems": true,
+              "user_volumes": true,
+              "username": true,
+              "wsjob_annotation": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T14:21:58Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_wsjob_cancel_reason=\"canceled-by-client\", k8s_cerebras_com_wsjob_job_type=\"execute\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-dbyggs23gxjgxkhq8xgcnr\", namespace=\"cs3\", node_groups=\"nodegroup0,nodegroup1\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T13:46:45Z\", system_count=\"2\", systems=\"systems1,xs10003\"}": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "not ended yet",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeAsIsoNoDateIfToday"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 11,
+        "y": 0
+      },
+      "id": 46,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^end$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 22
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "group by (end) (last_over_time(wsjob_annotation{name=\"$wsjob\", end!=\"\"}[$__range]))",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Job End",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "end"
+            ],
+            "mode": "columns"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "2025-01-21T01:36:02Z": false,
+              "2025-02-15T08:29:06Z": true,
+              "BUILD_BALANCED_BR_TREE": true,
+              "Time": true,
+              "__name__": true,
+              "container": true,
+              "customresource_group": true,
+              "customresource_kind": true,
+              "customresource_version": true,
+              "end": false,
+              "endpoint": true,
+              "instance": true,
+              "job": true,
+              "job_type": true,
+              "k8s_cerebras_com_job_mode": true,
+              "k8s_cerebras_com_wsjob_cancel_reason": true,
+              "k8s_cerebras_com_wsjob_disable_system_lock": true,
+              "k8s_cerebras_com_wsjob_job_type": true,
+              "labels_k8s_cerebras_com_Model": true,
+              "labels_k8s_cerebras_com_model": true,
+              "name": true,
+              "namespace": true,
+              "node_groups": true,
+              "pod": true,
+              "service": true,
+              "start": true,
+              "system_count": true,
+              "systems": true,
+              "wsjob_annotation": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T14:21:58Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"execute\", k8s_cerebras_com_wsjob_cancel_reason=\"canceled-by-client\", k8s_cerebras_com_wsjob_job_type=\"execute\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-dbyggs23gxjgxkhq8xgcnr\", namespace=\"cs3\", node_groups=\"nodegroup0,nodegroup1\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T13:46:45Z\", system_count=\"2\", systems=\"systems1,xs10003\"}": true,
+              "{__name__=\"wsjob_annotation\", container=\"kube-state-metrics\", customresource_group=\"jobs.cerebras.com\", customresource_kind=\"WSJob\", customresource_version=\"v1\", end=\"2023-12-09T17:15:09Z\", endpoint=\"http\", instance=\"100.64.4.188:8080\", job=\"kube-state-metrics\", job_type=\"compile\", k8s_cerebras_com_wsjob_disable_system_lock=\"true\", k8s_cerebras_com_wsjob_job_type=\"compile\", labels_k8s_cerebras_com_Model=\"cerebras_test\", labels_k8s_cerebras_com_model=\"cerebras_test\", name=\"wsjob-zcqdmyttcncpvmnov4mhyy\", namespace=\"cs3\", pod=\"prometheus-kube-state-metrics-8f575567b-q4sng\", service=\"prometheus-kube-state-metrics\", start=\"2023-12-09T17:07:46Z\", system_count=\"0\"}": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "Stall detection status from coordinator logs. Possible states: UNKNOWN, CKPT_IN_PROGRESS, IDLE, INPUT_STARVATION, STALLED, COMPLETED, TERMINATED, PROGRESSING.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 100,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "super-light-green",
+                  "index": 0,
+                  "text": "CKPT_IN_PROGRESS"
+                },
+                "2": {
+                  "color": "yellow",
+                  "index": 1,
+                  "text": "IDLE"
+                },
+                "3": {
+                  "color": "red",
+                  "index": 2,
+                  "text": "INPUT_STARVATION"
+                },
+                "4": {
+                  "color": "red",
+                  "index": 3,
+                  "text": "DEADLOCKED"
+                },
+                "5": {
+                  "color": "dark-green",
+                  "index": 4,
+                  "text": "COMPLETED"
+                },
+                "6": {
+                  "color": "dark-green",
+                  "index": 5,
+                  "text": "TERMINATED"
+                },
+                "7": {
+                  "color": "green",
+                  "index": 6,
+                  "text": "PROGRESSING"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 25,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "calcs": [
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{wsjob=\"$wsjob\", metric=\"stall_detect\"} | json status",
+          "format": "time_series",
+          "legendFormat": "state",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Training Status",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Line": true,
+              "id": true,
+              "iteration": true,
+              "labels": true,
+              "metric": true,
+              "metric_extracted": true,
+              "namespace": true,
+              "namespace_extracted": true,
+              "replica_id": true,
+              "replica_id_extracted": true,
+              "replica_type": true,
+              "replica_type_extracted": true,
+              "tsNs": true,
+              "wsjob": true,
+              "wsjob_extracted": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "labels": ""
+            }
+          }
+        }
+      ],
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "These errors are likely fatal",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "System health: ${__field.labels.system}",
+              "url": "/d/df3huubwl3hfkd-internal/system-health-details?${__url_time_range}&var-system=${__field.labels.system}"
+            },
+            {
+              "targetBlank": true,
+              "title": "System port details: ${__field.labels.system} ${__field.labels.port}",
+              "url": "/d/cehh15ni8ip6oa-internal/system-port-details?${__url_time_range}&var-system=${__field.labels.system}&var-port=${__field.labels.port}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Node health: ${__field.labels.node}",
+              "url": "/d/eehh0zde6wo3ka-internal/node-health-details?${__url_time_range}&var-node=${__field.labels.node}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Node port details: ${__field.labels.node} ${__field.labels.interface}",
+              "url": "/d/aehh1fckgpjpca-internal/node-port-details?${__url_time_range}&var-node=${__field.labels.node}&var-interface=${__field.labels.interface}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Switch port details: ${__field.labels.switch} ${__field.labels.port}",
+              "url": "/d/dehh10cie0o3ka-internal/switch-port-details?${__url_time_range}&var-switch=${__field.labels.switch}&var-port=${__field.labels.port}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Job Network Debug",
+              "url": "/d/feb8wbjsrh5a8a-internal/job-network-debug?${__url_time_range}&${wsjob:queryparam}"
+            }
+          ],
+          "mappings": [],
+          "noValue": "No errors",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 27,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "perPage": 10,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left label_replace((increase(interface_watch_list:status_changes_total[$__rate_interval]) >= bool 2), \"interface\", \"$1\", \"device\", \"(.*)\") > 0",
+          "legendFormat": "{{node}}:{{interface}} flapping",
+          "range": true,
+          "refId": "Node flapping"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (switch, port) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (switch, port) group_left avg((increase(linkmon_switch_carrier_changes[11m]) > 0)) by (switch, port)",
+          "hide": false,
+          "legendFormat": "{{switch}}:{{port}} flapping",
+          "range": true,
+          "refId": "Leaf flapping"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$leaf_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_carrier_changes{switch=~\"$spine_switch\"}[11m]) > 0)) by (switch, port)",
+          "hide": false,
+          "legendFormat": "{{switch}}:{{port}} flapping",
+          "range": true,
+          "refId": "Spine->leaf flapping"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$spine_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_carrier_changes{switch=~\"$leaf_switch\"}[11m]) > 0)) by (switch, port)",
+          "hide": false,
+          "legendFormat": "{{switch}}:{{port}} flapping",
+          "range": true,
+          "refId": "Leaf->spine flapping"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum by (pod, reason)\n(\n  kube_pod_container_status_terminated_reason{pod=~\"$wsjob-.*\", reason!=\"Completed\"} offset -5m\n) > 0",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{pod}} Pod {{reason}}",
+          "range": true,
+          "refId": "Pod terminated"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "(max_over_time(kube_node_status_condition{condition=~\"ClusterMgmt.*|ClusterDeploy.*|Csadm.*\", status=\"true\"}[$__rate_interval]) > 0) * on (node) group_left group by(node) (kube_pod_info{pod=~\"$wsjob-.*\", pod_ip!=\"\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{node}} {{condition}}",
+          "range": true,
+          "refId": "Node error status condition"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "((min_over_time(node_health_overall[$__rate_interval]) == bool 0) > 0) * on (node) group_left group by(node) (kube_pod_info{pod=~\"$wsjob-.*\", pod_ip!=\"\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{node}} IPMIUnhealthy",
+          "range": true,
+          "refId": "Node IPMI unhealthy"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) (label_replace((min_over_time(interface_watch_list:status[$__rate_interval]) == bool 0), \"interface\", \"$1\", \"device\", \"(.*)\") > 0)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{node}}:{{interface}} down",
+          "range": true,
+          "refId": "Node port down"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) (increase(node_nic_stats_resp_cqe_error[$__rate_interval]) > 0)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{node}}:{{interface}} RX CQE Error",
+          "range": true,
+          "refId": "Node RX CQE"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) (increase(node_nic_stats_req_cqe_error[$__rate_interval]) > 0)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{node}}:{{interface}} TX CQE Error",
+          "range": true,
+          "refId": "Node TX CQE"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "max((max_over_time(system_overall_health[$__rate_interval]) != 1) != 2) by (system) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system) # anything except OK or DEGRADED",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}} health error",
+          "range": true,
+          "refId": "System health"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (system) (system_events{component=\"CM_CM_DAEMON\", severity=\"WARN\", type=\"EventHealthDegraded\"})\n* on (system) group_right group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}} Conn Mgr restarted",
+          "range": true,
+          "refId": "System CM restarted"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "max((increase(system_network_flap_count[$__rate_interval]) >= bool 2) != 0) by (system) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} port flapping",
+          "range": true,
+          "refId": "System port flap"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "(min_over_time(system_network_health[$__rate_interval]) == 0) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} network error",
+          "range": true,
+          "refId": "System network health"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_err_qps[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} QP error",
+          "range": true,
+          "refId": "System QP error"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "ALERTS{alertname=\"MlJobFailed\", alertstate=\"firing\", name=\"$wsjob\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{alertname}} Alert",
+          "range": true,
+          "refId": "Alert MlJobFailed"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"})\n* on (node, interface) group_right\nlabel_replace(label_replace(\n        pingmesh:unreachable5m,\n        \"node\", \"$1\", \"host\", \"(.*)\"),\n        \"interface\", \"$1\", \"nic\", \"(.*)\"\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{host}}/{{nic}} Unreachable",
+          "range": true,
+          "refId": "Node unreachable"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "group by (system) (wsjob_system_grant{name=~\"wsjob.*\"})\n* on (system) group_right\nlabel_replace(\n        pingmesh:unreachable5m,\n        \"system\", \"$1\", \"host\", \"(.*)\"\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{host}}/{{nic}} Unreachable",
+          "range": true,
+          "refId": "System unreachable"
+        }
+      ],
+      "title": "Errors",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "These warnings may not necessarily cause a job to crash. They may impact performance",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 100,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "decimals": 2,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Job Network Debug",
+              "url": "/d/feb8wbjsrh5a8a-internal/job-network-debug?${__url_time_range}&${wsjob:queryparam}"
+            },
+            {
+              "targetBlank": true,
+              "title": "System Health Details: ${__field.labels.system}",
+              "url": "/d/df3huubwl3hfkd-internal/system-health-details?${__url_time_range}&var-system=${__field.labels.system}"
+            }
+          ],
+          "mappings": [],
+          "noValue": "No warnings",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 29,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "perPage": 10,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "((min_over_time(node_health_overall[$__rate_interval]) == bool 0) > 0) * on (node) group_left group by(node) (kube_pod_info{pod=~\"$wsjob-.*\", pod_ip!=\"\"})",
+          "format": "time_series",
+          "hide": false,
+          "legendFormat": "{{node}} IPMI Unhealthy",
+          "range": true,
+          "refId": "Node IPMI"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_local_ack_timeout_err[$__rate_interval]) > 0",
+          "format": "time_series",
+          "legendFormat": "{{node}}:{{interface}} Local ACK Timeout",
+          "range": true,
+          "refId": "Node ACK timeout"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "max(max_over_time(system_overall_health[$__rate_interval]) == 2) by (system) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "format": "time_series",
+          "hide": false,
+          "legendFormat": "{{system}} Degraded",
+          "range": true,
+          "refId": "System degraded"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(group by (system, severity, type, component) (system_events{severity=~\"CRITICAL|ERROR|WARN\"})) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}/{{severity}}/{{type}}/{{component}}",
+          "range": true,
+          "refId": "System events"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_rx_pkt_bad_fcs[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} CRC Errors",
+          "range": true,
+          "refId": "System CRC"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_ack_timeouts[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} ACK Timeouts",
+          "range": true,
+          "refId": "System ACK timeouts"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_rx_fec_uncorrected_pkts[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} FEC Uncorrected Errors",
+          "range": true,
+          "refId": "System FEC uncorrected"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_rx_sequence_errors[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} RX Seq Errors",
+          "range": true,
+          "refId": "System RX seq err"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_tx_sequence_errors[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} TX Seq Errors",
+          "range": true,
+          "refId": "System TX seq err"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(increase(system_network_rx_pkt_bad_fcs[$__rate_interval]) > 0) * on (system) group_left group(wsjob_system_grant{name=~\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}}:{{port}} Bad FCS pkt",
+          "range": true,
+          "refId": "System Bad FCS pkt"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "count by (system) (max_over_time(system_dev_stats{system=~\"$system\", component=~\"^GLTCH_(EXCUR|TRANS).*\"}[$__rate_interval]) > $glitch_thresh) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}} High Glitches",
+          "range": true,
+          "refId": "System high glitches"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "count by (system) (max_over_time(system_dev_stats{system=~\"$system\", component=~\"^VDDC.*_IOUT\"}[$__rate_interval]) > $current_thresh) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}} High Current",
+          "range": true,
+          "refId": "System high current"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "count by (system) (max_over_time(system_dev_stats{system=~\"$system\", component=~\"^VDDC_ASIC.*\"}[$__rate_interval]) > $voltage_thresh) * on (system) group_left group(wsjob_system_grant{name=\"$wsjob\", system=~\"$system\"}) by (name, system)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{system}} High Voltage",
+          "range": true,
+          "refId": "System high voltage"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "group by (switch, port) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (switch, port) group_left avg((increase(linkmon_switch_crc_errors[11m]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} CRC Errors",
+          "range": true,
+          "refId": "Leaf CRC error"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$leaf_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_crc_errors{switch=~\"$spine_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} CRC Errors",
+          "range": true,
+          "refId": "Spine->leaf CRC error"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$spine_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_crc_errors{switch=~\"$leaf_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} CRC Errors",
+          "range": true,
+          "refId": "Leaf->spine CRC error"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "group by (switch, port) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (switch, port) group_left avg((increase(linkmon_switch_out_discards[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} Out Discards",
+          "range": true,
+          "refId": "Leaf out discards"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$leaf_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_out_discards{switch=~\"$spine_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} Out Discards",
+          "range": true,
+          "refId": "Spine->leaf out discards"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$spine_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_out_discards{switch=~\"$leaf_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} Out Discards",
+          "range": true,
+          "refId": "Leaf->spine out discards"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "group by (switch, port) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (switch, port) group_left avg((increase(linkmon_switch_in_discards[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} In Discards",
+          "range": true,
+          "refId": "Leaf in discards"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$leaf_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_in_discards{switch=~\"$spine_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} In Discards",
+          "range": true,
+          "refId": "Spine->leaf in discards"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$spine_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_in_discards{switch=~\"$leaf_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} In Discards",
+          "range": true,
+          "refId": "Leaf->spine in discards"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "group by (switch, port) (job:leaf_switch_port_info{job_name=~\"$wsjob\"})* on (switch, port) group_left avg((increase(linkmon_switch_delta_fec_uncorrected_codewords[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} FEC Uncorrected",
+          "range": true,
+          "refId": "Leaf FEC uncorrected"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$leaf_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_delta_fec_uncorrected_codewords{switch=~\"$spine_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} FEC Uncorrected",
+          "range": true,
+          "refId": "Spine->leaf FEC uncorrected"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(label_replace(interface_watch_list{switch_id=~\"$spine_switch\"}, \"switch\", \"$1\", \"node\", \"(.*)\"), \"port\", \"$1\", \"device\", \"(.*)\") * on (switch, port) group_left avg((increase(linkmon_switch_delta_fec_uncorrected_codewords{switch=~\"$leaf_switch\"}[$__rate_interval]) > 0)) by (switch, port)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{switch}}:{{port}} FEC Uncorrected",
+          "range": true,
+          "refId": "Leaf->spine FEC uncorrected"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "ALERTS{alertname=\"WsjobStuckAtTerminating\", pod=~\"$wsjob.*\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{alertname}} Alert: {{pod}}",
+          "range": true,
+          "refId": "Alert WsjobStuckAtTerminating"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "job_operator_spine_load{job_name=~\"$wsjob\"} > 0",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Spine load: {{load_type}}",
+          "range": true,
+          "refId": "Spine load"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "group by (job_name) (pod_port_affinity{job_name=~\"$wsjob\", is_one_hop=\"0\", pod_id!~\"chief-.*|coordinator-.*\"}) > 0",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Sub-Optimal Job Pod Placement",
+          "range": true,
+          "refId": "Sub-Optimal Job Pod Placement"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "100 * sum(1 - rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) without (cpu, mode)\n* on (instance) group_left(node)\nlabel_replace(node_uname_info, \"node\", \"$1\", \"nodename\", \"(.*)\")\n* on (node) group_left\ngroup by (node) (user_node_process_cpu_used_percent{job_id=~\"$wsjob\"})\n> 80",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Usernode CPU Oversubscribed: {{node}}",
+          "range": true,
+          "refId": "Usernode CPU"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))\n* on (instance) group_left(node)\nlabel_replace(node_uname_info, \"node\", \"$1\", \"nodename\", \"(.*)\")\n* on (node) group_left\ngroup by (node) (user_node_process_cpu_used_percent{job_id=~\"$wsjob\"})\n> 80",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Usernode Mem Oversubscribed: {{node}}",
+          "range": true,
+          "refId": "Usernode Mem"
+        }
+      ],
+      "title": "Warnings",
+      "type": "state-timeline"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 8,
+      "panels": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "description": "ML FLOPS Utilization (%) after each iteration.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 50,
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "pointShape": "circle",
+                "pointSize": {
+                  "fixed": 4
+                },
+                "pointStrokeWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "show": "points+lines"
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "ML FLOPS Utilization"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 23
+          },
+          "id": 48,
+          "options": {
+            "legend": {
+              "calcs": [
+                "count",
+                "last"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "mapping": "auto",
+            "series": [
+              {
+                "frame": {
+                  "matcher": {
+                    "id": "byIndex",
+                    "options": 0
+                  }
+                },
+                "x": {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "Step"
+                  }
+                },
+                "y": {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "ML FLOPS Utilization"
+                  }
+                }
+              }
+            ],
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "editorMode": "code",
+              "expr": "{metric=\"ml_flops\", wsjob=~\"$wsjob\"} | json",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "ML FLOPS Utilization",
+          "transformations": [
+            {
+              "id": "extractFields",
+              "options": {
+                "source": "labels"
+              }
+            },
+            {
+              "id": "filterFieldsByName",
+              "options": {
+                "include": {
+                  "pattern": "(Time)|(value)|(labels_step)"
+                }
+              }
+            },
+            {
+              "id": "convertFieldType",
+              "options": {
+                "conversions": [
+                  {
+                    "destinationType": "number",
+                    "targetField": "labels_step"
+                  },
+                  {
+                    "destinationType": "number",
+                    "targetField": "value"
+                  }
+                ],
+                "fields": {}
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "field": "Time"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "labels_step": "Step",
+                  "value": "ML FLOPS Utilization"
+                }
+              }
+            }
+          ],
+          "type": "xychart"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "description": "Summary of a deadlock, if detected.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "noValue": "Deadlock not detected",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Fault"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 240
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Summary"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 733
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Debug Viz Link"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 383
+                  },
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "targetBlank": true,
+                        "title": "Debug Viz: ${__data.fields[\"Debug Viz Link\"]}",
+                        "url": "${__data.fields[\"Debug Viz Link\"]}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 24,
+            "x": 0,
+            "y": 30
+          },
+          "id": 49,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "expr": "{wsjob=~\"$wsjob\", metric=\"deadlock\"}",
+              "format": "table",
+              "instant": true,
+              "legendFormat": "",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "expr": "{wsjob=~\"$wsjob\", metric=\"debugviz\"}",
+              "format": "table",
+              "instant": true,
+              "legendFormat": "",
+              "refId": "B"
+            }
+          ],
+          "title": "Deadlock Status",
+          "transformations": [
+            {
+              "id": "extractFields",
+              "options": {
+                "source": "Line"
+              }
+            },
+            {
+              "id": "concatenate",
+              "options": {}
+            },
+            {
+              "id": "filterFieldsByName",
+              "options": {
+                "include": {
+                  "pattern": "(fault)|(summary)|(link)"
+                }
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "includeByName": {},
+                "indexByName": {
+                  "fault": 0,
+                  "link": 2,
+                  "summary": 1
+                },
+                "renameByName": {
+                  "fault": "Fault",
+                  "link": "Debug Viz Link",
+                  "summary": "Summary"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 5,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 3,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 34
+          },
+          "id": 18,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "system_events{system=~\"$system\", severity!~\"CRITICAL|ERROR|WARN\"} ",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "{{system}}/{{severity}}/{{type}}/{{component}}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Assigned Systems - Events",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": -20,
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 5,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 3,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "noValue": "No errors",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byFrameRefID",
+                  "options": "thresh"
+                },
+                "properties": [
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "dash": [
+                        10,
+                        10
+                      ],
+                      "fill": "dash"
+                    }
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "text",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 40
+          },
+          "id": 14,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "system_dev_stats{system=~\"$system\", component=~\"^GLTCH_(EXCUR|TRANS).*\"} * on (system) group_left wsjob_system_grant{name=\"$wsjob\"} > 0",
+              "format": "time_series",
+              "legendFormat": "{{system}}/{{component}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "$glitch_thresh",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "Error Threshold",
+              "range": true,
+              "refId": "thresh"
+            }
+          ],
+          "title": "Assigned Systems - Glitch Counter Errors On Selected Die",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 5,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 3,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Amperes"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byFrameRefID",
+                  "options": "thresh"
+                },
+                "properties": [
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "dash": [
+                        10,
+                        10
+                      ],
+                      "fill": "dash"
+                    }
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "text",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 46
+          },
+          "id": 15,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "system_dev_stats{system=~\"$system\", component=~\"^VDDC.*_IOUT\"} * on (system) group_left wsjob_system_grant{name=\"$wsjob\"}",
+              "format": "time_series",
+              "legendFormat": "{{system}}/{{component}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "$current_thresh",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "Error Threshold",
+              "range": true,
+              "refId": "thresh"
+            }
+          ],
+          "title": "Assigned Systems - VDDC_IOUT On Selected Die",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 5,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 3,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Volts"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byFrameRefID",
+                  "options": "thresh"
+                },
+                "properties": [
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "dash": [
+                        10,
+                        10
+                      ],
+                      "fill": "dash"
+                    }
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 0
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "text",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 52
+          },
+          "id": 16,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Max",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "system_dev_stats{system=~\"$system\", component=~\"^VDDC_ASIC.*\"} * on (system) group_left wsjob_system_grant{name=\"$wsjob\"}",
+              "format": "time_series",
+              "legendFormat": "{{system}}/{{component}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "$voltage_thresh",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "Error Threshold",
+              "range": true,
+              "refId": "thresh"
+            }
+          ],
+          "title": "Assigned Systems - VDDC_ASIC On Selected Die",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "These warnings may not necessarily cause a job to crash. They may impact performance",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "orange",
+                "mode": "fixed"
+              },
+              "custom": {
+                "fillOpacity": 100,
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineWidth": 0,
+                "spanNulls": false
+              },
+              "decimals": 2,
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "WsJob Network Debug",
+                  "url": "/d/ce5qystih2uioa-internal/wsjob-network-debug?${__url_time_range}&${wsjob:queryparam}&var-node=${__field.labels.node}&var-node_port=${__field.labels.interface}"
+                }
+              ],
+              "mappings": [],
+              "noValue": "No warnings",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 58
+          },
+          "id": 41,
+          "options": {
+            "alignValue": "left",
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "mergeValues": true,
+            "perPage": 8,
+            "rowHeight": 0.9,
+            "showValue": "never",
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_rx_crc_errors_phy[$__rate_interval]) > 0",
+              "format": "time_series",
+              "legendFormat": "{{node}}:{{interface}} CRC Errors",
+              "range": true,
+              "refId": "Node CRC error"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_rx_pcs_symbol_err_phy[$__rate_interval]) > 0",
+              "format": "time_series",
+              "legendFormat": "{{node}}:{{interface}} FEC Uncorrected",
+              "range": true,
+              "refId": "Node FEC uncorrected"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_roce_adp_retrans[$__rate_interval]) > 0",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "{{node}}:{{interface}} ADP Retransmit",
+              "range": true,
+              "refId": "Node ADP retrans"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_packet_seq_err[$__rate_interval]) > 0",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "{{node}}:{{interface}} RX NAKs",
+              "range": true,
+              "refId": "Node RX NAKs"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_out_of_sequence[$__rate_interval]) > 0",
+              "format": "time_series",
+              "hide": false,
+              "legendFormat": "{{node}}:{{interface}} TX NAKs",
+              "range": true,
+              "refId": "Node TX NAKs"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_tx_discards_phy[$__rate_interval]) > 0",
+              "format": "time_series",
+              "legendFormat": "{{node}}:{{interface}} TX Discards",
+              "range": true,
+              "refId": "Node TX discards"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_out_of_buffer[$__rate_interval]) > 0",
+              "format": "time_series",
+              "legendFormat": "{{node}}:{{interface}} OOB Drops",
+              "range": true,
+              "refId": "Node OOB drops"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) group_left increase(node_nic_stats_rnr_nak_retry_err[$__rate_interval]) > 0",
+              "format": "time_series",
+              "legendFormat": "{{node}}:{{interface}} RNR NAKs",
+              "range": true,
+              "refId": "Node RNR NAKs"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "group by (node, interface) (job:leaf_switch_port_info{job_name=~\"$wsjob\"}) * on (node, interface) (avg_over_time(node_nic_stats_temperature[11m]) > 80)",
+              "format": "time_series",
+              "legendFormat": "{{node}}:{{interface}} NIC Temperature",
+              "range": true,
+              "refId": "Node NIC temp"
+            }
+          ],
+          "title": "Node Debug Warnings",
+          "type": "state-timeline"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "Network congestion. If the job succeeded, no action is needed for these.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "dashed"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red"
+                  },
+                  {
+                    "color": "red",
+                    "value": 600000
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 64
+          },
+          "id": 24,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "(increase(node_nic_stats_rx_pfc_duration[$__rate_interval]) > 0) * on (node) group_left group by(node) (kube_pod_info{pod=~\"$wsjob-.*\", pod_ip!=\"\"})",
+              "format": "time_series",
+              "legendFormat": "{{node}}/{{interface}} PFC Pause Duration increase",
+              "refId": "A"
+            }
+          ],
+          "title": "Assigned Nodes - Network PFC Pause Duration Increase",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "The memory allocated to all the KVSS + ACT + Chief pods should be less than the total AX memory available.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "noValue": "No data",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 12,
+            "x": 0,
+            "y": 70
+          },
+          "id": 54,
+          "options": {
+            "displayMode": "gradient",
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "maxVizHeight": 300,
+            "minVizHeight": 16,
+            "minVizWidth": 8,
+            "namePlacement": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": false,
+            "sizing": "auto",
+            "valueMode": "color"
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "last_over_time(job_ax_memory_limit{job_name=~\"$wsjob\"}[$__range]) * 1024 * 1024",
+              "format": "table",
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "Total AX Memory Available"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum(last_over_time(kube_pod_container_resource_requests{resource=\"memory\", pod=~\"$wsjob-kvstorageserver.*\"}[$__range]))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "Allocated to KVSS Pods"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum(last_over_time(kube_pod_container_resource_requests{resource=\"memory\", pod=~\"$wsjob-activation.*\"}[$__range]))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "Allocated to ACT Pods"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum(last_over_time(kube_pod_container_resource_requests{resource=\"memory\", pod=~\"$wsjob-chief.*\"}[$__range]))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "Allocated to Chief Pods"
+            }
+          ],
+          "title": "AX Memory Usage",
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value #Allocated to ACT Pods": "Allocated to ACT Pods",
+                  "Value #Allocated to Chief Pods": "Allocated to Chief Pods",
+                  "Value #Allocated to KVSS Pods": "Allocated to KVSS Pods",
+                  "Value #Total AX Memory Available": "Total AX Memory Available"
+                }
+              }
+            }
+          ],
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "The AX memory utilization is the percent of available AX memory used by all AX pods: `(KVSS + ACT + Chief pods) / total AX memory available`",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "displayName": "AX Memory Util",
+              "fieldMinMax": false,
+              "mappings": [],
+              "min": 0,
+              "noValue": "No data",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 3,
+            "x": 12,
+            "y": 70
+          },
+          "id": 53,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "sizing": "auto",
+            "text": {}
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "(\n    scalar(sum(last_over_time(kube_pod_container_resource_requests{resource=\"memory\", pod=~\"$wsjob-kvstorageserver.*\"}[$__range])))\n    + scalar(sum(last_over_time(kube_pod_container_resource_requests{resource=\"memory\", pod=~\"$wsjob-activation.*\"}[$__range])))\n    + scalar(sum(last_over_time(kube_pod_container_resource_requests{resource=\"memory\", pod=~\"$wsjob-chief.*\"}[$__range])))\n)\n/\n(last_over_time(job_ax_memory_limit{job_name=~\"$wsjob\"}[$__range]) * 1024 * 1024)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "legendFormat": "Util",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": " ",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto",
+                  "wrapText": false
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Allocated Pods (Count)"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 177
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 9,
+            "x": 15,
+            "y": 70
+          },
+          "id": 52,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "Node"
+              },
+              {
+                "desc": false,
+                "displayName": "NIC"
+              }
+            ]
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "count by (node_name, nic_names) (present_over_time(pod_port_affinity{pod_id=~\"kvstorageserver-.*\", job_name=~\"$wsjob\"}[$__range]))",
+              "format": "table",
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "KVStorageServer NICs",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {
+                  "Time": 0,
+                  "Value": 3,
+                  "nic_names": 2,
+                  "node_name": 1
+                },
+                "renameByName": {
+                  "Value": "Allocated Pods (Count)",
+                  "nic_names": "NIC",
+                  "node_name": "Node"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "description": "Highlighted common errors from coordinator logs.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 75
+          },
+          "id": 50,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": true,
+            "prettifyLogMessage": false,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": false,
+            "sortOrder": "Descending",
+            "wrapLogMessage": false
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "editorMode": "code",
+              "expr": "{replica_type=\"coordinator\", wsjob=\"$wsjob\"} | json | line_format \"{{.stream}} {{.message}}\" |~ \"due to error detected in ACT|Couldn't receive tensor|wafer progress counters miscorrelation with core state|UNAVAILABLE Failed to shutdown ACT server due to error: failed to connect to all addresses|Error has been detected in UnaryMonitorError|Chief service was interrupted with fatal signal 6 (Aborted)|Error detected in CHF|INTERNAL Failed to load artifacts to CHF|UnaryNotifyCrash failed. Error code = 14, Error desc = UNAVAILABLE, Error message: failed to connect to all addresses|UnaryDone failed. Error code = 14, Error desc = UNAVAILABLE, Error message: Socket closed, Error details|Error detected in ACT|INTERNAL Failed to load artifacts to WGT servers due to error: Resource temporarily unavailable|UnaryNotifyCrash failed. Error code = 14, Error desc = UNAVAILABLE, Error message: Connection reset by peer, Error details|UnaryNotifyCrash failed. Error code = 14, Error desc = UNAVAILABLE, Error message: Transport closed, Error details|Error detected in WGT|failed to compile image files|ModuleNotFoundError: No module named 'cerebras.modelzoo'|INTERNAL Failed to intialize runtime for WRK server due to error|ClockSync request failed. Error code = 4, Error desc = DEADLINE_EXCEEDED, Error message: Deadline Exceeded, Error details|INTERNAL Failed to initialize WRK servers due to error|ERROR:\"",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "CRD Log Errors",
+          "type": "logs"
+        }
+      ],
+      "title": "Info",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 2,
+        "label": "Data Source",
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "$datasource",
+        "includeAll": true,
+        "name": "namespace",
+        "options": [],
+        "query": "label_values(namespace_reservation, namespace)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "$datasource",
+        "includeAll": true,
+        "multi": true,
+        "name": "model",
+        "options": [],
+        "query": "label_values(wsjob_annotation, labels_k8s_cerebras_com_Model)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "$datasource",
+        "includeAll": true,
+        "name": "job_type",
+        "options": [],
+        "query": "label_values(wsjob_annotation, job_type)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "datasource": "$datasource",
+        "definition": "wsjob_annotation{labels_k8s_cerebras_com_Model=~\"$model\", job_type=~\"$job_type\", namespace=~\"$namespace\", start!=\"\", end=\"\"}",
+        "includeAll": false,
+        "name": "wsjob",
+        "options": [],
+        "query": {
+          "qryType": 5,
+          "query": "wsjob_annotation{labels_k8s_cerebras_com_Model=~\"$model\", job_type=~\"$job_type\", namespace=~\"$namespace\", start!=\"\", end=\"\"}",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/name=\"(?<text>[^\\\"]+)/g",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "coordinator",
+          "value": "coordinator"
+        },
+        "datasource": "$datasource",
+        "hide": 2,
+        "includeAll": false,
+        "name": "replica_type",
+        "options": [],
+        "query": "label_values(kube_pod_info{created_by_name=\"$wsjob\", pod=~\"$wsjob-.*\", pod_ip!=\"\"}, pod)",
+        "refresh": 2,
+        "regex": ".*-(.*)-.*",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": [
+            "0"
+          ],
+          "value": [
+            "0"
+          ]
+        },
+        "datasource": "$datasource",
+        "hide": 2,
+        "includeAll": false,
+        "multi": true,
+        "name": "replica_id",
+        "options": [],
+        "query": "label_values(kube_pod_info{created_by_name=\"$wsjob\", pod=~\"$wsjob-$replica_type.*\", pod_ip!=\"\"}, pod)",
+        "refresh": 2,
+        "regex": "$wsjob-$replica_type-(.*)",
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "$datasource",
+        "includeAll": true,
+        "multi": true,
+        "name": "system",
+        "options": [],
+        "query": "label_values(wsjob_system_grant{name=\"$wsjob\"}, system)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "definition": "label_values(job:leaf_switch_port_info{job_name=~\"$wsjob\"},switch)",
+        "hide": 2,
+        "includeAll": true,
+        "multi": true,
+        "name": "leaf_switch",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(job:leaf_switch_port_info{job_name=~\"$wsjob\"},switch)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "definition": "query_result(group by (switch) (rate(job:leaf_switch_port_info{job_name=~\"$wsjob\"}[24h])) * on (switch) group_right label_replace((avg by (switch_id, node) (interface_watch_list)), \"switch\", \"$1\", \"node\", \"(.*)\"))",
+        "description": "",
+        "hide": 2,
+        "includeAll": true,
+        "multi": true,
+        "name": "spine_switch",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(group by (switch) (rate(job:leaf_switch_port_info{job_name=~\"$wsjob\"}[24h])) * on (switch) group_right label_replace((avg by (switch_id, node) (interface_watch_list)), \"switch\", \"$1\", \"node\", \"(.*)\"))",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/.*switch_id=\"([^\"]*)\".*/",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 2,
+        "name": "glitch_thresh",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          }
+        ],
+        "query": "1",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "380",
+          "value": "380"
+        },
+        "hide": 2,
+        "name": "current_thresh",
+        "options": [
+          {
+            "selected": true,
+            "text": "380",
+            "value": "380"
+          }
+        ],
+        "query": "380",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "0.7",
+          "value": "0.7"
+        },
+        "hide": 2,
+        "name": "voltage_thresh",
+        "options": [
+          {
+            "selected": true,
+            "text": "0.7",
+            "value": "0.7"
+          }
+        ],
+        "query": "0.7",
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Job Debug",
+  "uid": "debcs3ata3ym8a-internal",
+  "version": 2,
+  "weekStart": ""
+}

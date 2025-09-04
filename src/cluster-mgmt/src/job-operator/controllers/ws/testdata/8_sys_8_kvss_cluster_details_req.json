@@ -1,0 +1,19 @@
+{
+  "_comment": "8 kvss pods, targeting 8 systems in a uniformly distributed way; 2 => domain0, 2 => domain1, 2 => domain2, 2 => domain3",
+  "tasks": [
+    {
+      "taskType": "KVSS",
+      "taskMap": [
+        { "taskId": { "taskId": 0, "wseIds": [0] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 1, "wseIds": [1] }, "addressBook": { "wseDomains": [2] } },
+        { "taskId": { "taskId": 2, "wseIds": [2] }, "addressBook": { "wseDomains": [1] } },
+        { "taskId": { "taskId": 3, "wseIds": [3] }, "addressBook": { "wseDomains": [3] } },
+        { "taskId": { "taskId": 4, "wseIds": [4] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 5, "wseIds": [5] }, "addressBook": { "wseDomains": [2] } },
+        { "taskId": { "taskId": 6, "wseIds": [6] }, "addressBook": { "wseDomains": [1] } },
+        { "taskId": { "taskId": 7, "wseIds": [7] }, "addressBook": { "wseDomains": [3] } }
+      ],
+      "resourceInfo": null
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# local deploy is deploy job-operator to local kind cluster for development
+# this installs necessary resources required for local development
+resources:
+  - ../../default
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: controller-manager
+    path: dev_mode.json

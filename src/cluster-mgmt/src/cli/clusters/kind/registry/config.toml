@@ -1,0 +1,29 @@
+## DEFAULT KIND CONTAINERD CONFIG ##
+version = 2
+[proxy_plugins]
+# fuse-overlayfs is used for rootless
+[proxy_plugins."fuse-overlayfs"]
+  type = "snapshot"
+  address = "/run/containerd-fuse-overlayfs.sock"
+[plugins."io.containerd.grpc.v1.cri".containerd]
+  discard_unpacked_layers = true
+  snapshotter = "overlayfs"
+  default_runtime_name = "runc"
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  runtime_type = "io.containerd.runc.v2"
+  base_runtime_spec = "/etc/containerd/cri-base.json"
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.test-handler]
+  runtime_type = "io.containerd.runc.v2"
+  base_runtime_spec = "/etc/containerd/cri-base.json"
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.test-handler.options]
+    SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri"]
+  sandbox_image = "registry.k8s.io/pause:3.7"
+  tolerate_missing_hugepages_controller = true
+  restrict_oom_score_adj = false
+
+## OVERRIDDEN CONTAINERD CONFIG ##
+[plugins."io.containerd.grpc.v1.cri".registry]
+  config_path = "/etc/containerd/certs.d/"

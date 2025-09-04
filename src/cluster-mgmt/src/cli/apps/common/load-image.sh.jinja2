@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+SKIP_CHECK=true source "../pkg-common.sh"
+
+set -e
+
+{%- if prune_all %}
+img_prune
+{% endif %}
+
+tagged_name="${registry_url}/{{ image_name }}"
+pull_load_push_image() {
+  if check_image_in_registry "{{ repo_name }}" "{{ tag }}"; then
+    echo "image {{ repo_name }}:{{ tag }} already exists in registry, skipping all load/push operations..."
+    return 0
+  fi
+
+  {% if pull_from_ecr %}
+  echo "pulling ecr image {{ image }}"
+  img_pull {{ image }} {{ image_name }} {% if load_mgmt_nodes %} --load-mgmt {% endif %} || return 1
+  {% else %}
+  echo "loading image {{ image_name }} from image file if not done yet"
+  img_load '{{ image_path }}' '{{ image_name }}' {% if load_mgmt_nodes %} --load-mgmt {% endif %} || return 1
+  {% endif %}
+
+  {% if not skip_push %}
+  echo "pushing image $tagged_name to local registry"
+  img_push_registry $tagged_name || return 1
+  {% if tag_latest %}
+  record_image_version {{ repo_name }} {{ tag }}
+  nerdctl -n k8s.io tag $tagged_name $registry_url/{{ repo_name }}:latest
+  img_push_registry $registry_url/{{ repo_name }}:latest || return 1
+  {% endif %}
+  {% endif %}
+}
+
+retries=4
+# default retry delay is 3 seconds if not set
+retry_delay=${retry_delay:-3}
+for attempt in $(seq 1 "$retries"); do
+  if pull_load_push_image; then
+    break
+  else
+    if [ $attempt -eq $retries ]; then
+      echo "failed to pull_load_push_image after $retries attempts, exiting with registry logs:"
+      tail -n10 /n0/cluster-mgmt/registry-logs/registry.log || kubectl logs -nkube-system ds/private-registry --tail 10 || true
+      exit 1
+    fi
+    echo "attempt $attempt failed. Retrying in $retry_delay seconds..."
+    sleep "$retry_delay"
+    if [ $attempt -eq $(($retries - 1)) ]; then
+      echo "cleaning {{ image_name }} on local node to force reload as last resort..."
+      $NERDCTL -n k8s.io rmi -f {{ image }} 2>/dev/null || true
+      $NERDCTL -n k8s.io rmi -f $tagged_name 2>/dev/null || true
+      $NERDCTL -n k8s.io rmi -f $loaded_name 2>/dev/null || true
+    fi
+  fi
+done
+
+{% if cleanup_after_push %}
+# cleanup not in use image to avoid overload mgmt node and let image pull from registry when needed
+$NERDCTL -n k8s.io rmi -f {{ image }} 2>/dev/null || true
+$NERDCTL -n k8s.io rmi -f $tagged_name 2>/dev/null || true
+$NERDCTL -n k8s.io rmi -f $loaded_name 2>/dev/null || true
+{% endif %}
+
+{%- if load_all_nodes %}
+if ! img_load_all_nodes $tagged_name --nodes="{{ load_nodes }}" --tag="{{ image }}"; then
+  echo "failed to preload $tagged_name on all nodes!"
+  echo "usually this means a node is unhealthy but the image is available in the registry so continuing anyways..."
+fi
+{% endif %}

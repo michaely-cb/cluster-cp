@@ -1,0 +1,4952 @@
+{
+   "description": "Dashboard for cluster-mgmt core components\n",
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "collapsed": true,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "panels": [
+            {
+               "datasource": {
+                  "type": "$datasource",
+                  "uid": "$datasource"
+               },
+               "description": "Alerts with `control_plane_oncall=\"true\"`, colored according to alertstate: <font color=\"#FF9840\">orange</font> for pending; <font color=\"#F2495C\">red</font> for firing.",
+               "fieldConfig": {
+                  "defaults": {
+                     "mappings": [
+                        {
+                           "options": {
+                              "1": {
+                                 "color": "orange",
+                                 "text": "Pending"
+                              },
+                              "2": {
+                                 "color": "red",
+                                 "text": "Firing"
+                              }
+                           },
+                           "type": "value"
+                        }
+                     ],
+                     "noValue": "No alerts",
+                     "unit": "milliseconds (ms)"
+                  }
+               },
+               "gridPos": {
+                  "h": 8,
+                  "w": 24,
+                  "x": 0,
+                  "y": 1
+               },
+               "id": 2,
+               "links": [
+                  {
+                     "title": "Alerting Rules",
+                     "url": "/alerting/list"
+                  }
+               ],
+               "options": {
+                  "perPage": 10,
+                  "showValue": "never",
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "desc"
+                  }
+               },
+               "pluginVersion": "v11.3.0",
+               "targets": [
+                  {
+                     "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                     },
+                     "expr": "avg without (alertstate) (ALERTS{control_plane_oncall=\"true\", alertstate=\"pending\"} or (ALERTS{control_plane_oncall=\"true\", alertstate=\"firing\"} + 1))",
+                     "legendFormat": "{{alertname}} {{instance}}"
+                  }
+               ],
+               "title": "Control Plane Oncall Alerts",
+               "type": "state-timeline"
+            },
+            {
+               "datasource": {
+                  "type": "$datasource",
+                  "uid": "$datasource"
+               },
+               "description": "Alerts with `control_plane_oncall!=\"true\"`, colored according to alertstate: <font color=\"#FF9840\">orange</font> for pending; <font color=\"#F2495C\">red</font> for firing.",
+               "fieldConfig": {
+                  "defaults": {
+                     "mappings": [
+                        {
+                           "options": {
+                              "1": {
+                                 "color": "orange",
+                                 "text": "Pending"
+                              },
+                              "2": {
+                                 "color": "red",
+                                 "text": "Firing"
+                              }
+                           },
+                           "type": "value"
+                        }
+                     ],
+                     "noValue": "No alerts",
+                     "unit": "milliseconds (ms)"
+                  }
+               },
+               "gridPos": {
+                  "h": 8,
+                  "w": 24,
+                  "x": 0,
+                  "y": 9
+               },
+               "id": 3,
+               "links": [
+                  {
+                     "title": "Alerting Rules",
+                     "url": "/alerting/list"
+                  }
+               ],
+               "options": {
+                  "perPage": 10,
+                  "showValue": "never",
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "desc"
+                  }
+               },
+               "pluginVersion": "v11.3.0",
+               "targets": [
+                  {
+                     "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                     },
+                     "expr": "avg without (alertstate) (ALERTS{control_plane_oncall!=\"true\", alertstate=\"pending\", alertname!=\"Watchdog\"} or (ALERTS{control_plane_oncall!=\"true\", alertstate=\"firing\", alertname!=\"Watchdog\"} + 1))",
+                     "legendFormat": "{{alertname}} {{instance}}"
+                  }
+               ],
+               "title": "All Other Alerts",
+               "type": "state-timeline"
+            }
+         ],
+         "title": "Alerts",
+         "type": "row"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 24,
+            "y": 17
+         },
+         "id": 4,
+         "panels": [ ],
+         "title": "Service Pod Status",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "API server pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 18
+         },
+         "id": 5,
+         "links": [
+            {
+               "title": "API Server Dashboard",
+               "url": "/d/09ec8aa1e996d6ffcd6817bbaff4db1b/kubernetes-api-server"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"kube-apiserver.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"kube-apiserver.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "API Server - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "1G kube-vip pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 18
+         },
+         "id": 6,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"kube-vip-[a-zA-Z0-9]*-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"kube-vip-[a-zA-Z0-9]*-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Kubevip 1G - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Private registry pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 18
+         },
+         "id": 7,
+         "links": [
+            {
+               "title": "Private Registry Dashboard",
+               "url": "/d/CoBSgj8iz/docker-registry"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"private-registry-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"private-registry-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Private Registry - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Nginx pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 12,
+            "w": 6,
+            "x": 18,
+            "y": 18
+         },
+         "id": 8,
+         "links": [
+            {
+               "title": "Nginx Dashboard",
+               "url": "/d/nginx/nginx-ingress-controller"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"ingress-nginx-controller-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"ingress-nginx-controller-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Nginx - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Etcd pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 24
+         },
+         "id": 9,
+         "links": [
+            {
+               "title": "Etcd Overview",
+               "url": "/d/hzhXdzznZn/etcd-cluster-overview"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"etcd.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"etcd.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Etcd - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "100G kube-vip pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 24
+         },
+         "id": 10,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"kube-vip-[a-zA-Z0-9]*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"kube-vip-[a-zA-Z0-9]*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Kubevip 100G - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Coredns pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 24
+         },
+         "id": 11,
+         "links": [
+            {
+               "title": "Coredns Overview",
+               "url": "/d/vkQ0UHxik/coredns"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"coredns-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"coredns-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Coredns - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 18,
+            "y": 36
+         },
+         "id": 12,
+         "panels": [ ],
+         "title": "Monitoring Pod Status",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "System exporter pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 37
+         },
+         "id": 13,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"cluster-mgmt-system-exporter-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"cluster-mgmt-system-exporter-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "System Exporter - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "SNMP exporter pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 37
+         },
+         "id": 14,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"prometheus-snmp-exporter-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"prometheus-snmp-exporter-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "SNMP Exporter - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Prometheus pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 12,
+            "w": 8,
+            "x": 16,
+            "y": 37
+         },
+         "id": 15,
+         "links": [
+            {
+               "title": "Prometheus Overview",
+               "url": "/d/aecwqw2b0njswe/prometheus-overview"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"prometheus-prometheus-prometheus-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"prometheus-prometheus-prometheus-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Prometheus - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Alertmanager pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 12,
+            "w": 8,
+            "x": 0,
+            "y": 49
+         },
+         "id": 16,
+         "links": [
+            {
+               "title": "Alertmanager Overview",
+               "url": "/d/alertmanager-overview"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"alertmanager-prometheus-alertmanager-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"alertmanager-prometheus-alertmanager-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Alertmanager - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Alertrouter pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 12,
+            "w": 8,
+            "x": 8,
+            "y": 49
+         },
+         "id": 17,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"alert-router-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"alert-router-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Alertrouter - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Grafana pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 16,
+            "y": 49
+         },
+         "id": 18,
+         "links": [
+            {
+               "title": "Grafana Overview",
+               "url": "/d/6be0s85Mk/grafana-overview"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"prometheus-grafana-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"prometheus-grafana-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Grafana - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Linkmon pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 0,
+            "y": 53
+         },
+         "id": 19,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"cluster-mgmt-linkmon-switch-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"cluster-mgmt-linkmon-switch-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Linkmon - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Loki pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 8,
+            "y": 53
+         },
+         "id": 20,
+         "links": [
+            {
+               "title": "Loki Overview",
+               "url": "/d/eeiwbf963045cb/loki-detailed"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"loki-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"loki-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Loki - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Thanos Query pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 53
+         },
+         "id": 21,
+         "links": [
+            {
+               "title": "Thanos Query",
+               "url": "/d/af36c91291a603f1d9fbdabdd127ac4a/thanos-query"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"thanos-query-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"thanos-query-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Thanos Query - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Thanos Ruler pods status and restart counts",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 0,
+            "y": 57
+         },
+         "id": 22,
+         "links": [
+            {
+               "title": "Thanos Ruler",
+               "url": "/d/35da848f5f92b2dc612e0c3a0577b8a1/thanos-rule"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"thanos-ruler-prometheus-thanos-ruler-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"thanos-ruler-prometheus-thanos-ruler-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Thanos Ruler - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Fluentbit pods status and restarts count",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "red",
+                           "text": "Down"
+                        },
+                        "1": {
+                           "color": "green",
+                           "text": "Up"
+                        }
+                     },
+                     "type": "value"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "text",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "green",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Status"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": ""
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Restarts"
+                  },
+                  "properties": [
+                     {
+                        "id": "mappings",
+                        "value": [
+                           {
+                              "options": {
+                                 "0": {
+                                    "color": "semi-dark-green",
+                                    "index": 0,
+                                    "text": "0"
+                                 }
+                              },
+                              "type": "value"
+                           },
+                           {
+                              "options": {
+                                 "from": 1,
+                                 "result": {
+                                    "color": "semi-dark-yellow",
+                                    "index": 1
+                                 },
+                                 "to": 10000
+                              },
+                              "type": "range"
+                           }
+                        ]
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 80
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 8,
+            "y": 57
+         },
+         "id": 23,
+         "links": [
+            {
+               "title": "Fluentbit Overview",
+               "url": "/d/d557c8f6-cac1-445f-8ade-4c351a9076b1/fluent-bit"
+            }
+         ],
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "min(kube_pod_container_status_ready{pod=~\"fluentbit-.*\"}) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Status"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(increase(kube_pod_container_status_restarts_total{pod=~\"fluentbit-.*\"}[$__range])) by (pod) and group by (pod) (kube_pod_status_phase{phase=\"Running\"} == 1)",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Restarts"
+            }
+         ],
+         "title": "Fluentbit - Pod Status",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Status",
+                     "Value #B": "Restarts"
+                  }
+               }
+            },
+            {
+               "id": "sortBy",
+               "options": {
+                  "sort": [
+                     {
+                        "desc": true,
+                        "field": "Restarts"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 16,
+            "y": 69
+         },
+         "id": 24,
+         "panels": [ ],
+         "title": "API Server Overview",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "How many percent of requests (both read and write) in 30 days have been answered successfully and fast enough?",
+         "fieldConfig": {
+            "defaults": {
+               "decimals": 3,
+               "unit": "percentunit"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 70
+         },
+         "id": 25,
+         "options": {
+            "graphMode": "area",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "apiserver_request:availability30d{verb=\"all\"}",
+               "legendFormat": "Verbose"
+            }
+         ],
+         "title": "API Server - Availability (30d) > 99.000%",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "milliseconds (ms)"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 70
+         },
+         "id": 26,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(rate(apiserver_request_duration_seconds_sum{job=\"apiserver\"}[$__rate_interval])) by (verb)\n/\nsum(rate(apiserver_request_duration_seconds_count{job=\"apiserver\"}[$__rate_interval])) by (verb)\n",
+               "legendFormat": "{{ verb }}"
+            }
+         ],
+         "title": "API Server - HTTP Requests Latency by verb",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 70
+         },
+         "id": 27,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum by (code) (rate(apiserver_request_total[$__rate_interval]))",
+               "legendFormat": "{{ code }}"
+            }
+         ],
+         "title": "API Server - HTTP Requests by code",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "percentunit"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 78
+         },
+         "id": 28,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "rate(process_cpu_seconds_total{job=\"apiserver\"}[$__rate_interval]) * on(instance) group_left(node)\n  max by (node, instance) (label_replace(kube_node_info * on(node, instance) group_left(role)\n  (kube_node_role{role=\"control-plane\"}) , \"instance\", \"$1:6443\", \"internal_ip\", \"(.*)\"))\n",
+               "legendFormat": "{{ node }}"
+            }
+         ],
+         "title": "API Server - CPU Usage by instance",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "decbytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 78
+         },
+         "id": 29,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "process_resident_memory_bytes{job=\"apiserver\"} * on(instance) group_left(node)\n  max by (node, instance) (label_replace(kube_node_info * on(node) group_left(role)\n  (kube_node_role{role=\"control-plane\"}) , \"instance\", \"$1:6443\", \"internal_ip\", \"(.*)\"))\n",
+               "legendFormat": "{{ node }}"
+            }
+         ],
+         "title": "API Server - Memory Usage by instance",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "bps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 86
+         },
+         "id": 30,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "(rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|docker.*|br.*|cilium.*|lxc.*\"}[$__rate_interval]) * 8 and\n  (node_network_speed_bytes == 1250000000 or node_network_speed_bytes == 125000000)) * on(instance) group_left(node)\n  max by (node, instance) (label_replace(kube_node_info * on(node) group_left(role)\n  (kube_node_role{role=\"control-plane\"}) , \"instance\", \"$1:9100\", \"internal_ip\", \"(.*)\"))\n",
+               "legendFormat": "{{ node }}"
+            }
+         ],
+         "title": "API Server - Network Transmitted",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "bps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 86
+         },
+         "id": 31,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "(rate(node_network_receive_bytes_total{device!~\"lo|veth.*|docker.*|br.*|cilium.*|lxc.*\"}[$__rate_interval]) * 8 and\n  (node_network_speed_bytes == 1250000000 or node_network_speed_bytes == 125000000)) * on(instance) group_left(node)\n  max by (node, instance) (label_replace(kube_node_info * on(node) group_left(role)\n  (kube_node_role{role=\"control-plane\"}) , \"instance\", \"$1:9100\", \"internal_ip\", \"(.*)\"))\n",
+               "legendFormat": "{{ node }}"
+            }
+         ],
+         "title": "API Server - Network Received",
+         "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 24,
+            "y": 94
+         },
+         "id": 32,
+         "panels": [ ],
+         "title": "Networking - cilium + Multus + Whereabouts + RDMA",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Cilium pods Ready/NotReady count",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     },
+                     {
+                        "color": "red",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "NotReady"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-red",
+                           "mode": "thresholds"
+                        }
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Ready"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-green",
+                           "mode": "fixed"
+                        }
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 0,
+            "y": 95
+         },
+         "id": 33,
+         "links": [
+            {
+               "title": "Cilium Metrics",
+               "url": "/d/vtuWtdumz/cilium-metrics"
+            }
+         ],
+         "options": {
+            "colorMode": "background_solid",
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_pod_container_status_ready{container=\"cilium-agent\"})",
+               "legendFormat": "Ready"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_node_info) - count(kube_pod_container_status_ready{container=\"cilium-agent\"})",
+               "legendFormat": "NotReady"
+            }
+         ],
+         "title": "Cilium",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Multus pods Ready/NotReady count",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     },
+                     {
+                        "color": "red",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "NotReady"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-red",
+                           "mode": "thresholds"
+                        }
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Ready"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-green",
+                           "mode": "fixed"
+                        }
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 6,
+            "y": 95
+         },
+         "id": 34,
+         "options": {
+            "colorMode": "background_solid",
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_pod_container_status_ready{container=\"kube-multus\"})",
+               "legendFormat": "Ready"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_pod_status_phase{phase=\"Pending\", pod=~\"multus-multus-ds-.*\"}) - \n  count(kube_pod_container_status_ready{container=\"kube-multus\"})\n",
+               "legendFormat": "NotReady"
+            }
+         ],
+         "title": "Multus",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Whereabouts pods Ready/NotReady count",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     },
+                     {
+                        "color": "red",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "NotReady"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-red",
+                           "mode": "thresholds"
+                        }
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Ready"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-green",
+                           "mode": "fixed"
+                        }
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 12,
+            "y": 95
+         },
+         "id": 35,
+         "options": {
+            "colorMode": "background_solid",
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_pod_container_status_ready{container=\"whereabouts\", pod!~\"whereabouts-operator-.*\"})",
+               "legendFormat": "Ready"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_node_info) -\n  count(kube_pod_container_status_ready{container=\"whereabouts\", pod!~\"whereabouts-operator-.*\"})\n",
+               "legendFormat": "NotReady"
+            }
+         ],
+         "title": "Whereabouts",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Rdma device pods Ready/NotReady count",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     },
+                     {
+                        "color": "red",
+                        "value": 1
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "NotReady"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-red",
+                           "mode": "thresholds"
+                        }
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Ready"
+                  },
+                  "properties": [
+                     {
+                        "id": "color",
+                        "value": {
+                           "fixedColor": "semi-dark-green",
+                           "mode": "fixed"
+                        }
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 18,
+            "y": 95
+         },
+         "id": 36,
+         "options": {
+            "colorMode": "background_solid",
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_pod_container_status_ready{container=\"rdma-device-plugin\"})",
+               "legendFormat": "Ready"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "count(kube_pod_container_state_started{container=\"rdma-device-plugin\"}) -\n  count(kube_pod_container_status_ready{container=\"rdma-device-plugin\"})\n",
+               "legendFormat": "NotReady"
+            }
+         ],
+         "title": "RDMA",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 18,
+            "x": 0,
+            "y": 99
+         },
+         "id": 37,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(increase(cilium_drop_count_total{reason=\"Missed tail call\"}[$__range])) by (node, direction, reason) > 0\n",
+               "legendFormat": "{{node}}-{{direction}}-{{reason}}"
+            }
+         ],
+         "title": "Cilium Drop Count",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Nodes with 0 RDMA device",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "cellOptions": {
+                     "mode": "gradient",
+                     "type": "color-background"
+                  }
+               },
+               "noValue": "Healthy",
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     }
+                  ]
+               }
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 18,
+            "y": 99
+         },
+         "id": 38,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "kube_node_status_capacity{resource=\"rdma_hca_devices\"} == 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "{{node}}"
+            }
+         ],
+         "title": "Unhealthy Nodes with 0 RDMA device",
+         "transformations": [
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "node": true
+                  }
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 24,
+            "y": 103
+         },
+         "id": 39,
+         "panels": [ ],
+         "title": "Storage",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Ceph cluster health status",
+         "fieldConfig": {
+            "defaults": {
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "green",
+                           "text": "Healthy"
+                        },
+                        "1": {
+                           "color": "yellow",
+                           "text": "Warning"
+                        },
+                        "2": {
+                           "color": "red",
+                           "text": "Error"
+                        }
+                     },
+                     "type": "value"
+                  },
+                  {
+                     "options": {
+                        "result": {
+                           "color": "gray",
+                           "text": "N/A"
+                        }
+                     },
+                     "type": "special"
+                  }
+               ]
+            }
+         },
+         "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 0,
+            "y": 104
+         },
+         "id": 40,
+         "links": [
+            {
+               "title": "Ceph Cluster",
+               "url": "d/tb19LAiZK/ceph-cluster"
+            }
+         ],
+         "options": {
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "ceph_health_status{}",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Verbose"
+            }
+         ],
+         "title": "Ceph - Health Status",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "green",
+                           "text": "Healthy"
+                        },
+                        "1": {
+                           "color": "yellow",
+                           "text": "Warning"
+                        },
+                        "2": {
+                           "color": "red",
+                           "text": "Error"
+                        }
+                     },
+                     "type": "value"
+                  },
+                  {
+                     "options": {
+                        "result": {
+                           "color": "gray",
+                           "text": "N/A"
+                        }
+                     },
+                     "type": "special"
+                  }
+               ]
+            }
+         },
+         "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 4,
+            "y": 104
+         },
+         "id": 41,
+         "options": {
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(ceph_osd_in{})",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Verbose"
+            }
+         ],
+         "title": "OSDs IN",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "green",
+                           "text": "Healthy"
+                        },
+                        "1": {
+                           "color": "yellow",
+                           "text": "Warning"
+                        },
+                        "2": {
+                           "color": "red",
+                           "text": "Error"
+                        }
+                     },
+                     "type": "value"
+                  },
+                  {
+                     "options": {
+                        "result": {
+                           "color": "gray",
+                           "text": "N/A"
+                        }
+                     },
+                     "type": "special"
+                  }
+               ]
+            }
+         },
+         "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 6,
+            "y": 104
+         },
+         "id": 42,
+         "options": {
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(ceph_osd_out{})",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Verbose"
+            }
+         ],
+         "title": "OSDs OUT",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "green",
+                           "text": "Healthy"
+                        },
+                        "1": {
+                           "color": "yellow",
+                           "text": "Warning"
+                        },
+                        "2": {
+                           "color": "red",
+                           "text": "Error"
+                        }
+                     },
+                     "type": "value"
+                  },
+                  {
+                     "options": {
+                        "result": {
+                           "color": "gray",
+                           "text": "N/A"
+                        }
+                     },
+                     "type": "special"
+                  }
+               ]
+            }
+         },
+         "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 8,
+            "y": 104
+         },
+         "id": 43,
+         "options": {
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(ceph_osd_up{})",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Verbose"
+            }
+         ],
+         "title": "OSDs UP",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "mappings": [
+                  {
+                     "options": {
+                        "0": {
+                           "color": "green",
+                           "text": "Healthy"
+                        },
+                        "1": {
+                           "color": "yellow",
+                           "text": "Warning"
+                        },
+                        "2": {
+                           "color": "red",
+                           "text": "Error"
+                        }
+                     },
+                     "type": "value"
+                  },
+                  {
+                     "options": {
+                        "result": {
+                           "color": "gray",
+                           "text": "N/A"
+                        }
+                     },
+                     "type": "special"
+                  }
+               ]
+            }
+         },
+         "gridPos": {
+            "h": 3,
+            "w": 2,
+            "x": 10,
+            "y": 104
+         },
+         "id": 44,
+         "options": {
+            "graphMode": "none",
+            "orientation": "horizontal"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(ceph_osd_down{})",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Verbose"
+            }
+         ],
+         "title": "OSDs DOWN",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "drawStyle": "bars"
+               },
+               "noValue": "Healthy",
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": null
+                     },
+                     {
+                        "color": "red",
+                        "value": 0.84999999999999998
+                     }
+                  ]
+               },
+               "unit": "percentunit"
+            }
+         },
+         "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 104
+         },
+         "id": 45,
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull"
+               ],
+               "displayMode": "table",
+               "placement": "right"
+            }
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "max(label_replace(\n  (((node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_avail_bytes{mountpoint=\"/\"})/node_filesystem_size_bytes{mountpoint=\"/\"}) > .85),\n  \"internal_ip\", \"$1\", \"instance\", \"([^:]+):.*\"\n) * on (internal_ip) group_left (node) group(kube_node_info) by (node, internal_ip)) by (node)\n",
+               "legendFormat": "{{node}}"
+            }
+         ],
+         "title": "Root Disk Usage > 85%",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     }
+                  ]
+               }
+            },
+            "overrides": [
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Used Bytes"
+                  },
+                  "properties": [
+                     {
+                        "id": "unit",
+                        "value": "decbytes"
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 111
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Capacity Bytes"
+                  },
+                  "properties": [
+                     {
+                        "id": "unit",
+                        "value": "decbytes"
+                     },
+                     {
+                        "id": "custom.width",
+                        "value": 111
+                     }
+                  ]
+               }
+            ]
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 110
+         },
+         "id": 46,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "etcd_mvcc_db_total_size_in_bytes{job=\"kube-etcd\"}",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Used Bytes"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "etcd_server_quota_backend_bytes{job=\"kube-etcd\"}",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Capacity Bytes"
+            }
+         ],
+         "title": "Etcd Storage Usage",
+         "transformations": [
+            {
+               "id": "joinByField",
+               "options": {
+                  "byField": "pod",
+                  "mode": "outerTabular"
+               },
+               "topic": "series"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Value #A": true,
+                     "Value #B": true,
+                     "pod": true
+                  },
+                  "renameByName": {
+                     "Value #A": "Used Bytes",
+                     "Value #B": "Capacity Bytes"
+                  }
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "decbytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 110
+         },
+         "id": 47,
+         "options": {
+            "displayLabels": [ ],
+            "legend": {
+               "displayMode": "list",
+               "placement": "bottom",
+               "show": true
+            },
+            "pieType": "donut",
+            "reduceOptions": {
+               "calcs": [
+                  "allValues"
+               ],
+               "fields": "",
+               "values": true
+            }
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum by (persistentvolumeclaim) (\n  kubelet_volume_stats_used_bytes{job=\"kubelet\", persistentvolumeclaim!=\"\"}\n)\n",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "{{persistentvolumeclaim}}"
+            }
+         ],
+         "title": "PVC usage by component",
+         "transformations": [
+            {
+               "id": "renameByRegex",
+               "options": {
+                  "fieldName": "persistentvolumeclaim",
+                  "regex": "^(.*)-shard-\\d+-\\d+$",
+                  "renamePattern": "$1"
+               }
+            },
+            {
+               "id": "renameByRegex",
+               "options": {
+                  "fieldName": "persistentvolumeclaim",
+                  "regex": "^(.*)-shard-\\d+$",
+                  "renamePattern": "$1"
+               }
+            },
+            {
+               "id": "renameByRegex",
+               "options": {
+                  "fieldName": "persistentvolumeclaim",
+                  "regex": "^(.*)-\\d+$",
+                  "renamePattern": "$1"
+               }
+            },
+            {
+               "id": "groupBy",
+               "options": {
+                  "aggregations": [
+                     {
+                        "field": "Value",
+                        "type": "sum"
+                     }
+                  ],
+                  "fields": {
+                     "Value": {
+                        "aggregations": [
+                           "sum"
+                        ],
+                        "operation": "aggregate"
+                     },
+                     "persistentvolumeclaim": {
+                        "aggregations": [ ],
+                        "operation": "groupby"
+                     }
+                  },
+                  "groupBy": [
+                     "persistentvolumeclaim"
+                  ]
+               }
+            }
+         ],
+         "type": "piechart"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     },
+                     {
+                        "color": "orange",
+                        "value": 80
+                     },
+                     {
+                        "color": "red",
+                        "value": 90
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 118
+         },
+         "id": 48,
+         "options": {
+            "legend": {
+               "displayMode": "table",
+               "placement": "right",
+               "showLegend": true
+            },
+            "orientation": "horizontal",
+            "showValue": true,
+            "text": {
+               "valueField": "Usage %"
+            }
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "100 * (\n  kubelet_volume_stats_capacity_bytes{job=\"kubelet\", persistentvolumeclaim!=\"\"}\n  -\n  kubelet_volume_stats_available_bytes{job=\"kubelet\", persistentvolumeclaim!=\"\"}\n)\n/ kubelet_volume_stats_capacity_bytes{job=\"kubelet\", persistentvolumeclaim!=\"\"}\n",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "{{persistentvolumeclaim}}"
+            }
+         ],
+         "title": "PVC usage % by component",
+         "transformations": [
+            {
+               "id": "renameByRegex",
+               "options": {
+                  "fieldName": "persistentvolumeclaim",
+                  "regex": "^(.*)-shard-\\d+-\\d+$",
+                  "renamePattern": "$1"
+               }
+            },
+            {
+               "id": "renameByRegex",
+               "options": {
+                  "fieldName": "persistentvolumeclaim",
+                  "regex": "^(.*)-shard-\\d+$",
+                  "renamePattern": "$1"
+               }
+            },
+            {
+               "id": "renameByRegex",
+               "options": {
+                  "fieldName": "persistentvolumeclaim",
+                  "regex": "^(.*)-\\d+$",
+                  "renamePattern": "$1"
+               }
+            },
+            {
+               "id": "groupBy",
+               "options": {
+                  "fields": {
+                     "Value": {
+                        "aggregations": [
+                           "last"
+                        ],
+                        "operation": "aggregate"
+                     },
+                     "persistentvolumeclaim": {
+                        "aggregations": [ ],
+                        "operation": "groupby"
+                     }
+                  }
+               }
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "excludeByName": { },
+                  "indexByName": {
+                     "Value (last)": 1,
+                     "persistentvolumeclaim": 0
+                  },
+                  "renameByName": {
+                     "Value (last)": "Usage %"
+                  }
+               }
+            },
+            {
+               "id": "convertFieldType",
+               "options": {
+                  "conversions": [
+                     {
+                        "destinationType": "number",
+                        "targetField": "Usage %"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "barchart"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "unit": "decbytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 118
+         },
+         "id": 49,
+         "options": {
+            "displayLabels": [ ],
+            "legend": {
+               "displayMode": "list",
+               "placement": "bottom",
+               "show": true
+            },
+            "pieType": "donut",
+            "reduceOptions": {
+               "calcs": [
+                  "allValues"
+               ],
+               "fields": "",
+               "values": true
+            }
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum((ceph_pool_stored) *on (pool_id) group_left(name)\n  (ceph_pool_metadata{name=~\".*\"})) by (name)\n",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "{{name}}"
+            }
+         ],
+         "title": "Ceph Pool Storage by Name",
+         "transformations": [
+            {
+               "id": "organize",
+               "options": {
+                  "renameByName": {
+                     "sum": "Value"
+                  }
+               }
+            },
+            {
+               "id": "groupBy",
+               "options": {
+                  "aggregations": [
+                     {
+                        "field": "Value",
+                        "type": "sum"
+                     }
+                  ],
+                  "fields": {
+                     "Value": {
+                        "aggregations": [
+                           "sum"
+                        ],
+                        "operation": "aggregate"
+                     },
+                     "name": {
+                        "aggregations": [ ],
+                        "operation": "groupby"
+                     }
+                  },
+                  "groupBy": [
+                     "name"
+                  ]
+               }
+            }
+         ],
+         "type": "piechart"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "green",
+                        "value": 0
+                     },
+                     {
+                        "color": "orange",
+                        "value": 80
+                     },
+                     {
+                        "color": "red",
+                        "value": 90
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 126
+         },
+         "id": 50,
+         "options": {
+            "legend": {
+               "displayMode": "table",
+               "placement": "right",
+               "showLegend": true
+            },
+            "orientation": "horizontal",
+            "showValue": true,
+            "text": {
+               "valueField": "Usage %"
+            }
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "100 * sum((ceph_pool_stored) *on (pool_id) group_left(name) (ceph_pool_metadata{name=~\".*\"})) by (name) / (sum((ceph_pool_stored) *on (pool_id) group_left(name) (ceph_pool_metadata{name=~\".*\"})) by (name) + sum((ceph_pool_max_avail) *on (pool_id) group_left(name) (ceph_pool_metadata{name=~\".*\"})) by (name))",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "{{name}}"
+            }
+         ],
+         "title": "Ceph Pool Usage % by Name",
+         "transformations": [
+            {
+               "id": "groupBy",
+               "options": {
+                  "fields": {
+                     "Value": {
+                        "aggregations": [
+                           "last"
+                        ],
+                        "operation": "aggregate"
+                     },
+                     "name": {
+                        "aggregations": [ ],
+                        "operation": "groupby"
+                     }
+                  }
+               }
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "excludeByName": { },
+                  "indexByName": {
+                     "Value (last)": 1,
+                     "name": 0
+                  },
+                  "renameByName": {
+                     "Value (last)": "Usage %"
+                  }
+               }
+            },
+            {
+               "id": "convertFieldType",
+               "options": {
+                  "conversions": [
+                     {
+                        "destinationType": "number",
+                        "targetField": "Usage %"
+                     }
+                  ]
+               }
+            }
+         ],
+         "type": "barchart"
+      }
+   ],
+   "schemaVersion": 39,
+   "templating": {
+      "list": [
+         {
+            "current": {
+               "selected": false,
+               "text": "default",
+               "value": "default"
+            },
+            "hide": 2,
+            "label": "Data Source",
+            "name": "datasource",
+            "query": "prometheus",
+            "type": "datasource"
+         }
+      ]
+   },
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "utc",
+   "title": "Cluster Control Plane Health",
+   "uid": "aec3a3n17e2o0c"
+}

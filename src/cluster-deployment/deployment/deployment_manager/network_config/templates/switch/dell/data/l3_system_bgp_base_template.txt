@@ -1,0 +1,9 @@
+router bgp ${asn_num} vrf Vrf_${vrf_name}
+    peer-group ws_cluster_csx
+        timers 1 3
+        address-family ipv4 unicast
+            route-map deny_all out
+            maximum-prefix 12000
+            exit
+        exit
+    exit

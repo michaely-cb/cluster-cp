@@ -1,0 +1,20 @@
+!
+! L3 peering config between ${name} and ${neighbor}
+!
+interface ${my_port}
+    description L3 to ${neighbor}
+    mtu ${mtu}
+    no switchport mode trunk
+    no switchport access vlan
+    no switchport
+    vrf ${vrf_name}
+    no ip address
+    ip address ${my_address}
+    qos trust dscp
+    qos dscp 40
+    priority-flow-control on
+    priority-flow-control priority 5 no-drop
+    uc-tx-queue 1
+    bandwidth guaranteed 10000000
+    no shutdown
+!

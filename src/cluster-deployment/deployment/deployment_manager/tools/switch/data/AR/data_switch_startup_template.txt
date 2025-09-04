@@ -1,0 +1,22 @@
+hostname ${switch_name}
+! clear default login banner
+no banner login
+
+! support special cerebras qualified transceivers
+service unsupported-transceiver Cerebras 8f23e7db
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+
+username admin role network-admin secret sha512 ${switch_sha}
+!
+interface Management1
+   ip address ${switch_mgmt_cidr}
+!
+! default gateway is the mgmt switch's mgmt vlan address
+ip route 0.0.0.0/0 ${switch_mgmt_gw}
+!
+
+end

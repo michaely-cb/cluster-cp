@@ -1,0 +1,42 @@
+domain: cerebras.com
+layout:
+- go.kubebuilder.io/v3
+projectName: job-operator
+repo: cerebras.com/job-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: cerebras.com
+  group: jobs
+  kind: WSJob
+  path: cerebras.com/job-operator/apis/ws/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: cerebras.com
+  group: jobs
+  kind: ResourceLock
+  path: cerebras.com/job-operator/apis/resourcelock/v1
+  version: v1
+- api:
+    crdVersion: v1
+  controller: true
+  domain: cerebras.com
+  group: jobs
+  kind: System
+  path: cerebras.com/job-operator/apis/system/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: false
+  controller: true
+  domain: cerebras.com
+  group: jobs
+  kind: NamespaceReservation
+  path: cerebras.com/job-operator/apis/namespace/v1
+  version: v1
+version: "3"

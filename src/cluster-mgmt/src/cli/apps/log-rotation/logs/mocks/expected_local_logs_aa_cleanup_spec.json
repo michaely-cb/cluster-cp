@@ -1,0 +1,238 @@
+{
+  "storage_health": {
+    "local": {
+      "watermark_percentage": "68%",
+      "total_capacity": "238862172160 (222.46GB)",
+      "disk_usage_upper_limit": "162426277068 (151.27GB)",
+      "disk_space_used": "162899476480 (151.71GB)",
+      "bytes_to_delete": "473199412 (451.28MB)"
+    }
+  },
+  "logs": [
+    {
+      "path": "/n1/log-export/job-operator/wsjob-qunjp2ump4hcjhcy3jctxw-log-export.logs",
+      "last_used_timestamp": "2023-07-07T20:27:54Z",
+      "human_readable_size": "123B",
+      "size_in_bytes": "123",
+      "plan": "delete",
+      "reason": "LRU'ed logs exceed the watermark (68%) defined in the cleanup policy",
+      "status": "pending"
+    },
+    {
+      "path": "/n1/log-export/job-operator/wsjob-oerqfk4r44677y9ikq8ed3-log-export.logs",
+      "last_used_timestamp": "2023-09-13T00:23:45Z",
+      "human_readable_size": "234B",
+      "size_in_bytes": "234",
+      "plan": "delete",
+      "reason": "LRU'ed logs exceed the watermark (68%) defined in the cleanup policy",
+      "status": "pending"
+    },
+    {
+      "path": "/n1/log-export/job-operator/wsjob-c38qxmehz9p548mrsthdqv-log-export.logs",
+      "last_used_timestamp": "2023-09-13T01:23:45Z",
+      "human_readable_size": "234B",
+      "size_in_bytes": "234",
+      "plan": "keep",
+      "reason": "Artifact is protected by the retention policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/test/cs_6909813966944054090*",
+      "last_used_timestamp": "2023-07-01T07:27:44Z",
+      "human_readable_size": "16.00GB",
+      "size_in_bytes": "17183721628",
+      "plan": "keep",
+      "reason": "Artifact is protected by the retention policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/cb/tests/cslogs/mb-wscompilepod7/workdir-20230702.0011.56.338-27425/model_dir/cs_6909813966944054090*",
+      "last_used_timestamp": "2023-07-02T07:27:44Z",
+      "human_readable_size": "16.00GB",
+      "size_in_bytes": "17183721628",
+      "plan": "delete",
+      "reason": "LRU'ed logs exceed the watermark (68%) defined in the cleanup policy",
+      "status": "pending"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-twaq54vfjwj7hhiywmhcmt",
+      "last_used_timestamp": "2023-07-02T07:34:02Z",
+      "human_readable_size": "450.55KB",
+      "size_in_bytes": "461361",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/cb/tests/cslogs/mb-wscompilepod7/workdir-20230702.0029.36.661-9057/model_dir/cs_8982626695566713669*",
+      "last_used_timestamp": "2023-07-02T07:49:33Z",
+      "human_readable_size": "17.68GB",
+      "size_in_bytes": "18988068103",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-avq9xw5xnz9hhsjni7vnqu",
+      "last_used_timestamp": "2023-07-02T07:56:08Z",
+      "human_readable_size": "353.00KB",
+      "size_in_bytes": "361474",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/cb/tests/cslogs/mb-wscompilepod7/workdir-20230702.0051.29.086-25594/model_dir/cs_9898471156960158623*",
+      "last_used_timestamp": "2023-07-02T08:11:48Z",
+      "human_readable_size": "14.36GB",
+      "size_in_bytes": "15414162131",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-j5otndacpsq85abfp3h8ak",
+      "last_used_timestamp": "2023-07-02T08:17:57Z",
+      "human_readable_size": "541.03KB",
+      "size_in_bytes": "554015",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/cb/tests/cslogs/mb-wscompilepod7/workdir-20230702.0113.21.732-22268/model_dir/cs_6092807503697321493*",
+      "last_used_timestamp": "2023-07-02T08:40:33Z",
+      "human_readable_size": "20.93GB",
+      "size_in_bytes": "22477614155",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-6ibbjbxiuxlucbwulcipub",
+      "last_used_timestamp": "2023-07-02T08:47:22Z",
+      "human_readable_size": "179.98KB",
+      "size_in_bytes": "184300",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/cb/tests/cslogs/mb-wscompilepod7/workdir-20230702.0142.09.122-9209/model_dir/cs_3881848556993649113*",
+      "last_used_timestamp": "2023-07-02T08:57:06Z",
+      "human_readable_size": "12.96GB",
+      "size_in_bytes": "13910337547",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-hgpnmec6jnwqskdsvkkgrm",
+      "last_used_timestamp": "2023-07-02T09:04:16Z",
+      "human_readable_size": "602.93KB",
+      "size_in_bytes": "617400",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/cb/tests/cslogs/mb-wscompilepod7/workdir-20230702.0158.55.853-20856/model_dir/cs_16790952997647162996*",
+      "last_used_timestamp": "2023-07-02T09:27:23Z",
+      "human_readable_size": "22.03GB",
+      "size_in_bytes": "23651482356",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/imgjob-b7880d1e86469f6eaea4aa010e15dd80",
+      "last_used_timestamp": "2023-07-07T03:32:55Z",
+      "human_readable_size": "41.72KB",
+      "size_in_bytes": "42717",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-qxdovvq4fvc5d4y5ckt6qj",
+      "last_used_timestamp": "2023-07-07T03:32:59Z",
+      "human_readable_size": "382.26KB",
+      "size_in_bytes": "391434",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/opt/cerebras/cached_compile/cs_13390443793256244973*",
+      "last_used_timestamp": "2023-07-07T03:40:49Z",
+      "human_readable_size": "3.81GB",
+      "size_in_bytes": "4095331995",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-dggvv6frx7exwwydg8kmxm",
+      "last_used_timestamp": "2023-07-07T03:48:38Z",
+      "human_readable_size": "354.67KB",
+      "size_in_bytes": "363178",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/opt/cerebras/cached_compile/cs_17987403953722961413*",
+      "last_used_timestamp": "2023-07-07T03:54:43Z",
+      "human_readable_size": "3.49GB",
+      "size_in_bytes": "3751929964",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/imgjob-8102a17b4e72de45bcc2ab6d5ef79777",
+      "last_used_timestamp": "2023-07-07T17:24:01Z",
+      "human_readable_size": "39.06KB",
+      "size_in_bytes": "40002",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/imgjob-dbbb0ace72399d7c1bb4a6de6f425319",
+      "last_used_timestamp": "2023-07-07T18:29:35Z",
+      "human_readable_size": "40.72KB",
+      "size_in_bytes": "41702",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-bw8ojq8dzuqtq5ecyfxapp",
+      "last_used_timestamp": "2023-07-07T18:29:37Z",
+      "human_readable_size": "382.21KB",
+      "size_in_bytes": "391387",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/compile_root/job-operator/opt/cerebras/cached_compile/cs_10700338272756860964*",
+      "last_used_timestamp": "2023-07-07T18:37:36Z",
+      "human_readable_size": "3.81GB",
+      "size_in_bytes": "4095144233",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    },
+    {
+      "path": "/n1/wsjob/workdir/job-operator/wsjob-lnbr4linykcfldpdjitkr9",
+      "last_used_timestamp": "2023-07-07T18:45:25Z",
+      "human_readable_size": "355.15KB",
+      "size_in_bytes": "363677",
+      "plan": "keep",
+      "reason": "MRU'ed logs respect the watermark (68%) defined in the cleanup policy",
+      "status": "done"
+    }
+  ]
+}

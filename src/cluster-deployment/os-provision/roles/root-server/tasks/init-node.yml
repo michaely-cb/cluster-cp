@@ -1,0 +1,48 @@
+- name: Create TFTP directory
+  file: path={{ tftp_dir }} state=directory
+
+- name: Create bin directory
+  file:
+    path: /opt/bin
+    state: directory
+
+# TODO: add file_store check
+- name: Copy files from file store
+  copy:
+    src: "{{ file_store }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+    mode: "{{ item.mode | default('0644') }}"
+  loop: "{{ copy_files }}"
+
+- name: Create FW directory
+  file: path=/opt/mlnx_fw state=directory
+
+- name: Copy MLNX FW files
+  copy:
+    src: "/mnt/files/fw/{{ item }}"
+    dest: "/opt/mlnx_fw/"
+    remote_src: yes
+  loop: "{{ nic_fw_files }}"
+
+- name: Extract Rocky8 netboot
+  shell: tar xzf {{ file_store }}/Rocky8.tgz -C /var/www/html/
+  args:
+    creates: /var/www/html/Rocky8
+
+- name: Copy SSH public key to httpd
+  copy:
+    src: /root/.ssh/id_ed25519.pub
+    dest: /var/www/html/ssh_key
+    remote_src: yes
+
+- name: Create symlink SSH key for k8s
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  loop:
+    - src: /root/.ssh/id_ed25519.pub
+      dest: /root/.ssh/id_rsa.pub
+    - src: /root/.ssh/id_ed25519
+      dest: /root/.ssh/id_rsa

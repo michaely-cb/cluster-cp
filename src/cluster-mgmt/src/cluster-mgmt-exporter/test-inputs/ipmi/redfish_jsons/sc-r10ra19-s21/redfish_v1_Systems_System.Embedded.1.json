@@ -1,0 +1,489 @@
+{
+   "TrustedModules" : [
+      {
+         "InterfaceType" : "TPM2_0",
+         "Status" : {
+            "State" : "Disabled"
+         },
+         "FirmwareVersion" : "TpmFirmware"
+      }
+   ],
+   "HostingRoles@odata.count" : 0,
+   "Status" : {
+      "HealthRollup" : "OK",
+      "Health" : "OK",
+      "State" : "Enabled"
+   },
+   "Oem" : {
+      "Dell" : {
+         "DellSystem" : {
+            "ChassisSystemHeightUnit" : 4,
+            "StorageRollupStatus" : "OK",
+            "SELRollupStatus" : "OK",
+            "TempRollupStatus" : "OK",
+            "SysMemPrimaryStatus" : "OK",
+            "IntrusionRollupStatus" : "OK",
+            "MaxCPUSockets" : 2,
+            "CMCIP" : null,
+            "TempStatisticsRollupStatus" : "OK",
+            "LicensingRollupStatus" : "OK",
+            "PowerCapEnabledState" : "Disabled",
+            "CurrentRollupStatus" : "OK",
+            "BatteryRollupStatus" : "OK",
+            "PlatformGUID" : "3256434f-c0b4-5a80-3610-00514c4c4544",
+            "ChassisServiceTag" : "4Q6ZCV2",
+            "ManagedSystemSize" : "1 U",
+            "IDSDMRollupStatus" : null,
+            "PopulatedDIMMSlots" : 12,
+            "EstimatedSystemAirflowCFM" : 54,
+            "BaseBoardChassisSlot" : "NA",
+            "VoltRollupStatus" : "OK",
+            "SysMemErrorMethodology" : "Multi-bitECC",
+            "smbiosGUID" : "44454c4c-5100-1036-805a-b4c04f435632",
+            "LastSystemInventoryTime" : "2025-05-19T02:04:02+00:00",
+            "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellSystem/System.Embedded.1",
+            "SDCardRollupStatus" : null,
+            "SysMemLocation" : "SystemBoardOrMotherboard",
+            "NodeID" : "4Q6ZCV2",
+            "ChassisName" : "Main System Chassis",
+            "SysMemFailOverState" : "NotInUse",
+            "ChassisModel" : "",
+            "LastUpdateTime" : "2022-02-11T00:31:17+00:00",
+            "MemoryOperationMode" : "OptimizerMode",
+            "SystemGeneration" : "14G Monolithic",
+            "ServerAllocationWatts" : null,
+            "UUID" : "4c4c4544-0051-3610-805a-b4c04f435632",
+            "@odata.context" : "/redfish/v1/$metadata#DellSystem.DellSystem",
+            "EstimatedExhaustTemperatureCelsius" : 33,
+            "MaxDIMMSlots" : 24,
+            "Id" : "System.Embedded.1",
+            "MaxPCIeSlots" : 9,
+            "IsOEMBranded" : "False",
+            "BladeGeometry" : "NotApplicable",
+            "SystemID" : 1815,
+            "ExpressServiceCode" : "10290977246",
+            "@odata.type" : "#DellSystem.v1_3_0.DellSystem",
+            "PopulatedPCIeSlots" : 4,
+            "SystemRevision" : "I",
+            "FanRollupStatus" : "OK",
+            "CPURollupStatus" : "OK",
+            "Name" : "DellSystem",
+            "PSRollupStatus" : "OK",
+            "BIOSReleaseDate" : "07/09/2021"
+         },
+         "@odata.type" : "#DellOem.v1_2_0.DellOemResources"
+      }
+   },
+   "Model" : "PowerEdge C4140",
+   "SystemType" : "Physical",
+   "Processors" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Processors"
+   },
+   "Actions" : {
+      "#ComputerSystem.Reset" : {
+         "target" : "/redfish/v1/Systems/System.Embedded.1/Actions/ComputerSystem.Reset",
+         "ResetType@Redfish.AllowableValues" : [
+            "On",
+            "ForceOff",
+            "ForceRestart",
+            "GracefulRestart",
+            "GracefulShutdown",
+            "PushPowerButton",
+            "Nmi",
+            "PowerCycle"
+         ]
+      }
+   },
+   "Manufacturer" : "Dell Inc.",
+   "SerialNumber" : "CNIVC008AV0262",
+   "SecureBoot" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/SecureBoot"
+   },
+   "Links" : {
+      "ManagedBy@odata.count" : 1,
+      "Oem" : {
+         "Dell" : {
+            "DellSlotCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellSlots"
+            },
+            "DellBIOSService" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellBIOSService"
+            },
+            "DellVideoCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellVideo"
+            },
+            "DellRollupStatusCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellRollupStatus"
+            },
+            "DellGPUSensorCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellGPUSensors"
+            },
+            "DellChassisCollection" : {
+               "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Oem/Dell/DellChassis"
+            },
+            "DellOSDeploymentService" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellOSDeploymentService"
+            },
+            "DellRaidService" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellRaidService"
+            },
+            "BootOrder" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellBootSources"
+            },
+            "DellVideoNetworkCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellVideoNetwork"
+            },
+            "DellNumericSensorCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellNumericSensors"
+            },
+            "DellSensorCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellSensors"
+            },
+            "DellPSNumericSensorCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellPSNumericSensors"
+            },
+            "DellSoftwareInstallationService" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellSoftwareInstallationService"
+            },
+            "DellBootSources" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellBootSources"
+            },
+            "@odata.type" : "#DellOem.v1_2_0.DellOemLinks",
+            "DellMetricService" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellMetricService"
+            },
+            "DellPresenceAndStatusSensorCollection" : {
+               "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Oem/Dell/DellPresenceAndStatusSensors"
+            }
+         }
+      },
+      "PoweredBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerSupplies/0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Power#/PowerSupplies/1"
+         }
+      ],
+      "CooledBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/0"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/1"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/2"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/3"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/4"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/5"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/6"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/7"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/8"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/9"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/10"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/11"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/12"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/13"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/14"
+         },
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1/Thermal#/Fans/15"
+         }
+      ],
+      "ManagedBy" : [
+         {
+            "@odata.id" : "/redfish/v1/Managers/iDRAC.Embedded.1"
+         }
+      ],
+      "PoweredBy@odata.count" : 2,
+      "Chassis@odata.count" : 1,
+      "Chassis" : [
+         {
+            "@odata.id" : "/redfish/v1/Chassis/System.Embedded.1"
+         }
+      ],
+      "CooledBy@odata.count" : 16
+   },
+   "Bios" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Bios"
+   },
+   "@odata.id" : "/redfish/v1/Systems/System.Embedded.1",
+   "IndicatorLED" : "Lit",
+   "NetworkInterfaces" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/NetworkInterfaces"
+   },
+   "PowerState" : "On",
+   "BiosVersion" : "2.12.2",
+   "PCIeDevices@odata.count" : 25,
+   "PartNumber" : "013M88A04",
+   "HostWatchdogTimer" : {
+      "FunctionEnabled" : false,
+      "TimeoutAction" : "None",
+      "Status" : {
+         "State" : "Disabled"
+      }
+   },
+   "Boot" : {
+      "BootSourceOverrideTarget" : "None",
+      "BootOrder@odata.count" : 2,
+      "BootOptions" : {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/BootOptions"
+      },
+      "BootOrder" : [
+         "HardDisk.List.1-1",
+         "NIC.Integrated.1-1-1"
+      ],
+      "BootSourceOverrideEnabled" : "Disabled",
+      "BootSourceOverrideMode" : "Legacy",
+      "BootSourceOverrideTarget@Redfish.AllowableValues" : [
+         "None",
+         "Pxe",
+         "Floppy",
+         "Cd",
+         "Hdd",
+         "BiosSetup",
+         "Utilities",
+         "UefiTarget",
+         "SDCard",
+         "UefiHttp"
+      ],
+      "Certificates" : {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Boot/Certificates"
+      },
+      "UefiTargetBootSourceOverride" : null
+   },
+   "HostingRoles" : [],
+   "UUID" : "4c4c4544-0051-3610-805a-b4c04f435632",
+   "TrustedModules@odata.count" : 1,
+   "PCIeFunctions@odata.count" : 29,
+   "PCIeDevices" : [
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/40-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/44-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/30-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/32-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/34-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/26-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/42-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/36-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-31"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/2-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/1-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/6-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-28"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/5-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-17"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/94-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/191-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/195-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/181-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/183-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/185-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/177-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/193-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/187-0"
+      }
+   ],
+   "EthernetInterfaces" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/EthernetInterfaces"
+   },
+   "@odata.context" : "/redfish/v1/$metadata#ComputerSystem.ComputerSystem",
+   "Id" : "System.Embedded.1",
+   "MemorySummary" : {
+      "TotalSystemMemoryGiB" : 192,
+      "Status" : {
+         "HealthRollup" : "OK",
+         "Health" : "OK",
+         "State" : "Enabled"
+      },
+      "MemoryMirroring" : "System"
+   },
+   "HostName" : "",
+   "ProcessorSummary" : {
+      "LogicalProcessorCount" : 80,
+      "Status" : {
+         "HealthRollup" : "OK",
+         "Health" : "OK",
+         "State" : "Enabled"
+      },
+      "Count" : 2,
+      "Model" : "Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz"
+   },
+   "AssetTag" : "",
+   "SimpleStorage" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/SimpleStorage"
+   },
+   "Memory" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Memory"
+   },
+   "Storage" : {
+      "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/Storage"
+   },
+   "@odata.type" : "#ComputerSystem.v1_12_0.ComputerSystem",
+   "Description" : "Computer System which represents a machine (physical or virtual) and the local resources such as memory, cpu and other devices that can be accessed from that machine.",
+   "Name" : "System",
+   "SKU" : "4Q6ZCV2",
+   "PCIeFunctions" : [
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/40-0/PCIeFunctions/40-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/44-0/PCIeFunctions/44-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/30-0/PCIeFunctions/30-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/32-0/PCIeFunctions/32-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/34-0/PCIeFunctions/34-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/26-0/PCIeFunctions/26-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/42-0/PCIeFunctions/42-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/36-0/PCIeFunctions/36-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-31/PCIeFunctions/0-31-4"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/2-0/PCIeFunctions/2-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/1-0/PCIeFunctions/1-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/2-0/PCIeFunctions/2-0-1"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/1-0/PCIeFunctions/1-0-1"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/6-0/PCIeFunctions/6-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-28/PCIeFunctions/0-28-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/5-0/PCIeFunctions/5-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-0/PCIeFunctions/0-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-31/PCIeFunctions/0-31-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-17/PCIeFunctions/0-17-5"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/94-0/PCIeFunctions/94-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/191-0/PCIeFunctions/191-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/195-0/PCIeFunctions/195-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/181-0/PCIeFunctions/181-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/183-0/PCIeFunctions/183-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/185-0/PCIeFunctions/185-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/177-0/PCIeFunctions/177-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/193-0/PCIeFunctions/193-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/187-0/PCIeFunctions/187-0-0"
+      },
+      {
+         "@odata.id" : "/redfish/v1/Systems/System.Embedded.1/PCIeDevices/0-28/PCIeFunctions/0-28-4"
+      }
+   ]
+}

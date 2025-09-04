@@ -1,0 +1,147 @@
+apiVersion: "jobs.cerebras.com/v1"
+kind: WSJob
+metadata:
+  name: $JOB_NAME
+  namespace: job-operator
+spec:
+  numWafers: $NUM_WAFERS
+  runPolicy:
+    cleanPodPolicy: Running
+  wsReplicaSpecs:
+    Weight:
+      replicas: 1
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: $CBCORE_IMAGE
+              imagePullPolicy: IfNotPresent
+              command:
+                - "/bin/bash"
+                - $AMP_STREAM_WORKDIR/test_amp_stream_wrapper.sh
+                - --streamers
+                - "$STREAMERS"
+                - --schedules
+                - "$SCHEDULES"
+                - --sample-size
+                - "$SAMPLE_SIZE"
+                - --eth-ports
+                - "$ETH_PORTS"
+                - --streamer-ids
+                - "$STREAMER_IDS"
+              workingDir: $AMP_STREAM_WORKDIR/$JOB_NAME
+              env:
+                - name: MY_POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: MY_POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              volumeMounts:
+                - mountPath: $AMP_STREAM_WORKDIR/$JOB_NAME
+                  name: mount-0
+                - mountPath: $AMP_STREAM_WORKDIR
+                  name: mount-1
+                - mountPath: /opt/cerebras/state_cfg
+                  name: state-cfg
+          volumes:
+            - name: mount-0
+              hostPath:
+                path: $AMP_STREAM_WORKDIR/$JOB_NAME
+                type: DirectoryOrCreate
+            - name: mount-1
+              hostPath:
+                path: $AMP_STREAM_WORKDIR
+                type: DirectoryOrCreate
+            - name: state-cfg
+              configMap:
+                name: amp-stream-state-cfg
+    BroadcastReduce:
+      replicas: 1
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: $CBCORE_IMAGE
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/bash
+                - $AMP_STREAM_WORKDIR/start_br.sh
+              workingDir: $AMP_STREAM_WORKDIR/$JOB_NAME
+              env:
+                - name: MY_POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: MY_POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              volumeMounts:
+                - mountPath: $AMP_STREAM_WORKDIR/$JOB_NAME
+                  name: mount-0
+                - mountPath: $AMP_STREAM_WORKDIR
+                  name: mount-1
+                - mountPath: /opt/cerebras/state_cfg
+                  name: state-cfg
+          volumes:
+            - name: mount-0
+              hostPath:
+                path: $AMP_STREAM_WORKDIR/$JOB_NAME
+                type: DirectoryOrCreate
+            - name: mount-1
+              hostPath:
+                path: $AMP_STREAM_WORKDIR
+                type: DirectoryOrCreate
+            - name: state-cfg
+              configMap:
+                name: amp-stream-state-cfg
+    Chief:
+      replicas: $NUM_WAFERS
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: $CBCORE_IMAGE
+              imagePullPolicy: IfNotPresent
+              command:
+                - "/bin/bash"
+                - $AMP_STREAM_WORKDIR/load_elf.sh
+                - --streamers
+                - "$STREAMERS"
+                - --elf
+                - $AMP_STREAM_WORKDIR/$ELF
+              workingDir: $AMP_STREAM_WORKDIR/$JOB_NAME
+              env:
+                - name: MY_POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: MY_POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              volumeMounts:
+                - mountPath: $AMP_STREAM_WORKDIR/$JOB_NAME
+                  name: mount-0
+                - mountPath: $AMP_STREAM_WORKDIR
+                  name: mount-1
+                - mountPath: /opt/cerebras/state_cfg
+                  name: state-cfg
+          volumes:
+            - name: mount-0
+              hostPath:
+                path: $AMP_STREAM_WORKDIR/$JOB_NAME
+                type: DirectoryOrCreate
+            - name: mount-1
+              hostPath:
+                path: $AMP_STREAM_WORKDIR
+                type: DirectoryOrCreate
+            - name: state-cfg
+              configMap:
+                name: amp-stream-state-cfg

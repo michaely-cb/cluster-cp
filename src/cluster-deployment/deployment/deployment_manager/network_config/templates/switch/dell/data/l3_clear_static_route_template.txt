@@ -1,0 +1,2 @@
+! clear static route
+no ip route vrf ${vrf_name} ${dest}

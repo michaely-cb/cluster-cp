@@ -1,0 +1,61 @@
+kind: InventoryValidationSpec
+rackTemplates:
+- name: wse1
+  properties:
+    partNumber: 520-0161-01
+  counts:
+    sy:
+      cs: 2
+    sw:
+      mg: 1
+    pr:
+      mc: 3
+    pu:
+      in: 3
+- name: wse2
+  properties:
+    partNumber: 520-0162-01
+  counts:
+    sy:
+      cs: 2
+    pu:
+      in: 3
+- name: inference-driver
+  properties:
+    partNumber: 520-0238-01-01
+  counts:
+    sr:
+      ax: 32
+    sw:
+      mg: 1
+      lf: 2
+    pu:
+      in: 2
+- name: spine
+  properties:
+    partNumber: 520-0163-01
+  counts:
+    sw:
+      mg: 1
+      sp: 3
+    pu:
+      in: 2
+- name: fe1
+  properties:
+    partNumber: 520-0225-02
+  counts:
+    sw:
+      lf: 2
+      mg: 1
+      dist: 2
+    sr:
+      us: 9
+      mg: 10
+    pu:
+      in: 2
+- name: virtual-devices
+  properties:
+    partNumber: 000-0000-00
+  counts:
+    sw:
+      mg: 1

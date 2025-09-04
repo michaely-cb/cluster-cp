@@ -1,0 +1,4 @@
+*.go
+docs.md
+cluster_mgmt/
+common/

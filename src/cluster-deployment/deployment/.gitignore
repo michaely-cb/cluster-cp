@@ -1,0 +1,3 @@
+deployment_manager/test*/clusters/pytest*
+bin
+__pycache__

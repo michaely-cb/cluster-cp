@@ -1,0 +1,268 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cluster-server.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "cluster-server.labels" . | nindent 4 }}
+    {{- with .Values.extraLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    cerebras/system-count: "{{ .Values.systemCount }}"
+    {{- if .Values.systemUpdate }}
+    system-update: "true"
+    {{- end }}
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "cluster-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "cluster-server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cluster-server.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ required "missing cluster-server image repo: 'image.repository' must be set" $.Values.image.repository }}:{{ required "missing cluster-server image tag: 'image.tag' must be set" $.Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: grpc
+            - containerPort: {{ .Values.metrics.port }}
+              name: http
+          startupProbe:
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 6
+          readinessProbe:
+            grpc:
+              port: {{ .Values.service.port }}
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            periodSeconds: 10
+          command:
+            - /go-runner
+          args:
+          {{- if .Values.serverLogMountPath }}
+            - --log-file={{ .Values.serverLogMountPath }}/{{ .Values.namespace }}-cluster-server.log
+          {{- end }}
+            - --also-stdout
+            - /cluster_server
+          {{- range $key, $value := .Values.container.args }}
+          {{- if $value }}
+            - -{{ $key }}={{ $value }}
+          {{- else }}
+            - \-{{ $key }}
+          {{- end }}
+        {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: {{ .Values.logExport.path }}
+              name: export-log
+            - mountPath: {{ .Values.debugviz.path }}
+              name: debug-volume
+            {{- if .Values.serverLogMountPath }}
+            - mountPath: {{ .Values.serverLogMountPath }}
+              name: server-log
+            {{- end }}
+            {{- if eq .Values.disableUserAuth false }}
+            - mountPath: /kube-user-auth
+              name: user-auth-secret
+            {{- end }}
+            {{- if .Values.kafka }}
+            - mountPath: {{ .Values.kafka.secretMountPath }}
+              name: kafka-secret-dir
+            {{- end }}
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: MY_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: SYSTEM_NAMESPACE
+              value: "{{ .Values.system_namespace }}"
+          {{- range $key, $value := .Values.extraEnvs }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+          {{- end }}
+            - name: WORKDIR_LOGS_ROOT_PATH
+              value: "{{ .Values.wsjob.localWorkdirRoot }}"
+            - name: CACHED_COMPILE_ROOT_PATH
+              value: "{{ .Values.wsjob.cachedCompileRoot }}"
+            - name: LOG_EXPORT_ROOT_PATH
+              value: "{{ .Values.logExport.path }}"
+            - name: DEBUG_ARTIFACT_ROOT_PATH
+              value: "{{ .Values.debugviz.path }}"
+            - name: TENSOR_STORAGE_ROOT_PATH
+              value: "{{ .Values.wsjob.tensorStorageRoot }}"
+            - name: WORKER_CACHE_ROOT_PATH
+              value: "{{ .Values.wsjob.workerCacheRoot }}"
+            - name: WORKER_SHARED_MEMORY_ROOT_PATH
+              value: "{{ .Values.wsjob.workerSharedMemoryRoot }}"
+            - name: WORKDIR_LOGS_NFS_MOUNTED_PATH
+              value: "{{ .Values.wsjob.workdirLogsNfsMountedPath }}"
+            - name: CACHED_COMPILE_NFS_MOUNTED_PATH
+              value: "{{ .Values.wsjob.cachedCompileNfsMountedPath }}"
+            - name: MGMT_NODE_DATA_IP
+              value: "{{ .Values.mgmtNodeDataIp }}"
+            - name: MULTI_MGMT_NODES
+              value: "{{ .Values.multiMgmtNodes }}"
+            - name: ENABLE_ROCE
+              value: "{{ .Values.enableRoCE }}"
+            - name: DISABLE_USER_AUTH
+              value: "{{ .Values.disableUserAuth }}"
+            - name: SKIP_SYSTEM_MAINTENANCE_RESOURCE_LIMITS
+              value: "{{ .Values.skipSystemMaintenanceResourceLimits | default false }}"
+            - name: COMPILE_SYSTEM_TYPE
+              value: "{{ .Values.compileSystemType }}"
+            - name: BUILD_BALANCED_BR_TREE
+              value: "{{ .Values.buildBalancedBrTree }}"
+            - name: DISABLE_NON_CRD_SERVICES
+              value: "{{ .Values.disableNonCRDServices | default true }}"
+            - name: DISABLE_NON_CRD_RESOURCE_REQUESTS
+              value: "{{ .Values.disableNonCRDResourceRequests | default false }}"
+            - name: MAX_TRAIN_FABRIC_FREQ_MHZ
+              value: "{{ .Values.maxTrainFabricFreqMhz | default 900 }}"
+            - name: WSJOB_DEFAULT_IMAGE
+              value: "{{ $.Values.wsjob.image }}"
+            - name: WSJOB_DEFAULT_COMMAND
+              value: "{{ $.Values.wsjob.command }}"
+          {{- if .Values.imageBuilder }}
+            - name: DISABLE_IMAGE_BUILDER
+              value: "{{ .Values.imageBuilder.disabled }}"
+            - name: IMAGE_BUILDER_BASE_IMAGE
+              value: "{{ required "missing sidecar base image value: 'imageBuilder.baseImage' must be set" $.Values.imageBuilder.baseImage }}"
+            - name: IMAGE_BUILDER_DESTINATION_IMAGE_NAME
+              value: "{{ .Values.imageBuilder.imageName }}"
+            - name: IMAGE_BUILDER_KANIKO_LOG_LEVEL
+              value: info
+            - name: IMAGE_BUILDER_SUPPORTED_SIDECAR_IMAGES
+              value: "{{ .Values.imageBuilder.supportedSidecarImages }}"
+            - name: SHELL_XTRACE
+            - name: CTR_DEBUG
+          {{- end }}
+          {{- if .Values.kafka }}
+            - name: KAFKA_BOOTSTRAP_SERVER
+              value: {{ .Values.kafka.bootstrapServer }}
+            - name: KAFKA_BROKER_LIST
+              value: {{ join "," .Values.kafka.brokerList }}
+            - name: KAFKA_SECRET_DIR
+              value: {{ .Values.kafka.secretMountPath }}
+          {{- end}}
+            - name: ENABLE_ISOLATED_DASHBOARDS
+              value: "{{ .Values.enableIsolatedDashboards }}"
+            - name: ALLOW_NON_DEFAULT_JOB_PRIORITY
+              value: "{{ .Values.allowNonDefaultJobPriority }}"
+            - name: DISABLE_FABRIC_JSON_CHECK
+              value: "{{ .Values.disableFabricJsonCheck }}"
+            - name: DEBUG_VIZ_INGRESS_URL
+              value: "https://{{ index .Values.debugviz.ingress.debugVizHosts 0 }}/debug-ui?artifact_directory={{ .Values.debugviz.path }}"
+      volumes:
+        {{- if eq .Values.multiMgmtNodes false }}
+        - hostPath:
+            path: {{ .Values.logExport.path }}
+            type: DirectoryOrCreate
+          name: export-log
+        - hostPath:
+            path: {{ .Values.debugviz.path }}
+            type: Directory
+          name: debug-volume
+        {{- else }}
+        - persistentVolumeClaim:
+            claimName: {{ .Values.logExport.pvc }}
+          name: export-log
+        - persistentVolumeClaim:
+            claimName: {{ .Values.debugviz.pvc }}
+          name: debug-volume
+        {{- end }}
+        {{- if .Values.serverLogHostPath }}
+        - hostPath:
+            path: {{ .Values.serverLogHostPath }}
+            type: DirectoryOrCreate
+          name: server-log
+        {{- end }}
+        {{- if eq .Values.disableUserAuth false }}
+        - name: user-auth-secret
+          secret:
+            secretName: kube-user-auth
+        {{- end }}
+        {{- if .Values.kafka }}
+        - name: kafka-secret-dir
+          emptyDir: { }
+        {{- end}}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: k8s.cerebras.com/node-role-coordinator
+                    operator: Exists
+                  - key: k8s.cerebras.com/namespace
+                    operator: In
+                    values: ["{{ .Values.namespace }}"]
+              - matchExpressions:
+                  - key: k8s.cerebras.com/node-role-management
+                    operator: Exists
+                  {{- if eq .Values.namespace .Values.system_namespace }}
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
+                  {{- end}}
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: k8s.cerebras.com/node-role-coordinator
+                    operator: Exists
+                  - key: k8s.cerebras.com/namespace
+                    operator: In
+                    values: ["{{ .Values.namespace }}"]
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: k8s.cerebras.com/node-role-management
+                    operator: Exists
+                  {{- if eq .Values.namespace .Values.system_namespace }}
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
+                  {{- end}}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: cluster-server
+                topologyKey: kubernetes.io/hostname
+              weight: 2
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

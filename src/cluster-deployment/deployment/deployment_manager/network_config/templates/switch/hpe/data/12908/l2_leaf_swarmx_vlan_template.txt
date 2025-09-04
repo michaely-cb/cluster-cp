@@ -1,0 +1,24 @@
+no vlan ${swarmx_vlan}
+vlan ${swarmx_vlan}
+exit
+
+no interface Vlan-interface${swarmx_vlan}
+interface Vlan-interface${swarmx_vlan}
+   description "swarmx subnet"
+   ip binding vpn-instance ${vrf_name}
+   mtu ${mtu}
+   no ip address
+   ip address ${swarmx_switch_address_netmask}
+   no shutdown
+   exit
+#
+
+bgp ${asn_num}
+  router-id ${router_id}
+  #
+  ip vpn-instance ${vrf_name}
+    address-family ipv4 unicast
+      network ${swarmx_switch_prefix_addr} ${swarmx_switch_prefix_netmask}
+      exit
+    exit
+  exit

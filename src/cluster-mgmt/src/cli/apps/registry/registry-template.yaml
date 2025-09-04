@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: private-registry
+  namespace: kube-system
+  labels:
+    app: private-registry
+spec:
+  selector:
+    matchLabels:
+      app: private-registry
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # allows 2 unavailable replicas in a 3 controlplane HA config
+      maxUnavailable: 34%
+  template:
+    metadata:
+      labels:
+        app: private-registry
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        "node-role.kubernetes.io/control-plane": ""
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      priorityClassName: system-node-critical
+      volumes:
+        - name: certs-vol
+          secret:
+            secretName: registry-tls-secret
+        - name: registry-logs-vol
+          hostPath:
+            path: '/n0/cluster-mgmt/registry-logs'
+            type: DirectoryOrCreate
+      containers:
+        - image: registry_image_full_path
+          command:
+          - /bin/sh
+          - -c
+          args:
+          - 'registry serve /etc/docker/registry/config.yml > >(tee -a "${LOG_PATH}") 2> >(tee -a "${LOG_PATH}" >&2)'
+          name: private-registry
+          imagePullPolicy: IfNotPresent
+          # https://github.com/distribution/distribution/blob/main/docs/configuration.md#list-of-configuration-options
+          # https://github.com/distribution/distribution/blob/0cf87b1fd17ab8d086559e75b7e1a828605bfaed/configuration/parser.go#L113
+          env:
+            - name: REGISTRY_HTTP_TLS_CERTIFICATE
+              value: "/certs/tls.crt"
+            - name: REGISTRY_HTTP_TLS_KEY
+              value: "/certs/tls.key"
+            - name: REGISTRY_HTTP_DEBUG_ADDR
+              value: ":5001"
+            - name: REGISTRY_STORAGE_FILESYSTEM_MAXTHREADS
+              value: "10000"
+            - name: REGISTRY_STORAGE_DELETE_ENABLED
+              value: "true"
+            # Note: a podmonitor is required for prometheus to scrape metrics. We only use this for a liveness check today.
+            # consider using a community helm chart to do this for us https://github.com/twuni/docker-registry.helm
+            - name: REGISTRY_HTTP_DEBUG_PROMETHEUS_ENABLED
+              value: "true"
+            - name: REGISTRY_HTTP_DEBUG_PROMETHEUS_PATH
+              value: "/metrics"
+            - name: REGISTRY_LOG_ACCESSLOG_DISABLED
+              value: "true"
+            - name: REGISTRY_LOG_FORMATTER
+              value: "json"
+            - name: LOG_PATH
+              value: "/var/log/registry/registry.log"
+          ports:
+          - containerPort: 5000
+            name: https-web
+          - containerPort: 5001
+            name: http-metrics
+          livenessProbe:
+            httpGet:
+              path: /debug/health
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /debug/health
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: certs-vol
+              mountPath: /certs
+            - name: registry-vol
+              mountPath: /var/lib/registry
+            - name: registry-logs-vol
+              mountPath: /var/log/registry
+          resources:
+            # Note: memory usage spikes when image loading and never got released
+            # this is mitigated by a daily restart for another registry manifest bug
+            # todo: dig deeper to resolve this memory leak issue
+            requests:
+              cpu: "1"
+              memory: 2Gi

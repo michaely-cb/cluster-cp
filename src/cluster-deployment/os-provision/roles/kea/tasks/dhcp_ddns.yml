@@ -1,0 +1,51 @@
+- name: Validate kea configuration
+  ansible.builtin.shell: kea-dhcp-ddns -t {{ dhcp_config_dir }}/kea-dhcp-ddns.conf
+
+- name: Check if kea-dhcp4 service status
+  ansible.builtin.systemd:
+    name: kea-dhcp-ddns
+  register: kea_ddns_status
+
+- name: Back up existing kea-dhcp4.conf if kea is running and backup does not exist
+  ansible.builtin.copy:
+    src: /etc/kea/kea-dhcp-ddns.conf
+    dest: /etc/kea/kea-dhcp-ddns.conf.backup
+    remote_src: yes
+  when:
+    - kea_ddns_status.status.ActiveState == 'active'
+
+- name: Copy kea configuration
+  ansible.builtin.copy:
+    src: "{{ dhcp_config_dir }}/kea-dhcp-ddns.conf"
+    dest: /etc/kea/kea-dhcp-ddns.conf
+    owner: kea
+    group: kea
+    mode: '0644'
+  register: config_changed
+
+- name: Enable and start kea-dhcp-ddns service
+  ansible.builtin.systemd:
+    name: kea-dhcp-ddns
+    state: "{{ 'restarted' if config_changed.changed else 'started' }}"
+    enabled: yes
+
+- name: Give some time for boot up
+  ansible.builtin.pause:
+    seconds: 2
+
+- name: Ensure kea-dhcp-ddns service is running
+  ansible.builtin.systemd:
+    name: kea-dhcp-ddns
+    state: started
+    enabled: yes
+  register: ddns_status
+
+- name: Fail if kea-dhcp-ddns is not running
+  ansible.builtin.fail:
+    msg: "kea-dhcp-ddns service is not running after restart. Old config is at /etc/kea/kea-dhcp-ddns.conf.backup. Check 'journalctl -u kea-dhcp-ddns'"
+  when: not ddns_status.status.ActiveState == 'active'
+
+- name: Remove kea-dhcp4.conf backup if kea is running
+  ansible.builtin.file:
+    path: /etc/kea/kea-dhcp4.conf.backup
+    state: absent

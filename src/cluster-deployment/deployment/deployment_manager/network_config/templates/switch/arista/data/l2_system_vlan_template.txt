@@ -1,0 +1,9 @@
+interface vlan ${system_vlan}
+   description "system subnet"
+   mtu ${mtu}
+   vrf ${vrf_name}
+   ip address ${system_switch_address}
+
+router bgp ${asn}
+  vrf ${vrf_name}
+    network ${system_switch_prefix}

@@ -1,0 +1,11 @@
+*.pyc
+.cs_cluster.conf
+pkg*/
+!pkg-functions
+dev-*
+build
+cluster-pkg*
+cluster-orchestration*
+cluster-package*
+CS1-*
+Cerebras-patches-*

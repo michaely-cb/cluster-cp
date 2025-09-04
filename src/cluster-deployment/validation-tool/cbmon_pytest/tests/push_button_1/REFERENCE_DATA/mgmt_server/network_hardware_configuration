@@ -1,0 +1,7 @@
+H/W             path            Device          Class           Description
+/0/100/3.1/0    ens2f0np0       network         MT28908         Family [ConnectX-6]
+/0/100/3.1/0.1  ens2f1np1       network         MT28908         Family [ConnectX-6]
+/0/120/1.1/0    ens10f0         network         I350            Gigabit Network Connection
+/0/120/1.1/0.1  ens10f1         network         I350            Gigabit Network Connection
+/0/120/1.1/0.2  ens10f2         network         I350            Gigabit Network Connection
+/0/120/1.1/0.3  ens10f3         network         I350            Gigabit Network Connection

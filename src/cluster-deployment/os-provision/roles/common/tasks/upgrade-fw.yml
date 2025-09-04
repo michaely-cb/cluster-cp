@@ -1,0 +1,26 @@
+- name: Create temp directory for firmware files
+  file:
+    path: /tmp/mlnx_fw
+    state: "directory"
+
+- name: copy multiple items
+  copy:
+    src: "/opt/mlnx_fw/{{ item }}"
+    dest: "/tmp/mlnx_fw/"
+  loop: "{{ nic_fw_files }} "
+
+- name: Copy fw update script
+  ansible.builtin.copy:
+    src: update_nic_fw.py
+    dest: /tmp/mlnx_fw/update_nic_fw.py
+    mode: '0755'
+
+- name: Update FW
+  shell: |
+    set -e -o pipefail
+    python3 /tmp/mlnx_fw/update_nic_fw.py --bin_dir /tmp/mlnx_fw/ | tee /tmp/update_nic.log
+
+- name: Clean up temp directory
+  file:
+    path: /tmp/mlnx_fw
+    state: absent

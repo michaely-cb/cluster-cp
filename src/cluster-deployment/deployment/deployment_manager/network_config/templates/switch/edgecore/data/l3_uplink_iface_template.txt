@@ -1,0 +1,9 @@
+#
+# L3 uplink peering config between ${name} and ${neighbor}
+#
+
+# TODO: this template SHOULD clear the existing config on the target interface
+
+sudo config interface vrf bind ${my_port} Vrf_${vrf_name}
+sudo config interface ip add ${my_port} ${my_address}
+sudo config interface description ${my_port} L3_to_${neighbor}

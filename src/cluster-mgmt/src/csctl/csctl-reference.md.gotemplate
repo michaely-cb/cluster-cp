@@ -1,0 +1,53 @@
+# Resource Reference
+
+Generated API reference for objects returned by csctl.
+
+## Table of Contents
+{{ range .Files -}}
+{{- if .HasMessages -}}
+Objects
+{{ range .Messages -}}
+{{ if not (or (hasSuffix "Entry" .Name) (hasSuffix "List" .Name)) -}}
+  - [{{.Name}}](#{{ .FullName | lower | replace "." "" }})
+{{ end -}}
+{{ end }}
+{{- end -}}
+{{- if gt (len .Enums) 0 -}}{{/* there's a .HasEnums prop, but it appears to not work */}}
+Enums
+{{ range .Enums -}}
+  - [{{.Name}}](#{{ .FullName | lower | replace "." "" }})
+{{ end }}
+{{- end -}}{{/* end if enums */}}
+{{- end -}}
+{{ with $file := index .Files 0 }}
+## Objects
+{{ range .Messages }}
+{{- if not (or (hasSuffix "Entry" .Name) (hasSuffix "List" .Name)) -}}
+### <a name="{{ .FullName | lower | replace "." "" }}">{{.Name}}</a>
+{{- if gt (len .Description) 0 }}
+{{ .Description }}
+{{ end -}}
+{{ if .HasFields }}
+**Fields**
+
+| Name | Type | Description |
+|---|---|---|
+{{ range .Fields -}}
+| {{ .Name }} | {{ if .IsMap }}map<string,string>{{ else }}{{ .Type }}{{ end }} | {{ if .IsOneof }} Optional: one of several potential _{{ .OneofDecl }}s_. {{ end }}{{ nobr .Description }} |
+{{ end }}{{/* end for fields */}}
+{{ end }}{{/* end if hasFields */}}
+{{- end -}}{{/* end if suffixes */}}
+{{- end -}}{{/* end if range Messages */}}
+## Enums
+{{ range .Enums -}}
+### <a name="{{ .FullName | lower | replace "." "" }}">{{.Name}}</a>
+{{ .Description }}
+**Values**
+
+| Name | Description |
+|---|---|
+{{ range .Values -}}
+| {{ .Name }} | {{ nobr .Description }} |
+{{ end }}{{/* end for values */}}
+{{ end }}{{/* end if range Enums */}}
+{{ end }}{{/* end with */}}

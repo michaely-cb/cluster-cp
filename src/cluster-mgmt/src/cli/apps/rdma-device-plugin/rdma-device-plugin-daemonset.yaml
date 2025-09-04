@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: rdma-device-plugin
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: rdma-device-plugin
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "34%"
+  template:
+    metadata:
+      labels:
+        name: rdma-device-plugin
+    spec:
+      priorityClassName: system-node-critical
+      containers:
+      - image: registry.local/mellanox/k8s-rdma-shared-dev-plugin:v1.5.1
+        name: rdma-device-plugin
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        resources:
+          limits:
+            memory: "128M"
+          requests:
+            memory: "128M"
+            cpu: "250m"
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/
+          - name: config
+            mountPath: /k8s-rdma-shared-dev-plugin
+          - name: devs
+            mountPath: /dev/
+        livenessProbe:
+          exec:
+            command:
+              - sh
+              - -c
+              - |
+                CHECKPOINT_FILE="/var/lib/kubelet/device-plugins/kubelet_internal_checkpoint"
+                if cat "$CHECKPOINT_FILE" | grep -o '"RegisteredDevices":{[^}]*rdma/hca_devices'; then
+                  echo "rdma/hca_devices registered!"
+                  exit 0
+                else
+                  echo "rdma/hca_devices not registered!"
+                  exit 1
+                fi
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          failureThreshold: 4  # Restart only if it fails for 4 consecutive times (2 minutes)
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/
+        - name: config
+          configMap:
+            name: rdma-devices
+            items:
+            - key: config.json
+              path: config.json
+        - name: devs
+          hostPath:
+            path: /dev/
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists

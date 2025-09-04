@@ -1,0 +1,39 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://cerebras.com/usernode.schema.json",
+    "type": "object",
+    "title": "UsernodeInstallerConfiguration",
+    "description": "Configuration parameters for the usernode installer.",
+    "properties": {
+        "kind": {
+            "description": "Reference to the kind of JSON document. Always 'UsernodeInstallerConfiguration'.",
+            "type": "string",
+            "default": "UsernodeInstallerConfiguration"
+        },
+        "ip": {
+            "description": "IP address of the management node which the usernode will contact.",
+            "type": "string",
+            "format": "ipv4"
+        },
+        "domains": {
+            "description": "List of domains served at the IP address given by 'ip'.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+        "certs": {
+            "description": "Key/Value pairs of file name to base64-encoded certificate. Should be placed at /opt/cerebras/certs/.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "minProperties": 1
+        }
+    },
+    "required": [
+        "kind", "ip", "domains", "certs"
+    ]
+}

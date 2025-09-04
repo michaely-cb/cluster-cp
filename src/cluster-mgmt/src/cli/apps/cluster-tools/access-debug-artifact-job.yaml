@@ -1,0 +1,42 @@
+# A yaml to create a job with a pod to access the debug artifact directory.
+# You can create the job by running:
+#    kubectl apply -f access-debug-artifact-job.yaml
+#
+# The job pod should have a name like `access-debug-artifact-<hash>`.
+# You can then log into the pod to see the log export content:
+#    kubectl exec -ti job/access-debug-artifact -- sh
+#
+# The pod will be running for 1 hour. You can adjust the time below (sleep 3600)
+# to control how long you would like to the pod to run. The job will be automatically
+# deleted 10 minutes after the pod completes.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: access-debug-artifact
+  namespace: job-operator
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        "storage-type": "ceph"
+      containers:
+      - name: main
+        image: registry.local/busybox:1.34.1
+        command: ["sleep", "3600"]
+        volumeMounts:
+        - mountPath: /pvc/debug-artifact
+          name: debug-artifact-path
+        workingDir: /pvc/debug-artifact
+      volumes:
+      - name: debug-artifact-path
+        persistentVolumeClaim:
+          claimName: debug-artifact-static-pvc
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule

@@ -1,0 +1,838 @@
+NIC statistics:
+     [0]: rx_ucast_packets: 562949953421389
+     [0]: rx_mcast_packets: 4222124650769600
+     [0]: rx_bcast_packets: 602
+     [0]: rx_discards: 0
+     [0]: rx_errors: 0
+     [0]: rx_ucast_bytes: 562949953426836
+     [0]: rx_mcast_bytes: 4222124664587420
+     [0]: rx_bcast_bytes: 36120
+     [0]: tx_ucast_packets: 562949953421364
+     [0]: tx_mcast_packets: 0
+     [0]: tx_bcast_packets: 2
+     [0]: tx_errors: 0
+     [0]: tx_discards: 0
+     [0]: tx_ucast_bytes: 562949953424622
+     [0]: tx_mcast_bytes: 0
+     [0]: tx_bcast_bytes: 112
+     [0]: rx_tpa_eligible_pkt: 0
+     [0]: rx_tpa_eligible_bytes: 0
+     [0]: rx_tpa_pkt: 0
+     [0]: rx_tpa_bytes: 0
+     [0]: rx_tpa_errors: 0
+     [0]: rx_tpa_events: 0
+     [0]: rx_hds_pkt: 0
+     [0]: rx_tpa_hds_pkt: 0
+     [0]: rx_l4_csum_errors: 0
+     [0]: rx_resets: 0
+     [0]: rx_buf_errors: 0
+     [0]: so_txtime_xmit: 0
+     [0]: so_txtime_cmpl_errors: 0
+     [0]: missed_irqs: 0
+     [0]: xsk_rx_success: 0
+     [0]: xsk_rx_redirect_fail: 0
+     [0]: xsk_rx_alloc_fail: 0
+     [0]: xsk_rx_no_room: 0
+     [0]: xsk_tx_ring_full: 0
+     [0]: xsk_wakeup: 0
+     [0]: xsk_tx_completed: 0
+     [0]: xsk_tx_sent_pkts: 0
+     [1]: rx_ucast_packets: 0
+     [1]: rx_mcast_packets: 0
+     [1]: rx_bcast_packets: 0
+     [1]: rx_discards: 0
+     [1]: rx_errors: 0
+     [1]: rx_ucast_bytes: 0
+     [1]: rx_mcast_bytes: 0
+     [1]: rx_bcast_bytes: 0
+     [1]: tx_ucast_packets: 4
+     [1]: tx_mcast_packets: 0
+     [1]: tx_bcast_packets: 0
+     [1]: tx_errors: 0
+     [1]: tx_discards: 0
+     [1]: tx_ucast_bytes: 316
+     [1]: tx_mcast_bytes: 0
+     [1]: tx_bcast_bytes: 0
+     [1]: rx_tpa_eligible_pkt: 0
+     [1]: rx_tpa_eligible_bytes: 0
+     [1]: rx_tpa_pkt: 0
+     [1]: rx_tpa_bytes: 0
+     [1]: rx_tpa_errors: 0
+     [1]: rx_tpa_events: 0
+     [1]: rx_hds_pkt: 0
+     [1]: rx_tpa_hds_pkt: 0
+     [1]: rx_l4_csum_errors: 0
+     [1]: rx_resets: 0
+     [1]: rx_buf_errors: 0
+     [1]: so_txtime_xmit: 0
+     [1]: so_txtime_cmpl_errors: 0
+     [1]: missed_irqs: 0
+     [1]: xsk_rx_success: 0
+     [1]: xsk_rx_redirect_fail: 0
+     [1]: xsk_rx_alloc_fail: 0
+     [1]: xsk_rx_no_room: 0
+     [1]: xsk_tx_ring_full: 0
+     [1]: xsk_wakeup: 0
+     [1]: xsk_tx_completed: 0
+     [1]: xsk_tx_sent_pkts: 0
+     [2]: rx_ucast_packets: 19
+     [2]: rx_mcast_packets: 0
+     [2]: rx_bcast_packets: 0
+     [2]: rx_discards: 0
+     [2]: rx_errors: 0
+     [2]: rx_ucast_bytes: 2044
+     [2]: rx_mcast_bytes: 0
+     [2]: rx_bcast_bytes: 0
+     [2]: tx_ucast_packets: 5
+     [2]: tx_mcast_packets: 0
+     [2]: tx_bcast_packets: 4
+     [2]: tx_errors: 0
+     [2]: tx_discards: 0
+     [2]: tx_ucast_bytes: 452
+     [2]: tx_mcast_bytes: 0
+     [2]: tx_bcast_bytes: 224
+     [2]: rx_tpa_eligible_pkt: 0
+     [2]: rx_tpa_eligible_bytes: 0
+     [2]: rx_tpa_pkt: 0
+     [2]: rx_tpa_bytes: 0
+     [2]: rx_tpa_errors: 0
+     [2]: rx_tpa_events: 0
+     [2]: rx_hds_pkt: 0
+     [2]: rx_tpa_hds_pkt: 0
+     [2]: rx_l4_csum_errors: 0
+     [2]: rx_resets: 0
+     [2]: rx_buf_errors: 0
+     [2]: so_txtime_xmit: 0
+     [2]: so_txtime_cmpl_errors: 0
+     [2]: missed_irqs: 0
+     [2]: xsk_rx_success: 0
+     [2]: xsk_rx_redirect_fail: 0
+     [2]: xsk_rx_alloc_fail: 0
+     [2]: xsk_rx_no_room: 0
+     [2]: xsk_tx_ring_full: 0
+     [2]: xsk_wakeup: 0
+     [2]: xsk_tx_completed: 0
+     [2]: xsk_tx_sent_pkts: 0
+     [3]: rx_ucast_packets: 281474976710753
+     [3]: rx_mcast_packets: 0
+     [3]: rx_bcast_packets: 0
+     [3]: rx_discards: 0
+     [3]: rx_errors: 0
+     [3]: rx_ucast_bytes: 281474976720344
+     [3]: rx_mcast_bytes: 0
+     [3]: rx_bcast_bytes: 0
+     [3]: tx_ucast_packets: 13
+     [3]: tx_mcast_packets: 0
+     [3]: tx_bcast_packets: 0
+     [3]: tx_errors: 0
+     [3]: tx_discards: 0
+     [3]: tx_ucast_bytes: 1198
+     [3]: tx_mcast_bytes: 0
+     [3]: tx_bcast_bytes: 0
+     [3]: rx_tpa_eligible_pkt: 0
+     [3]: rx_tpa_eligible_bytes: 0
+     [3]: rx_tpa_pkt: 0
+     [3]: rx_tpa_bytes: 0
+     [3]: rx_tpa_errors: 0
+     [3]: rx_tpa_events: 0
+     [3]: rx_hds_pkt: 0
+     [3]: rx_tpa_hds_pkt: 0
+     [3]: rx_l4_csum_errors: 0
+     [3]: rx_resets: 0
+     [3]: rx_buf_errors: 0
+     [3]: so_txtime_xmit: 0
+     [3]: so_txtime_cmpl_errors: 0
+     [3]: missed_irqs: 0
+     [3]: xsk_rx_success: 0
+     [3]: xsk_rx_redirect_fail: 0
+     [3]: xsk_rx_alloc_fail: 0
+     [3]: xsk_rx_no_room: 0
+     [3]: xsk_tx_ring_full: 0
+     [3]: xsk_wakeup: 0
+     [3]: xsk_tx_completed: 0
+     [3]: xsk_tx_sent_pkts: 0
+     [4]: rx_ucast_packets: 0
+     [4]: rx_mcast_packets: 0
+     [4]: rx_bcast_packets: 0
+     [4]: rx_discards: 0
+     [4]: rx_errors: 0
+     [4]: rx_ucast_bytes: 0
+     [4]: rx_mcast_bytes: 0
+     [4]: rx_bcast_bytes: 0
+     [4]: tx_ucast_packets: 5
+     [4]: tx_mcast_packets: 562949953421452
+     [4]: tx_bcast_packets: 2
+     [4]: tx_errors: 0
+     [4]: tx_discards: 0
+     [4]: tx_ucast_bytes: 452
+     [4]: tx_mcast_bytes: 562949953431304
+     [4]: tx_bcast_bytes: 112
+     [4]: rx_tpa_eligible_pkt: 0
+     [4]: rx_tpa_eligible_bytes: 0
+     [4]: rx_tpa_pkt: 0
+     [4]: rx_tpa_bytes: 0
+     [4]: rx_tpa_errors: 0
+     [4]: rx_tpa_events: 0
+     [4]: rx_hds_pkt: 0
+     [4]: rx_tpa_hds_pkt: 0
+     [4]: rx_l4_csum_errors: 0
+     [4]: rx_resets: 0
+     [4]: rx_buf_errors: 0
+     [4]: so_txtime_xmit: 0
+     [4]: so_txtime_cmpl_errors: 0
+     [4]: missed_irqs: 0
+     [4]: xsk_rx_success: 0
+     [4]: xsk_rx_redirect_fail: 0
+     [4]: xsk_rx_alloc_fail: 0
+     [4]: xsk_rx_no_room: 0
+     [4]: xsk_tx_ring_full: 0
+     [4]: xsk_wakeup: 0
+     [4]: xsk_tx_completed: 0
+     [4]: xsk_tx_sent_pkts: 0
+     [5]: rx_ucast_packets: 60
+     [5]: rx_mcast_packets: 0
+     [5]: rx_bcast_packets: 0
+     [5]: rx_discards: 0
+     [5]: rx_errors: 0
+     [5]: rx_ucast_bytes: 6244
+     [5]: rx_mcast_bytes: 0
+     [5]: rx_bcast_bytes: 0
+     [5]: tx_ucast_packets: 3
+     [5]: tx_mcast_packets: 0
+     [5]: tx_bcast_packets: 2
+     [5]: tx_errors: 0
+     [5]: tx_discards: 0
+     [5]: tx_ucast_bytes: 294
+     [5]: tx_mcast_bytes: 0
+     [5]: tx_bcast_bytes: 112
+     [5]: rx_tpa_eligible_pkt: 0
+     [5]: rx_tpa_eligible_bytes: 0
+     [5]: rx_tpa_pkt: 0
+     [5]: rx_tpa_bytes: 0
+     [5]: rx_tpa_errors: 0
+     [5]: rx_tpa_events: 0
+     [5]: rx_hds_pkt: 0
+     [5]: rx_tpa_hds_pkt: 0
+     [5]: rx_l4_csum_errors: 0
+     [5]: rx_resets: 0
+     [5]: rx_buf_errors: 0
+     [5]: so_txtime_xmit: 0
+     [5]: so_txtime_cmpl_errors: 0
+     [5]: missed_irqs: 0
+     [5]: xsk_rx_success: 0
+     [5]: xsk_rx_redirect_fail: 0
+     [5]: xsk_rx_alloc_fail: 0
+     [5]: xsk_rx_no_room: 0
+     [5]: xsk_tx_ring_full: 0
+     [5]: xsk_wakeup: 0
+     [5]: xsk_tx_completed: 0
+     [5]: xsk_tx_sent_pkts: 0
+     [6]: rx_ucast_packets: 19
+     [6]: rx_mcast_packets: 0
+     [6]: rx_bcast_packets: 0
+     [6]: rx_discards: 0
+     [6]: rx_errors: 0
+     [6]: rx_ucast_bytes: 2044
+     [6]: rx_mcast_bytes: 0
+     [6]: rx_bcast_bytes: 0
+     [6]: tx_ucast_packets: 0
+     [6]: tx_mcast_packets: 2814749767109452
+     [6]: tx_bcast_packets: 0
+     [6]: tx_errors: 0
+     [6]: tx_discards: 0
+     [6]: tx_ucast_bytes: 0
+     [6]: tx_mcast_bytes: 2814749767844020
+     [6]: tx_bcast_bytes: 0
+     [6]: rx_tpa_eligible_pkt: 0
+     [6]: rx_tpa_eligible_bytes: 0
+     [6]: rx_tpa_pkt: 0
+     [6]: rx_tpa_bytes: 0
+     [6]: rx_tpa_errors: 0
+     [6]: rx_tpa_events: 0
+     [6]: rx_hds_pkt: 0
+     [6]: rx_tpa_hds_pkt: 0
+     [6]: rx_l4_csum_errors: 0
+     [6]: rx_resets: 0
+     [6]: rx_buf_errors: 0
+     [6]: so_txtime_xmit: 0
+     [6]: so_txtime_cmpl_errors: 0
+     [6]: missed_irqs: 0
+     [6]: xsk_rx_success: 0
+     [6]: xsk_rx_redirect_fail: 0
+     [6]: xsk_rx_alloc_fail: 0
+     [6]: xsk_rx_no_room: 0
+     [6]: xsk_tx_ring_full: 0
+     [6]: xsk_wakeup: 0
+     [6]: xsk_tx_completed: 0
+     [6]: xsk_tx_sent_pkts: 0
+     [7]: rx_ucast_packets: 0
+     [7]: rx_mcast_packets: 0
+     [7]: rx_bcast_packets: 0
+     [7]: rx_discards: 0
+     [7]: rx_errors: 0
+     [7]: rx_ucast_bytes: 0
+     [7]: rx_mcast_bytes: 0
+     [7]: rx_bcast_bytes: 0
+     [7]: tx_ucast_packets: 2
+     [7]: tx_mcast_packets: 281474976711626
+     [7]: tx_bcast_packets: 0
+     [7]: tx_errors: 0
+     [7]: tx_discards: 0
+     [7]: tx_ucast_bytes: 158
+     [7]: tx_mcast_bytes: 281474976958006
+     [7]: tx_bcast_bytes: 0
+     [7]: rx_tpa_eligible_pkt: 0
+     [7]: rx_tpa_eligible_bytes: 0
+     [7]: rx_tpa_pkt: 0
+     [7]: rx_tpa_bytes: 0
+     [7]: rx_tpa_errors: 0
+     [7]: rx_tpa_events: 0
+     [7]: rx_hds_pkt: 0
+     [7]: rx_tpa_hds_pkt: 0
+     [7]: rx_l4_csum_errors: 0
+     [7]: rx_resets: 0
+     [7]: rx_buf_errors: 0
+     [7]: so_txtime_xmit: 0
+     [7]: so_txtime_cmpl_errors: 0
+     [7]: missed_irqs: 0
+     [7]: xsk_rx_success: 0
+     [7]: xsk_rx_redirect_fail: 0
+     [7]: xsk_rx_alloc_fail: 0
+     [7]: xsk_rx_no_room: 0
+     [7]: xsk_tx_ring_full: 0
+     [7]: xsk_wakeup: 0
+     [7]: xsk_tx_completed: 0
+     [7]: xsk_tx_sent_pkts: 0
+     [8]: rx_ucast_packets: 0
+     [8]: rx_mcast_packets: 0
+     [8]: rx_bcast_packets: 0
+     [8]: rx_discards: 0
+     [8]: rx_errors: 0
+     [8]: rx_ucast_bytes: 0
+     [8]: rx_mcast_bytes: 0
+     [8]: rx_bcast_bytes: 0
+     [8]: tx_ucast_packets: 5
+     [8]: tx_mcast_packets: 6755399441058884
+     [8]: tx_bcast_packets: 2
+     [8]: tx_errors: 0
+     [8]: tx_discards: 0
+     [8]: tx_ucast_bytes: 452
+     [8]: tx_mcast_bytes: 6755399441856444
+     [8]: tx_bcast_bytes: 112
+     [8]: rx_tpa_eligible_pkt: 0
+     [8]: rx_tpa_eligible_bytes: 0
+     [8]: rx_tpa_pkt: 0
+     [8]: rx_tpa_bytes: 0
+     [8]: rx_tpa_errors: 0
+     [8]: rx_tpa_events: 0
+     [8]: rx_hds_pkt: 0
+     [8]: rx_tpa_hds_pkt: 0
+     [8]: rx_l4_csum_errors: 0
+     [8]: rx_resets: 0
+     [8]: rx_buf_errors: 0
+     [8]: so_txtime_xmit: 0
+     [8]: so_txtime_cmpl_errors: 0
+     [8]: missed_irqs: 0
+     [8]: xsk_rx_success: 0
+     [8]: xsk_rx_redirect_fail: 0
+     [8]: xsk_rx_alloc_fail: 0
+     [8]: xsk_rx_no_room: 0
+     [8]: xsk_tx_ring_full: 0
+     [8]: xsk_wakeup: 0
+     [8]: xsk_tx_completed: 0
+     [8]: xsk_tx_sent_pkts: 0
+     [9]: rx_ucast_packets: 0
+     [9]: rx_mcast_packets: 0
+     [9]: rx_bcast_packets: 0
+     [9]: rx_discards: 0
+     [9]: rx_errors: 0
+     [9]: rx_ucast_bytes: 0
+     [9]: rx_mcast_bytes: 0
+     [9]: rx_bcast_bytes: 0
+     [9]: tx_ucast_packets: 5
+     [9]: tx_mcast_packets: 281474976713412
+     [9]: tx_bcast_packets: 0
+     [9]: tx_errors: 0
+     [9]: tx_discards: 0
+     [9]: tx_ucast_bytes: 452
+     [9]: tx_mcast_bytes: 281474977413436
+     [9]: tx_bcast_bytes: 0
+     [9]: rx_tpa_eligible_pkt: 0
+     [9]: rx_tpa_eligible_bytes: 0
+     [9]: rx_tpa_pkt: 0
+     [9]: rx_tpa_bytes: 0
+     [9]: rx_tpa_errors: 0
+     [9]: rx_tpa_events: 0
+     [9]: rx_hds_pkt: 0
+     [9]: rx_tpa_hds_pkt: 0
+     [9]: rx_l4_csum_errors: 0
+     [9]: rx_resets: 0
+     [9]: rx_buf_errors: 0
+     [9]: so_txtime_xmit: 0
+     [9]: so_txtime_cmpl_errors: 0
+     [9]: missed_irqs: 0
+     [9]: xsk_rx_success: 0
+     [9]: xsk_rx_redirect_fail: 0
+     [9]: xsk_rx_alloc_fail: 0
+     [9]: xsk_rx_no_room: 0
+     [9]: xsk_tx_ring_full: 0
+     [9]: xsk_wakeup: 0
+     [9]: xsk_tx_completed: 0
+     [9]: xsk_tx_sent_pkts: 0
+     [10]: rx_ucast_packets: 19
+     [10]: rx_mcast_packets: 0
+     [10]: rx_bcast_packets: 0
+     [10]: rx_discards: 0
+     [10]: rx_errors: 0
+     [10]: rx_ucast_bytes: 2044
+     [10]: rx_mcast_bytes: 0
+     [10]: rx_bcast_bytes: 0
+     [10]: tx_ucast_packets: 5
+     [10]: tx_mcast_packets: 926
+     [10]: tx_bcast_packets: 0
+     [10]: tx_errors: 0
+     [10]: tx_discards: 0
+     [10]: tx_ucast_bytes: 452
+     [10]: tx_mcast_bytes: 236130
+     [10]: tx_bcast_bytes: 0
+     [10]: rx_tpa_eligible_pkt: 0
+     [10]: rx_tpa_eligible_bytes: 0
+     [10]: rx_tpa_pkt: 0
+     [10]: rx_tpa_bytes: 0
+     [10]: rx_tpa_errors: 0
+     [10]: rx_tpa_events: 0
+     [10]: rx_hds_pkt: 0
+     [10]: rx_tpa_hds_pkt: 0
+     [10]: rx_l4_csum_errors: 0
+     [10]: rx_resets: 0
+     [10]: rx_buf_errors: 0
+     [10]: so_txtime_xmit: 0
+     [10]: so_txtime_cmpl_errors: 0
+     [10]: missed_irqs: 0
+     [10]: xsk_rx_success: 0
+     [10]: xsk_rx_redirect_fail: 0
+     [10]: xsk_rx_alloc_fail: 0
+     [10]: xsk_rx_no_room: 0
+     [10]: xsk_tx_ring_full: 0
+     [10]: xsk_wakeup: 0
+     [10]: xsk_tx_completed: 0
+     [10]: xsk_tx_sent_pkts: 0
+     [11]: rx_ucast_packets: 0
+     [11]: rx_mcast_packets: 0
+     [11]: rx_bcast_packets: 0
+     [11]: rx_discards: 0
+     [11]: rx_errors: 0
+     [11]: rx_ucast_bytes: 0
+     [11]: rx_mcast_bytes: 0
+     [11]: rx_bcast_bytes: 0
+     [11]: tx_ucast_packets: 5
+     [11]: tx_mcast_packets: 1407374883556564
+     [11]: tx_bcast_packets: 0
+     [11]: tx_errors: 0
+     [11]: tx_discards: 0
+     [11]: tx_ucast_bytes: 452
+     [11]: tx_mcast_bytes: 1407374884390700
+     [11]: tx_bcast_bytes: 0
+     [11]: rx_tpa_eligible_pkt: 0
+     [11]: rx_tpa_eligible_bytes: 0
+     [11]: rx_tpa_pkt: 0
+     [11]: rx_tpa_bytes: 0
+     [11]: rx_tpa_errors: 0
+     [11]: rx_tpa_events: 0
+     [11]: rx_hds_pkt: 0
+     [11]: rx_tpa_hds_pkt: 0
+     [11]: rx_l4_csum_errors: 0
+     [11]: rx_resets: 0
+     [11]: rx_buf_errors: 0
+     [11]: so_txtime_xmit: 0
+     [11]: so_txtime_cmpl_errors: 0
+     [11]: missed_irqs: 0
+     [11]: xsk_rx_success: 0
+     [11]: xsk_rx_redirect_fail: 0
+     [11]: xsk_rx_alloc_fail: 0
+     [11]: xsk_rx_no_room: 0
+     [11]: xsk_tx_ring_full: 0
+     [11]: xsk_wakeup: 0
+     [11]: xsk_tx_completed: 0
+     [11]: xsk_tx_sent_pkts: 0
+     [12]: rx_ucast_packets: 19
+     [12]: rx_mcast_packets: 0
+     [12]: rx_bcast_packets: 0
+     [12]: rx_discards: 0
+     [12]: rx_errors: 0
+     [12]: rx_ucast_bytes: 2044
+     [12]: rx_mcast_bytes: 0
+     [12]: rx_bcast_bytes: 0
+     [12]: tx_ucast_packets: 9
+     [12]: tx_mcast_packets: 4
+     [12]: tx_bcast_packets: 0
+     [12]: tx_errors: 0
+     [12]: tx_discards: 0
+     [12]: tx_ucast_bytes: 768
+     [12]: tx_mcast_bytes: 360
+     [12]: tx_bcast_bytes: 0
+     [12]: rx_tpa_eligible_pkt: 0
+     [12]: rx_tpa_eligible_bytes: 0
+     [12]: rx_tpa_pkt: 0
+     [12]: rx_tpa_bytes: 0
+     [12]: rx_tpa_errors: 0
+     [12]: rx_tpa_events: 0
+     [12]: rx_hds_pkt: 0
+     [12]: rx_tpa_hds_pkt: 0
+     [12]: rx_l4_csum_errors: 0
+     [12]: rx_resets: 0
+     [12]: rx_buf_errors: 0
+     [12]: so_txtime_xmit: 0
+     [12]: so_txtime_cmpl_errors: 0
+     [12]: missed_irqs: 0
+     [12]: xsk_rx_success: 0
+     [12]: xsk_rx_redirect_fail: 0
+     [12]: xsk_rx_alloc_fail: 0
+     [12]: xsk_rx_no_room: 0
+     [12]: xsk_tx_ring_full: 0
+     [12]: xsk_wakeup: 0
+     [12]: xsk_tx_completed: 0
+     [12]: xsk_tx_sent_pkts: 0
+     [13]: rx_ucast_packets: 38
+     [13]: rx_mcast_packets: 0
+     [13]: rx_bcast_packets: 0
+     [13]: rx_discards: 0
+     [13]: rx_errors: 0
+     [13]: rx_ucast_bytes: 4088
+     [13]: rx_mcast_bytes: 0
+     [13]: rx_bcast_bytes: 0
+     [13]: tx_ucast_packets: 9
+     [13]: tx_mcast_packets: 0
+     [13]: tx_bcast_packets: 0
+     [13]: tx_errors: 0
+     [13]: tx_discards: 0
+     [13]: tx_ucast_bytes: 882
+     [13]: tx_mcast_bytes: 0
+     [13]: tx_bcast_bytes: 0
+     [13]: rx_tpa_eligible_pkt: 0
+     [13]: rx_tpa_eligible_bytes: 0
+     [13]: rx_tpa_pkt: 0
+     [13]: rx_tpa_bytes: 0
+     [13]: rx_tpa_errors: 0
+     [13]: rx_tpa_events: 0
+     [13]: rx_hds_pkt: 0
+     [13]: rx_tpa_hds_pkt: 0
+     [13]: rx_l4_csum_errors: 0
+     [13]: rx_resets: 0
+     [13]: rx_buf_errors: 0
+     [13]: so_txtime_xmit: 0
+     [13]: so_txtime_cmpl_errors: 0
+     [13]: missed_irqs: 0
+     [13]: xsk_rx_success: 0
+     [13]: xsk_rx_redirect_fail: 0
+     [13]: xsk_rx_alloc_fail: 0
+     [13]: xsk_rx_no_room: 0
+     [13]: xsk_tx_ring_full: 0
+     [13]: xsk_wakeup: 0
+     [13]: xsk_tx_completed: 0
+     [13]: xsk_tx_sent_pkts: 0
+     [14]: rx_ucast_packets: 0
+     [14]: rx_mcast_packets: 0
+     [14]: rx_bcast_packets: 0
+     [14]: rx_discards: 0
+     [14]: rx_errors: 0
+     [14]: rx_ucast_bytes: 0
+     [14]: rx_mcast_bytes: 0
+     [14]: rx_bcast_bytes: 0
+     [14]: tx_ucast_packets: 3
+     [14]: tx_mcast_packets: 0
+     [14]: tx_bcast_packets: 0
+     [14]: tx_errors: 0
+     [14]: tx_discards: 0
+     [14]: tx_ucast_bytes: 294
+     [14]: tx_mcast_bytes: 0
+     [14]: tx_bcast_bytes: 0
+     [14]: rx_tpa_eligible_pkt: 0
+     [14]: rx_tpa_eligible_bytes: 0
+     [14]: rx_tpa_pkt: 0
+     [14]: rx_tpa_bytes: 0
+     [14]: rx_tpa_errors: 0
+     [14]: rx_tpa_events: 0
+     [14]: rx_hds_pkt: 0
+     [14]: rx_tpa_hds_pkt: 0
+     [14]: rx_l4_csum_errors: 0
+     [14]: rx_resets: 0
+     [14]: rx_buf_errors: 0
+     [14]: so_txtime_xmit: 0
+     [14]: so_txtime_cmpl_errors: 0
+     [14]: missed_irqs: 0
+     [14]: xsk_rx_success: 0
+     [14]: xsk_rx_redirect_fail: 0
+     [14]: xsk_rx_alloc_fail: 0
+     [14]: xsk_rx_no_room: 0
+     [14]: xsk_tx_ring_full: 0
+     [14]: xsk_wakeup: 0
+     [14]: xsk_tx_completed: 0
+     [14]: xsk_tx_sent_pkts: 0
+     [15]: rx_ucast_packets: 23
+     [15]: rx_mcast_packets: 0
+     [15]: rx_bcast_packets: 0
+     [15]: rx_discards: 0
+     [15]: rx_errors: 0
+     [15]: rx_ucast_bytes: 2254
+     [15]: rx_mcast_bytes: 0
+     [15]: rx_bcast_bytes: 0
+     [15]: tx_ucast_packets: 0
+     [15]: tx_mcast_packets: 0
+     [15]: tx_bcast_packets: 0
+     [15]: tx_errors: 0
+     [15]: tx_discards: 0
+     [15]: tx_ucast_bytes: 0
+     [15]: tx_mcast_bytes: 0
+     [15]: tx_bcast_bytes: 0
+     [15]: rx_tpa_eligible_pkt: 0
+     [15]: rx_tpa_eligible_bytes: 0
+     [15]: rx_tpa_pkt: 0
+     [15]: rx_tpa_bytes: 0
+     [15]: rx_tpa_errors: 0
+     [15]: rx_tpa_events: 0
+     [15]: rx_hds_pkt: 0
+     [15]: rx_tpa_hds_pkt: 0
+     [15]: rx_l4_csum_errors: 0
+     [15]: rx_resets: 0
+     [15]: rx_buf_errors: 0
+     [15]: so_txtime_xmit: 0
+     [15]: so_txtime_cmpl_errors: 0
+     [15]: missed_irqs: 0
+     [15]: xsk_rx_success: 0
+     [15]: xsk_rx_redirect_fail: 0
+     [15]: xsk_rx_alloc_fail: 0
+     [15]: xsk_rx_no_room: 0
+     [15]: xsk_tx_ring_full: 0
+     [15]: xsk_wakeup: 0
+     [15]: xsk_tx_completed: 0
+     [15]: xsk_tx_sent_pkts: 0
+     rx_total_l4_csum_errors: 0
+     rx_total_resets: 0
+     rx_total_buf_errors: 0
+     rx_total_oom_discards: 0
+     rx_total_netpoll_discards: 0
+     rx_total_ring_discards: 0
+     tx_total_resets: 0
+     tx_total_ring_discards: 0
+     total_missed_irqs: 0
+     rx_64b_frames: 8469225
+     rx_65b_127b_frames: 1761828682
+     rx_128b_255b_frames: 7071
+     rx_256b_511b_frames: 8507
+     rx_512b_1023b_frames: 0
+     rx_1024b_1518b_frames: 0
+     rx_good_vlan_frames: 0
+     rx_1519b_2047b_frames: 0
+     rx_2048b_4095b_frames: 0
+     rx_4096b_9216b_frames: 5658544128
+     rx_9217b_16383b_frames: 0
+     rx_total_frames: 7428857613
+     rx_ucast_frames: 7420141749
+     rx_mcast_frames: 246707
+     rx_bcast_frames: 735
+     rx_fcs_err_frames: 0
+     rx_ctrl_frames: 8468422
+     rx_pause_frames: 0
+     rx_pfc_frames: 8468422
+     rx_align_err_frames: 0
+     rx_ovrsz_frames: 0
+     rx_jbr_frames: 0
+     rx_mtu_err_frames: 0
+     rx_tagged_frames: 0
+     rx_double_tagged_frames: 0
+     rx_good_frames: 7420389191
+     rx_pfc_ena_frames_pri0: 0
+     rx_pfc_ena_frames_pri1: 0
+     rx_pfc_ena_frames_pri2: 0
+     rx_pfc_ena_frames_pri3: 0
+     rx_pfc_ena_frames_pri4: 0
+     rx_pfc_ena_frames_pri5: 8468422
+     rx_pfc_ena_frames_pri6: 0
+     rx_pfc_ena_frames_pri7: 0
+     rx_undrsz_frames: 0
+     rx_eee_lpi_events: 0
+     rx_eee_lpi_duration: 0
+     rx_bytes: 23645066480585
+     rx_runt_bytes: 0
+     rx_runt_frames: 0
+     rx_stat_discard: 0
+     rx_stat_err: 0
+     tx_64b_frames: 70
+     tx_65b_127b_frames: 29816666
+     tx_128b_255b_frames: 20
+     tx_256b_511b_frames: 15467
+     tx_512b_1023b_frames: 0
+     tx_1024b_1518b_frames: 0
+     tx_good_vlan_frames: 0
+     tx_1519b_2047b_frames: 0
+     tx_2048b_4095b_frames: 0
+     tx_4096b_9216b_frames: 7025368064
+     tx_9217b_16383b_frames: 0
+     tx_good_frames: 7055200287
+     tx_total_frames: 7055200287
+     tx_ucast_frames: 7055184629
+     tx_mcast_frames: 15649
+     tx_bcast_frames: 9
+     tx_pause_frames: 0
+     tx_pfc_frames: 0
+     tx_jabber_frames: 0
+     tx_fcs_err_frames: 0
+     tx_err: 0
+     tx_fifo_underruns: 0
+     tx_pfc_ena_frames_pri0: 0
+     tx_pfc_ena_frames_pri1: 0
+     tx_pfc_ena_frames_pri2: 0
+     tx_pfc_ena_frames_pri3: 0
+     tx_pfc_ena_frames_pri4: 0
+     tx_pfc_ena_frames_pri5: 0
+     tx_pfc_ena_frames_pri6: 0
+     tx_pfc_ena_frames_pri7: 0
+     tx_eee_lpi_events: 0
+     tx_eee_lpi_duration: 0
+     tx_total_collisions: 0
+     tx_bytes: 29213452323471
+     tx_xthol_frames: 0
+     tx_stat_discard: 0
+     tx_stat_error: 0
+     link_down_events: 1
+     continuous_pause_events: 0
+     resume_pause_events: 0
+     continuous_roce_pause_events: 0
+     resume_roce_pause_events: 0
+     rx_bytes_cos0: 0
+     rx_packets_cos0: 0
+     rx_bytes_cos1: 0
+     rx_packets_cos1: 0
+     rx_bytes_cos2: 0
+     rx_packets_cos2: 0
+     rx_bytes_cos3: 0
+     rx_packets_cos3: 0
+     rx_bytes_cos4: 23614846948898
+     rx_packets_cos4: 7420404821
+     rx_bytes_cos5: 0
+     rx_packets_cos5: 0
+     rx_bytes_cos6: 0
+     rx_packets_cos6: 0
+     rx_bytes_cos7: 0
+     rx_packets_cos7: 0
+     pfc_pri0_rx_transitions: 0
+     pfc_pri1_rx_transitions: 0
+     pfc_pri2_rx_transitions: 0
+     pfc_pri3_rx_transitions: 0
+     pfc_pri4_rx_transitions: 0
+     pfc_pri5_rx_transitions: 4234211
+     pfc_pri6_rx_transitions: 0
+     pfc_pri7_rx_transitions: 0
+     rx_bits: 0
+     rx_buffer_passed_threshold: 0
+     rx_pcs_symbol_err: 0
+     rx_corrected_bits: 0
+     rx_discard_bytes_cos0: 0
+     rx_discard_packets_cos0: 0
+     rx_discard_bytes_cos1: 0
+     rx_discard_packets_cos1: 0
+     rx_discard_bytes_cos2: 0
+     rx_discard_packets_cos2: 0
+     rx_discard_bytes_cos3: 0
+     rx_discard_packets_cos3: 0
+     rx_discard_bytes_cos4: 0
+     rx_discard_packets_cos4: 0
+     rx_discard_bytes_cos5: 0
+     rx_discard_packets_cos5: 0
+     rx_discard_bytes_cos6: 0
+     rx_discard_packets_cos6: 0
+     rx_discard_bytes_cos7: 0
+     rx_discard_packets_cos7: 0
+     rx_fec_corrected_blocks: 430532826
+     rx_fec_uncorrectable_blocks: 6
+     rx_filter_miss: 3635
+     tx_bytes_cos0: 29185227557136
+     tx_packets_cos0: 7055184504
+     tx_bytes_cos1: 0
+     tx_packets_cos1: 0
+     tx_bytes_cos2: 0
+     tx_packets_cos2: 0
+     tx_bytes_cos3: 0
+     tx_packets_cos3: 0
+     tx_bytes_cos4: 3970885
+     tx_packets_cos4: 15783
+     tx_bytes_cos5: 0
+     tx_packets_cos5: 0
+     tx_bytes_cos6: 0
+     tx_packets_cos6: 0
+     tx_bytes_cos7: 0
+     tx_packets_cos7: 0
+     pfc_pri0_tx_transitions: 0
+     pfc_pri1_tx_transitions: 0
+     pfc_pri2_tx_transitions: 0
+     pfc_pri3_tx_transitions: 0
+     pfc_pri4_tx_transitions: 0
+     pfc_pri5_tx_transitions: 0
+     pfc_pri6_tx_transitions: 0
+     pfc_pri7_tx_transitions: 0
+     rx_bytes_pri0: 23614846948898
+     rx_bytes_pri1: 23614846948898
+     rx_bytes_pri2: 23614846948898
+     rx_bytes_pri3: 23614846948898
+     rx_bytes_pri4: 23614846948898
+     rx_bytes_pri5: 0
+     rx_bytes_pri6: 23614846948898
+     rx_bytes_pri7: 0
+     rx_packets_pri0: 7420404821
+     rx_packets_pri1: 7420404821
+     rx_packets_pri2: 7420404821
+     rx_packets_pri3: 7420404821
+     rx_packets_pri4: 7420404821
+     rx_packets_pri5: 0
+     rx_packets_pri6: 7420404821
+     rx_packets_pri7: 0
+     tx_bytes_pri0: 3970885
+     tx_bytes_pri1: 3970885
+     tx_bytes_pri2: 3970885
+     tx_bytes_pri3: 3970885
+     tx_bytes_pri4: 3970885
+     tx_bytes_pri5: 29185227557136
+     tx_bytes_pri6: 3970885
+     tx_bytes_pri7: 0
+     tx_packets_pri0: 15783
+     tx_packets_pri1: 15783
+     tx_packets_pri2: 15783
+     tx_packets_pri3: 15783
+     tx_packets_pri4: 15783
+     tx_packets_pri5: 7055184504
+     tx_packets_pri6: 15783
+     tx_packets_pri7: 0
+     pcie_statistics_tx_tlp: 24659087287464
+     pcie_statistics_rx_tlp: 31523566560528
+     pcie_credit_fc_hdr_posted: 1019
+     pcie_credit_fc_hdr_nonposted: 1009
+     pcie_credit_fc_hdr_cmpl: 508
+     pcie_credit_fc_data_posted: 4096
+     pcie_credit_fc_data_nonposted: 4095
+     pcie_credit_fc_data_cmpl: 2045
+     pcie_credit_fc_tgt_nonposted: 1
+     pcie_credit_fc_tgt_data_posted: 0
+     pcie_credit_fc_tgt_hdr_posted: 64
+     pcie_credit_fc_cmpl_hdr_posted: 0
+     pcie_credit_fc_cmpl_data_posted: 0
+     pcie_cmpl_longest: 95
+     pcie_cmpl_shortest: 0
+     cache_miss_count_cfcq: 0
+     cache_miss_count_cfcs: 0
+     cache_miss_count_cfcc: 0
+     cache_miss_count_cfcm: 0
+     hw_db_recov_dbs_dropped: 0
+     hw_db_recov_drops_serviced: 0
+     hw_db_recov_dbs_recovered: 0
+     hw_db_recov_oo_drop_count: 0
+     lpbk_ucast_frames: 0
+     lpbk_mcast_frames: 15649
+     lpbk_bcast_frames: 9
+     lpbk_ucast_bytes: 0
+     lpbk_mcast_bytes: 3960413
+     lpbk_bcast_bytes: 468
+     lpbk_tx_discards: 0
+     lpbk_tx_errors: 0
+     lpbk_rx_discards: 0
+     lpbk_rx_errors: 0

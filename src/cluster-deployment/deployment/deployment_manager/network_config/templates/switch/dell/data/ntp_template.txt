@@ -1,0 +1,5 @@
+!
+! NTP and clock setup
+!
+ntp server ${ntp_server}
+clock timezone UTC

@@ -1,0 +1,3193 @@
+apiVersion: jobs.cerebras.com/v1
+kind: ResourceLock
+metadata:
+  annotations:
+    ENABLE_PARTIAL_SYSTEM: "true"
+    cerebras/client-workdir: cg3-us15:/n0/cerebras/cg4_qual/artifacts/jais_30b_4csx/cerebras_logs/20240918_064526/executors/000001
+    cerebras/coordinator-preferred-addr: ""
+    cerebras/disable-non-crd-services: "true"
+    cerebras/semantic-version-cluster-server: 1.0.2
+    cerebras/version-cluster-server: 2.3.0-202407102255-55-085ff563+085ff563d4
+    cerebras/wsjob-job-default-limits: "true"
+    k8s.cerebras.com/user-volumes: '[{"name":"cg3-store-dkbnu4ckdsjgsdjutxdzq8","mountPath":"/cg3-store"}]'
+    runtime-targeted-domains: 2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  creationTimestamp: "2024-09-18T06:55:03Z"
+  generation: 1
+  labels:
+    cerebras/workflow-id: 4c1a5ffd-dca1-46e4-8087-e5c4c7ef9676
+    k8s.cerebras.com/job-mode: weight-streaming
+    k8s.cerebras.com/wsjob-job-type: execute
+    labels.k8s.cerebras.com/Mode: Train
+    labels.k8s.cerebras.com/Model: Jais_30B
+    labels.k8s.cerebras.com/Num_CSX: "4"
+    labels.k8s.cerebras.com/Purpose: CG4_Qual
+    training.kubeflow.org/job-name: wsjob-t4xun2cvjq69kjqzicp6nw
+  name: wsjob-t4xun2cvjq69kjqzicp6nw
+  namespace: cg3-bringup
+  ownerReferences:
+  - apiVersion: jobs.cerebras.com/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: WSJob
+    name: wsjob-t4xun2cvjq69kjqzicp6nw
+    uid: 6bdef984-3ec2-40d5-ba9c-b937e9ce578d
+  resourceVersion: "449521986"
+  uid: e135a56c-3366-4abf-b35d-90df3c66f9ee
+spec:
+  groupResourceRequestUpperBounds:
+  - name: Command
+    subresources:
+      memory: 14200
+      memory-limit: 8796093022207
+  - name: Weight
+    subresources:
+      memory: 65222
+      memory-limit: 8796093022207
+  - name: Activation
+    subresources:
+      memory: 4586
+      memory-limit: 8796093022207
+  groupResourceRequests:
+  - count: 1
+    name: ng-primary
+    resourceRequests:
+    - count: 1
+      name: Command
+      properties:
+        namespace:
+        - cg3-bringup
+        role-memory:
+        - ""
+      subresources:
+        memory: 7100
+        pod: 1
+      type: node
+    - count: 24
+      name: Weight
+      properties:
+        memxPopulated:
+        - "true"
+        namespace:
+        - cg3-bringup
+        role-memory:
+        - ""
+      subresources:
+        memory: 49569
+        pod: 1
+      type: node
+    - count: 1
+      name: Worker
+      properties:
+        namespace:
+        - cg3-bringup
+        role-worker:
+        - ""
+      subresources:
+        memory: 58367
+        pod: 1
+      type: node
+  - count: 3
+    name: ng-secondaries
+    resourceRequests:
+    - count: 1
+      name: Worker
+      properties:
+        namespace:
+        - cg3-bringup
+        role-worker:
+        - ""
+      subresources:
+        memory: 58367
+        pod: 1
+      type: node
+  - count: 1
+    name: Chief
+    resourceRequests:
+    - count: 4
+      name: Chief
+      properties:
+        namespace:
+        - cg3-bringup
+        role-activation:
+        - ""
+      subresources:
+        memory: 22528
+        pod: 1
+      type: node
+  - count: 1
+    name: Activation
+    resourceRequests:
+    - count: 224
+      name: Activation
+      properties:
+        namespace:
+        - cg3-bringup
+        role-activation:
+        - ""
+      subresources:
+        memory: 3669
+        pod: 1
+      type: node
+  priority: 199
+  queueName: execute
+  resourceRequests:
+  - count: 4
+    name: System
+    properties:
+      namespace:
+      - cg3-bringup
+    subresources:
+      port: 1
+      system: 1
+    type: system
+  - count: 1
+    name: Coordinator
+    properties:
+      namespace:
+      - cg3-bringup
+      role-coordinator:
+      - ""
+    subresources:
+      cpu: 16000
+      pod: 1
+    type: node
+status:
+  groupResourceGrantUpperBounds:
+  - name: Command
+    subresources:
+      memory: 14200
+  - name: Weight
+    subresources:
+      memory: 59218
+  - name: Activation
+    subresources:
+      memory: 4586
+  groupResourceGrants:
+  - annotations:
+      memxPopulated: "true"
+    groupingValue: nodegroup71
+    name: ng-primary-0
+    resourceGrants:
+    - name: Weight
+      resources:
+      - name: net037-mx-sr01
+        subresources:
+          memory: 74174
+          pod: 1
+        type: node
+      - name: net037-mx-sr02
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr03
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr04
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr05
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr06
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr01
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr02
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr03
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr04
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr05
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr06
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr01
+        subresources:
+          memory: 74174
+          pod: 1
+        type: node
+      - name: net037-mx-sr02
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr03
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr04
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr05
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net037-mx-sr06
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr01
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr02
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr03
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr04
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr05
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+      - name: net038-mx-sr06
+        subresources:
+          memory: 88752
+          pod: 1
+        type: node
+    - name: Command
+      resources:
+      - name: net037-mx-sr01
+        subresources:
+          memory: 29156
+          pod: 1
+        type: node
+    - name: Worker
+      resources:
+      - name: net038-wk-sr02
+        subresources:
+          memory: 58367
+          pod: 1
+        type: node
+  - annotations:
+      BR_LOGICAL_TREE: '[{"set_id":0,"egresses":[{"system_name":"xs10218","br_set_id":0,"is_br":false},{"system_name":"xs10230","br_set_id":0,"is_br":false},{"system_name":"xs10233","br_set_id":0,"is_br":false},{"system_name":"xs10236","br_set_id":0,"is_br":false}],"is_br":true,"layer":0}]'
+      BR_LOGICAL_TREE_POLICY: PORT
+    groupingValue: ""
+    name: BroadcastReduce
+    resourceGrants:
+    - name: "0"
+      resources:
+      - name: net026-sx-sr01
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "1"
+      resources:
+      - name: net026-sx-sr07
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "2"
+      resources:
+      - name: net026-sx-sr13
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "3"
+      resources:
+      - name: net027-sx-sr02
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "4"
+      resources:
+      - name: net027-sx-sr07
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "5"
+      resources:
+      - name: net027-sx-sr13
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "6"
+      resources:
+      - name: net028-sx-sr01
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "7"
+      resources:
+      - name: net028-sx-sr07
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "8"
+      resources:
+      - name: net028-sx-sr13
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "9"
+      resources:
+      - name: net029-sx-sr01
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "10"
+      resources:
+      - name: net029-sx-sr07
+        subresources:
+          cs-port/eth400g4: 300
+          cs-port/eth400g5: 200
+          instance-id/0: 1
+        type: node
+    - name: "11"
+      resources:
+      - name: net029-sx-sr13
+        subresources:
+          cs-port/eth100g0: 100
+          cs-port/eth100g1: 100
+          cs-port/eth400g4: 100
+          cs-port/eth400g5: 200
+          instance-id/1: 1
+        type: node
+  - groupingValue: ""
+    name: Chief-group-0
+    resourceGrants:
+    - name: Chief
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          memory: 22528
+          pod: 1
+        type: node
+      - name: net027-ax-sr07
+        subresources:
+          memory: 22528
+          pod: 1
+        type: node
+      - name: net028-ax-sr06
+        subresources:
+          memory: 22528
+          pod: 1
+        type: node
+      - name: net029-ax-sr06
+        subresources:
+          memory: 22528
+          pod: 1
+        type: node
+  - groupingValue: ""
+    name: Activation-group-0
+    resourceGrants:
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "1"
+        system-id: "2"
+      name: "113"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "35"
+        system-id: "1"
+      name: "91"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "48"
+        system-id: "0"
+      name: "48"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "1"
+        system-id: "1"
+      name: "57"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "8"
+        system-id: "2"
+      name: "120"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "21"
+        system-id: "1"
+      name: "77"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "34"
+        system-id: "2"
+      name: "146"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "38"
+        system-id: "2"
+      name: "150"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "48"
+        system-id: "1"
+      name: "104"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "51"
+        system-id: "0"
+      name: "51"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "55"
+        system-id: "1"
+      name: "111"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "18"
+        system-id: "3"
+      name: "186"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "21"
+        system-id: "3"
+      name: "189"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "22"
+        system-id: "2"
+      name: "134"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "24"
+        system-id: "1"
+      name: "80"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "25"
+        system-id: "1"
+      name: "81"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "37"
+        system-id: "3"
+      name: "205"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "42"
+        system-id: "3"
+      name: "210"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "45"
+        system-id: "2"
+      name: "157"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "7"
+        system-id: "2"
+      name: "119"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "43"
+        system-id: "3"
+      name: "211"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "25"
+        system-id: "2"
+      name: "137"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "6"
+        system-id: "3"
+      name: "174"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "9"
+        system-id: "3"
+      name: "177"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "16"
+        system-id: "0"
+      name: "16"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "39"
+        system-id: "3"
+      name: "207"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "5"
+        system-id: "0"
+      name: "5"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "27"
+        system-id: "3"
+      name: "195"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "50"
+        system-id: "3"
+      name: "218"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "54"
+        system-id: "2"
+      name: "166"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "6"
+        system-id: "0"
+      name: "6"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "22"
+        system-id: "1"
+      name: "78"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "32"
+        system-id: "0"
+      name: "32"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "34"
+        system-id: "1"
+      name: "90"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "43"
+        system-id: "2"
+      name: "155"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "43"
+        system-id: "1"
+      name: "99"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "45"
+        system-id: "1"
+      name: "101"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "47"
+        system-id: "3"
+      name: "215"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "4"
+        system-id: "0"
+      name: "4"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "20"
+        system-id: "1"
+      name: "76"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "23"
+        system-id: "2"
+      name: "135"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "29"
+        system-id: "1"
+      name: "85"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "33"
+        system-id: "1"
+      name: "89"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "52"
+        system-id: "0"
+      name: "52"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "45"
+        system-id: "3"
+      name: "213"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "49"
+        system-id: "1"
+      name: "105"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "9"
+        system-id: "1"
+      name: "65"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "12"
+        system-id: "1"
+      name: "68"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "18"
+        system-id: "2"
+      name: "130"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "31"
+        system-id: "2"
+      name: "143"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "36"
+        system-id: "0"
+      name: "36"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "2"
+        system-id: "1"
+      name: "58"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "11"
+        system-id: "0"
+      name: "11"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "11"
+        system-id: "1"
+      name: "67"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "9"
+        system-id: "2"
+      name: "121"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "11"
+        system-id: "3"
+      name: "179"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "20"
+        system-id: "2"
+      name: "132"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "24"
+        system-id: "0"
+      name: "24"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "14"
+        system-id: "2"
+      name: "126"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "28"
+        system-id: "1"
+      name: "84"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "3"
+        system-id: "1"
+      name: "59"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "40"
+        system-id: "3"
+      name: "208"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "50"
+        system-id: "0"
+      name: "50"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "2"
+        system-id: "3"
+      name: "170"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "3"
+        system-id: "3"
+      name: "171"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "13"
+        system-id: "2"
+      name: "125"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "29"
+        system-id: "2"
+      name: "141"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "33"
+        system-id: "3"
+      name: "201"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "41"
+        system-id: "1"
+      name: "97"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "22"
+        system-id: "0"
+      name: "22"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "23"
+        system-id: "0"
+      name: "23"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "35"
+        system-id: "2"
+      name: "147"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "39"
+        system-id: "1"
+      name: "95"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "5"
+        system-id: "3"
+      name: "173"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "16"
+        system-id: "1"
+      name: "72"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "17"
+        system-id: "3"
+      name: "185"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "26"
+        system-id: "0"
+      name: "26"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "38"
+        system-id: "0"
+      name: "38"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "6"
+        system-id: "1"
+      name: "62"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "6"
+        system-id: "2"
+      name: "118"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "7"
+        system-id: "1"
+      name: "63"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "28"
+        system-id: "3"
+      name: "196"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "44"
+        system-id: "1"
+      name: "100"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "8"
+        system-id: "1"
+      name: "64"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "19"
+        system-id: "2"
+      name: "131"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "23"
+        system-id: "1"
+      name: "79"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "24"
+        system-id: "3"
+      name: "192"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "26"
+        system-id: "3"
+      name: "194"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "4"
+        system-id: "1"
+      name: "60"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "10"
+        system-id: "0"
+      name: "10"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "13"
+        system-id: "1"
+      name: "69"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "36"
+        system-id: "2"
+      name: "148"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "41"
+        system-id: "2"
+      name: "153"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "0"
+        system-id: "2"
+      name: "112"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "19"
+        system-id: "3"
+      name: "187"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "40"
+        system-id: "2"
+      name: "152"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "42"
+        system-id: "0"
+      name: "42"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "16"
+        system-id: "2"
+      name: "128"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "22"
+        system-id: "3"
+      name: "190"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "4"
+        system-id: "2"
+      name: "116"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "32"
+        system-id: "2"
+      name: "144"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "41"
+        system-id: "0"
+      name: "41"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "52"
+        system-id: "3"
+      name: "220"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "17"
+        system-id: "0"
+      name: "17"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "0"
+        system-id: "0"
+      name: "0"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "2"
+        system-id: "0"
+      name: "2"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "37"
+        system-id: "1"
+      name: "93"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "7"
+        system-id: "0"
+      name: "7"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "23"
+        system-id: "3"
+      name: "191"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "48"
+        system-id: "2"
+      name: "160"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "51"
+        system-id: "1"
+      name: "107"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "12"
+        system-id: "2"
+      name: "124"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "35"
+        system-id: "0"
+      name: "35"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "53"
+        system-id: "1"
+      name: "109"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "24"
+        system-id: "2"
+      name: "136"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "34"
+        system-id: "3"
+      name: "202"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "47"
+        system-id: "0"
+      name: "47"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "33"
+        system-id: "2"
+      name: "145"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "37"
+        system-id: "2"
+      name: "149"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "42"
+        system-id: "1"
+      name: "98"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "43"
+        system-id: "0"
+      name: "43"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "41"
+        system-id: "3"
+      name: "209"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "53"
+        system-id: "3"
+      name: "221"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "1"
+        system-id: "3"
+      name: "169"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "8"
+        system-id: "0"
+      name: "8"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "9"
+        system-id: "0"
+      name: "9"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "25"
+        system-id: "3"
+      name: "193"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "29"
+        system-id: "0"
+      name: "29"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "11"
+        system-id: "2"
+      name: "123"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "18"
+        system-id: "0"
+      name: "18"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "28"
+        system-id: "0"
+      name: "28"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "30"
+        system-id: "1"
+      name: "86"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "7"
+        system-id: "3"
+      name: "175"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "15"
+        system-id: "3"
+      name: "183"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "17"
+        system-id: "2"
+      name: "129"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "55"
+        system-id: "2"
+      name: "167"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "0"
+        system-id: "1"
+      name: "56"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "10"
+        system-id: "1"
+      name: "66"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "35"
+        system-id: "3"
+      name: "203"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "38"
+        system-id: "3"
+      name: "206"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "46"
+        system-id: "2"
+      name: "158"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "5"
+        system-id: "1"
+      name: "61"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "47"
+        system-id: "2"
+      name: "159"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "51"
+        system-id: "2"
+      name: "163"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "4"
+        system-id: "3"
+      name: "172"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "39"
+        system-id: "0"
+      name: "39"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "42"
+        system-id: "2"
+      name: "154"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "30"
+        system-id: "3"
+      name: "198"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "45"
+        system-id: "0"
+      name: "45"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "15"
+        system-id: "1"
+      name: "71"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "34"
+        system-id: "0"
+      name: "34"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "51"
+        system-id: "3"
+      name: "219"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "14"
+        system-id: "0"
+      name: "14"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "28"
+        system-id: "2"
+      name: "140"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "32"
+        system-id: "3"
+      name: "200"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "44"
+        system-id: "2"
+      name: "156"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "46"
+        system-id: "0"
+      name: "46"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "19"
+        system-id: "1"
+      name: "75"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "30"
+        system-id: "0"
+      name: "30"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "46"
+        system-id: "1"
+      name: "102"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "47"
+        system-id: "1"
+      name: "103"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "55"
+        system-id: "3"
+      name: "223"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "5"
+        system-id: "2"
+      name: "117"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "17"
+        system-id: "1"
+      name: "73"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "20"
+        system-id: "3"
+      name: "188"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "26"
+        system-id: "2"
+      name: "138"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "54"
+        system-id: "1"
+      name: "110"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "16"
+        system-id: "3"
+      name: "184"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "27"
+        system-id: "0"
+      name: "27"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "13"
+        system-id: "0"
+      name: "13"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "15"
+        system-id: "2"
+      name: "127"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "31"
+        system-id: "1"
+      name: "87"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "49"
+        system-id: "3"
+      name: "217"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "50"
+        system-id: "1"
+      name: "106"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "10"
+        system-id: "2"
+      name: "122"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "15"
+        system-id: "0"
+      name: "15"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "36"
+        system-id: "1"
+      name: "92"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "37"
+        system-id: "0"
+      name: "37"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "49"
+        system-id: "2"
+      name: "161"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "52"
+        system-id: "1"
+      name: "108"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "25"
+        system-id: "0"
+      name: "25"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "27"
+        system-id: "2"
+      name: "139"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "49"
+        system-id: "0"
+      name: "49"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "1"
+        system-id: "0"
+      name: "1"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "10"
+        system-id: "3"
+      name: "178"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "50"
+        system-id: "2"
+      name: "162"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "53"
+        system-id: "0"
+      name: "53"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "38"
+        system-id: "1"
+      name: "94"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "54"
+        system-id: "0"
+      name: "54"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "53"
+        system-id: "2"
+      name: "165"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "54"
+        system-id: "3"
+      name: "222"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "3"
+        system-id: "2"
+      name: "115"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "8"
+        system-id: "3"
+      name: "176"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "32"
+        system-id: "1"
+      name: "88"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "36"
+        system-id: "3"
+      name: "204"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "39"
+        system-id: "2"
+      name: "151"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "12"
+        system-id: "0"
+      name: "12"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "14"
+        system-id: "3"
+      name: "182"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "21"
+        system-id: "2"
+      name: "133"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "3"
+        pod-id-per-csx: "48"
+        system-id: "3"
+      name: "216"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "14"
+        system-id: "1"
+      name: "70"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "40"
+        system-id: "0"
+      name: "40"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "20"
+        system-id: "0"
+      name: "20"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "27"
+        system-id: "1"
+      name: "83"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "30"
+        system-id: "2"
+      name: "142"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "44"
+        system-id: "3"
+      name: "212"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "8"
+        pod-id-per-csx: "2"
+        system-id: "2"
+      name: "114"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "18"
+        system-id: "1"
+      name: "74"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "10"
+        pod-id-per-csx: "21"
+        system-id: "0"
+      name: "21"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "31"
+        system-id: "3"
+      name: "199"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "5"
+        pod-id-per-csx: "44"
+        system-id: "0"
+      name: "44"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "12"
+        system-id: "3"
+      name: "180"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "1"
+        pod-id-per-csx: "29"
+        system-id: "3"
+      name: "197"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "2"
+        pod-id-per-csx: "33"
+        system-id: "0"
+      name: "33"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "0"
+        system-id: "3"
+      name: "168"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "31"
+        system-id: "0"
+      name: "31"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "0"
+        pod-id-per-csx: "40"
+        system-id: "1"
+      name: "96"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "9"
+        pod-id-per-csx: "26"
+        system-id: "1"
+      name: "82"
+      resources:
+      - name: net026-ax-sr08
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "55"
+        system-id: "0"
+      name: "55"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "6"
+        pod-id-per-csx: "3"
+        system-id: "0"
+      name: "3"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "7"
+        pod-id-per-csx: "13"
+        system-id: "3"
+      name: "181"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g1: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "11"
+        pod-id-per-csx: "19"
+        system-id: "0"
+      name: "19"
+      resources:
+      - name: net029-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "46"
+        system-id: "3"
+      name: "214"
+      resources:
+      - name: net027-ax-sr07
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+    - annotations:
+        cs-port: "4"
+        pod-id-per-csx: "52"
+        system-id: "2"
+      name: "164"
+      resources:
+      - name: net028-ax-sr06
+        subresources:
+          cs-port/eth400g0: 1
+          memory: 12632
+          pod: 1
+        type: node
+  - annotations:
+      memxPopulated: "false"
+    groupingValue: nodegroup95
+    name: ng-secondaries
+    resourceGrants:
+    - name: Worker
+      resources:
+      - name: net030-wk-sr08
+        subresources:
+          memory: 58367
+          pod: 1
+        type: node
+  - annotations:
+      memxPopulated: "false"
+    groupingValue: nodegroup117
+    name: ng-secondaries
+    resourceGrants:
+    - name: Worker
+      resources:
+      - name: net036-wk-sr07
+        subresources:
+          memory: 58367
+          pod: 1
+        type: node
+  - annotations:
+      memxPopulated: "false"
+    groupingValue: nodegroup131
+    name: ng-secondaries
+    resourceGrants:
+    - name: Worker
+      resources:
+      - name: net034-wk-sr06
+        subresources:
+          memory: 58367
+          pod: 1
+        type: node
+  message: ""
+  nodeGroupGrants:
+  - name: ng-primary-0
+    nodeGroups:
+    - nodegroup71
+  - name: ng-secondaries
+    nodeGroups:
+    - nodegroup95
+    - nodegroup117
+    - nodegroup131
+  resourceGrants:
+  - name: System
+    resources:
+    - name: xs10218
+      type: system
+    - name: xs10230
+      type: system
+    - name: xs10233
+      type: system
+    - name: xs10236
+      type: system
+  - name: Coordinator
+    resources:
+    - name: net030-mg-sr01
+      type: node
+  state: Granted
+  systemGrants:
+  - name: xs10218
+  - name: xs10230
+  - name: xs10233
+  - name: xs10236

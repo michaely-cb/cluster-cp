@@ -1,0 +1,39 @@
+system {
+    host-name ${switch_name};
+    root-authentication {
+        encrypted-password "$$6$$cj/a3cFy$$o/cC6MFxXlY8z1PyLgeB/VIC0xjJsfkaETWFUr0zrJDFFMMNjUBxdV2Ebk4zlROl71h8mDszm9KQ6QJE2ZhhD1"; ## SECRET-DATA
+    }
+    login {
+        user admin {
+            uid 2000;
+            class super-user;
+            authentication {
+                encrypted-password "$$6$$QhIj8lXH$$fVVnSDPAzsl5x6/80sUo0TF7SNba87rc76nR4svQiDxk7sa/MQGzsybzypqK2SDgCKliAitEZmXuyUkyys2f//"; ## SECRET-DATA
+            }
+        }
+    }
+    services {
+        ssh;
+    }
+}
+interfaces {
+    re0:mgmt-0 {
+        mtu 1500;
+        unit 0 {
+            family inet {
+                address ${switch_mgmt_cidr};
+            }
+        }
+    }
+}
+routing-options {
+    static {
+        route 0.0.0.0/0 next-hop ${switch_mgmt_gw};
+    }
+}
+protocols {
+    lldp {
+        port-id-subtype interface-name;
+        interface all;
+    }
+}

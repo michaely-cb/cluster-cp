@@ -1,0 +1,36 @@
+# Cerebras Internal Package Properties for colovore deployments
+#
+# !!! IMPORTANT !!!
+#
+# If you modify this file in monolith, you must also run:
+#
+# scp $GITTOP/src/cluster_mgmt/src/cli/apps/common/internal-pkg-properties.yaml \
+#     root@foxhole-master:/cb/tests/cluster-mgmt/internal-pkg-properties.yaml
+#
+# since that file will be used during colo deploys.
+
+properties:
+  # cilium Pod CIDR lists and Mask Size.
+  cilium:
+    clusterPoolIPv4PodCIDRList:
+      - "192.168.128.0/17"
+    clusterPoolIPv4MaskSize: 26
+
+  # the name and email address and smtp configurations to receive the alerts from
+  # prometheus.
+  alertmanager:
+    receivers:
+      name: 'team-email'
+      email: 'cluster-mgmt@cerebras.net'
+      cluster_admin_email: 'system_k8_alerts-aaaai4j3glrklthramnigfqtgi@cerebras.slack.com'
+      # Sets up a webhook receiver that forwards all alerts to the alert-router
+      webhook:
+        name: 'alert-router'
+        url: "http://alert-router:8080/webhook"
+    smtp:
+      smarthost: "email-smtp.us-west-2.amazonaws.com:587"
+      from: "alertmanager-(cluster_name)@cerebras.net"
+      auth_username: "AKIASP3P2OEKMCH4PK7D"
+      auth_password: "AkrmuGC50oMfLvTmL9Eb2riv+jTZ4801hOUl6rc/Oonl"
+
+

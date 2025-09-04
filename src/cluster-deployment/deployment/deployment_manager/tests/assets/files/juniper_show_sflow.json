@@ -1,0 +1,70 @@
+{
+    "sflow" : [
+    {
+        "sflow-information" : [
+        {
+            "sflow-status" : [
+            {
+                "data" : "Enabled"
+            }
+            ],
+            "sflow-adaptive-fallback-status" : [
+            {
+                "data" : "False"
+            }
+            ],
+            "sflow-sample-limit" : [
+            {
+                "data" : "300"
+            }
+            ],
+            "sflow-sample-limit-threshold" : [
+            {
+                "data" : "0"
+            }
+            ],
+            "sflow-polling-interval" : [
+            {
+                "data" : "2"
+            }
+            ],
+            "sflow-sample-rate-egress" : [
+            {
+                "data" : "65536:Enabled"
+            }
+            ],
+            "sflow-sample-rate-ingress" : [
+            {
+                "data" : "2048:Disabled"
+            }
+            ],
+            "sflow-agent-id" : [
+            {
+                "data" : "172.19.133.104"
+            }
+            ],
+            "sflow-agent-id6" : [
+            {
+                "data" : "No valid agent IPv6"
+            }
+            ],
+            "sflow-source-ip" : [
+            {
+                "data" : "10.4.35.254"
+            }
+            ],
+            "sflow-source-ip6" : [
+            {
+                "data" : "No valid source IPv6"
+            }
+            ],
+            "sflow-sample-size" : [
+            {
+                "data" : "128"
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

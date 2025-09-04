@@ -1,0 +1,6 @@
+singleBinary:
+  persistence:
+    storageClass: standard
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: loki

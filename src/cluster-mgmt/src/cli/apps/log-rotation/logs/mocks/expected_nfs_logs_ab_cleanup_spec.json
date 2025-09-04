@@ -1,0 +1,86 @@
+{
+  "storage_health": {
+    "nfs": {
+      "/cb/tests": {
+        "total_capacity": "27487790694400 (25.00TB)",
+        "disk_space_used": "22700834488320 (20.65TB)",
+        "remaining_disk_space": "4786956206080 (4.35TB)",
+        "compile_retention_in_days": "7",
+        "workdir_retention_in_days": "7",
+        "user_venv_retention_in_days": "30"
+      }
+    }
+  },
+  "logs": [
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-10446",
+      "last_modified_timestamp": "2023-07-14T19:32:23Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-90170",
+      "last_modified_timestamp": "2023-07-14T21:20:58Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-90185",
+      "last_modified_timestamp": "2023-07-14T21:20:58Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-90335",
+      "last_modified_timestamp": "2023-07-14T21:20:58Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-10957",
+      "last_modified_timestamp": "2023-07-15T03:56:30Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-22480",
+      "last_modified_timestamp": "2023-07-15T15:47:19Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-65933",
+      "last_modified_timestamp": "2023-07-16T02:10:58Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-123322",
+      "last_modified_timestamp": "2023-07-16T15:28:30Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/user-venv/venv-1000-60096",
+      "last_modified_timestamp": "2023-07-16T15:28:30Z",
+      "reason": "User venv exceeds the retention period (30 days)",
+      "plan": "delete",
+      "status": "pending"
+    },
+    {
+      "path": "/cb/tests/cluster-mgmt/compile_root/job-operator/cb/tests/cslogs/compile_cache/train_64ce747d9db73e1649a1195e/generalizability_sweep_remote_compile/cs_17430058751821655338*",
+      "last_modified_timestamp": "2023-08-09T03:03:41Z",
+      "reason": "NFS logs exceeds the retention period (7 days)",
+      "plan": "delete",
+      "status": "pending"
+    }
+  ]
+}

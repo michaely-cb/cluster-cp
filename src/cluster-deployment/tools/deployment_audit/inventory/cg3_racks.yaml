@@ -1,0 +1,110 @@
+name: cg3
+racks:
+- template: wse1
+  names:
+    - wse001
+    - wse002
+    - wse003
+    - wse005
+    - wse006
+    - wse007
+    - wse009
+    - wse010
+    - wse011
+    - wse013
+    - wse014
+    - wse015
+    - wse017
+    - wse018
+    - wse019
+    - wse021
+    - wse022
+    - wse023
+    - wse025
+    - wse026
+    - wse027
+    - wse029
+    - wse030
+    - wse031
+    - wse033
+    - wse034
+    - wse035
+    - wse037
+    - wse038
+    - wse039
+    - wse041
+    - wse042
+    - wse043
+    - wse045
+    - wse046
+    - wse047
+    - wse049
+    - wse050
+    - wse051
+    - wse053
+    - wse054
+    - wse055
+    - wse057
+    - wse058
+    - wse059
+    - wse061
+    - wse062
+    - wse063
+    - wse064
+- template: wse2
+  names:
+    - rwse1001
+    - rwse1002
+    - rwse1003
+    - rwse1004
+    - wse004
+    - wse008
+    - wse012
+    - wse016
+    - wse020
+    - wse024
+    - wse028
+    - wse032
+    - wse036
+    - wse040
+    - wse044
+    - wse048
+    - wse052
+    - wse056
+    - wse060
+    - wse064
+- template: br-rack-64node
+  names:
+    - net001
+    - net002
+    - net003
+    - net004
+    - net005
+    - net006
+    - net007
+    - net008
+- template: memx
+  names:
+    - net009
+    - net010
+    - net011
+- template: memx-l-cg3/4
+  names:
+    - net012
+    - net013
+- template: shared-spine
+  names:
+    - net016
+    - net017
+    - net035
+    - net036
+- template: individual-spine
+  names:
+    - net016
+    - net017
+- template: br-cerebras
+  names:
+    - net014
+- template: memx-cerebras
+  names:
+    - net015

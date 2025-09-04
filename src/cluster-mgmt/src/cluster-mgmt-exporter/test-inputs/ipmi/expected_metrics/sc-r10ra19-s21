@@ -1,0 +1,82 @@
+# HELP node_ipmi_health_status Node health: ok=0, other values indicate warning/error
+# TYPE node_ipmi_health_status gauge
+node_ipmi_health_status{category="Overall",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="Processor",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="Memory",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="CPU",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="Fan",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="Power supply",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="Storage",node="sc-r10ra19-s21"} 0.0
+node_ipmi_health_status{category="Temperatures",node="sc-r10ra19-s21"} 0.0
+# HELP node_ipmi_info Node Info
+# TYPE node_ipmi_info gauge
+node_ipmi_info{model="PowerEdge C4140",node="sc-r10ra19-s21",vendor="Dell"} 1.0
+# HELP node_ipmi_memory_installed Node installed memory, in GiB as reported by IPMI
+# TYPE node_ipmi_memory_installed gauge
+node_ipmi_memory_installed{node="sc-r10ra19-s21"} 192.0
+# HELP node_thermals_fan Fan speed (pct of max for HPE, RPM for Dell)
+# TYPE node_thermals_fan gauge
+node_thermals_fan{description="System Board Fan1A",health="0",index="0",node="sc-r10ra19-s21",units="RPM"} 11760.0
+node_thermals_fan{description="System Board Fan1B",health="0",index="1",node="sc-r10ra19-s21",units="RPM"} 9360.0
+node_thermals_fan{description="System Board Fan2A",health="0",index="2",node="sc-r10ra19-s21",units="RPM"} 11880.0
+node_thermals_fan{description="System Board Fan2B",health="0",index="3",node="sc-r10ra19-s21",units="RPM"} 9240.0
+node_thermals_fan{description="System Board Fan3A",health="0",index="4",node="sc-r10ra19-s21",units="RPM"} 12000.0
+node_thermals_fan{description="System Board Fan3B",health="0",index="5",node="sc-r10ra19-s21",units="RPM"} 9240.0
+node_thermals_fan{description="System Board Fan4A",health="0",index="6",node="sc-r10ra19-s21",units="RPM"} 11880.0
+node_thermals_fan{description="System Board Fan4B",health="0",index="7",node="sc-r10ra19-s21",units="RPM"} 9240.0
+node_thermals_fan{description="System Board Fan5A",health="0",index="8",node="sc-r10ra19-s21",units="RPM"} 11880.0
+node_thermals_fan{description="System Board Fan5B",health="0",index="9",node="sc-r10ra19-s21",units="RPM"} 9240.0
+node_thermals_fan{description="System Board Fan6A",health="0",index="10",node="sc-r10ra19-s21",units="RPM"} 11880.0
+node_thermals_fan{description="System Board Fan6B",health="0",index="11",node="sc-r10ra19-s21",units="RPM"} 9240.0
+node_thermals_fan{description="System Board Fan7A",health="0",index="12",node="sc-r10ra19-s21",units="RPM"} 12000.0
+node_thermals_fan{description="System Board Fan7B",health="0",index="13",node="sc-r10ra19-s21",units="RPM"} 9360.0
+node_thermals_fan{description="System Board Fan8A",health="0",index="14",node="sc-r10ra19-s21",units="RPM"} 11880.0
+node_thermals_fan{description="System Board Fan8B",health="0",index="15",node="sc-r10ra19-s21",units="RPM"} 9240.0
+# HELP node_thermals_fan_thresh Fan speed threshold (type label indicates criticality)
+# TYPE node_thermals_fan_thresh gauge
+node_thermals_fan_thresh{description="System Board Fan1A",health="0",index="0",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan1A",health="0",index="0",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan1B",health="0",index="1",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan1B",health="0",index="1",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan2A",health="0",index="2",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan2A",health="0",index="2",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan2B",health="0",index="3",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan2B",health="0",index="3",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan3A",health="0",index="4",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan3A",health="0",index="4",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan3B",health="0",index="5",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan3B",health="0",index="5",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan4A",health="0",index="6",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan4A",health="0",index="6",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan4B",health="0",index="7",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan4B",health="0",index="7",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan5A",health="0",index="8",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan5A",health="0",index="8",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan5B",health="0",index="9",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan5B",health="0",index="9",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan6A",health="0",index="10",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan6A",health="0",index="10",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan6B",health="0",index="11",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan6B",health="0",index="11",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan7A",health="0",index="12",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan7A",health="0",index="12",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan7B",health="0",index="13",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan7B",health="0",index="13",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan8A",health="0",index="14",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan8A",health="0",index="14",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+node_thermals_fan_thresh{description="System Board Fan8B",health="0",index="15",node="sc-r10ra19-s21",type="warn",units="RPM"} 840.0
+node_thermals_fan_thresh{description="System Board Fan8B",health="0",index="15",node="sc-r10ra19-s21",type="error",units="RPM"} 600.0
+# HELP node_thermals_thermometer Node temperature at labelled sensor
+# TYPE node_thermals_thermometer gauge
+node_thermals_thermometer{description="CPU1 Temp",health="0",index="0",node="sc-r10ra19-s21",units="degreesC"} 34.0
+node_thermals_thermometer{description="CPU2 Temp",health="0",index="1",node="sc-r10ra19-s21",units="degreesC"} 35.0
+node_thermals_thermometer{description="System Board Inlet Temp",health="0",index="2",node="sc-r10ra19-s21",units="degreesC"} 22.0
+node_thermals_thermometer{description="System Board Exhaust Temp",health="0",index="3",node="sc-r10ra19-s21",units="degreesC"} 29.0
+# HELP node_thermals_thermometer_thresh Node temperature threshold (type label indicates criticality)
+# TYPE node_thermals_thermometer_thresh gauge
+node_thermals_thermometer_thresh{description="CPU1 Temp",health="0",index="0",node="sc-r10ra19-s21",type="error",units="degreesC"} 95.0
+node_thermals_thermometer_thresh{description="CPU2 Temp",health="0",index="1",node="sc-r10ra19-s21",type="error",units="degreesC"} 95.0
+node_thermals_thermometer_thresh{description="System Board Inlet Temp",health="0",index="2",node="sc-r10ra19-s21",type="warn",units="degreesC"} 28.0
+node_thermals_thermometer_thresh{description="System Board Inlet Temp",health="0",index="2",node="sc-r10ra19-s21",type="error",units="degreesC"} 32.0
+node_thermals_thermometer_thresh{description="System Board Exhaust Temp",health="0",index="3",node="sc-r10ra19-s21",type="warn",units="degreesC"} 75.0
+node_thermals_thermometer_thresh{description="System Board Exhaust Temp",health="0",index="3",node="sc-r10ra19-s21",type="error",units="degreesC"} 80.0

@@ -1,0 +1,54 @@
+# Default values for whereabouts.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: registry.local/whereabouts
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: v0.7.0-cb-rc23
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: "kube-system"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  #name: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  privileged: true
+
+nodeSelector:
+  kubernetes.io/arch: amd64
+
+tolerations:
+  - operator: Exists
+    effect: NoSchedule
+
+affinity: {}
+
+k8sClientRateLimit:
+  qps: 50
+  burst: 50
+
+# overridden in deploy script for 2 replicas
+operator:
+  replicas: 1
+  affinity: {}
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "node-role.kubernetes.io/master"
+    operator: "Exists"
+    effect: "NoSchedule"

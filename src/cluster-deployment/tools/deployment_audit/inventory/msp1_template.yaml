@@ -1,0 +1,98 @@
+kind: InventoryValidationSpec
+rackTemplates:
+- name: wse1
+  properties:
+    partNumber: 520-0161-01
+  counts:
+    sy:
+      cs: 2
+    pr:
+      mc: 3
+    pu:
+      in: 3
+- name: wse2
+  properties:
+    partNumber: 520-0162-01
+  counts:
+    sy:
+      cs: 2
+    sw:
+      mg: 1
+    pu:
+      in: 3
+- name: br-rack-64node
+  properties:
+    partNumber: 520-0160-01
+  counts:
+    sr:
+      sx: 24
+      ax: 12
+    sw:
+      mg: 1
+      lf: 2
+    pu:
+      in: 2
+- name: shared-spine  # These devices are in every stamp (eg. cg6, cg7)
+  properties:
+    partNumber: Rack Definition Changing (maybe 520-0163-01)
+  counts:
+    sw:
+      sp: 1
+- name: individual-spine  # These devices are in the stamp with the spine which is cg6
+  properties:
+    partNumber: Rack Definition Changing (maybe 520-0163-01)
+  counts:
+    sw:
+      mg: 2
+- name: memx-b
+  properties:
+    partNumber: 520-0164-01
+  counts:
+    sr:
+      mg: 2
+      mx: 36
+    sw:
+      mg: 1
+      lf: 1
+    pu:
+      in: 2  
+- name: memx-l
+  properties:
+    partNumber: 520-0165-01
+  counts:
+    sr:
+      mg: 2
+      ml: 36
+    sw:
+      mg: 1
+      lf: 1
+    pu:
+      in: 2
+- name: memx-xl
+  properties:
+    partNumber: 520-0204-02
+  counts:
+    sr:
+      mg: 2
+      mxxl: 24
+    sw:
+      mg: 2
+      lf: 1
+    pu:
+      in: 2
+- name: workers
+  properties:
+    partNumber: 520-0166-01
+  counts:
+    sr:
+      wk: 35
+    sw:
+      mg: 1
+    pu:
+      in: 2
+- name: virtual-devices
+  properties:
+    partNumber: 000-0000-00
+  counts:
+    sw:
+      mg: 1

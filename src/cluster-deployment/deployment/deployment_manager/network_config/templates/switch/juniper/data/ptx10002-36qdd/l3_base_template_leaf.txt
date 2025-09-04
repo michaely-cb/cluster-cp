@@ -1,0 +1,36 @@
+# L3 template for ${name}
+#
+# spanning tree
+set protocols mstp bpdu-block-on-edge
+set protocols mstp interface all
+# VRF
+set routing-instances ${vrf_name} instance-type virtual-router
+# VLAN
+set vlans vlan${switch_vlan} vlan-id ${switch_vlan}
+set vlans vlan${switch_vlan} l3-interface irb.${switch_vlan}
+set vlans vlan${switch_vlan} description "memx switch subnet"
+set routing-instances ${vrf_name} interface irb.${switch_vlan}
+set interfaces irb mtu ${mtu}
+set interfaces irb unit ${switch_vlan} family inet mtu ${mtu}
+set interfaces irb unit ${switch_vlan} family inet address ${switch_address}
+# BGP
+set routing-instances ${vrf_name} routing-options autonomous-system ${asn_num}
+set routing-instances ${vrf_name} protocols bgp multipath multiple-as
+set policy-options policy-statement local-prefixes term 10 from protocol direct
+set policy-options policy-statement local-prefixes term 10 then accept
+set policy-options policy-statement leaf-out from community from-spine
+set policy-options policy-statement leaf-out then reject
+set policy-options community from-spine members 1:1
+set routing-instances ${vrf_name} protocols bgp group ws_cluster_switches export local-prefixes
+set routing-instances ${vrf_name} protocols bgp group ws_cluster_switches export leaf-out
+set routing-instances ${vrf_name} protocols bgp group ws_cluster_switches bfd-liveness-detection minimum-interval 300
+set routing-instances ${vrf_name} protocols bgp group exterior_switches export local-prefixes
+set policy-options policy-statement deny-all then reject
+set routing-instances ${vrf_name} protocols bgp group ws_cluster_csx export deny-all
+set routing-instances ${vrf_name} routing-options router-id ${router_id}
+set routing-instances ${vrf_name} protocols bgp multipath
+# ECMP
+set policy-options policy-statement load-balancing-policy then load-balance per-flow
+set routing-options forwarding-table export load-balancing-policy
+set forwarding-options hash-key family inet layer-3
+set forwarding-options hash-key family inet layer-4

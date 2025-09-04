@@ -1,0 +1,33 @@
+apiVersion: "jobs.cerebras.com/v1"
+kind: WSJob
+metadata:
+  name: pickup-sx-for-upgrade
+  namespace: SESSION
+  annotations:
+    cerebras/prefer-idle-sx-node: "true"
+    cerebras/anti-affinity-platform-version-TARGET: ""
+    cerebras/job-allocate-affinity-wsjob-name: SESSION-pickup-sx-for-upgrade
+spec:
+  numWafers: SYSTEM
+  priority: 0
+  wsReplicaSpecs:
+    Coordinator:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: registry.local/busybox:1.34.1
+              command:
+                - "sleep"
+                - "60"
+    BroadcastReduce:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: registry.local/busybox:1.34.1
+              command:
+                - "sleep"
+                - "60"

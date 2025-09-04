@@ -1,0 +1,39 @@
+We use the Prometheus "snmp_exporter" utility to collect switch status
+over SNMP. This tool is available here:
+https://github.com/prometheus/snmp_exporter .
+
+We use the standard third-party snmp_exporter docker image in the
+prometheus depoloyment.  The snmp_exporter tool requires a snmp.yaml
+config file, which is a list of all the SNMP OIDs (metric types) to
+query. Since querying is slow, and there are many device-specific OIDs
+that most equipment will ignore, you need to request only the limited
+set of OIDs that we actually care about. Included in the snmp_exporter
+repo is the generator utility to generate this snmp.yaml, and a
+directory of some common OID collections (MIBs). You create a
+generator.yml file for this tool which lists the desired OIDs and the
+MIBs that contain them, and any tweaks/renamings/etc. The resulting
+snmp.yaml file is checked into the repo and included in our prometheus
+packages, so that we don't have to deploy the generator tool and the
+MIB database. I used a binary package of snmp_exporter from github
+because I was unable to get the right set of Go versions.
+
+To recreate the snmp.yaml file, download or build the snmp_exporter
+repo to get the generator tool. In the generator directory, run "make
+mibs" to download the standard MIB archive.  Copy the generator.yml
+file from this direcotry into the snmp_exporter/generator
+directory. Run "make generate" to produce the snmp.yml file. Here's
+the exact command I used which sets all the needed include envvars:
+
+LD_LIBRARY_PATH="$HOME/ws/local/lib:/cb/toolchains/buildroot/monolith-default/202304181922-215-8b58e4cb/sdk-x86_64/lib"
+GO=/cb/toolchains/buildroot/monolith-default/202304181922-215-8b58e4cb/sdk-x86_64/bin/go
+CC=/cb/toolchains/buildroot/monolith-default/202304181922-215-8b58e4cb/sdk-x86_64/bin/gcc
+make generate
+
+If you need the vendor-specific Arista MIB, it is also included here,
+and it should be copied into the snmp_exporter/generator/mibs/. See
+the commented out section of the generator.yml file if you want to
+enable it. Note that only one MIB can be loaded when snmp_exporter
+runs with prometheus, so if you need multiple MIBs, you need to edit
+the resulting files to combine them. For now we expect that the
+vendor-neutral IF-MIB can be used for all switch types, so the Arista
+MIB is probably not needed.

@@ -1,0 +1,15 @@
+# This playbook configures Mellanox NICs for DCQCN
+
+- name: Reset 100G NICs 
+  shell: |
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4125_pciconf0 reset
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4125_pciconf0.1 reset
+  when: (group_names is search("MX")) or
+        (group_names is search("SX"))
+
+- name: Reset 400G NICs
+  shell: |
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4129_pciconf0 reset
+    /usr/bin/mlxconfig -y -e -d /dev/mst/mt4129_pciconf1 reset
+  when: (group_names is search("SX")) or
+        (group_names is search("AX"))

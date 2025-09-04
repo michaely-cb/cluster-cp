@@ -1,0 +1,28 @@
+{
+  "_comment": "10 kvss pods, targeting 4 systems; 7 => domain0, 1 => domain1, 1 => domain2, 1 => domain3",
+  "tasks": [
+    {
+      "taskType": "KVSS",
+      "resourceInfo": {
+        "linearMemoryRange": {
+          "intercept": 294649856,
+          "coefficient": 1,
+          "minX": 0,
+          "maxX": -1
+        }
+      },
+      "taskMap": [
+        { "taskId": { "taskId": 0, "wseIds": [0] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 1, "wseIds": [1] }, "addressBook": { "wseDomains": [1] } },
+        { "taskId": { "taskId": 2, "wseIds": [1] }, "addressBook": { "wseDomains": [2] } },
+        { "taskId": { "taskId": 3, "wseIds": [1] }, "addressBook": { "wseDomains": [3] } },
+        { "taskId": { "taskId": 4, "wseIds": [2] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 5, "wseIds": [2] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 6, "wseIds": [2] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 7, "wseIds": [2] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 8, "wseIds": [3] }, "addressBook": { "wseDomains": [0] } },
+        { "taskId": { "taskId": 9, "wseIds": [3] }, "addressBook": { "wseDomains": [0] } }
+      ]
+    }
+  ]
+}

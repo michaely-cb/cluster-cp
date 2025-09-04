@@ -1,0 +1,90 @@
+kind: cluster-configuration
+name: test-cluster
+nodes:
+  - name: mgmt-0
+    role: management
+    networkInterfaces:
+      - name: eth0
+        address: 10.250.50.17
+    properties:
+      v2Group: sw-0
+  - name: act-0
+    role: activation
+    networkInterfaces:
+      - name: eth0
+        address: 10.250.50.18
+        v2Group: sw-0
+      - name: eth1
+        address: 10.250.10.19
+        v2Group: sw-1
+    properties:
+      group: nodegroup0
+  - name: br-0
+    role: broadcastreduce
+    properties:
+      v2Group: sw-0
+    networkInterfaces:
+      - name: eth100g2
+        address: 10.250.51.2
+      - name: eth100g3
+        address: 10.250.51.3
+      - name: eth100g5
+        address: 10.250.51.1
+      - name: eth100g0
+        address: 10.250.51.5
+      - name: eth100g1
+        address: 10.250.51.6
+      - name: eth100g4
+        address: 10.250.51.4
+  - name: mem-0
+    role: memory
+    networkInterfaces:
+      - name: eth0
+        address: 10.250.50.1
+    properties:
+      group: nodegroup0
+      v2Group: sw-0
+  - name: wrk-0
+    role: worker
+    networkInterfaces:
+      - name: eth100g0
+        address: 10.250.50.16
+    properties:
+      group: nodegroup0
+      v2Group: sw-0
+groups:
+  - name: nodegroup0
+v2Groups:
+  - name: sw-0
+    vlans:
+      - name: memx
+        subnet: 10.250.50.0/25
+        gateway: 10.250.50.254
+        parentnet: 10.250.50.0/23
+        asn: "65001.545"
+        virtualStart: 10.250.50.50
+        virtualEnd: 10.250.50.125
+      - name: swarmx
+        subnet: 10.250.50.128/25
+        gateway: 10.250.50.254
+        parentnet: 10.250.50.0/23
+        asn: "65001.545"
+        virtualStart: 10.250.50.200
+        virtualEnd: 10.250.50.243
+  - name: sw-1
+    vlans:
+      - name: memx
+        subnet: 10.250.10.0/25
+        gateway: 10.250.10.254
+        parentnet: 10.250.10.0/23
+        asn: "65001.546"
+        virtualStart: 10.250.10.50
+        virtualEnd: 10.250.10.125
+      - name: swarmx
+        subnet: 10.250.10.128/25
+        gateway: 10.250.10.254
+        parentnet: 10.250.10.0/23
+        asn: "65001.546"
+        virtualStart: 10.250.10.200
+        virtualEnd: 10.250.10.243
+

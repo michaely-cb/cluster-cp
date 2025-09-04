@@ -1,0 +1,66 @@
+#!/bin/bash
+
+ROLE={{ role }}
+VENDOR={{ vendor }}
+CONTROL_PLANE_NODE={{ control_plane_node }}
+REBOOT_NODE={{ reboot_node }}
+
+# Update platform version manifest file
+echo "Updating platform version manifest file"
+pushd /tmp/platform-version
+python3 ./platform_version.py --package ./package_manifest.json --config ./config_manifest.json --cbcore ./cbcore_compatibility.json --output /opt/cerebras/platform-version.json --role ${ROLE} --vendor ${VENDOR}
+popd
+echo "Done"
+
+{% if is_ceph_node %}
+wait_for_success() {
+    local start_time=$(date +%s)
+    local max_wait_time=300
+    local output=""
+
+    while true; do
+        output=$(eval "$@")
+        local exit_status=$?
+
+        if [ $exit_status -eq 0 ]; then
+            echo "$output"
+            return 0
+        fi
+
+        local elapsed_time=$(( $(date +%s) - start_time ))
+        if [ $elapsed_time -ge $max_wait_time ]; then
+            echo "Timeout reached. Command did not succeed within 5 minutes."
+            return 1
+        fi
+        sleep 10
+    done
+}
+
+# Wait for node ready
+echo "Waiting for node to be ready"
+cmd="ssh ${CONTROL_PLANE_NODE} \"kubectl get nodes ${REBOOT_NODE} -o jsonpath='{.status.conditions[?(@.type==\\\"Ready\\\")].status}'\""
+wait_for_success "$cmd"
+status=$?
+if [ $status -ne 0 ]; then
+    echo "Failed to wait for the node to be ready"
+    exit 1
+fi
+echo "Done"
+
+# Wait for tools_pod ready
+echo "Getting tools_pod"
+cmd="ssh ${CONTROL_PLANE_NODE} \"kubectl -n rook-ceph get pod -lapp=rook-ceph-tools | grep 'Running' | awk '{print \\\$1}'\""
+tools_pod=$(wait_for_success $cmd)
+status=$?
+if [ $status -ne 0 ]; then
+    echo "Failed to get tools_pod"
+    exit 1
+fi
+echo "Done"
+
+# Re-enable ceph balancing
+echo "Re-enabling ceph"
+ssh ${CONTROL_PLANE_NODE} "kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph osd unset noout; kubectl -n rook-ceph exec deploy/rook-ceph-tools -- ceph osd unset norebalance"
+{% endif %}
+
+echo "Post-reboot script Done"

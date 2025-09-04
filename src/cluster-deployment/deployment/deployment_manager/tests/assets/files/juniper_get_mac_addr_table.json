@@ -1,0 +1,144 @@
+{
+    "l2ng-l2ald-rtb-macdb" : [
+    {
+        "l2ng-l2ald-mac-entry-vlan" : [
+        {
+            "attributes" : {"junos:style" : "brief-rtb"}, 
+            "mac-count-global" : [
+            {
+                "data" : "85"
+            }
+            ], 
+            "learnt-mac-count" : [
+            {
+                "data" : "85"
+            }
+            ], 
+            "l2ng-l2-mac-routing-instance" : [
+            {
+                "data" : "default-switch"
+            }
+            ], 
+            "l2ng-l2-vlan-id" : [
+            {
+                "data" : "601"
+            }
+            ], 
+            "l2ng-mac-entry" : [
+            {
+                "l2ng-l2-mac-vlan-name" : [
+                {
+                    "data" : "vl609"
+                }
+                ], 
+                "l2ng-l2-mac-address" : [
+                {
+                    "data" : "c4:cb:e1:dc:e6:c6"
+                }
+                ], 
+                "l2ng-l2-mac-flags" : [
+                {
+                    "data" : "D"
+                }
+                ], 
+                "l2ng-l2-mac-age" : [
+                {
+                    "data" : "-"
+                }
+                ], 
+                "l2ng-l2-mac-logical-interface" : [
+                {
+                    "data" : "ge-0/0/33.0"
+                }
+                ], 
+                "l2ng-l2-mac-fwd-next-hop" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "l2ng-l2-mac-rtr-id" : [
+                {
+                    "data" : "0"
+                }
+                ]
+            }, 
+            {
+                "l2ng-l2-mac-vlan-name" : [
+                {
+                    "data" : "vl609"
+                }
+                ], 
+                "l2ng-l2-mac-address" : [
+                {
+                    "data" : "e4:5e:cc:60:3a:00"
+                }
+                ], 
+                "l2ng-l2-mac-flags" : [
+                {
+                    "data" : "D"
+                }
+                ], 
+                "l2ng-l2-mac-age" : [
+                {
+                    "data" : "-"
+                }
+                ], 
+                "l2ng-l2-mac-logical-interface" : [
+                {
+                    "data" : "ae0.0"
+                }
+                ], 
+                "l2ng-l2-mac-fwd-next-hop" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "l2ng-l2-mac-rtr-id" : [
+                {
+                    "data" : "0"
+                }
+                ]
+            }, 
+            {
+                "l2ng-l2-mac-vlan-name" : [
+                {
+                    "data" : "vl609"
+                }
+                ], 
+                "l2ng-l2-mac-address" : [
+                {
+                    "data" : "e4:5e:cc:60:9e:00"
+                }
+                ], 
+                "l2ng-l2-mac-flags" : [
+                {
+                    "data" : "D"
+                }
+                ], 
+                "l2ng-l2-mac-age" : [
+                {
+                    "data" : "-"
+                }
+                ], 
+                "l2ng-l2-mac-logical-interface" : [
+                {
+                    "data" : "ae0.0"
+                }
+                ], 
+                "l2ng-l2-mac-fwd-next-hop" : [
+                {
+                    "data" : "0"
+                }
+                ], 
+                "l2ng-l2-mac-rtr-id" : [
+                {
+                    "data" : "0"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

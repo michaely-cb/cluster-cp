@@ -1,0 +1,54 @@
+{{- $isSystemNamespace := eq .Values.namespace .Values.system_namespace -}}
+{{- $rbacPrefix := printf "%s-" .Values.namespace -}}
+
+{{- if not $isSystemNamespace }}
+---
+# Generate Role and RoleBinding for a user namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: log-export-ns-role
+  namespace: {{ .Values.namespace }}
+rules:
+  {{- include "log-export-viewer-ns-role.rules" . | nindent 2 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: log-export-ns-rolebinding
+  namespace: {{ .Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: log-export-ns-role
+subjects:
+  - kind: ServiceAccount
+    name: log-export
+    namespace: {{ .Values.namespace }}
+---
+# Generate ClusterRole and ClusterRoleBinding for a user namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ $rbacPrefix }}log-export-cluster-role
+  labels:
+    {{- include "cluster-server.labels" . | nindent 4 }}
+rules:
+  {{- include "log-export-viewer-cluster-role.rules" . | nindent 2 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ $rbacPrefix }}log-export-cluster-rolebinding
+  labels:
+    {{- include "cluster-server.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ $rbacPrefix }}log-export-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: log-export
+  namespace: {{ .Values.namespace }}
+---
+{{- end }}

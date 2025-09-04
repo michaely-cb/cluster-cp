@@ -1,0 +1,12 @@
+# --- EXAMPLE: Setup link and route and MTU for 100GE cards:
+nmcli connection modify ens3f0 +ipv4.routes "10.254.28.0/22 10.254.30.208"
+nmcli connection up ens3f0
+nmcli connection modify ens3f0 802-3-ethernet.mtu 9000
+nmcli connection up ens3f0
+
+# --- EXAMPLE: Emplace cluster-specific /etc/hosts on ALL the nodes
+Example: $ cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.254.30.208 master.cbsys.io master cluster-endpoint.cbsys.io cluster-endpoint
+10.254.30.224 worker.cbsys.io worker

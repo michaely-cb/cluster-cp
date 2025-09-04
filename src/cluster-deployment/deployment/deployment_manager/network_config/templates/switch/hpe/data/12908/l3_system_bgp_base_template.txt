@@ -1,0 +1,9 @@
+   #
+   ip vpn-instance ${vrf_name}
+      group ws_cluster_csx external
+      address-family ipv4 unicast
+         peer ws_cluster_csx enable
+         Y
+         exit
+      exit
+   exit

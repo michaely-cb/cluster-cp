@@ -1,0 +1,13 @@
+- hosts: nodes
+  tasks:
+    - import_role:
+        name: common
+        tasks_from: dcqcn-enable
+      when: action == "enable"
+    - import_role:
+        name: common
+        tasks_from: dcqcn-disable
+      when: action == "disable"
+    - name: Reboot MX, SX and AX nodes for DCQCN
+      reboot:
+        reboot_timeout: 600

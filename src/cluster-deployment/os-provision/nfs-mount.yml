@@ -1,0 +1,36 @@
+# Note user/group add requires sssd svc running, check by systemctl status sssd`
+- name: "Mount nfs paths and configure users/groups on all nodes"
+  hosts: root-server, nodes
+  tasks:
+    - name: "Ensure the group exists"
+      ansible.builtin.group:
+        name: "{{ item[0] }}"
+        gid: "{{ item[1] }}"
+        state: present
+      loop: "{{ g_names | zip(g_ids) | list }}"
+      loop_control:
+        loop_var: item
+        label: "{{ item[0] }}"
+
+    - name: "Ensure the user exists and maps to the correct group"
+      ansible.builtin.user:
+        name: "{{ item[0] }}"
+        uid: "{{ item[1] }}"
+        password: "{{ item[2] }}"
+        group: "{{ item[3] }}"
+        state: present
+      loop: "{{ u_names | zip(u_ids, u_passwords, g_names) | list }}"
+      loop_control:
+        loop_var: item
+        label: "{{ item[0] }}"
+
+    - name: "Mount the NFS paths"
+      ansible.builtin.mount:
+        src: "{{ item[0] }}"
+        path: "{{ item[1] }}"
+        fstype: nfs
+        state: mounted
+      loop: "{{ server_paths | zip(mount_paths) | list }}"
+      loop_control:
+        loop_var: item
+        label: "{{ item[0] }}"

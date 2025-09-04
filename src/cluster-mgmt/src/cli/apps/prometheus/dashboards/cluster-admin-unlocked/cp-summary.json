@@ -1,0 +1,943 @@
+{
+   "description": "Summary dashboard for cluster control plane health signals",
+   "editable": false,
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "panels": [ ],
+         "title": "API Summary",
+         "type": "row"
+      },
+      {
+         "datasource": "$datasource",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": null
+                     },
+                     {
+                        "color": "orange",
+                        "value": 90
+                     },
+                     {
+                        "color": "#EAB839",
+                        "value": 95
+                     },
+                     {
+                        "color": "green",
+                        "value": 99.900000000000006
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 1
+         },
+         "id": 2,
+         "links": [
+            {
+               "title": "View Components Dashboard",
+               "url": "/d/aec3a3n17e2o0c/clustermgmt-core-components-dashboard?orgId=1&${__url_time_range}&var-datasource=${datasource}"
+            }
+         ],
+         "options": {
+            "graphMode": "none"
+         },
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "sum(rate(apiserver_request_total{job=\"apiserver\", code=~\"2..|3..|4..\"}[5m])) / sum(rate(apiserver_request_total{job=\"apiserver\"}[5m])) * 100",
+               "format": "percent",
+               "legendFormat": "API Server Success Rate"
+            }
+         ],
+         "title": "API Server Success Rate",
+         "type": "stat"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 24,
+            "y": 7
+         },
+         "id": 3,
+         "panels": [ ],
+         "title": "Action Required",
+         "type": "row"
+      },
+      {
+         "datasource": "$datasource",
+         "fieldConfig": {
+            "defaults": {
+               "noValue": "All services healthy"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 24,
+            "x": 0,
+            "y": 8
+         },
+         "id": 4,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"kube-apiserver-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "API Server"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"etcd-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "etcd"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"coredns-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "CoreDNS"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"rook-ceph\",pod=~\"rook-ceph-mon-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (MON)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"rook-ceph\",pod=~\"rook-ceph-mds-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (MDS)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"rook-ceph\",pod=~\"rook-ceph-osd-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (OSD)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"cluster-mgmt-system-exporter-*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "System Exporter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-snmp-exporter-*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "SNMP Exporter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-kube-state-metrics-*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube State Metrics"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-prometheus-prometheus-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Prometheus"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-grafana-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Grafana"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"loki\",pod=~\"loki-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Loki"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"fluent-bit\",pod=~\"fluent-bit-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Fluent-Bit"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"private-registry-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Registry"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"kube-vip-[^-]+-.+\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube-Vip (1G)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"kube-vip-[a-zA-Z0-9]+\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube-Vip (100G)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"ingress-nginx-controller-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Nginx"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"cluster-mgmt-linkmon-switch-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Linkmon"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"cilium-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Cilium"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"alert-router-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "AlertRouter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"alertmanager-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "AlertManager"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"multus-multus-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Multus"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"whereabouts-.*\"} == 1) < 1",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Whereabouts"
+            }
+         ],
+         "title": "Services That Are Down",
+         "transformations": [
+            {
+               "id": "labelsToFields"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Series": true
+                  },
+                  "renameByName": {
+                     "Series": "Service"
+                  }
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 24,
+            "y": 12
+         },
+         "id": 5,
+         "panels": [ ],
+         "title": "Warnings",
+         "type": "row"
+      },
+      {
+         "datasource": "$datasource",
+         "fieldConfig": {
+            "defaults": {
+               "noValue": "No failed pods"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 24,
+            "x": 0,
+            "y": 13
+         },
+         "id": 6,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"kube-apiserver-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "API Server"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"etcd-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "etcd"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"coredns-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "CoreDNS"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"rook-ceph\",pod=~\"rook-ceph-mon-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (MON)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"rook-ceph\",pod=~\"rook-ceph-mds-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (MDS)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"rook-ceph\",pod=~\"rook-ceph-osd-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (OSD)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"cluster-mgmt-system-exporter-*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "System Exporter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-snmp-exporter-*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "SNMP Exporter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-kube-state-metrics-*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube State Metrics"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-prometheus-prometheus-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Prometheus"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"prometheus-grafana-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Grafana"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"loki\",pod=~\"loki-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Loki"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"fluent-bit\",pod=~\"fluent-bit-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Fluent-Bit"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"private-registry-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Registry"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"kube-vip-[^-]+-.+\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube-Vip (1G)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"kube-vip-[a-zA-Z0-9]+\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube-Vip (100G)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"ingress-nginx-controller-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Nginx"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"cluster-mgmt-linkmon-switch-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Linkmon"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"cilium-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Cilium"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"alert-router-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "AlertRouter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"prometheus\",pod=~\"alertmanager-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "AlertManager"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"multus-multus-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Multus"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "count(kube_pod_container_status_ready{namespace=\"kube-system\",pod=~\"whereabouts-.*\"} == 0) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Whereabouts"
+            }
+         ],
+         "title": "Failed Pods by Service",
+         "transformations": [
+            {
+               "id": "labelsToFields"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Series": true
+                  },
+                  "renameByName": {
+                     "Series": "Service"
+                  }
+               }
+            }
+         ],
+         "type": "table"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 0,
+            "x": 24,
+            "y": 17
+         },
+         "id": 7,
+         "panels": [ ],
+         "title": "Error History",
+         "type": "row"
+      },
+      {
+         "datasource": "$datasource",
+         "fieldConfig": {
+            "defaults": {
+               "noValue": "No recent restarts"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 24,
+            "x": 0,
+            "y": 18
+         },
+         "id": 8,
+         "pluginVersion": "v11.3.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"kube-apiserver-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "API Server"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"etcd-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "etcd"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"coredns-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "CoreDNS"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"rook-ceph\",pod=~\"rook-ceph-mon-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (MON)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"rook-ceph\",pod=~\"rook-ceph-mds-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (MDS)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"rook-ceph\",pod=~\"rook-ceph-osd-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Rook Ceph (OSD)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"cluster-mgmt-system-exporter-*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "System Exporter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"prometheus-snmp-exporter-*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "SNMP Exporter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"prometheus-kube-state-metrics-*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube State Metrics"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"prometheus-prometheus-prometheus-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Prometheus"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"prometheus-grafana-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Grafana"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"loki\",pod=~\"loki-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Loki"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"fluent-bit\",pod=~\"fluent-bit-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Fluent-Bit"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"private-registry-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Registry"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"kube-vip-[^-]+-.+\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube-Vip (1G)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"kube-vip-[a-zA-Z0-9]+\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Kube-Vip (100G)"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"ingress-nginx-controller-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Nginx"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"cluster-mgmt-linkmon-switch-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Linkmon"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"cilium-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Cilium"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"alert-router-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "AlertRouter"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"prometheus\",pod=~\"alertmanager-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "AlertManager"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"multus-multus-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Multus"
+            },
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$PROMETHEUS_DS"
+               },
+               "expr": "increase(kube_pod_container_status_restarts_total{namespace=\"kube-system\",pod=~\"whereabouts-.*\"}[$__range]) > 0",
+               "format": "table",
+               "instant": true,
+               "legendFormat": "Whereabouts"
+            }
+         ],
+         "title": "Recent Restarts by Service (15m)",
+         "transformations": [
+            {
+               "id": "labelsToFields"
+            },
+            {
+               "id": "organize",
+               "options": {
+                  "includeByName": {
+                     "Series": true
+                  },
+                  "renameByName": {
+                     "Series": "Service"
+                  }
+               }
+            }
+         ],
+         "type": "table"
+      }
+   ],
+   "refresh": "",
+   "schemaVersion": 39,
+   "tags": [
+      "cluster-mgmt"
+   ],
+   "templating": {
+      "list": [
+         {
+            "current": {
+               "selected": false,
+               "text": "default",
+               "value": "default"
+            },
+            "hide": 2,
+            "label": "Data Source",
+            "name": "datasource",
+            "query": "prometheus",
+            "type": "datasource"
+         }
+      ]
+   },
+   "time": {
+      "from": "now-24h",
+      "to": "now"
+   },
+   "timezone": "",
+   "title": "Cluster Control Plane Summary",
+   "uid": "dej8p35xpawhse"
+}

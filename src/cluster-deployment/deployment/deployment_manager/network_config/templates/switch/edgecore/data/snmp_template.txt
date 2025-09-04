@@ -1,0 +1,4 @@
+#
+# SNMP configuration
+#
+sudo config snmp community add CerebrasColoSC RO

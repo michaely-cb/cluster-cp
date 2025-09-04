@@ -1,0 +1,59 @@
+{
+  "debug_volume_capacity_gb": 10,
+  "volumes": [
+    {
+      "category": "workdir",
+      "path": "/cb/tests/cluster-mgmt/mb-wscompilepod7/workdir",
+      "on_nfs": "true",
+      "server_address": "10.254.28.9",
+      "server_path": "/tests/cluster-mgmt/wscompilepod7/workdir",
+      "pvc": ""
+    },
+    {
+      "category": "workdir",
+      "path": "/n1/wsjob/workdir",
+      "on_nfs": "false",
+      "pvc": ""
+    },
+    {
+      "category": "cached_compile",
+      "path": "/n1/wsjob/compile_root",
+      "on_nfs": "false",
+      "pvc": ""
+    },
+    {
+      "category": "cached_compile",
+      "path": "/cb/tests/cluster-mgmt/compile_root",
+      "on_nfs": "true",
+      "server_address": "10.254.28.9",
+      "server_path": "/tests/cluster-mgmt/compile_root",
+      "pvc": ""
+    },
+    {
+      "category": "log_export",
+      "path": "/n1/log-export",
+      "on_nfs": false,
+      "pvc": ""
+    },
+    {
+      "category": "user_venv",
+      "path": "/cb/tests/cluster-mgmt/user-venv",
+      "on_nfs": "true",
+      "server_address": "10.254.28.9",
+      "server_path": "/tests/cluster-mgmt/user-venv",
+      "pvc": ""
+    },
+    {
+      "category": "debug_artifact",
+      "path": "/n1/debug-artifact",
+      "on_nfs": "false",
+      "pvc": ""
+    },
+    {
+      "category": "deployment_package",
+      "path": "/tmp/deployment-packages",
+      "on_nfs": "false",
+      "pvc": ""
+    }
+  ]
+}

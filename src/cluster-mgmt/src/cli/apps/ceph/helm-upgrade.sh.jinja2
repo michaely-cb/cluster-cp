@@ -1,0 +1,379 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+set -e
+
+# crd/mgmt nodes are the major clients using ceph which can be rough representative of ceph pressure
+# as of March 2025, it was noticed that MDS pod can consume 5Gi memory with 8 mgmt nodes, so 6000Mi is set as default
+NODE_COUNT=$(get_mgmt_node_count)
+FS_MEM_MI=6000
+if ((FS_MEM_MI < 250 * NODE_COUNT)); then
+  FS_MEM_MI=$((250 * NODE_COUNT))
+fi
+OPERATOR_MEM_MI=1024
+if ((OPERATOR_MEM_MI < 80 * NODE_COUNT)); then
+  OPERATOR_MEM_MI=$((80 * NODE_COUNT))
+fi
+# todo: adjust based on osd count vs crd node count
+OSD_MEM_MI=$((6 * 1024))
+
+provider=${provider:="host"}
+force=${force:="false"}
+# for existing clusters with multus setup, update mem only by default
+# for updating multus to hostnetwork:
+# https://cerebras.atlassian.net/wiki/spaces/runtime/pages/3166175329/Ceph+Runbook#Ceph-Switch-from-Multus-to-Hostnetwork
+if kubectl -n rook-ceph get cephcluster &>/dev/null; then
+  network_provider=$(kubectl -n rook-ceph get cephcluster -ojson | jq -r '.items[0].spec.network.provider // empty')
+  if [[ "$network_provider" == "multus" ]] && [[ "$force" == "false" ]]; then
+    provider="multus"
+  fi
+fi
+
+if [[ "$provider" != "multus" ]]; then
+  # remove public-shim link if ceph is not running with multus.
+  if ip link show public-shim &>/dev/null; then
+    echo "INFO: Removing public-shim link as Ceph is not running with multus."
+    ip link delete public-shim
+  fi
+fi
+
+function adjust_mem() {
+  kubectl patch cephfilesystems -nrook-ceph ceph-filesystem --type='merge' -p="{\"spec\":{\"metadataServer\":{\"resources\":{\"limits\":{\"memory\": \"${FS_MEM_MI}Mi\"}}}}}"
+  kubectl patch cephcluster -nrook-ceph rook-ceph --type='merge' -p="{\"spec\":{\"resources\":{\"osd\": {\"limits\":{\"memory\": \"${OSD_MEM_MI}Mi\"}}}}}"
+  kubectl patch deployment rook-ceph-operator -nrook-ceph --type='json' -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/resources/limits/memory\", \"value\": \"${OPERATOR_MEM_MI}Mi\"}]"
+}
+
+function adjust_storage_size() {
+  adjust_ceph_pvc_size registry-pvc kube-system "$(get_registry_pvc_size)"
+  adjust_ceph_subvolume log-export $(get_log_export_pvc_size)
+  adjust_ceph_subvolume debug-artifact $(get_debug_artifact_pvc_size)
+  adjust_ceph_subvolume cached-compile $(get_system_cached_compile_pvc_size)
+}
+
+function label_csi_nodes() {
+  # After management and coordinator separation, we need a unified label selector so Ceph mounting
+  # can happen on those nodes. After job operator is deployed, new management/coordinator nodes will
+  # be labeled automatically.
+  kubectl label node --overwrite -lk8s.cerebras.com/node-role-coordinator ceph-csi=
+  kubectl label node --overwrite -lk8s.cerebras.com/node-role-management ceph-csi=
+}
+
+# todo: remove all ceph-csi label related after all ceph switch to hostnetwork+csi on all nodes
+function patch_csi_label_selector() {
+  kubectl patch configmap rook-ceph-operator-config -n rook-ceph --type='merge' -p '{"data":{"CSI_PLUGIN_NODE_AFFINITY":"ceph-csi"}}'
+}
+
+if ! has_multiple_mgmt_nodes; then
+  if ! [ -d /kind ]; then
+    echo "Skip ceph due to 1 management node"
+    exit 0
+  fi
+fi
+
+label_csi_nodes
+if is_incremental_deploy; then
+  adjust_mem
+  adjust_storage_size
+  patch_csi_label_selector
+  exit
+fi
+
+function restart_tools_pod() {
+  echo "Restarting ceph tools pod"
+  if ! kubectl -n rook-ceph delete pod -l app=rook-ceph-tools; then
+    echo "ERROR: Failed to delete ceph tools pod"
+    return 1
+  fi
+  if ! kubectl -n rook-ceph wait --for=condition=ready --timeout=2m pod -l app=rook-ceph-tools; then
+    echo "ERROR: Ceph tools pod did not transition to 'ready' state in 2 minutes"
+    return 1
+  fi
+  return 0
+}
+
+function run_benchmark_tests() {
+  if [[ "$provider" == "multus" ]]; then
+    # During testing there were a couple of instances where the tools pod did not
+    # get a 100g interface even though the annotations showed that it had
+    # multus-data-net attached. A restart of the pod fixed this.
+    if ! restart_tools_pod; then
+      return 1
+    fi
+  fi
+
+  local timeout_sec=60
+  local tools_pod=$(kubectl -n rook-ceph get pod -lapp=rook-ceph-tools -o=jsonpath='{.items[0].metadata.name}')
+  if [[ -z "$tools_pod" ]]; then
+    echo "ERROR: Could not find ceph tools pod"
+    return 1
+  fi
+
+  kubectl -n rook-ceph exec $tools_pod -- ceph osd pool create testbench 128 128
+
+  __cleanup() {
+    kubectl -n rook-ceph exec $tools_pod -- rados -p testbench cleanup
+    kubectl -n rook-ceph exec $tools_pod -- ceph osd pool rm testbench testbench --yes-i-really-really-mean-it
+  }
+  trap __cleanup RETURN
+
+  rm -f result.out
+
+  if ! kubectl -n rook-ceph exec $tools_pod -- timeout $timeout_sec rados bench -p testbench 10 write --no-cleanup >>result.out; then
+    echo "ERROR: write timed out. See result.out for more information"
+    return 1
+  fi
+  echo "write test finished in $timeout_sec seconds"
+
+  if ! kubectl -n rook-ceph exec $tools_pod -- timeout $timeout_sec rados bench -p testbench 10 seq >>result.out; then
+    echo "ERROR: seq_read timed out. See result.out for more information"
+    return 1
+  fi
+  echo "seq_read test finished in $timeout_sec seconds"
+
+  if ! kubectl -n rook-ceph exec $tools_pod -- timeout $timeout_sec rados bench -p testbench 10 rand >>result.out; then
+    echo "ERROR: rand_read timed out. See result.out for more information"
+    return 1
+  fi
+  echo "rand_read test finished in $timeout_sec seconds"
+
+  grep Bandwidth result.out
+  return 0
+}
+
+# Set storage-type property in cluster.yaml if it is not set, so that the future upgrade will choose
+# the same set of ceph nodes. Also, use the current nodes with the label of storage-type=ceph
+# as the ceph nodes, to handle the existing clusters which do not have this property set in
+# cluster.yaml.
+if [ -z "$CEPH_NODES" ]; then
+  labeled_nodes=$(kubectl get nodes -lstorage-type=ceph -ojson | jq -r '.items[] | .metadata.name')
+  if [ -z "$labeled_nodes" ]; then
+    num_ceph_nodes=$(get_num_ceph_nodes)
+    ceph_no=0
+    for node in $(get_all_mgmt_nodes); do
+      yq -i ".nodes[$ceph_no].properties.storage-type = \"ceph\"" ${CLUSTER_CONFIG}
+      ceph_no=$((ceph_no + 1))
+      if [ "$ceph_no" == "$num_ceph_nodes" ]; then
+        break
+      fi
+    done
+  else
+    for node in $labeled_nodes; do
+      yq -i "(.nodes[] | select(.name == \"$node\") | .properties.storage-type) = \"ceph\"" ${CLUSTER_CONFIG}
+    done
+  fi
+
+  update_cluster_cm
+  CEPH_NODES=$(yq -r '.nodes[] | select(.properties.storage-type == "ceph") | .name // ""' ${CLUSTER_CONFIG} | xargs)
+  export CEPH_NODES=$CEPH_NODES
+fi
+
+# label management node with 'storage-type=ceph' so that rook-ceph + kube-vip 100G
+# installation will only use these nodes for deployment.
+#
+# If nodes have `storage-type` property set to ceph, we will use these nodes as ceph
+# storage nodes. Otherwise, we choose the first few management nodes as ceph storage nodes.
+if [ -z "$CEPH_NODES" ]; then
+  echo "${CLUSTER_CONFIG} should have nodes with properties.storage-type=ceph"
+  exit 1
+else
+  # unlabel the storage-type to handle removed nodes as well
+  for node in $(kubectl get nodes -lstorage-type=ceph -ojson | jq -r '.items[] | .metadata.name'); do
+    kubectl label node $node storage-type-
+  done
+  for node in $CEPH_NODES; do
+    kubectl label node $node storage-type=ceph --overwrite
+  done
+fi
+
+if [[ "$provider" == "multus" ]]; then
+  # stop updating existing cluster unless force upgrade with multus specified
+  if [[ "$force" == "false" ]]; then
+    echo "ceph cluster exists with multus, update mem only"
+    adjust_mem
+    adjust_storage_size
+    exit
+  fi
+  if ! kubectl -n rook-ceph get net-attach-def rook-public-net; then
+    echo "rook-public-net not found, please reinstall multus first"
+    exit 1
+  fi
+fi
+
+# untar the charts
+tar xfz ./charts/rook-ceph-{{ version }}.tgz -C ./charts
+tar xfz ./charts/rook-ceph-cluster-{{ version }}.tgz -C ./charts
+
+# bugfix on community chart: https://github.com/rook/rook/pull/15842, can be removed if upgraded version with fix
+sed -i "s%rule: self == '' || self == oldSelf%rule: self == '' || oldSelf == '' || self == oldSelf%" charts/rook-ceph/templates/resources.yaml
+
+# umount existing host level mount points if exists before upgrading ceph.
+# the monitor service IPs might be changed due to upgrade.
+unmount_all_ceph_pvcs
+
+operator_additional=""
+if [ -d /kind ]; then
+  FS_MEM_MI=500
+  OPERATOR_MEM_MI=500
+  operator_additional+="--set csi.provisionerReplicas=1 "
+  operator_additional+="--set resources.requests.cpu=null "
+fi
+helm upgrade rook-ceph ./charts/rook-ceph \
+  --install --create-namespace --namespace rook-ceph $operator_additional \
+  -f ./charts/rook-ceph/values.yaml -f ./charts/rook-ceph-values-override.yaml \
+  --set image.repository=$registry_url/{{ rook_ceph_image.short_repo }} \
+  --set image.tag={{ rook_ceph_image.tag }} \
+  --set resources.limits.memory=${OPERATOR_MEM_MI}Mi \
+  --set csi.cephcsi.image=$registry_url/{{ ceph_csi_image.short_repo }}:{{ ceph_csi_image.tag }} \
+  --set csi.registrar.image=$registry_url/{{ csi_node_driver_registrar_image.short_repo }}:{{ csi_node_driver_registrar_image.tag }} \
+  --set csi.provisioner.image=$registry_url/{{ csi_provisioner_image.short_repo }}:{{ csi_provisioner_image.tag }} \
+  --set csi.snapshotter.image=$registry_url/{{ csi_snapshotter_image.short_repo }}:{{ csi_snapshotter_image.tag }} \
+  --set csi.attacher.image=$registry_url/{{ csi_attacher_image.short_repo }}:{{ csi_attacher_image.tag }} \
+  --set csi.resizer.image=$registry_url/{{ csi_resizer_image.short_repo }}:{{ csi_resizer_image.tag }} \
+  --set csi.csiAddons.image=$registry_url/{{ k8s_sidecar_image.short_repo }}:{{ k8s_sidecar_image.tag }}
+
+kubectl rollout status deployment/rook-ceph-operator -n rook-ceph
+
+additional=""
+if [[ "$provider" == "multus" ]]; then
+  # The rook-public-net net-attach-def is a dummy object. The actual net-attach-def will be multus-data-net.
+  # This is because the ceph multus support requires a net-attach-def object with `ipam.range` set. Our
+  # multus-data-net has an empty `ipam.range`. We use a webhook to replace `rook-public-net` with `multus-data-net`
+  # when the pod is being created.
+  additional+="--set cephClusterSpec.network.provider=multus "
+  additional+="--set cephClusterSpec.network.selectors.public=rook-ceph/rook-public-net "
+  additional+="--set cephClusterSpec.network.selectors.cluster=rook-ceph/rook-public-net "
+elif [[ "$provider" == "host" ]]; then
+  # https://github.com/ceph/ceph/blob/v18.0.0/src/common/pick_address.cc#L256
+  # https://github.com/ceph/ceph/blob/3060f4fec5e59d276d4b3dfbc1b6d732521a9a46/src/common/pick_address.cc#L84
+  # ceph will filter for the first UP interface in subnet
+  additional+="--set cephClusterSpec.network.provider=host "
+  parentnet=$(get_data_network)
+  if [ -z "$parentnet" ]; then
+    echo "error: 100g network not found for ceph install!"
+    exit 1
+  fi
+  additional+="--set cephClusterSpec.network.addressRanges.public[0]=${parentnet} "
+  additional+="--set cephClusterSpec.network.addressRanges.cluster[0]=${parentnet} "
+else
+  # empty provider
+  echo "set ceph to empty provider"
+  additional+="--set cephClusterSpec.network.provider= "
+fi
+
+if [ -d /kind ]; then
+  additional+="--set cephClusterSpec.mon.count=1 "
+  additional+="--set cephClusterSpec.mgr.count=1 "
+  # no disk available in kind
+  additional+="--set cephClusterSpec.storage.deviceFilter=fake "
+  additional+="--set cephClusterSpec.resources.mgr.requests.cpu=null "
+  additional+="--set cephClusterSpec.resources.mon.requests.cpu=null "
+  additional+="--set cephClusterSpec.resources.osd.requests.cpu=null "
+  additional+="--set cephClusterSpec.resources.prepareosd.requests.cpu=null "
+  additional+="--set toolbox.resources.requests.cpu=null "
+  additional+="--set cephFileSystems[0].spec.metadataServer.resources.requests.cpu=null "
+fi
+
+helm upgrade rook-ceph-cluster ./charts/rook-ceph-cluster \
+  --install --create-namespace --namespace rook-ceph \
+  --set operatorNamespace=rook-ceph $additional \
+  --set cephFileSystems[0].spec.metadataServer.resources.limits.memory=${FS_MEM_MI}Mi \
+  --set cephClusterSpec.resources.osd.limits.memory=${OSD_MEM_MI}Mi \
+  -f ./charts/rook-ceph-cluster/values.yaml -f ./charts/rook-ceph-cluster-values-override.yaml \
+  --set toolbox.image=$registry_url/{{ ceph_ceph_image.short_repo }}:{{ ceph_ceph_image.tag }} \
+  --set cephClusterSpec.cephVersion.image=$registry_url/{{ ceph_ceph_image.short_repo }}:{{ ceph_ceph_image.tag }}
+
+patch_csi_label_selector
+# Prometheus monitoring of ceph.
+kubectl apply -f rook-ceph-service-monitor.yaml
+kubectl apply -f rook-ceph-exporter-service-monitor.yaml
+kubectl apply -f rook-ceph-rbac.yaml
+kubectl apply -f rook-ceph-localrules.yaml
+
+# wait till cluster ready
+health_status="UNKNOWN"
+timeout=$(date -d "5 minutes" +%s)
+while [[ "$health_status" != "Ready" ]]; do
+  sleep 3
+  # # kubectl wait doesn't support .status.ceph.health
+  health_status=$(kubectl get cephcluster -nrook-ceph rook-ceph -ojson | jq -r '.status.phase // "NOT_SET"')
+  remaining_time=$((timeout - $(date +%s)))
+  if [ $remaining_time -le 0 ]; then
+    echo "Ceph cluster did not reach Ready status after 5 minutes, exiting."
+    exit 1
+  fi
+  echo "$(date -u) Current cluster status: $health_status. Want: Ready. ${remaining_time}s until timeout"
+done
+
+# no disk for ceph on kind, finish test
+if [ -d /kind ]; then
+  exit
+fi
+
+# wait till cluster healthy
+health_status="UNKNOWN"
+timeout=$(date -d "5 minutes" +%s)
+while [[ "$health_status" != "HEALTH_OK" ]]; do
+  sleep 3
+  health_status=$(kubectl get cephcluster/rook-ceph -n rook-ceph -ojson | jq -r '.status.ceph.health // "NOT_SET"')
+  remaining_time=$((timeout - $(date +%s)))
+  if [ $remaining_time -le 0 ]; then
+    echo "Ceph cluster did not reach HEALTH_OK status after 5 minutes, exiting."
+    exit 1
+  fi
+  echo "$(date -u) Current ceph health status: $health_status. Want: HEALTH_OK. ${remaining_time}s until timeout"
+done
+
+# wait till filesystem ready before creating pvc
+health_status="UNKNOWN"
+timeout=$(date -d "5 minutes" +%s)
+while [[ "$health_status" != "Ready" ]]; do
+  sleep 3
+  health_status=$(kubectl get cephfilesystem -nrook-ceph ceph-filesystem -ojson | jq -r '.status.phase // "NOT_SET"')
+  remaining_time=$((timeout - $(date +%s)))
+  if [ $remaining_time -le 0 ]; then
+    echo "Ceph FileSystem did not reach Ready status after 5 minutes, exiting."
+    exit 1
+  fi
+  echo "$(date -u) Current Ceph FileSystem status: $health_status. Want: Ready. ${remaining_time}s until timeout"
+done
+
+if [[ "$provider" == "multus" ]]; then
+  # patch the `tools` deployment to have multus annotation
+  tools_pod=$(kubectl -n rook-ceph get pod -lapp=rook-ceph-tools -o=jsonpath='{.items[0].metadata.name}')
+  tools_patch_result=$(kubectl -n rook-ceph patch deployment rook-ceph-tools -p \
+    '{"spec": {"template":{"metadata":{"annotations":{"k8s.v1.cni.cncf.io/networks":"rook-ceph/rook-public-net"}}}}}')
+  if [[ ! "$tools_patch_result" == *"(no change)"* ]]; then
+    # make sure the deployment has rolled out successfully after the patch
+    if ! kubectl -n rook-ceph rollout status deployment rook-ceph-tools; then
+      echo "ERROR: Ceph tools deployment failed"
+      exit 1
+    fi
+    # Due to rolling updates, the old tools pod might still be around. Explicitly delete the pod to make sure
+    # the old pod terminates
+    kubectl -n rook-ceph delete pod "$tools_pod" --ignore-not-found
+  fi
+fi
+
+# create pvcs
+# prometheus pvc will be created through dynamic provisioning
+create_ceph_pvc registry-pvc kube-system "$(get_registry_pvc_size)"
+
+# create subvolume/subvolumegroup for cached compile and log-export, so that they can be used to
+# create static pvcs for cached compile and log-export to be shared among namespaces.
+create_csi_cephfs_secret
+create_ceph_subvolume log-export $(get_log_export_pvc_size)
+create_ceph_static_pvc log-export $SYSTEM_NAMESPACE
+create_ceph_subvolume debug-artifact $(get_debug_artifact_pvc_size)
+create_ceph_static_pvc debug-artifact $SYSTEM_NAMESPACE
+create_ceph_subvolume cached-compile $(get_system_cached_compile_pvc_size)
+create_ceph_static_pvc cached-compile $SYSTEM_NAMESPACE
+chmod_cached_compile_static_pvc $SYSTEM_NAMESPACE "$registry_url/{{ ceph_ceph_image.short_repo }}:{{ ceph_ceph_image.tag }}"
+
+echo "Running ceph benchmarks..."
+if ! run_benchmark_tests; then
+  echo "benchmark test failed"
+  exit 1
+fi

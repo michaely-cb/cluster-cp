@@ -1,0 +1,56 @@
+# L3 template for ${name}
+#
+no ip vpn-instance ${vrf_name}
+ip vpn-instance ${vrf_name}
+   route-distinguisher ${asn_colon}
+exit
+#
+no ip prefix-list external_addrs
+ip prefix-list external_addrs index 10 deny ${base_prefix_addr} ${base_bits}
+ip prefix-list external_addrs index 20 permit 0.0.0.0 0 less-equal 32
+ip prefix-list external_addrs index 30 deny ${base_prefix_addr} ${base_bits} less-equal 32
+#
+no ip prefix-list external_advert
+ip prefix-list external_advert index 10 permit ${base_prefix_addr} ${base_bits}
+#
+no ip prefix-list vip_addrs
+ip prefix-list vip_addrs index 10 permit ${vip_prefix_addr} ${vip_bits} less-equal 32
+#
+no route-policy allow_vip_addrs
+route-policy allow_vip_addrs permit node 10
+   if-match ip address prefix-list vip_addrs
+   exit
+#
+no route-policy external_routes
+route-policy external_routes permit node 10
+   if-match ip address prefix-list external_addrs
+   exit
+#
+no route-policy external_advertise
+route-policy external_advertise permit node 10
+   if-match ip address prefix-list external_advert
+   exit
+#
+no route-policy deny_all
+route-policy deny_all deny node 10
+exit
+#
+no bgp ${asn_num}
+Y
+bgp ${asn_num}
+   #
+   ip vpn-instance ${vrf_name}
+      group exterior_switches external
+      group ws_cluster_switches external
+      address-family ipv4 unicast
+         balance ebgp 64
+         import-route static route-policy allow_vip_addrs
+         peer exterior_switches enable
+         Y
+         peer exterior_switches route-policy external_routes import
+         peer exterior_switches route-policy external_advertise export
+         peer ws_cluster_switches enable
+         Y
+         exit
+      exit
+   exit

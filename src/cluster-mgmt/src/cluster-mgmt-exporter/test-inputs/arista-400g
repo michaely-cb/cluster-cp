@@ -1,0 +1,3635 @@
+sc-r7rb14-400gsw#terminal length 0
+Pagination disabled.
+sc-r7rb14-400gsw#show int
+Ethernet1/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.34fb (bia e478.7671.34fb)
+  Description: L2 to cs301-wse001-sx-sr01/eth100g2
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 54 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 492 bps (0.0% with framing overhead), 0 packets/sec
+     351219606544 packets input, 1429898829319109 bytes
+     Received 28 broadcasts, 178101 multicast
+     2 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     244045706299 packets output, 949350194730650 bytes
+     Sent 122713245 broadcasts, 1857755 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet1/3 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.34fd (bia e478.7671.34fd)
+  Description: L2 to cs301-wse001-sx-sr01/eth100g3
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 56 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 492 bps (0.0% with framing overhead), 0 packets/sec
+     326075426564 packets input, 1324739640673672 bytes
+     Received 1740 broadcasts, 178097 multicast
+     0 runts, 0 giants
+     4 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     236467954070 packets output, 922702568064843 bytes
+     Sent 122711533 broadcasts, 1857758 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet1/5 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.34ff (bia e478.7671.34ff)
+  Description: L2 to cs301-wse001-sx-sr01/eth100g4
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 54 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 492 bps (0.0% with framing overhead), 0 packets/sec
+     337314099877 packets input, 1373253301860939 bytes
+     Received 33 broadcasts, 178097 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     234402586891 packets output, 910702701403376 bytes
+     Sent 122713240 broadcasts, 1857757 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet1/7 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.3500 (bia e478.7671.3500)
+  Description: L2 to cs301-wse001-sx-sr01/eth100g5
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 56 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 492 bps (0.0% with framing overhead), 0 packets/sec
+     125585958190 packets input, 506913951589715 bytes
+     Received 31 broadcasts, 178099 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     85295246007 packets output, 325769028532605 bytes
+     Sent 122713242 broadcasts, 1857758 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet2/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.3501 (bia e478.7671.3501)
+  Description: L2 to xs10008/Port_1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 4 lanes, auto negotiation: off, uni-link: n/a
+  Up 1 hour, 52 minutes, 12 seconds
+  Loopback Mode : None
+  32 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 1.31 kbps (0.0% with framing overhead), 2 packets/sec
+  1 second output rate 2.37 kbps (0.0% with framing overhead), 3 packets/sec
+     293426899438 packets input, 1157693510415245 bytes
+     Received 10707973 broadcasts, 82065 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     419126241711 packets output, 1705341377974781 bytes
+     Sent 99833140 broadcasts, 1830813 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 43230444 output discards
+     0 PAUSE output
+Ethernet2/5 is down, line protocol is down (notconnect)
+  Hardware is Ethernet, address is e478.7671.3505 (bia e478.7671.3505)
+  Description: L2 to xs10006/Port_1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 4 lanes, auto negotiation: off, uni-link: n/a
+  Down 13 days, 12 hours, 3 minutes, 19 seconds
+  Loopback Mode : None
+  31 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 0 bps (0.0% with framing overhead), 0 packets/sec
+     140624505509 packets input, 552447258208669 bytes
+     Received 51497644 broadcasts, 52261 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     185568441368 packets output, 743552617582242 bytes
+     Sent 72704152 broadcasts, 1213225 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet3/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.3507 (bia e478.7671.3507)
+  Description: L2 to cs301-wse001-mx-sr01/eth100g0
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 56 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 153 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 627 bps (0.0% with framing overhead), 1 packets/sec
+     315759615253 packets input, 1260503009180854 bytes
+     Received 24104 broadcasts, 231837 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     225845159378 packets output, 878557855252529 bytes
+     Sent 124397895 broadcasts, 2416456 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 308884 output discards
+     0 PAUSE output
+Ethernet3/3 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.3509 (bia e478.7671.3509)
+  Description: L2 to cs301-wse001-mx-sr01/eth100g1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 54 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 492 bps (0.0% with framing overhead), 0 packets/sec
+     380377544 packets input, 1491981197374 bytes
+     Received 6 broadcasts, 178030 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     941013264 packets output, 3325342370737 bytes
+     Sent 124422309 broadcasts, 2470263 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet3/5 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.350b (bia e478.7671.350b)
+  Description: L2 to cs301-wse001-mx-sr09/eth100g0
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 55 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 878 bps (0.0% with framing overhead), 1 packets/sec
+  1 second output rate 1.16 kbps (0.0% with framing overhead), 1 packets/sec
+     281875094600 packets input, 1124066104793801 bytes
+     Received 29024 broadcasts, 224565 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     201448785472 packets output, 783489347944157 bytes
+     Sent 124393226 broadcasts, 2423729 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet3/7 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.350c (bia e478.7671.350c)
+  Description: L2 to cs301-wse001-mx-sr09/eth100g1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 56 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 492 bps (0.0% with framing overhead), 0 packets/sec
+     329119274 packets input, 1279093063289 bytes
+     Received 7 broadcasts, 178032 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     939075549 packets output, 3325214481685 bytes
+     Sent 124422232 broadcasts, 2470263 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet27/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.3597 (bia e478.7671.3597)
+  Description: L2 to cs301-wse001-mx-sr02/eth100g0
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 35 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:47 ago
+  1 second input rate 1.53 kbps (0.0% with framing overhead), 1 packets/sec
+  1 second output rate 1.32 kbps (0.0% with framing overhead), 1 packets/sec
+     327910218279 packets input, 1303122455767547 bytes
+     Received 22456 broadcasts, 235018 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     237358049925 packets output, 917913474900569 bytes
+     Sent 124417103 broadcasts, 2500561 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 53563 output discards
+     0 PAUSE output
+Ethernet27/3 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.3599 (bia e478.7671.3599)
+  Description: L2 to cs301-wse001-mx-sr02/eth100g1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 35 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:47 ago
+  1 second input rate 526 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 528 bps (0.0% with framing overhead), 1 packets/sec
+     329193371 packets input, 1279083824370 bytes
+     Received 6 broadcasts, 182540 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     939265868 packets output, 3325238420679 bytes
+     Sent 124439609 broadcasts, 2553038 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet27/5 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.359b (bia e478.7671.359b)
+  Description: L2 to cs301-wse001-mx-sr10/eth100g0
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 35 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:47 ago
+  1 second input rate 6.70 kbps (0.0% with framing overhead), 5 packets/sec
+  1 second output rate 5.60 kbps (0.0% with framing overhead), 3 packets/sec
+     285966372523 packets input, 1136228243196009 bytes
+     Received 26611 broadcasts, 231026 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     205667803787 packets output, 794095813489959 bytes
+     Sent 124410894 broadcasts, 2504553 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 2030162 output discards
+     0 PAUSE output
+Ethernet27/7 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.359c (bia e478.7671.359c)
+  Description: L2 to cs301-wse001-mx-sr10/eth100g1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 36 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:47 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 528 bps (0.0% with framing overhead), 1 packets/sec
+     329567943 packets input, 1279056579107 bytes
+     Received 6 broadcasts, 182540 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     939448810 packets output, 3325250484681 bytes
+     Sent 124439514 broadcasts, 2553039 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet31/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.35af (bia e478.7671.35af)
+  Description: L2 to cs301-wse001-mx-sr11/eth100g0
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 43 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:46 ago
+  1 second input rate 1.61 Gbps (1.6% with framing overhead), 48327 packets/sec
+  1 second output rate 977 kbps (0.0% with framing overhead), 1142 packets/sec
+     280385545736 packets input, 1116121876639582 bytes
+     Received 44212 broadcasts, 230438 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     200632463456 packets output, 776996306131694 bytes
+     Sent 124395298 broadcasts, 2505144 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet31/3 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.35b1 (bia e478.7671.35b1)
+  Description: L2 to cs301-wse001-mx-sr11/eth100g1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 42 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:46 ago
+  1 second input rate 931 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 1.46 kbps (0.0% with framing overhead), 1 packets/sec
+     329545633 packets input, 1279054341250 bytes
+     Received 6 broadcasts, 182541 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     939432507 packets output, 3325249411997 bytes
+     Sent 124439493 broadcasts, 2553040 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet31/5 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.35b3 (bia e478.7671.35b3)
+  Description: L2 to cs301-wse001-mx-sr12/eth100g0
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 42 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:46 ago
+  1 second input rate 416 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 904 bps (0.0% with framing overhead), 1 packets/sec
+     289659571631 packets input, 1153130858032817 bytes
+     Received 29544 broadcasts, 227451 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     206998165472 packets output, 802209165152365 bytes
+     Sent 124409939 broadcasts, 2508128 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet31/7 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.35b4 (bia e478.7671.35b4)
+  Description: L2 to cs301-wse001-mx-sr12/eth100g1
+  Ethernet MTU 9214 bytes, BW 100000000 kbit
+  Full-duplex, 100Gb/s over 2 lanes, auto negotiation: off, uni-link: n/a
+  Up 93 days, 19 hours, 46 minutes, 42 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 39 days, 9:45:46 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 528 bps (0.0% with framing overhead), 1 packets/sec
+     329502570 packets input, 1279052889063 bytes
+     Received 6 broadcasts, 182538 multicast
+     0 runts, 0 giants
+     0 input errors, 2 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     939450898 packets output, 3325250634163 bytes
+     Sent 124439457 broadcasts, 2553041 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet32/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.34fa
+  Description: L3 to sc-r7rb10-400gsw-spine2
+  Internet address is 10.251.54.253/31
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes, BW 400000000 kbit
+  Full-duplex, 400Gb/s over 8 lanes, auto negotiation: off, uni-link: n/a
+  Up 92 days, 20 hours, 24 minutes, 46 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 38 days, 10:23:49 ago
+  1 second input rate 1.81 Gbps (0.5% with framing overhead), 25338 packets/sec
+  1 second output rate 19.2 Mbps (0.0% with framing overhead), 323 packets/sec
+     670553059885 packets input, 2683002740197751 bytes
+     Received 284 broadcasts, 110681 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 205 input discards
+     0 PAUSE input
+     706765077117 packets output, 2836241378556427 bytes
+     Sent 13788 broadcasts, 110686 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 9403 output discards
+     0 PAUSE output
+Ethernet33 is down, line protocol is notpresent (notconnect)
+  Hardware is Ethernet, address is e478.7671.35bb (bia e478.7671.35bb)
+  Ethernet MTU 9214 bytes, BW 10000000 kbit
+  Full-duplex, 10Gb/s, auto negotiation: off, uni-link: n/a
+  Down 92 days, 20 hours, 25 minutes, 14 seconds
+  Loopback Mode : None
+  1 link status changes since last clear
+  Last clearing of "show interface" counters 92 days, 20:27:03 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 0 bps (0.0% with framing overhead), 0 packets/sec
+     0 packets input, 0 bytes
+     Received 0 broadcasts, 0 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     0 packets output, 0 bytes
+     Sent 0 broadcasts, 0 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet46/1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is 688b.f4c2.36d0
+  Description: L3 to inf001-lf-sw01
+  Internet address is 10.0.86.131/31
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes, BW 400000000 kbit
+  Full-duplex, 400Gb/s over 4 lanes, auto negotiation: off, uni-link: n/a
+  Up 10 days, 5 hours, 50 minutes, 13 seconds
+  Loopback Mode : None
+  2 link status changes since last clear
+  Last clearing of "show interface" counters 18 days, 8:34:03 ago
+  5 seconds input rate 6.34 kbps (0.0% with framing overhead), 7 packets/sec
+  5 seconds output rate 158 kbps (0.0% with framing overhead), 138 packets/sec
+     6171514894 packets input, 8490236839249 bytes
+     Received 1 broadcasts, 52868 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     786000413 packets output, 862150370051 bytes
+     Sent 0 broadcasts, 52868 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet46/5 is down, line protocol is down (notconnect)
+  Hardware is Ethernet, address is 688b.f4c2.36d0
+  IP MTU 1500 bytes (default), BW 400000000 kbit
+  Full-duplex, 400Gb/s over 4 lanes, auto negotiation: off, uni-link: n/a
+  Down 44 days, 23 hours, 25 minutes, 57 seconds
+  Loopback Mode : None
+  0 link status changes since last clear
+  Last clearing of "show interface" counters 18 days, 8:34:03 ago
+  5 seconds input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  5 seconds output rate 0 bps (0.0% with framing overhead), 0 packets/sec
+     0 packets input, 0 bytes
+     Received 0 broadcasts, 0 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     0 packets output, 0 bytes
+     Sent 0 broadcasts, 0 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Ethernet61/1 is administratively down, line protocol is down (disabled)
+  Hardware is Ethernet, address is fc59.c011.061a (bia fc59.c011.061a)
+  Description: L2 to cs303-wse001-sx-sr07/eth400g5
+  Ethernet MTU 9214 bytes, BW 400000000 kbit
+  Full-duplex, 400Gb/s over 8 lanes, auto negotiation: off, uni-link: n/a
+  Down 2 days, 2 minutes, 4 seconds
+  Loopback Mode : None
+  1 link status changes since last clear
+  Last clearing of "show interface" counters 2 days, 0:29:09 ago
+  1 second input rate 0 bps (0.0% with framing overhead), 0 packets/sec
+  1 second output rate 0 bps (0.0% with framing overhead), 0 packets/sec
+     18944200158 packets input, 78283164514879 bytes
+     Received 0 broadcasts, 54 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     18942024239 packets output, 78282900539052 bytes
+     Sent 93 broadcasts, 1348 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 3585 output discards
+     0 PAUSE output
+Management1 is up, line protocol is up (connected)
+  Hardware is Ethernet, address is e478.7671.34f9 (bia e478.7671.34f9)
+  Internet address is 172.28.144.189/22
+  Broadcast address is 255.255.255.255
+  IP MTU 1500 bytes (default), BW 1000000 kbit
+  Full-duplex, 1Gb/s, auto negotiation: on, uni-link: n/a
+  Up 92 days, 20 hours, 25 minutes, 34 seconds
+  Loopback Mode : None
+  4 link status changes since last clear
+  Last clearing of "show interface" counters 92 days, 20:27:03 ago
+  1 second input rate 2.82 kbps (0.0% with framing overhead), 4 packets/sec
+  1 second output rate 28.4 kbps (0.0% with framing overhead), 5 packets/sec
+     118862251 packets input, 12714860835 bytes
+     Received 198006 broadcasts, 267700 multicast
+     0 runts, 0 giants
+     0 input errors, 0 CRC, 0 alignment, 0 symbol, 0 input discards
+     0 PAUSE input
+     151595703 packets output, 83007556735 bytes
+     Sent 5 broadcasts, 267398 multicast
+     0 output errors, 0 collisions
+     0 late collision, 0 deferred, 0 output discards
+     0 PAUSE output
+Vlan12 is up, line protocol is up (connected)
+  Hardware is Vlan, address is e478.7671.34fa (bia e478.7671.34fa)
+  Description: "memx switch subnet"
+  Internet address is 10.251.33.254/23
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes
+  Up 22 days, 22 minutes, 44 seconds
+Vlan13 is up, line protocol is up (connected)
+  Hardware is Vlan, address is e478.7671.34fa (bia e478.7671.34fa)
+  Description: "system subnet"
+  Internet address is 10.251.52.62/26
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes
+  Up 21 days, 19 hours, 14 minutes, 21 seconds
+Vlan15 is up, line protocol is up (connected)
+  Hardware is Vlan, address is e478.7671.34fa (bia e478.7671.34fa)
+  Description: "swarmx subnet"
+  Internet address is 10.251.48.126/25
+  Broadcast address is 255.255.255.255
+  IP MTU 9000 bytes
+  Up 22 days, 21 minutes, 53 seconds
+sc-r7rb14-400gsw#show hostname
+Hostname: sc-r7rb14-400gsw
+FQDN:     sc-r7rb14-400gsw
+sc-r7rb14-400gsw#show int phy detail
+Current System Time: Fri Mar 22 05:43:37 2024
+Ethernet1/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:16 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              APF23420045B2U
+  MAC Rx Local Fault          false                   4  92 days, 20:26:20 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:17 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:20 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:12 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:12 ago
+    Lane 1                    ok                      1  92 days, 20:26:12 ago
+    Lane 2                    ok                      1  92 days, 20:26:12 ago
+    Lane 3                    ok                      1  92 days, 20:26:12 ago
+  FEC corrected codewords     1217              2205674            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   1.72E-08
+  FEC lane corrected symbols
+    Lane 0                    24                 367946            0:00:00 ago
+    Lane 1                    8                  411413            0:00:00 ago
+    Lane 2                    1347               795904            0:00:00 ago
+    Lane 3                    3805               796277            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      2.09E-09
+  PMA/PMD RX link status      up                      3  92 days, 20:26:12 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      3  92 days, 20:26:12 ago
+    Lane 1                    up                      1  92 days, 20:26:12 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:24 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:24 ago
+    Lane 1                    ok                      1  92 days, 20:26:24 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     0      0      9,5,0        12     -34    0        34,0,0,0        0
+    1     1      0      12,5,0       13     -21    0        34,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,0,2,-1,1,0         auto-BR
+    1     x,-4,1,-1,2,-1       auto-BR
+Ethernet1/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:18 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              APF23420045B2U
+  MAC Rx Local Fault          false                   4  92 days, 20:26:22 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:19 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:23 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:23 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:23 ago
+    Lane 1                    ok                      1  92 days, 20:26:23 ago
+    Lane 2                    ok                      1  92 days, 20:26:23 ago
+    Lane 3                    ok                      1  92 days, 20:26:23 ago
+  FEC corrected codewords     1                   91882            0:01:29 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   < 3.31E-12
+  FEC lane corrected symbols
+    Lane 0                    1                    5194            0:04:28 ago
+    Lane 1                    1                     245    1 day, 13:23:49 ago
+    Lane 2                    2                   15199            0:31:29 ago
+    Lane 3                    1                   31779            0:01:29 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      < 1.73E-12
+  PMA/PMD RX link status      up                      1  92 days, 20:26:23 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:23 ago
+    Lane 1                    up                      1  92 days, 20:26:23 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:23 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:23 ago
+    Lane 1                    ok                      1  92 days, 20:26:23 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     0      0      10,5,0       13     2      0        30,0,0,0        0
+    1     4      0      12,4,0       12     25     0        33,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-4,2,-1,2,-1       auto-BR
+    1     x,-4,2,0,1,1         auto-BR
+Ethernet1/5
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:16 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              APF23420045B2U
+  MAC Rx Local Fault          false                   4  92 days, 20:26:20 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:17 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:20 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      3  92 days, 20:26:12 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      3  92 days, 20:26:12 ago
+    Lane 1                    ok                      3  92 days, 20:26:12 ago
+    Lane 2                    ok                      3  92 days, 20:26:12 ago
+    Lane 3                    ok                      3  92 days, 20:26:12 ago
+  FEC corrected codewords     1                   27975            0:03:01 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   < 3.31E-12
+  FEC lane corrected symbols
+    Lane 0                    1                    3303            0:07:28 ago
+    Lane 1                    1                     427            5:36:31 ago
+    Lane 2                    1                    9281            0:13:58 ago
+    Lane 3                    1                    4026            0:02:58 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      < 1.76E-12
+  PMA/PMD RX link status      up                      3  92 days, 20:26:12 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      3  92 days, 20:26:12 ago
+    Lane 1                    up                      3  92 days, 20:26:12 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:22 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:22 ago
+    Lane 1                    ok                      1  92 days, 20:26:22 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     5      0      6,5,0        14     3      0        34,0,0,0        0
+    1     2      0      11,4,0       12     7      0        32,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,0,2,1,1,-1         auto-BR
+    1     x,-4,2,0,1,0         auto-BR
+Ethernet1/7
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:18 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              APF23420045B2U
+  MAC Rx Local Fault          false                   4  92 days, 20:26:22 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:19 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:22 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:20 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:20 ago
+    Lane 1                    ok                      1  92 days, 20:26:20 ago
+    Lane 2                    ok                      1  92 days, 20:26:20 ago
+    Lane 3                    ok                      1  92 days, 20:26:20 ago
+  FEC corrected codewords     1                  520213            0:00:58 ago
+  FEC uncorrected codewords   1                       1  92 days, 20:26:20 ago
+  FEC corrected symbol rate   < 3.31E-12
+  FEC lane corrected symbols
+    Lane 0                    1                   15718            0:07:58 ago
+    Lane 1                    1                     882            5:52:30 ago
+    Lane 2                    1                   64808            0:00:58 ago
+    Lane 3                    1                   74431            0:00:58 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      < 1.78E-12
+  PMA/PMD RX link status      up                      1  92 days, 20:26:20 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:20 ago
+    Lane 1                    up                      1  92 days, 20:26:20 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:20 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:20 ago
+    Lane 1                    ok                      1  92 days, 20:26:20 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     4      0      9,5,0        14     -12    0        31,0,0,0        0
+    1     3      0      11,5,0       13     1      0        31,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-4,2,1,0,-1        auto-BR
+    1     x,-6,3,-1,1,-1       auto-BR
+Ethernet2/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                     72            1:53:34 ago
+  Transceiver                 8x25GBASE-SR            5  91 days, 12:53:10 ago
+  Transceiver SN              V9NDBBWJ01X
+  MAC Rx Local Fault          false                 140            1:53:39 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                 72            1:53:34 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  NRZ
+  Lane count                  4
+  PCS RX link status          up                    139            1:53:39 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              31                     35            1:55:58 ago
+  PCS BER                     30                     33            1:55:58 ago
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  528
+  FEC alignment lock          ok                     71            1:53:37 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                     71            1:53:37 ago
+    Lane 1                    ok                     71            1:53:37 ago
+    Lane 2                    ok                     71            1:53:37 ago
+    Lane 3                    ok                     71            1:53:37 ago
+  FEC corrected codewords     1                       2   27 days, 9:23:32 ago
+  FEC uncorrected codewords   4                      44            1:56:16 ago
+  FEC corrected symbol rate   < 3.41E-12
+  FEC lane corrected symbols
+    Lane 0                    0                       0                  never
+    Lane 1                    373                     1  91 days, 11:22:55 ago
+    Lane 2                    0                       0                  never
+    Lane 3                    2525                    1  91 days, 11:22:55 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  Pre-FEC bit error rate      < 1.86E-12
+  PMA/PMD RX link status      up                  16153            1:53:37 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                  15831            1:53:37 ago
+    Lane 1                    up                  15761            1:53:37 ago
+    Lane 2                    up                  16123            1:53:37 ago
+    Lane 3                    up                  16479            1:53:37 ago
+  PMA/PMD RX signal detect    ok                  20545            1:53:37 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                  20537            1:53:37 ago
+    Lane 1                    ok                  20545            1:53:37 ago
+    Lane 2                    ok                  20517            1:53:37 ago
+    Lane 3                    ok                  20543            1:53:37 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+    Lane 2                    off
+    Lane 3                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        0     -10   99    -18    0      0
+    1        0     -10   99    -18    0      0
+    2        0     -10   99    -18    0      0
+    3        0     -7    100   -20    0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     1      0      0,1,0        6      0      0        4,0,0,0         0
+    1     0      0      0,2,0        6      9      0        6,0,0,0         0
+    2     1      0      0,1,0        6      -16    0        3,0,0,0         0
+    3     1      0      0,1,0        6      -3     0        10,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR        EYE(L,R,U,D)
+    0     12,-2,1,1,1,-1       auto-OS    0,0,0,0
+    1     14,-2,1,1,1,-1       auto-OS    0,0,0,0
+    2     13,-2,1,-1,1,1       auto-OS    0,0,0,0
+    3     14,-2,1,1,1,1        auto-OS    0,0,0,0
+Ethernet2/5
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             down                   81  13 days, 12:04:41 ago
+  Transceiver                 8x25GBASE-SR            5  91 days, 12:53:10 ago
+  Transceiver SN              V9NDBBWJ01X
+  MAC Rx Local Fault          true                  157  13 days, 12:04:41 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkDown               81  13 days, 12:04:41 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  NRZ
+  Lane count                  4
+  PCS RX link status          down                  156  13 days, 12:04:41 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              90                     42  13 days, 12:04:41 ago
+  PCS BER                     97                     40  13 days, 12:04:41 ago
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  528
+  FEC alignment lock          unaligned              80  13 days, 12:04:41 ago
+  FEC lane alignment marker lock
+    Lane 0                    unaligned              82  13 days, 12:04:41 ago
+    Lane 1                    unaligned              80  13 days, 12:04:41 ago
+    Lane 2                    unaligned              80  13 days, 12:04:41 ago
+    Lane 3                    unaligned              80  13 days, 12:04:41 ago
+  FEC corrected codewords     2                     367  13 days, 12:04:41 ago
+  FEC uncorrected codewords   11                     56  13 days, 12:04:41 ago
+  FEC corrected symbol rate   < 3.41E-12*
+  FEC lane corrected symbols
+    Lane 0                    0                       0                  never
+    Lane 1                    2                       1  91 days, 11:22:55 ago
+    Lane 2                    0                       0                  never
+    Lane 3                    1                     344  13 days, 23:16:15 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  Pre-FEC bit error rate      < 1.88E-12
+  PMA/PMD RX link status      down                15998  13 days, 12:04:41 ago
+  PMA/PMD lane RX link status
+    Lane 0                    down                 2602  13 days, 12:04:41 ago
+    Lane 1                    down                 2614  13 days, 12:04:41 ago
+    Lane 2                    down                 2614  13 days, 12:04:41 ago
+    Lane 3                    down                 2632  13 days, 12:04:41 ago
+  PMA/PMD RX signal detect    no signal           20486  13 days, 12:04:41 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    no signal            3416  13 days, 12:04:41 ago
+    Lane 1                    no signal            3416  13 days, 12:04:41 ago
+    Lane 2                    no signal            3416  13 days, 12:04:41 ago
+    Lane 3                    no signal            3416  13 days, 12:04:41 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+    Lane 2                    off
+    Lane 3                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        0     -10   99    -18    0      0
+    1        0     -10   99    -18    0      0
+    2        0     -10   99    -18    0      0
+    3        0     -7    100   -20    0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     0      0      4,2,0        37     0      0        0,0,0,0         0
+    1     0      0      4,2,0        37     0      0        0,0,0,0         0
+    2     0      0      4,2,0        37     0      0        0,0,0,0         0
+    3     0      0      4,2,0        37     0      0        0,0,0,0         0
+    Lane  DFE(1,2,3,4,5,6)     CDR        EYE(L,R,U,D)
+    0     0,0,0,0,0,0          auto-OS    0,0,0,0
+    1     0,0,0,0,0,0          auto-OS    0,0,0,0
+    2     0,0,0,0,0,0          auto-OS    0,0,0,0
+    3     0,0,0,0,0,0          auto-OS    0,0,0,0
+Ethernet3/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:18 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              C2311639867
+  MAC Rx Local Fault          false                   4  92 days, 20:26:22 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:19 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:22 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:19 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:19 ago
+    Lane 1                    ok                      1  92 days, 20:26:19 ago
+    Lane 2                    ok                      1  92 days, 20:26:19 ago
+    Lane 3                    ok                      1  92 days, 20:26:19 ago
+  FEC corrected codewords     1                  387113            0:00:16 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   3.31E-12
+  FEC lane corrected symbols
+    Lane 0                    1                   33601            0:02:28 ago
+    Lane 1                    1                    1117            2:00:28 ago
+    Lane 2                    1                   79312            0:00:00 ago
+    Lane 3                    1                   42676            0:01:58 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      < 1.85E-12
+  PMA/PMD RX link status      up                      1  92 days, 20:26:19 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:19 ago
+    Lane 1                    up                      1  92 days, 20:26:19 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:19 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:19 ago
+    Lane 1                    ok                      1  92 days, 20:26:19 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -1     0      12,5,0       12     3      0        29,0,0,0        0
+    1     -2     0      12,4,0       12     -5     0        30,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-6,2,-2,2,0        auto-BR
+    1     x,-4,1,1,-1,1        auto-BR
+Ethernet3/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:16 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              C2311639867
+  MAC Rx Local Fault          false                   4  92 days, 20:26:20 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:17 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:20 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:18 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:18 ago
+    Lane 1                    ok                      1  92 days, 20:26:18 ago
+    Lane 2                    ok                      1  92 days, 20:26:18 ago
+    Lane 3                    ok                      1  92 days, 20:26:18 ago
+  FEC corrected codewords     1                 1570615            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   2.65E-11
+  FEC lane corrected symbols
+    Lane 0                    3                  214401            0:00:00 ago
+    Lane 1                    1                  113126            0:06:29 ago
+    Lane 2                    5                  177423            0:00:00 ago
+    Lane 3                    1                   53833            0:01:29 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      1.88E-12
+  PMA/PMD RX link status      up                      1  92 days, 20:26:18 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:18 ago
+    Lane 1                    up                      1  92 days, 20:26:18 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:18 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:18 ago
+    Lane 1                    ok                      1  92 days, 20:26:18 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -1     0      10,4,0       12     11     0        31,0,0,0        0
+    1     0      0      11,5,0       12     -12    0        30,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-2,2,-1,2,0        auto-BR
+    1     x,-4,1,1,0,-1        auto-BR
+Ethernet3/5
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:16 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              C2311639867
+  MAC Rx Local Fault          false                   4  92 days, 20:26:20 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:17 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:20 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:18 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:18 ago
+    Lane 1                    ok                      1  92 days, 20:26:18 ago
+    Lane 2                    ok                      1  92 days, 20:26:18 ago
+    Lane 3                    ok                      1  92 days, 20:26:18 ago
+  FEC corrected codewords     27                1053515            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   4.87E-10
+  FEC lane corrected symbols
+    Lane 0                    1                    2985            1:55:28 ago
+    Lane 1                    1                      51   3 days, 15:03:10 ago
+    Lane 2                    143                167301            0:00:00 ago
+    Lane 3                    4                   83976            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      4.56E-11
+  PMA/PMD RX link status      up                      1  92 days, 20:26:18 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:18 ago
+    Lane 1                    up                      1  92 days, 20:26:18 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:18 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:18 ago
+    Lane 1                    ok                      1  92 days, 20:26:18 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -6     0      10,5,0       14     6      0        31,0,0,0        0
+    1     -5     0      10,5,0       13     -4     0        29,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-2,2,-1,2,0        auto-BR
+    1     x,0,1,1,0,0          auto-BR
+Ethernet3/7
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:18 ago
+  Transceiver                 400GBASE-CR8            1  92 days, 20:26:48 ago
+  Transceiver SN              C2311639867
+  MAC Rx Local Fault          false                   4  92 days, 20:26:22 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:19 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  92 days, 20:26:22 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:18 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:18 ago
+    Lane 1                    ok                      1  92 days, 20:26:18 ago
+    Lane 2                    ok                      1  92 days, 20:26:18 ago
+    Lane 3                    ok                      1  92 days, 20:26:18 ago
+  FEC corrected codewords     1                  898804            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   6.62E-12
+  FEC lane corrected symbols
+    Lane 0                    1                   49926            0:09:58 ago
+    Lane 1                    1                   66247            0:03:28 ago
+    Lane 2                    1                   73781            0:00:00 ago
+    Lane 3                    1                   55283            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      1.93E-12
+  PMA/PMD RX link status      up                      1  92 days, 20:26:18 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:18 ago
+    Lane 1                    up                      1  92 days, 20:26:18 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:18 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:18 ago
+    Lane 1                    ok                      1  92 days, 20:26:18 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        8     -32   130   0      0      0
+    1        8     -32   130   0      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -5     0      12,5,0       12     -3     0        31,0,0,0        0
+    1     -7     0      10,4,0       14     -16    0        31,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-6,2,-2,2,0        auto-BR
+    1     x,-2,1,1,0,1         auto-BR
+Ethernet27/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:39 ago
+  Transceiver                 400GBASE-DR4            1  93 days, 19:48:25 ago
+  Transceiver SN              CRDR2333087PP
+  MAC Rx Local Fault          false                   4  93 days, 19:47:44 ago
+  MAC Rx Remote Fault         false                   2  93 days, 19:47:41 ago
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:40 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:44 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:43 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+    Lane 2                    ok                      1  93 days, 19:47:43 ago
+    Lane 3                    ok                      1  93 days, 19:47:43 ago
+  FEC corrected codewords     374               1546125            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   2.37E-07
+  FEC lane corrected symbols
+    Lane 0                    493                118394            0:00:00 ago
+    Lane 1                    825                118396            0:00:00 ago
+    Lane 2                    19811              118396            0:00:00 ago
+    Lane 3                    20698              118396            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      2.07E-08
+  PMA/PMD RX link status      up                      3  93 days, 19:47:43 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      3  93 days, 19:47:43 ago
+    Lane 1                    up                      1  93 days, 19:47:43 ago
+  PMA/PMD RX signal detect    ok                      1  93 days, 19:47:43 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        3     -15   130   -14    -5     -3
+    1        3     -15   130   -14    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -4     0      0,1,0        24     9      0        32,0,0,0        0
+    1     -5     0      0,1,0        25     18     0        30,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-2,1,1,-1,0        auto-BR
+    1     x,-2,0,1,0,1         auto-BR
+Ethernet27/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:39 ago
+  Transceiver                 400GBASE-DR4            1  93 days, 19:48:25 ago
+  Transceiver SN              CRDR2333087PP
+  MAC Rx Local Fault          false                   4  93 days, 19:47:44 ago
+  MAC Rx Remote Fault         false                   2  93 days, 19:47:42 ago
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:40 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:44 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:43 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+    Lane 2                    ok                      1  93 days, 19:47:43 ago
+    Lane 3                    ok                      1  93 days, 19:47:43 ago
+  FEC corrected codewords     86                2074244            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   2.19E-07
+  FEC lane corrected symbols
+    Lane 0                    441                646244            0:00:00 ago
+    Lane 1                    738                646299            0:00:00 ago
+    Lane 2                    17952              646534            0:00:00 ago
+    Lane 3                    19615              646534            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      2.52E-08
+  PMA/PMD RX link status      up                      1  93 days, 19:47:43 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  93 days, 19:47:43 ago
+    Lane 1                    up                      1  93 days, 19:47:43 ago
+  PMA/PMD RX signal detect    ok                      1  93 days, 19:47:43 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        3     -15   130   -14    -5     -3
+    1        3     -15   130   -14    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -4     0      0,1,0        22     8      0        31,0,0,0        0
+    1     -8     0      0,2,0        20     8      0        29,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,0,1,0,0,0          auto-BR
+    1     x,0,0,0,0,0          auto-BR
+Ethernet27/5
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:39 ago
+  Transceiver                 400GBASE-DR4            1  93 days, 19:48:25 ago
+  Transceiver SN              CRDR2333087PP
+  MAC Rx Local Fault          false                   4  93 days, 19:47:44 ago
+  MAC Rx Remote Fault         false                   2  93 days, 19:47:43 ago
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:40 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:44 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:43 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+    Lane 2                    ok                      1  93 days, 19:47:43 ago
+    Lane 3                    ok                      1  93 days, 19:47:43 ago
+  FEC corrected codewords     1068              1546125            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   2.77E-06
+  FEC lane corrected symbols
+    Lane 0                    2111               118396            0:00:00 ago
+    Lane 1                    2969               118396            0:00:00 ago
+    Lane 2                    168473             118396            0:00:00 ago
+    Lane 3                    316605             118396            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      2.65E-07
+  PMA/PMD RX link status      up                      3  93 days, 19:47:43 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      3  93 days, 19:47:43 ago
+    Lane 1                    up                      1  93 days, 19:47:43 ago
+  PMA/PMD RX signal detect    ok                      1  93 days, 19:47:43 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        3     -15   130   -14    -5     -3
+    1        3     -15   130   -14    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -6     0      0,1,0        25     -7     0        32,0,0,0        0
+    1     -7     0      0,2,0        25     1      0        32,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,0,0,1,0,0          auto-BR
+    1     x,-4,0,0,1,0         auto-BR
+Ethernet27/7
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:41 ago
+  Transceiver                 400GBASE-DR4            1  93 days, 19:48:25 ago
+  Transceiver SN              CRDR2333087PP
+  MAC Rx Local Fault          false                   4  93 days, 19:47:43 ago
+  MAC Rx Remote Fault         false                   4  93 days, 19:47:43 ago
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:41 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:43 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      2  93 days, 19:47:37 ago
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:43 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+    Lane 2                    ok                      1  93 days, 19:47:43 ago
+    Lane 3                    ok                      1  93 days, 19:47:43 ago
+  FEC corrected codewords     4933              1549100            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   4.37E-06
+  FEC lane corrected symbols
+    Lane 0                    6625               121371            0:00:00 ago
+    Lane 1                    3811               121371            0:00:00 ago
+    Lane 2                    561826             121371            0:00:00 ago
+    Lane 3                    201059             121371            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      4.22E-07
+  PMA/PMD RX link status      up                      1  93 days, 19:47:43 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  93 days, 19:47:43 ago
+    Lane 1                    up                      1  93 days, 19:47:43 ago
+  PMA/PMD RX signal detect    ok                      1  93 days, 19:47:43 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  93 days, 19:47:43 ago
+    Lane 1                    ok                      1  93 days, 19:47:43 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        3     -15   130   -14    -5     -3
+    1        3     -15   130   -14    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -8     0      0,2,0        26     1      0        31,0,0,0        0
+    1     -7     0      0,2,0        24     5      0        31,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-2,0,1,0,-2        auto-BR
+    1     x,-4,0,0,0,-1        auto-BR
+Ethernet31/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:47 ago
+  Transceiver                 400GBASE-CRA8           1  93 days, 19:48:26 ago
+  Transceiver SN              BQ4Q12X32710001
+  MAC Rx Local Fault          false                   4  93 days, 19:47:51 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:48 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:51 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:48 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:48 ago
+    Lane 1                    ok                      1  93 days, 19:47:48 ago
+    Lane 2                    ok                      1  93 days, 19:47:48 ago
+    Lane 3                    ok                      1  93 days, 19:47:48 ago
+  FEC corrected codewords     3344              1546099            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   5.83E-08
+  FEC lane corrected symbols
+    Lane 0                    2893               118393            0:00:00 ago
+    Lane 1                    6381               118393            0:00:00 ago
+    Lane 2                    454                118356            0:00:00 ago
+    Lane 3                    585                118351            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      5.80E-09
+  PMA/PMD RX link status      up                      3  93 days, 19:47:48 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      3  93 days, 19:47:48 ago
+    Lane 1                    up                      1  93 days, 19:47:48 ago
+  PMA/PMD RX signal detect    ok                      1  93 days, 19:47:54 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  93 days, 19:47:54 ago
+    Lane 1                    ok                      1  93 days, 19:47:54 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        2     -15   133   -12    -5     -3
+    1        2     -15   133   -12    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -6     0      9,2,0        21     -1     0        30,0,0,0        0
+    1     -7     0      9,1,0        22     18     0        29,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-6,-2,1,-2,0       auto-BR
+    1     x,-6,0,0,0,1         auto-BR
+Ethernet31/3
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:46 ago
+  Transceiver                 400GBASE-CRA8           1  93 days, 19:48:26 ago
+  Transceiver SN              BQ4Q12X32710001
+  MAC Rx Local Fault          false                   4  93 days, 19:47:50 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:47 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:50 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:48 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:48 ago
+    Lane 1                    ok                      1  93 days, 19:47:48 ago
+    Lane 2                    ok                      1  93 days, 19:47:48 ago
+    Lane 3                    ok                      1  93 days, 19:47:48 ago
+  FEC corrected codewords     108               1546510            0:00:00 ago
+  FEC uncorrected codewords   1                       1  93 days, 19:47:48 ago
+  FEC corrected symbol rate   2.65E-09
+  FEC lane corrected symbols
+    Lane 0                    4                  105777            0:00:00 ago
+    Lane 1                    3                  108141            0:00:00 ago
+    Lane 2                    88                 120804            0:00:00 ago
+    Lane 3                    373                121164            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      1.85E-10
+  PMA/PMD RX link status      up                      1  93 days, 19:47:48 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  93 days, 19:47:48 ago
+    Lane 1                    up                      1  93 days, 19:47:48 ago
+  PMA/PMD RX signal detect    ok                      3  93 days, 19:47:48 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      3  93 days, 19:47:48 ago
+    Lane 1                    ok                      1  93 days, 19:47:54 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        2     -15   133   -12    -5     -3
+    1        2     -13   130   -18    -4     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -5     0      7,2,0        22     -21    0        28,0,0,0        0
+    1     -6     0      9,1,0        20     -7     0        29,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-4,-1,0,0,-1       auto-BR
+    1     x,-8,-1,1,0,-2       auto-BR
+Ethernet31/5
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:46 ago
+  Transceiver                 400GBASE-CRA8           1  93 days, 19:48:26 ago
+  Transceiver SN              BQ4Q12X32710001
+  MAC Rx Local Fault          false                   4  93 days, 19:47:49 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:47 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:49 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:48 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:48 ago
+    Lane 1                    ok                      1  93 days, 19:47:48 ago
+    Lane 2                    ok                      1  93 days, 19:47:48 ago
+    Lane 3                    ok                      1  93 days, 19:47:48 ago
+  FEC corrected codewords     180               1543801            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   2.91E-09
+  FEC lane corrected symbols
+    Lane 0                    89                 118211            0:00:00 ago
+    Lane 1                    308                118364            0:00:00 ago
+    Lane 2                    26                 117771            0:00:00 ago
+    Lane 3                    91                 118197            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      3.25E-10
+  PMA/PMD RX link status      up                      3  93 days, 19:47:48 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      3  93 days, 19:47:48 ago
+    Lane 1                    up                      1  93 days, 19:47:48 ago
+  PMA/PMD RX signal detect    ok                      3  93 days, 19:47:48 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  93 days, 19:47:54 ago
+    Lane 1                    ok                      3  93 days, 19:47:48 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        2     -15   133   -12    -5     -3
+    1        2     -15   133   -12    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -6     0      8,1,0        20     -24    0        29,0,0,0        0
+    1     -6     0      9,2,0        20     -3     0        29,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-6,-1,2,-2,1       auto-BR
+    1     x,-8,-1,-1,0,0       auto-BR
+Ethernet31/7
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  93 days, 19:47:47 ago
+  Transceiver                 400GBASE-CRA8           1  93 days, 19:48:26 ago
+  Transceiver SN              BQ4Q12X32710001
+  MAC Rx Local Fault          false                   4  93 days, 19:47:51 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  93 days, 19:47:48 ago
+  Interrupt count                                     0
+  Oper speed                  100Gbps
+  Modulation                  PAM-4
+  Lane count                  2
+  PCS RX link status          up                      3  93 days, 19:47:51 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  93 days, 19:47:48 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  93 days, 19:47:48 ago
+    Lane 1                    ok                      1  93 days, 19:47:48 ago
+    Lane 2                    ok                      1  93 days, 19:47:48 ago
+    Lane 3                    ok                      1  93 days, 19:47:48 ago
+  FEC corrected codewords     1                  881582            0:00:00 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   3.39E-11
+  FEC lane corrected symbols
+    Lane 0                    1                   22607            0:00:47 ago
+    Lane 1                    1                   27632            0:04:47 ago
+    Lane 2                    2                  130501            0:00:00 ago
+    Lane 3                    4                  142719            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 00 01 01
+  Pre-FEC bit error rate      < 1.91E-12
+  PMA/PMD RX link status      up                      1  93 days, 19:47:48 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  93 days, 19:47:48 ago
+    Lane 1                    up                      1  93 days, 19:47:48 ago
+  PMA/PMD RX signal detect    ok                      3  93 days, 19:47:48 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      3  93 days, 19:47:48 ago
+    Lane 1                    ok                      1  93 days, 19:47:54 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        2     -15   133   -12    -5     -3
+    1        2     -15   133   -12    -5     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -5     0      8,1,0        20     -11    0        29,0,0,0        0
+    1     -4     0      8,2,0        21     2      0        30,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,-6,-1,0,0,1        auto-BR
+    1     x,-8,0,-2,1,0        auto-BR
+Ethernet32/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                      4  92 days, 20:26:08 ago
+  Transceiver                 400GBASE-DR4            1  92 days, 20:26:43 ago
+  Transceiver SN              CRDR233404PBP
+  MAC Rx Local Fault          false                   4  92 days, 20:26:13 ago
+  MAC Rx Remote Fault         false                   4  92 days, 20:26:09 ago
+ BCM56993-BLACKHAWKGEN3 line
+  Model                       BCM56993-BLACKHAWKGEN3 (B0) (0x000000,0x27,0x0)
+  Firmware revision           D005_18
+  PHY state                   linkUp                  2  92 days, 20:26:08 ago
+  Interrupt count                                     0
+  Oper speed                  400Gbps
+  Modulation                  PAM-4
+  Lane count                  8
+  PCS RX link status          up                      3  92 days, 20:26:13 ago
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      1  92 days, 20:26:12 ago
+  FEC lane alignment marker lock
+    Lane 0                    ok                      1  92 days, 20:26:12 ago
+    Lane 1                    ok                      1  92 days, 20:26:12 ago
+    Lane 2                    ok                      1  92 days, 20:26:12 ago
+    Lane 3                    ok                      1  92 days, 20:26:12 ago
+    Lane 4                    ok                      1  92 days, 20:26:12 ago
+    Lane 5                    ok                      1  92 days, 20:26:12 ago
+    Lane 6                    ok                      1  92 days, 20:26:12 ago
+    Lane 7                    ok                      1  92 days, 20:26:12 ago
+    Lane 8                    ok                      1  92 days, 20:26:12 ago
+    Lane 9                    ok                      1  92 days, 20:26:12 ago
+    Lane 10                   ok                      1  92 days, 20:26:12 ago
+    Lane 11                   ok                      1  92 days, 20:26:12 ago
+    Lane 12                   ok                      1  92 days, 20:26:12 ago
+    Lane 13                   ok                      1  92 days, 20:26:12 ago
+    Lane 14                   ok                      1  92 days, 20:26:12 ago
+    Lane 15                   ok                      1  92 days, 20:26:12 ago
+  FEC corrected codewords     2                 1527193            0:00:00 ago
+  FEC uncorrected codewords   2                       1  92 days, 20:26:12 ago
+  FEC corrected symbol rate   2.03E-09
+  FEC lane corrected symbols
+    Lane 0                    1                   85064            0:00:00 ago
+    Lane 1                    54                 115034            0:00:00 ago
+    Lane 2                    18                 114141            0:00:00 ago
+    Lane 3                    163                115233            0:00:00 ago
+    Lane 4                    917                115289            0:00:00 ago
+    Lane 5                    1                   91854            0:00:00 ago
+    Lane 6                    37                 114941            0:00:00 ago
+    Lane 7                    25                 114312            0:00:00 ago
+    Lane 8                    67                 115034            0:00:00 ago
+    Lane 9                    2                   85631            0:00:00 ago
+    Lane 10                   172                115231            0:00:00 ago
+    Lane 11                   20                 114245            0:00:00 ago
+    Lane 12                   930                115289            0:00:00 ago
+    Lane 13                   2                   93188            0:00:00 ago
+    Lane 14                   29                 114875            0:00:00 ago
+    Lane 15                   17                 114252            0:00:00 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15
+    PMA lane                  00 00 01 01 02 02 03 03 04 04 05 05 06 06 07 07
+  Pre-FEC bit error rate      1.02E-09
+  PMA/PMD RX link status      up                      1  92 days, 20:26:12 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      1  92 days, 20:26:12 ago
+    Lane 1                    up                      1  92 days, 20:26:12 ago
+    Lane 2                    up                      1  92 days, 20:26:12 ago
+    Lane 3                    up                      1  92 days, 20:26:12 ago
+    Lane 4                    up                      1  92 days, 20:26:12 ago
+    Lane 5                    up                      1  92 days, 20:26:12 ago
+    Lane 6                    up                      1  92 days, 20:26:12 ago
+    Lane 7                    up                      1  92 days, 20:26:12 ago
+  PMA/PMD RX signal detect    ok                      1  92 days, 20:26:12 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      1  92 days, 20:26:12 ago
+    Lane 1                    ok                      1  92 days, 20:26:12 ago
+    Lane 2                    ok                      1  92 days, 20:26:12 ago
+    Lane 3                    ok                      1  92 days, 20:26:12 ago
+    Lane 4                    ok                      1  92 days, 20:26:12 ago
+    Lane 5                    ok                      1  92 days, 20:26:12 ago
+    Lane 6                    ok                      1  92 days, 20:26:12 ago
+    Lane 7                    ok                      1  92 days, 20:26:12 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+    Lane 2                    off
+    Lane 3                    off
+    Lane 4                    off
+    Lane 5                    off
+    Lane 6                    off
+    Lane 7                    off
+  Tx Equalization
+    Lane     pre2  pre1  main  post1  post2  post3
+    0        3     -16   130   -12    -6     -3
+    1        3     -17   126   -17    -4     -3
+    2        3     -17   126   -17    -4     -3
+    3        3     -17   126   -17    -4     -3
+    4        3     -16   130   -12    -6     -3
+    5        3     -17   126   -17    -4     -3
+    6        3     -16   130   -12    -6     -3
+    7        3     -16   130   -12    -6     -3
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L,H)    VGA    DCO    P1mV     TP(0,1,2,3)     TXPPM
+    0     -2     0      0,2,0        24     -15    0        33,0,0,0        0
+    1     -1     0      2,2,0        24     -3     0        30,0,0,0        0
+    2     0      0      0,1,0        27     0      0        32,0,0,0        0
+    3     0      0      0,2,0        28     2      0        31,0,0,0        0
+    4     -1     0      1,2,0        26     15     0        32,0,0,0        0
+    5     2      0      0,2,0        28     0      0        31,0,0,0        0
+    6     0      0      1,2,0        25     -4     0        31,0,0,0        0
+    7     -1     0      2,2,0        25     -7     0        31,0,0,0        0
+    Lane  DFE(1,2,3,4,5,6)     CDR
+    0     x,0,1,0,-1,1         auto-BR
+    1     x,0,0,1,-1,1         auto-BR
+    2     x,2,1,0,1,0          auto-BR
+    3     x,2,0,1,0,0          auto-BR
+    4     x,0,0,0,-1,1         auto-BR
+    5     x,0,0,1,0,0          auto-BR
+    6     x,0,0,1,0,0          auto-BR
+    7     x,0,0,0,0,0          auto-BR
+Ethernet33
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             down                    1  92 days, 20:26:35 ago
+  Transceiver                 Unknown                 1  92 days, 20:26:51 ago
+  MAC Rx Local Fault          true                    1  92 days, 20:26:31 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM56993-MERLIN line
+  Model                       BCM56993-MERLIN (B0)
+  Firmware revision           D000_02
+  PHY state                   linkDown                1  92 days, 20:26:31 ago
+  Interrupt count                                     0
+  Oper speed                  10Gbps
+  PCS RX link status          down                    0                  never
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS block lock              no block lock           0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  PMA/PMD RX link status      down                    0                  never
+  PMA/PMD RX signal detect    no signal               0                  never
+  Tx Equalization
+    Lane  pre1  main  post1  post2  post3
+    0     1     34    9      0      0
+  SerDes Statistics
+    Lane  RXPPM  CLK90  PF(M,L)   VGA    DCO    TXPPM
+    0     20     32     7,0       31     0      0
+    Lane  DFE(1,2,3,4,5)       EYE(L,R,U,D)
+    0     0,0,0,0,0            0,0,0,0
+Ethernet46/1
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             up                     12   10 days, 5:51:46 ago
+  Transceiver                 800GBASE-DR8            1  44 days, 23:27:46 ago
+  Transceiver SN              30618124723002R
+  MAC Rx Local Fault          false                  18   10 days, 5:51:55 ago
+  MAC Rx Remote Fault         false                  14   10 days, 5:51:47 ago
+ BCM78900-PEREGRINE line
+  Model                       BCM78900-PEREGRINE (B0) (0x000000,0x2d,0x0)
+  Firmware revision           D002_0B
+  PHY state                   linkUp                 14   10 days, 5:51:47 ago
+  Interrupt count                                     0
+  Oper speed                  400Gbps
+  Modulation                  PAM-4
+  Lane count                  4
+  PCS RX link status          up                     13   31 days, 1:07:20 ago
+  PCS RX fault                ok                      2   31 days, 1:06:42 ago
+  PCS TX fault                ok                      2   31 days, 1:06:42 ago
+  PCS high BER                ok                      0                  never
+  PCS err blocks              1                       1  44 days, 23:23:55 ago
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          ok                      0                  never
+  FEC lane alignment marker lock
+    Lane 0                    ok                      0                  never
+    Lane 1                    ok                      0                  never
+    Lane 2                    ok                      0                  never
+    Lane 3                    ok                      0                  never
+  FEC corrected codewords     977                 33723            0:00:01 ago
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   1.71E-08
+  FEC lane corrected symbols
+    Lane 0                    3245                  994            0:00:01 ago
+    Lane 1                    336                   994            0:00:01 ago
+    Lane 2                    11071                 994            0:00:01 ago
+    Lane 3                    30025                 994            0:00:01 ago
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  Pre-FEC bit error rate      8.93E-10
+  PMA/PMD RX link status      up                      7   31 days, 1:07:03 ago
+  PMA/PMD lane RX link status
+    Lane 0                    up                      7   31 days, 1:07:03 ago
+    Lane 1                    up                      7   31 days, 1:07:03 ago
+    Lane 2                    up                      7   31 days, 1:07:03 ago
+    Lane 3                    up                      7   31 days, 1:07:03 ago
+  PMA/PMD RX signal detect    ok                      7   31 days, 1:07:03 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    ok                      7   31 days, 1:07:03 ago
+    Lane 1                    ok                      7   31 days, 1:07:03 ago
+    Lane 2                    ok                      7   31 days, 1:07:03 ago
+    Lane 3                    ok                      7   31 days, 1:07:03 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+    Lane 2                    off
+    Lane 3                    off
+  Tx Equalization
+    Lane     pre3  pre2  pre1  main  post1  post2
+    0        -4    10    -32   100   -13    3
+    1        -4    10    -32   100   -13    3
+    2        -4    10    -32   100   -13    3
+    3        -4    10    -32   100   -13    3
+  SerDes Statistics
+    Lane  RXPPM  PF(M,L,H)   VGA  DCO  TP(0,1,2)   CDR        TXPPM
+    0     -53    5,11,1      74   7    0,11,1      auto-BR    0
+    1     -52    4,9,2       76   13   0,11,1      auto-BR    0
+    2     -53    6,7,1       76   6    0,11,1      auto-BR    0
+    3     -53    5,9,1       76   14   0,11,1      auto-BR    0
+    Lane  RXFFE(N3,N2,N1,M,P1,P2)                   DFE(1,2)  FLT(M,S)
+    0     -2,13,-19,162,24,21                       13,0      -3,18
+    1     -2,11,-15,156,24,15                       13,0      -3,18
+    2     -2,12,-19,157,24,15                       13,0      4,10
+    3     -3,12,-19,159,25,16                       13,0      -3,18
+    Lane  SNR(dB)    VEYE(U,M,L)
+    0     26.85      90,88,92
+    1     26.60      90,88,90
+    2     26.89      90,90,92
+    3     27.25      90,90,94
+Ethernet46/5
+                              Current State     Changes            Last Change
+                              -------------     -------            -----------
+  Interface state             down                    3  44 days, 23:27:31 ago
+  Transceiver                 800GBASE-DR8            1  44 days, 23:27:46 ago
+  Transceiver SN              30618124723002R
+  MAC Rx Local Fault          true                    1  44 days, 23:27:37 ago
+  MAC Rx Remote Fault         false                   0                  never
+ BCM78900-PEREGRINE line
+  Model                       BCM78900-PEREGRINE (B0) (0x000000,0x2d,0x0)
+  Firmware revision           D002_0B
+  PHY state                   linkDown                3   31 days, 1:07:25 ago
+  Interrupt count                                     0
+  Oper speed                  400Gbps
+  Modulation                  PAM-4
+  Lane count                  4
+  PCS RX link status          down                    0                  never
+  PCS RX fault                ok                      0                  never
+  PCS TX fault                ok                      0                  never
+  PCS high BER                ok                      0                  never
+  PCS err blocks              0                       0                  never
+  PCS BER                     0                       0                  never
+  Forward Error Correction    Reed-Solomon
+  Reed-Solomon codeword size  544
+  FEC alignment lock          unaligned               0                  never
+  FEC lane alignment marker lock
+    Lane 0                    unaligned               0                  never
+    Lane 1                    unaligned               0                  never
+    Lane 2                    unaligned               0                  never
+    Lane 3                    unaligned               0                  never
+  FEC corrected codewords     0                       0                  never
+  FEC uncorrected codewords   0                       0                  never
+  FEC corrected symbol rate   < 3.84E-13*
+  FEC lane corrected symbols
+    Lane 0                    0                       0                  never
+    Lane 1                    0                       0                  never
+    Lane 2                    0                       0                  never
+    Lane 3                    0                       0                  never
+  FEC lane mapping
+    FEC lane                  00 01 02 03
+    PMA lane                  00 01 02 03
+  Pre-FEC bit error rate      < 9.24E-13
+  PMA/PMD RX link status      down                    0                  never
+  PMA/PMD lane RX link status
+    Lane 0                    down                    0                  never
+    Lane 1                    down                    0                  never
+    Lane 2                    down                    0                  never
+    Lane 3                    down                    0                  never
+  PMA/PMD RX signal detect    no signal               4   31 days, 1:07:03 ago
+  PMA/PMD lane RX signal detect
+    Lane 0                    no signal               4   31 days, 1:07:03 ago
+    Lane 1                    no signal               4   31 days, 1:07:03 ago
+    Lane 2                    no signal               4   31 days, 1:07:03 ago
+    Lane 3                    no signal               4   31 days, 1:07:03 ago
+  Link Training
+    Lane 0                    off
+    Lane 1                    off
+    Lane 2                    off
+    Lane 3                    off
+  Tx Equalization
+    Lane     pre3  pre2  pre1  main  post1  post2
+    0        -4    10    -32   100   -13    3
+    1        -4    10    -32   100   -13    3
+    2        -4    10    -32   100   -13    3
+    3        -4    10    -32   100   -13    3
+  SerDes Statistics
+    Lane  RXPPM  PF(M,L,H)   VGA  DCO  TP(0,1,2)   CDR        TXPPM
+    0     0      0,0,0       61   0    0,0,L       auto-BR    0
+    1     0      0,0,0       61   0    0,0,L       auto-BR    0
+    2     0      0,0,0       61   0    0,0,L       auto-BR    0
+    3     0      0,0,0       61   0    0,0,L       auto-BR    0
+    Lane  RXFFE(N3,N2,N1,M,P1,P2)                   DFE(1,2)  FLT(M,S)
+    0     0,0,0,128,0,0                             0,0       0,0
+    1     0,0,0,128,0,0                             0,0       0,0
+    2     0,0,0,128,0,0                             0,0       0,0
+    3     0,0,0,128,0,0                             0,0       0,0
+    Lane  SNR(dB)    VEYE(U,M,L)
+    0     999.00     0,0,0
+    1     999.00     0,0,0
+    2     999.00     0,0,0
+    3     999.00     0,0,0
+sc-r7rb14-400gsw#show int transceiver dom
+Ch: Channel, N/A: not applicable, TX: transmit, RX: receive
+mA: milliamperes, dBm: decibels (milliwatts), C: Celsius, V: Volts
+
+Port 1
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 1
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 1
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 1
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 2
+Last update: 0:00:05 ago
+                                             Value
+                                        ----------------
+   Temperature                              33.27 C
+   Voltage                                   3.28 V
+Ethernet2/1
+   TX bias current
+      Channel        1                       5.73 mA
+      Channel        2                       5.74 mA
+      Channel        3                       5.73 mA
+      Channel        4                       5.74 mA
+   Optical TX power
+      Channel        1                      -1.18 dBm
+      Channel        2                      -1.36 dBm
+      Channel        3                      -1.19 dBm
+      Channel        4                      -1.35 dBm
+   Optical RX power
+      Channel        1                       1.26 dBm
+      Channel        2                       1.43 dBm
+      Channel        3                       1.64 dBm
+      Channel        4                       1.67 dBm
+Ethernet2/5
+   TX bias current
+      Channel        5                       5.73 mA
+      Channel        6                       5.74 mA
+      Channel        7                       5.73 mA
+      Channel        8                       5.74 mA
+   Optical TX power
+      Channel        5                      -0.72 dBm
+      Channel        6                      -0.98 dBm
+      Channel        7                      -0.97 dBm
+      Channel        8                      -1.31 dBm
+   Optical RX power
+      Channel        5                     -30.00 dBm
+      Channel        6                     -30.00 dBm
+      Channel        7                     -30.00 dBm
+      Channel        8                     -30.00 dBm
+
+Port 3
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 3
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 3
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 3
+Last update: N/A
+                                             Value
+                                          ------------
+   Temperature                               N/A N/A
+   Voltage                                   N/A N/A
+   TX bias current                           N/A N/A
+   Optical TX power                          N/A N/A
+   Optical RX power                          N/A N/A
+
+Port 27
+Last update: 0:00:01 ago
+                                             Value
+                                        ----------------
+   Temperature                              46.08 C
+   Voltage                                   3.28 V
+Ethernet27/1 (Channel 1)
+   TX bias current                          78.14 mA
+   Optical TX power                          0.62 dBm
+   Optical RX power                          2.27 dBm
+Ethernet27/3 (Channel 2)
+   TX bias current                          81.31 mA
+   Optical TX power                          1.31 dBm
+   Optical RX power                          1.32 dBm
+Ethernet27/5 (Channel 3)
+   TX bias current                          90.29 mA
+   Optical TX power                          2.00 dBm
+   Optical RX power                          2.61 dBm
+Ethernet27/7 (Channel 4)
+   TX bias current                          81.84 mA
+   Optical TX power                          1.21 dBm
+   Optical RX power                          3.08 dBm
+
+Port 31
+Last update: 0:00:00 ago
+                                             Value
+                                        ----------------
+   Temperature                              34.22 C
+   Voltage                                   3.28 V
+Ethernet31/1
+   TX bias current
+      Channel        1                        N/A mA
+      Channel        2                        N/A mA
+   Optical TX power
+      Channel        1                        N/A dBm
+      Channel        2                        N/A dBm
+   Optical RX power
+      Channel        1                        N/A dBm
+      Channel        2                        N/A dBm
+Ethernet31/3
+   TX bias current
+      Channel        3                        N/A mA
+      Channel        4                        N/A mA
+   Optical TX power
+      Channel        3                        N/A dBm
+      Channel        4                        N/A dBm
+   Optical RX power
+      Channel        3                        N/A dBm
+      Channel        4                        N/A dBm
+Ethernet31/5
+   TX bias current
+      Channel        5                        N/A mA
+      Channel        6                        N/A mA
+   Optical TX power
+      Channel        5                        N/A dBm
+      Channel        6                        N/A dBm
+   Optical RX power
+      Channel        5                        N/A dBm
+      Channel        6                        N/A dBm
+Ethernet31/7
+   TX bias current
+      Channel        7                        N/A mA
+      Channel        8                        N/A mA
+   Optical TX power
+      Channel        7                        N/A dBm
+      Channel        8                        N/A dBm
+   Optical RX power
+      Channel        7                        N/A dBm
+      Channel        8                        N/A dBm
+
+Port 32
+Last update: 0:00:03 ago
+                                             Value
+                                        ----------------
+   Temperature                              52.30 C
+   Voltage                                   3.31 V
+Ethernet32/1
+   TX bias current
+      Channel        1                      70.75 mA
+      Channel        2                      68.11 mA
+      Channel        3                      73.39 mA
+      Channel        4                      80.78 mA
+   Optical TX power
+      Channel        1                       0.99 dBm
+      Channel        2                       1.80 dBm
+      Channel        3                       1.78 dBm
+      Channel        4                       1.83 dBm
+   Optical RX power
+      Channel        1                       0.66 dBm
+      Channel        2                       0.94 dBm
+      Channel        3                       0.85 dBm
+      Channel        4                       1.02 dBm
+
+Port 46
+Last update: 0:00:01 ago
+                                             Value
+                                        ----------------
+   Temperature                              59.00 C
+   Voltage                                   3.28 V
+Ethernet46/1
+   TX bias current
+      Channel        1                      66.46 mA
+      Channel        2                      74.68 mA
+      Channel        3                      74.29 mA
+      Channel        4                      73.90 mA
+   Optical TX power
+      Channel        1                       2.00 dBm
+      Channel        2                       2.33 dBm
+      Channel        3                       2.04 dBm
+      Channel        4                       2.40 dBm
+   Optical RX power
+      Channel        1                       0.42 dBm
+      Channel        2                       1.79 dBm
+      Channel        3                       1.70 dBm
+      Channel        4                       2.00 dBm
+Ethernet46/5
+   TX bias current
+      Channel        5                      63.14 mA
+      Channel        6                      73.50 mA
+      Channel        7                      70.96 mA
+      Channel        8                      78.00 mA
+   Optical TX power
+      Channel        5                       1.70 dBm
+      Channel        6                       2.15 dBm
+      Channel        7                       1.89 dBm
+      Channel        8                       2.13 dBm
+   Optical RX power
+      Channel        5                     -30.00 dBm
+      Channel        6                     -30.00 dBm
+      Channel        7                     -30.00 dBm
+      Channel        8                     -30.00 dBm
+
+Port 61
+Last update: 0:00:07 ago
+                                             Value
+                                        ----------------
+   Temperature                              50.06 C
+   Voltage                                   3.29 V
+Ethernet61/1
+   TX bias current
+      Channel        1                        N/A mA
+      Channel        2                        N/A mA
+      Channel        3                        N/A mA
+      Channel        4                        N/A mA
+   Optical TX power
+      Channel        1                     -30.00 dBm
+      Channel        2                     -30.00 dBm
+      Channel        3                     -30.00 dBm
+      Channel        4                     -30.00 dBm
+   Optical RX power
+      Channel        1                       2.04 dBm
+      Channel        2                       2.41 dBm
+      Channel        3                       2.23 dBm
+      Channel        4                       2.30 dBm
+sc-r7rb14-400gsw#show priority-flow-control counters
+Port                 RxPfc           TxPfc
+Et1/1             22679316       358878289
+Et1/3             23043798       356937706
+Et1/5             38719678       577484001
+Et1/7             35416849       187973399
+Et2/1            412909853       653456659
+Et2/5               582204        16206748
+Et3/1             57615815       167882033
+Et3/3                    0            1086
+Et3/5             45778646        55068327
+Et3/7                    0            1120
+Et27/1            59463843       268747231
+Et27/3                   0            2004
+Et27/5            42978845       551358482
+Et27/7                   0            7188
+Et31/1            49258891       526624611
+Et31/3                   0            5566
+Et31/5            52227806       280613057
+Et31/7                   0            1416
+Et32/1           371140038      2689033069
+Et33                     0               0
+Et46/1                   0               0
+Et46/5                   0               0
+Et61/1                   0               0
+Ma1                      0               0
+sc-r7rb14-400gsw#show hostname
+Hostname: sc-r7rb14-400gsw
+FQDN:     sc-r7rb14-400gsw
+sc-r14ra18-400gsw-arista.13:44:24#show snmp mib ifmib ifindex
+Ethernet1/1: Ifindex = 1001
+Ethernet1/3: Ifindex = 1003
+Ethernet1/5: Ifindex = 1005
+Ethernet1/7: Ifindex = 1007
+Ethernet2/1: Ifindex = 2001
+Ethernet2/5: Ifindex = 2005
+Ethernet3/1: Ifindex = 3001
+Ethernet3/3: Ifindex = 3003
+Ethernet3/5: Ifindex = 3005
+Ethernet3/7: Ifindex = 3007
+Ethernet27/1: Ifindex = 27001
+Ethernet27/3: Ifindex = 27003
+Ethernet27/5: Ifindex = 27005
+Ethernet27/7: Ifindex = 27007
+Ethernet31/1: Ifindex = 31001
+Ethernet31/3: Ifindex = 31003
+Ethernet31/5: Ifindex = 31005
+Ethernet31/7: Ifindex = 31007
+Ethernet32/1: Ifindex = 32001
+Ethernet33: Ifindex = 33
+Ethernet46/1: Ifindex = 46001
+Ethernet46/5: Ifindex = 46005
+Ethernet61/1: Ifindex = 61001
+Management1: Ifindex = 999001
+Vlan15: Ifindex = 2000015
+sc-r7rb14-400gsw#show interfaces counters discards
+Port               InDiscards    OutDiscards
+--------------- ---------------- -----------
+Et1/1                       0              0
+Et1/3                       0              0
+Et1/5                       0              0
+Et1/7                       0              0
+Et2/1                       0       43230444
+Et2/5                       0              0
+Et3/1                       0         308884
+Et3/3                       0              0
+Et3/5                       0              0
+Et3/7                       0              0
+Et27/1                      0          53563
+Et27/3                      0              0
+Et27/5                      0        2030162
+Et27/7                      0              0
+Et31/1                      0              0
+Et31/3                      0              0
+Et31/5                      0              0
+Et31/7                      0              0
+Et32/1                    205           9403
+Et33                        0              0
+Et46/1                      0              0
+Et46/5                      0              0
+Et61/1                      0           3585
+Ma1                         0              0
+---------           ---------      ---------
+Totals                   9538      100408181
+
+sc-r14ra18-400gsw-arista.14:49:20#show interfaces counters queue detail
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et1/1    UC0              0                  0              0                  0
+Et1/1    UC1              4                393              0                  0
+Et1/1    UC2              0                  0              0                  0
+Et1/1    UC3              0                  0              0                  0
+Et1/1    UC4              0                  0              0                  0
+Et1/1    UC5 12051321506049  49797086888835190           1111                  0
+Et1/1    UC6              0                  0              0                  0
+Et1/1    UC7              0                  0              0                  0
+Et1/1    UC8          50667           10741404              0                  0
+Et1/1    MC0        2187363         9038017488              0                  0
+Et1/1    MC1              1                 78              0                  0
+
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et2/1    UC0              0                  0              0                  0
+Et2/1    UC1              3                317              0                  0
+Et2/1    UC2              0                  0              0                  0
+Et2/1    UC3              0                  0              0                  0
+Et2/1    UC4              0                  0              0                  0
+Et2/1    UC5 12056053410084  49798204604709388           2222                  0
+Et2/1    UC6              0                  0              0                  0
+Et2/1    UC7              0                  0              0                  0
+Et2/1    UC8          50667           10741404              0                  0
+Et2/1    MC0        2207610         9116803058              0                  0
+Et2/1    MC1              1                 78              0                  0
+
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et3/1    UC0              0                  0              0                  0
+Et3/1    UC1              4                393              0                  0
+Et3/1    UC2              0                  0              0                  0
+Et3/1    UC3              0                  0              0                  0
+Et3/1    UC4              0                  0              0                  0
+Et3/1    UC5 12051321506085  49797086888984878           3333                  0
+Et3/1    UC6              0                  0              0                  0
+Et3/1    UC7              0                  0              0                  0
+Et3/1    UC8          50668           10741616              0                  0
+Et3/1    MC0        2187327         9037867800              0                  0
+Et3/1    MC1              1                 78              0                  0
+
+Port     TxQ   Counter/pkts      Counter/bytes      Drop/pkts         Drop/bytes
+------- ----   ------------       ------------   ------------       ------------
+Et3/3    UC0              0                  0              0                  0
+Et3/3    UC1              3                317              0                  0
+Et3/3    UC2              0                  0              0                  0
+Et3/3    UC3              0                  0              0                  0
+Et3/3    UC4              0                  0              0                  0
+Et3/3    UC5 12056053410185  49798204605129346           4444                  0
+Et3/3    UC6              0                  0              0                  0
+Et3/3    UC7              0                  0              0                  0
+Et3/3    UC8          50668           10741616              0                  0
+Et3/3    MC0        2207509         9116383100              0                  0
+Et3/3    MC1              1                 78              0                  0
+
+sc-r7rb14-400gsw#show int counters rates
+Port      Name                 Intvl  In Mbps      %  In Kpps Out Mbps      % Out Kpps
+Et1/1     L2 to cs301-wse001-s  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et1/3     L2 to cs301-wse001-s  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et1/5     L2 to cs301-wse001-s  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et1/7     L2 to cs301-wse001-s  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et2/1     L2 to xs10008/Port_1  0:01      0.1   0.0%        0      0.0   0.0%        0
+Et2/5     L2 to xs10006/Port_1  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et3/1     L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et3/3     L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et3/5     L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et3/7     L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et27/1    L2 to cs301-wse001-m  0:01      0.4   0.0%        0     88.9   0.1%        1
+Et27/3    L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et27/5    L2 to cs301-wse001-m  0:01      0.0   0.0%        0     89.2   0.1%        1
+Et27/7    L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et31/1    L2 to cs301-wse001-m  0:01   1429.3   1.4%       44    594.7   0.6%       47
+Et31/3    L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et31/5    L2 to cs301-wse001-m  0:01      0.1   0.0%        0     94.5   0.1%        1
+Et31/7    L2 to cs301-wse001-m  0:01      0.0   0.0%        0      0.0   0.0%        0
+Et32/1    L3 to sc-r7rb10-400g  0:01   1861.9   0.5%       25      0.1   0.0%        0
+Et33                            0:01      0.0   0.0%        0      0.0   0.0%        0
+Et46/1    L3 to inf001-lf-sw01  0:05      0.0   0.0%        0      0.1   0.0%        0
+Et46/5                          0:05      0.0   0.0%        0      0.0   0.0%        0
+Et61/1    L2 to cs303  0:01       0.0   0.0%        0       0.0   0.0%        0
+Ma1                             0:01      0.0   0.0%        0      0.0   0.0%        0
+sc-r7rb14-400gsw#show hostname
+Hostname: sc-r7rb14-400gsw
+FQDN:     sc-r7rb14-400gsw
+sc-r7rb14-400gsw#show interfaces status errdisabled
+   Port          Name                       Status         Reason
+------------- -------------------------- ----------------- ------
+   Et27/1       L3 to sc-r7rb6-400gs       errdisabled    lfs
+   Et27/3       L3 to sc-r7rb6-400gs       errdisabled    lfs
+sc-r7rb14-400gsw#show hostname
+Hostname: sc-r7rb14-400gsw
+FQDN:     sc-r7rb14-400gsw
+sc-r7rb6-400gsw32-2#show version | json
+{
+    "mfgName": "Arista",
+    "modelName": "DCS-7060DX5-32-F",
+    "hardwareRevision": "11.00",
+    "serialNumber": "JPA2338P0XG",
+    "systemMacAddress": "e4:78:76:71:24:ca",
+    "hwMacAddress": "e4:78:76:71:24:ca",
+    "configMacAddress": "00:00:00:00:00:00",
+    "version": "4.33.0F",
+    "architecture": "x86_64",
+    "internalVersion": "4.33.0F-39050855.4330F",
+    "internalBuildId": "ac7ecb04-15a3-4ff9-9c63-0e8620939a20",
+    "imageFormatVersion": "3.0",
+    "imageOptimization": "Default",
+    "bootupTimestamp": 1740616120.0800712,
+    "uptime": 993171.37,
+    "memTotal": 16197284,
+    "memFree": 12425584,
+    "isIntlVersion": false
+}
+sc-r7rb14-400gsw#show environment power | json
+{
+    "powerSupplies": {
+        "1": {
+            "modelName": "PWR-2411-AC-RED",
+            "capacity": 2400.0,
+            "dominant": false,
+            "inputCurrent": 1.380859375,
+            "outputCurrent": 22.9375,
+            "inputVoltage": 232.25,
+            "outputVoltage": 12.009765625,
+            "outputPower": 274.0,
+            "state": "ok",
+            "uptime": 1740616187.0672982,
+            "fans": {
+                "FanP1/1": {
+                    "status": "ok",
+                    "speed": 34
+                }
+            },
+            "tempSensors": {
+                "TempSensorP1/1": {
+                    "status": "ok",
+                    "temperature": 39.75
+                },
+                "TempSensorP1/3": {
+                    "status": "ok",
+                    "temperature": 61.625
+                },
+                "TempSensorP1/2": {
+                    "status": "ok",
+                    "temperature": 55.375
+                }
+            },
+            "managed": true
+        },
+        "2": {
+            "modelName": "PWR-2411-AC-RED",
+            "capacity": 2400.0,
+            "dominant": false,
+            "inputCurrent": 1.3671875,
+            "outputCurrent": 23.09375,
+            "inputVoltage": 231.75,
+            "outputVoltage": 12.015625,
+            "outputPower": 276.0,
+            "state": "ok",
+            "uptime": 1740616186.8243728,
+            "fans": {
+                "FanP2/1": {
+                    "status": "ok",
+                    "speed": 34
+                }
+            },
+            "tempSensors": {
+                "TempSensorP2/1": {
+                    "status": "ok",
+                    "temperature": 43.75
+                },
+                "TempSensorP2/3": {
+                    "status": "ok",
+                    "temperature": 62.25
+                },
+                "TempSensorP2/2": {
+                    "status": "ok",
+                    "temperature": 54.75
+                }
+            },
+            "managed": true
+        }
+    }
+}
+sc-r7rb14-400gsw#show system environment temperature | json
+{
+    "systemStatus": "temperatureOk",
+    "shutdownOnOverheat": false,
+    "powercycleOnOverheat": true,
+    "actionOnOverheat": "actionPowercycle",
+    "recoveryModeOnOverheat": "recoveryModeNA",
+    "ambientThreshold": 45,
+    "tempSensors": [
+        {
+            "relPos": "1",
+            "name": "TempSensor1",
+            "description": "Cpu temp sensor",
+            "overheatThreshold": 90.0,
+            "criticalThreshold": 95.0,
+            "targetTemperature": 70.0,
+            "hwStatus": "ok",
+            "currentTemperature": 52.86801083665395,
+            "setPointTemperature": 78.45,
+            "maxTemperature": 55.925564373224475,
+            "maxTemperatureLastChange": 1740700359.637582,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "2",
+            "name": "TempSensor2",
+            "description": "CPU board temp sensor",
+            "overheatThreshold": 75.0,
+            "criticalThreshold": 85.0,
+            "targetTemperature": 55.0,
+            "hwStatus": "ok",
+            "currentTemperature": 46.5,
+            "setPointTemperature": 63.45,
+            "maxTemperature": 47.5,
+            "maxTemperatureLastChange": 1740532882.1304197,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 1,
+            "lastPidDriverTime": 1739944217.364446
+        },
+        {
+            "relPos": "3",
+            "name": "TempSensor3",
+            "description": "Back-panel temp sensor",
+            "overheatThreshold": 75.0,
+            "criticalThreshold": 85.0,
+            "targetTemperature": 55.0,
+            "hwStatus": "ok",
+            "currentTemperature": 44.25,
+            "setPointTemperature": 63.45,
+            "maxTemperature": 45.875,
+            "maxTemperatureLastChange": 1740533027.787391,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "4",
+            "name": "TempSensor4",
+            "description": "POSVDD_CPU_S0 Pol Loop0",
+            "overheatThreshold": 115.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 105.0,
+            "hwStatus": "ok",
+            "currentTemperature": 53.0,
+            "setPointTemperature": 110.0,
+            "maxTemperature": 54.0,
+            "maxTemperatureLastChange": 1741136631.718494,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "5",
+            "name": "TempSensor5",
+            "description": "POSVDD_SOC_S0 Pol Loop1",
+            "overheatThreshold": 115.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 105.0,
+            "hwStatus": "ok",
+            "currentTemperature": 53.0,
+            "setPointTemperature": 110.0,
+            "maxTemperature": 54.0,
+            "maxTemperatureLastChange": 1740534780.7022483,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "6",
+            "name": "TempSensor6",
+            "description": "Switch Card temp sensor",
+            "overheatThreshold": 95.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 85.0,
+            "hwStatus": "ok",
+            "currentTemperature": 53.0625,
+            "setPointTemperature": 90.0,
+            "maxTemperature": 54.25,
+            "maxTemperatureLastChange": 1740532807.7340848,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "7",
+            "name": "TempSensor7",
+            "description": "Air Exit Behind TH4",
+            "overheatThreshold": 95.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 85.0,
+            "hwStatus": "ok",
+            "currentTemperature": 53.125,
+            "setPointTemperature": 90.0,
+            "maxTemperature": 54.8125,
+            "maxTemperatureLastChange": 1740534368.709141,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "8",
+            "name": "TempSensor8",
+            "description": "Air Inlet",
+            "overheatThreshold": 95.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 85.0,
+            "hwStatus": "ok",
+            "currentTemperature": 46.125,
+            "setPointTemperature": 90.0,
+            "maxTemperature": 47.1875,
+            "maxTemperatureLastChange": 1740533173.2330253,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "9",
+            "name": "TempSensor9",
+            "description": "Front Panel Inlet",
+            "overheatThreshold": 75.0,
+            "criticalThreshold": 85.0,
+            "targetTemperature": 65.0,
+            "hwStatus": "ok",
+            "currentTemperature": 42.125,
+            "setPointTemperature": 70.0,
+            "maxTemperature": 43.25,
+            "maxTemperatureLastChange": 1740532912.1593716,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "10",
+            "name": "TempSensor10",
+            "description": "PhyChip0-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 66.2099567706077,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 67.94371348775474,
+            "maxTemperatureLastChange": 1740533120.85416,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "11",
+            "name": "TempSensor11",
+            "description": "PhyChip0-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 66.45763630162871,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 68.29046483118415,
+            "maxTemperatureLastChange": 1740533092.9345677,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "12",
+            "name": "TempSensor12",
+            "description": "PhyChip1-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 64.37712824105225,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 66.50717220783291,
+            "maxTemperatureLastChange": 1740535707.0451987,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "13",
+            "name": "TempSensor13",
+            "description": "PhyChip1-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 65.86320542717829,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 68.04278530016316,
+            "maxTemperatureLastChange": 1740534090.6552746,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "14",
+            "name": "TempSensor14",
+            "description": "PhyChip2-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 61.702189306025396,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 62.99012286733462,
+            "maxTemperatureLastChange": 1740533078.2356615,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 5,
+            "lastPidDriverTime": 1739944282.3729131
+        },
+        {
+            "relPos": "15",
+            "name": "TempSensor15",
+            "description": "PhyChip2-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 62.1480124618632,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 63.23780239835564,
+            "maxTemperatureLastChange": 1740533115.1162367,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "16",
+            "name": "TempSensor16",
+            "description": "PhyChip3-0",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 57.54117318487248,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 58.48235540275231,
+            "maxTemperatureLastChange": 1740532991.3504438,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "17",
+            "name": "TempSensor17",
+            "description": "PhyChip3-1",
+            "overheatThreshold": 110.0,
+            "criticalThreshold": 125.0,
+            "targetTemperature": 95.0,
+            "hwStatus": "ok",
+            "currentTemperature": 56.89720640421786,
+            "setPointTemperature": 103.45,
+            "maxTemperature": 57.88792452830189,
+            "maxTemperatureLastChange": 1740534036.4731436,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "18",
+            "name": "TempSensor18",
+            "description": "Tomahawk4 PVT0 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 47.7,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 49.6,
+            "maxTemperatureLastChange": 1740445822.698812,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "19",
+            "name": "TempSensor19",
+            "description": "Tomahawk4 PVT1 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 49.3,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 51.5,
+            "maxTemperatureLastChange": 1740444604.99157,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "20",
+            "name": "TempSensor20",
+            "description": "Tomahawk4 PVT2 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 49.8,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 51.9,
+            "maxTemperatureLastChange": 1740444987.0154073,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "21",
+            "name": "TempSensor21",
+            "description": "Tomahawk4 PVT3 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 48.4,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 51.2,
+            "maxTemperatureLastChange": 1740444886.9304068,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "22",
+            "name": "TempSensor22",
+            "description": "Tomahawk4 PVT4 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 47.7,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 48.9,
+            "maxTemperatureLastChange": 1740445052.0657213,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "23",
+            "name": "TempSensor23",
+            "description": "Tomahawk4 PVT5 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 47.2,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 48.4,
+            "maxTemperatureLastChange": 1740445032.050227,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "24",
+            "name": "TempSensor24",
+            "description": "Tomahawk4 PVT6 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 48.6,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 50.5,
+            "maxTemperatureLastChange": 1740444645.023177,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "25",
+            "name": "TempSensor25",
+            "description": "Tomahawk4 PVT7 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 49.6,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 52.2,
+            "maxTemperatureLastChange": 1740443634.202649,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "26",
+            "name": "TempSensor26",
+            "description": "Tomahawk4 PVT8 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 49.1,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 51.5,
+            "maxTemperatureLastChange": 1740444992.019596,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "27",
+            "name": "TempSensor27",
+            "description": "Tomahawk4 PVT9 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 47.2,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 48.9,
+            "maxTemperatureLastChange": 1740444861.9119637,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "28",
+            "name": "TempSensor28",
+            "description": "Tomahawk4 PVT10 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 47.7,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 49.3,
+            "maxTemperatureLastChange": 1740444997.0231586,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "29",
+            "name": "TempSensor29",
+            "description": "Tomahawk4 PVT11 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 47.2,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 49.6,
+            "maxTemperatureLastChange": 1740445012.034537,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "30",
+            "name": "TempSensor30",
+            "description": "Tomahawk4 PVT12 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 46.2,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 48.6,
+            "maxTemperatureLastChange": 1740444881.9267893,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "31",
+            "name": "TempSensor31",
+            "description": "Tomahawk4 PVT13 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 46.7,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 48.4,
+            "maxTemperatureLastChange": 1740444987.0154016,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        },
+        {
+            "relPos": "32",
+            "name": "TempSensor32",
+            "description": "Tomahawk4 PVT14 sensor",
+            "overheatThreshold": 100.0,
+            "criticalThreshold": 105.0,
+            "targetTemperature": 90.0,
+            "hwStatus": "ok",
+            "currentTemperature": 44.6,
+            "setPointTemperature": 95.0,
+            "maxTemperature": 46.7,
+            "maxTemperatureLastChange": 1740445017.0384068,
+            "inAlertState": false,
+            "alertCount": 0,
+            "isPidDriver": false,
+            "pidDriverCount": 0
+        }
+    ],
+    "cardSlots": [],
+    "powerSupplySlots": [
+        {
+            "relPos": "1",
+            "entPhysicalClass": "PowerSupply",
+            "tempSensors": [
+                {
+                    "relPos": "1",
+                    "name": "TempSensorP1/1",
+                    "description": "Inlet",
+                    "overheatThreshold": 75.0,
+                    "criticalThreshold": 85.0,
+                    "targetTemperature": 60.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 36.875,
+                    "setPointTemperature": 68.45,
+                    "maxTemperature": 38.625,
+                    "maxTemperatureLastChange": 1740608602.9218485,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                },
+                {
+                    "relPos": "2",
+                    "name": "TempSensorP1/2",
+                    "description": "Secondary hotspot",
+                    "overheatThreshold": 120.0,
+                    "criticalThreshold": 125.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 36.25,
+                    "setPointTemperature": 78.45,
+                    "maxTemperature": 37.75,
+                    "maxTemperatureLastChange": 1740608994.5317786,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                },
+                {
+                    "relPos": "3",
+                    "name": "TempSensorP1/3",
+                    "description": "Primary hotspot",
+                    "overheatThreshold": 110.0,
+                    "criticalThreshold": 115.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 0.0,
+                    "setPointTemperature": 78.45,
+                    "maxTemperature": 0.0,
+                    "maxTemperatureLastChange": 1741144009.9596782,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                }
+            ]
+        },
+        {
+            "relPos": "2",
+            "entPhysicalClass": "PowerSupply",
+            "tempSensors": [
+                {
+                    "relPos": "1",
+                    "name": "TempSensorP2/1",
+                    "description": "Inlet",
+                    "overheatThreshold": 75.0,
+                    "criticalThreshold": 85.0,
+                    "targetTemperature": 60.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 44.25,
+                    "setPointTemperature": 68.45,
+                    "maxTemperature": 45.875,
+                    "maxTemperatureLastChange": 1740608806.8712673,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 0
+                },
+                {
+                    "relPos": "2",
+                    "name": "TempSensorP2/2",
+                    "description": "Secondary hotspot",
+                    "overheatThreshold": 120.0,
+                    "criticalThreshold": 125.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 64.5,
+                    "setPointTemperature": 78.45,
+                    "maxTemperature": 65.375,
+                    "maxTemperatureLastChange": 1740606901.237674,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 29,
+                    "lastPidDriverTime": 1741134449.685653
+                },
+                {
+                    "relPos": "3",
+                    "name": "TempSensorP2/3",
+                    "description": "Primary hotspot",
+                    "overheatThreshold": 110.0,
+                    "criticalThreshold": 115.0,
+                    "targetTemperature": 70.0,
+                    "hwStatus": "ok",
+                    "currentTemperature": 65.125,
+                    "setPointTemperature": 78.45,
+                    "maxTemperature": 66.0,
+                    "maxTemperatureLastChange": 1740609360.2551587,
+                    "inAlertState": false,
+                    "alertCount": 0,
+                    "isPidDriver": false,
+                    "pidDriverCount": 17589,
+                    "lastPidDriverTime": 1741143975.872915
+                }
+            ]
+        }
+    ]
+}
+sc-r7rb14-400gsw#show system environment cooling | json
+{
+    "systemStatus": "coolingOk",
+    "fansStatus": "fanAlarmOk",
+    "ambientTemperature": 46.1875,
+    "airflowDirection": "frontToBackAirflow",
+    "currentZones": 1,
+    "configuredZones": 0,
+    "defaultZones": false,
+    "numCoolingZones": [],
+    "shutdownOnInsufficientFans": true,
+    "overrideFanSpeed": 0,
+    "minFanSpeed": 0,
+    "coolingMode": "automatic",
+    "fanTraySlots": [
+        {
+            "label": "1",
+            "fans": [
+                {
+                    "label": "1/1",
+                    "maxSpeed": 11300,
+                    "configuredSpeed": 32,
+                    "actualSpeed": 32,
+                    "status": "ok",
+                    "uptime": 1739944214.306771,
+                    "speedStable": true,
+                    "speedHwOverride": false,
+                    "lastSpeedStableChangeTime": 1739944269.3708453
+                }
+            ],
+            "status": "ok",
+            "speed": 32
+        },
+        {
+            "label": "2",
+            "fans": [
+                {
+                    "label": "2/1",
+                    "maxSpeed": 11300,
+                    "configuredSpeed": 32,
+                    "actualSpeed": 32,
+                    "status": "ok",
+                    "uptime": 1739944214.3067102,
+                    "speedStable": true,
+                    "speedHwOverride": false,
+                    "lastSpeedStableChangeTime": 1739944269.370832
+                }
+            ],
+            "status": "ok",
+            "speed": 32
+        },
+        {
+            "label": "3",
+            "fans": [
+                {
+                    "label": "3/1",
+                    "maxSpeed": 11300,
+                    "configuredSpeed": 32,
+                    "actualSpeed": 32,
+                    "status": "ok",
+                    "uptime": 1739944214.3066046,
+                    "speedStable": true,
+                    "speedHwOverride": false,
+                    "lastSpeedStableChangeTime": 1739944269.3708537
+                }
+            ],
+            "status": "ok",
+            "speed": 32
+        },
+        {
+            "label": "4",
+            "fans": [
+                {
+                    "label": "4/1",
+                    "maxSpeed": 11300,
+                    "configuredSpeed": 32,
+                    "actualSpeed": 32,
+                    "status": "ok",
+                    "uptime": 1739944214.3068106,
+                    "speedStable": true,
+                    "speedHwOverride": false,
+                    "lastSpeedStableChangeTime": 1739944269.370862
+                }
+            ],
+            "status": "ok",
+            "speed": 32
+        }
+    ],
+    "powerSupplySlots": [
+        {
+            "label": "PowerSupply1",
+            "fans": [
+                {
+                    "label": "PowerSupply1/1",
+                    "maxSpeed": 25500,
+                    "configuredSpeed": 33,
+                    "actualSpeed": 32,
+                    "status": "ok",
+                    "uptime": 1739944219.1345336,
+                    "speedStable": true,
+                    "speedHwOverride": false,
+                    "lastSpeedStableChangeTime": 1739944318.4120667
+                }
+            ],
+            "status": "ok",
+            "speed": 33
+        },
+        {
+            "label": "PowerSupply2",
+            "fans": [
+                {
+                    "label": "PowerSupply2/1",
+                    "maxSpeed": 25500,
+                    "configuredSpeed": 33,
+                    "actualSpeed": 54,
+                    "status": "ok",
+                    "uptime": 1739944218.9116588,
+                    "speedStable": true,
+                    "speedHwOverride": true,
+                    "lastSpeedStableChangeTime": 1739944318.3717563
+                }
+            ],
+            "status": "ok",
+            "speed": 33
+        }
+    ]
+}
+sc-r7rb14-400gsw#show qos interfaces ecn counters queue
+Ethernet1/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                           7530885
+      6                                 -
+      7                                 -
+Ethernet1/3:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         289070773
+      6                                 -
+      7                                 -
+Ethernet1/5:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         112657868
+      6                                 -
+      7                                 -
+Ethernet1/7:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         127752298
+      6                                 -
+      7                                 -
+Ethernet2/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet2/5:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet3/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         243717939
+      6                                 -
+      7                                 -
+Ethernet3/3:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet3/5:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                          86264069
+      6                                 -
+      7                                 -
+Ethernet3/7:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet27/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         272970058
+      6                                 -
+      7                                 -
+Ethernet27/3:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet27/5:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         197861355
+      6                                 -
+      7                                 -
+Ethernet27/7:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet31/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         142450599
+      6                                 -
+      7                                 -
+Ethernet31/3:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet31/5:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                         353003195
+      6                                 -
+      7                                 -
+Ethernet31/7:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 0
+      6                                 -
+      7                                 -
+Ethernet32/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                          28279644
+      6                                 -
+      7                                 -
+Ethernet33:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+Ethernet46/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+Ethernet46/5:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+Ethernet61/1:
+   Tx-Queue                Marked Packets
+  ----------      -----------------------
+      0                                 -
+      1                                 -
+      2                                 -
+      3                                 -
+      4                                 -
+      5                                 -
+      6                                 -
+      7                                 -
+sc-r7rb14-400gsw#exit
+Connection to sc-r7rb14-400gsw closed.

@@ -1,0 +1,76 @@
+apiVersion: "jobs.cerebras.com/v1"
+kind: WSJob
+metadata:
+  name: wsjob-test
+  namespace: test
+spec:
+  runPolicy:
+    cleanPodPolicy: Running
+  numWafers: 1
+  wsReplicaSpecs:
+    Weight:
+      replicas: 12
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              command:
+                - "sleep"
+                - "120"
+    Command:
+      replicas: 1
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              command:
+                - "/bin/sh"
+                - "-c"
+                - "sleep 60; exit 1"
+    Activation:
+      replicas: 150
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              command:
+                - "sleep"
+                - "120"
+    Coordinator:
+      replicas: 1
+      restartPolicy: Never
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              command:
+                - "sleep"
+                - "120"
+              readinessProbe:
+                exec:
+                  command:
+                    - "ls"
+                    - "."
+    BroadcastReduce:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: ws
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              command:
+                - "sleep"
+                - "100"

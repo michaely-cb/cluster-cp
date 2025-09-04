@@ -1,0 +1,928 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH=$(dirname "$0")
+cd "$SCRIPT_PATH"
+source "../pkg-common.sh"
+
+set -e
+
+# Use the latest csadm.sh from the parent directory
+CSADM=../csadm.sh
+
+# Calculate resource usage values
+# Resource request defaults. All CPU in millicore.
+NODE_COUNT=$(get_node_count)
+PROM_STATE_MI=500
+if ((PROM_STATE_MI < 10 * NODE_COUNT)); then
+  PROM_STATE_MI=$((10 * NODE_COUNT))
+fi
+
+PROM_NODE_EXPORTER_CPU_MILLI=500
+
+PROM_DB_CPU_MILLI=500
+if ((PROM_DB_CPU_MILLI < 10 * NODE_COUNT)); then
+  PROM_DB_CPU_MILLI=$((10 * NODE_COUNT))
+fi
+
+PROM_MEM_MULTIPLIER=180
+PROM_MEM_OVERRIDE=$(get_prom_memory_override)
+if [ -n "$PROM_MEM_OVERRIDE" ]; then
+  PROM_MEM_MULTIPLIER="$PROM_MEM_OVERRIDE"
+fi
+echo "Set prometheus multiplier to $PROM_MEM_MULTIPLIER"
+
+# another way is go with avg 8k per time series
+# https://groups.google.com/g/prometheus-users/c/M8w_EOqen0Q/m/U9VKmQsYAAAJ
+# for cg1 intensive use pattern, multiplier will be 200 instead
+PROM_DB_MEM_MI=4000
+if ((PROM_DB_MEM_MI < PROM_MEM_MULTIPLIER * NODE_COUNT)); then
+  # add 10% buffer
+  PROM_DB_MEM_MI=$((PROM_MEM_MULTIPLIER * NODE_COUNT * 11 / 10))
+fi
+
+PROM_DB_DISK_GI=500
+if ((PROM_DB_DISK_GI < 2 * NODE_COUNT)); then
+  PROM_DB_DISK_GI=$((2 * NODE_COUNT))
+fi
+# SW-130833: currently, each system require ~9Gi of additional storage
+NUM_OF_SYSTEMS=$(get_system_count)
+PROM_DB_DISK_GI=$((PROM_DB_DISK_GI + 9 * NUM_OF_SYSTEMS))
+
+# set 95% to trigger retention early
+RETENTION_SIZE=$((PROM_DB_DISK_GI * 95 / 100))
+
+GRAFANA_MEM_MI=$((2 * NODE_COUNT + 1000))
+
+NUM_OF_SYSTEM_EXPORTER_REPLICAS=1
+# Worst case (every system is timing out) memory use is about 1.5GB.
+# Realistic case (most systems are responding on time) is around 300MB.
+SYSTEM_EXPORTER_RAM_MB_LIMIT=500
+# One exporter per stamp, roughly - although we can probably scale higher than this.
+SYSTEMS_PER_SYSTEM_EXPORTER=68
+# Roughly 2x the number of systems. This limit is never reached during normal operation.
+MAX_CONCURRENT_CONNECTIONS=$((SYSTEMS_PER_SYSTEM_EXPORTER * 2))
+
+if [ -d /kind ]; then
+  PROM_NODE_EXPORTER_CPU_MILLI=100
+  PROM_DB_MEM_MI=1000
+fi
+
+current_version=$(helm list -nprometheus -ojson | jq -r '.[] | select(.name=="prometheus") | .app_version // empty')
+new_version={{ prom_app_version }}
+if [ -z "$current_version" ]; then
+  current_version="0.0.0"
+fi
+
+if has_multiple_mgmt_nodes; then
+  shards=3
+  NUM_OF_SYSTEM_EXPORTER_REPLICAS=3
+  prom_replicas=2
+
+  if ((NUM_OF_SYSTEMS > SYSTEMS_PER_SYSTEM_EXPORTER)); then
+    # idea is ceiling(system_total_count/system_per_exporter) * prom_replicas -
+    # 2 prom_replicas will double the requests per cycle
+    NUM_OF_SYSTEM_EXPORTER_REPLICAS=$((prom_replicas * ((NUM_OF_SYSTEMS + SYSTEMS_PER_SYSTEM_EXPORTER - 1) / SYSTEMS_PER_SYSTEM_EXPORTER)))
+  fi
+  if ((NUM_OF_SYSTEM_EXPORTER_REPLICAS < 3)); then
+    NUM_OF_SYSTEM_EXPORTER_REPLICAS=3
+  fi
+
+  PROM_DB_MEM_MI=$((PROM_DB_MEM_MI / shards))
+  if ((PROM_DB_MEM_MI < 4000)); then
+    PROM_DB_MEM_MI=4000
+  fi
+  PROM_DB_CPU_MILLI=$((PROM_DB_CPU_MILLI / shards))
+  PROM_DB_DISK_GI=$((PROM_DB_DISK_GI / shards))
+  RETENTION_SIZE=$((RETENTION_SIZE / shards))
+  export prom_db_size_str=${PROM_DB_DISK_GI}Gi
+
+  RULER_MEM_MI=2048
+  if ((RULER_MEM_MI < 10 * NODE_COUNT)); then
+    RULER_MEM_MI=$((10 * NODE_COUNT))
+  fi
+
+  QUERY_REQ_MEM_MI=1024
+  if ((QUERY_REQ_MEM_MI < 5 * NODE_COUNT)); then
+    # add 10% buffer
+    QUERY_REQ_MEM_MI=$((5 * NODE_COUNT * 11 / 10))
+  fi
+
+  QUERY_LIM_MEM_MI=1536
+  if ((QUERY_LIM_MEM_MI < QUERY_REQ_MEM_MI)); then
+    QUERY_LIM_MEM_MI=$QUERY_REQ_MEM_MI
+  fi
+
+  QUERY_CPU_MILLI=1000
+  if ((QUERY_CPU_MILLI < 5 * NODE_COUNT)); then
+    QUERY_CPU_MILLI=$((5 * NODE_COUNT))
+  fi
+fi
+
+function check_storage_update_needed() {
+  # host pv doesn't support quota and no update needed
+  if ! has_multiple_mgmt_nodes; then
+    return 1
+  fi
+  NEW_SIZE="${PROM_DB_DISK_GI}Gi"
+  NEW_SIZE_BYTES=$((PROM_DB_DISK_GI * 1024 * 1024 * 1024))
+
+  CURRENT_SIZE=$($KUBECTL get prometheus prometheus-prometheus -n prometheus -o jsonpath='{.spec.storage.volumeClaimTemplate.spec.resources.requests.storage}')
+  if [ $? -ne 0 ] || [ -z "$CURRENT_SIZE" ]; then
+    echo "Failed to retrieve current storage size. Check if resource exists and kubectl is configured correctly."
+    return 2
+  fi
+
+  CURRENT_SIZE_BYTES=$(echo $CURRENT_SIZE | grep -oP '\d+' | awk '{print $1*1024*1024*1024}')
+
+  if [[ $CURRENT_SIZE_BYTES -ge $NEW_SIZE_BYTES ]]; then
+    echo "No update needed: current storage size ($CURRENT_SIZE) is greater than or equal to the new requested size ($NEW_SIZE)."
+    return 1
+  else
+    echo "Update needed: current storage size ($CURRENT_SIZE) is less than the new requested size ($NEW_SIZE)."
+    return 0
+  fi
+}
+
+function perform_storage_update() {
+  # host pv doesn't support quota and no update needed
+  if ! has_multiple_mgmt_nodes; then
+    return 0
+  fi
+  NEW_SIZE="${PROM_DB_DISK_GI}Gi"
+
+  echo "Updating prometheus storage size to $NEW_SIZE."
+
+  $KUBECTL patch prometheus prometheus-prometheus -n prometheus --type='merge' -p "{\"spec\":{\"paused\": true, \"storage\":{\"volumeClaimTemplate\":{\"spec\":{\"resources\":{\"requests\":{\"storage\":\"$NEW_SIZE\"}}}}}}}"
+
+  for p in $($KUBECTL get pvc -n prometheus -l operator.prometheus.io/name=prometheus-prometheus -o jsonpath='{range .items[*]}{.metadata.name} {end}'); do
+    $KUBECTL patch pvc/${p} -n prometheus --patch "{\"spec\": {\"resources\": {\"requests\": {\"storage\":\"$NEW_SIZE\"}}}}"
+  done
+
+  $KUBECTL delete statefulset -n prometheus -l operator.prometheus.io/name=prometheus-prometheus --cascade=orphan
+  $KUBECTL patch prometheus prometheus-prometheus -n prometheus --patch '{"spec": {"paused": false}}' --type merge
+
+  echo "Prometheus storage update completed."
+}
+
+function generate_ipmi_probes() {
+  # prepare the probes - all nodes (except usernodes), in yaml array format at the expected indentation
+  $KUBECTL get nodes --no-headers -o custom-columns=NAME:.metadata.name | awk '{print "      - " $1 "-ipmi"}' >nodelist-yaml
+  # and append to the template files.
+  cp ipmi-probes.yaml ipmi-probes.yaml.updated
+  cat nodelist-yaml >>ipmi-probes.yaml.updated
+  $KUBECTL delete --ignore-not-found=true probe -n prometheus cluster-mgmt-node-ipmi-exporter
+  $KUBECTL create -f ipmi-probes.yaml.updated
+
+  # Thermal probes are now merged into health probes - remove existing probes for thermals
+  # This line can be removed in a future release, perhaps in cluster-3.2.
+  $KUBECTL delete --ignore-not-found=true probe -n prometheus cluster-mgmt-node-ipmi-exporter-thermal
+}
+
+if is_incremental_deploy; then
+  # Use the new mgmt node counts for incremental deploy resource adjustment
+  CLUSTER_CONFIG=${INCREMENTAL_DIR}/incremental-cluster.yaml
+  if has_multiple_mgmt_nodes; then
+    $KUBECTL patch thanosruler -n prometheus prometheus-thanos-ruler --type='merge' -p="{\"spec\":{\"resources\":{\"limits\":{\"memory\": \"${RULER_MEM_MI}Mi\"}}}}"
+    $KUBECTL patch deployment -n prometheus thanos-query --type='json' \
+           -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/resources/limits\", \"value\": {\"cpu\": \"${QUERY_CPU_MILLI}m\", \"memory\": \"${QUERY_LIM_MEM_MI}Mi\"}}]"
+    $KUBECTL patch deployment -n prometheus thanos-query --type='json' \
+           -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/resources/requests\", \"value\": {\"memory\": \"${QUERY_REQ_MEM_MI}Mi\"}}]"
+  fi
+
+  $KUBECTL patch prometheus -n prometheus prometheus-prometheus --type='merge' -p="{\"spec\":{\"retentionSize\":\"${RETENTION_SIZE}GB\"}}"
+  $KUBECTL patch prometheus -n prometheus prometheus-prometheus --type='merge' -p="{\"spec\":{\"resources\":{\"requests\":{\"cpu\": \"${PROM_DB_CPU_MILLI}m\"}}}}"
+  $KUBECTL patch prometheus -n prometheus prometheus-prometheus --type='merge' -p="{\"spec\":{\"resources\":{\"limits\":{\"memory\": \"${PROM_DB_MEM_MI}Mi\"}}}}"
+  $KUBECTL patch deployment -n prometheus prometheus-kube-state-metrics --type='json' -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/resources/limits/memory\", \"value\": \"${PROM_STATE_MI}Mi\"}]"
+  $KUBECTL patch deployment -n prometheus prometheus-grafana --type='json' -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/3/resources/limits/memory\", \"value\": \"${GRAFANA_MEM_MI}Mi\"}]"
+
+  if check_storage_update_needed; then
+    perform_storage_update
+  fi
+
+  generate_ipmi_probes
+
+  exit 0
+fi
+
+function dashboard_update() {
+  $KUBECTL create namespace prometheus --dry-run=client -o yaml 2>/dev/null | $KUBECTL apply -f -
+  # for legacy cleanup of kube-system NS/legacy dashboards
+  $KUBECTL delete cm -nkube-system -l grafana_dashboard=1
+  # Also cleanup our Cerebras dashboards in the prometheus namespace
+  $KUBECTL delete cm -nprometheus -l grafana_dashboard=1,heritage!=Helm
+  rm -rf dashboards/ceph
+  rm -f dashboards/debug/apiserver.json
+  rm -f dashboards/debug/etcd.json
+  find dashboards/ -mindepth 2 -name "*.json" -print0 | while read -d $'\0' filePath; do
+    fileName=$(basename "$filePath")
+    folder="$(dirname "$(echo "$filePath" | sed 's/^dashboards\///')")"
+
+    # These dashboards are handled by the monitoring chart/install script.
+    if [[ -f "$filePath".monitoring ]]; then
+      continue
+    fi
+
+    # Templating CPingmesh dash for this cluster
+    if [[ "$fileName" == "cpingmesh-debug.json" ]]; then
+      sed -i "s/\$BASE_CLUSTER_DOMAIN_NAME/${cluster_name}.${service_domain}/g" "$filePath"
+    fi
+
+    # truncate file name extension and prepend folder, e.g., Cluster Admin/cluster-health.json => cluster-admin-cluster-health
+    dashboard="$(echo "$folder" | tr '[:upper:]/ ' '[:lower:]--' | sed -r 's/^(.+)$/\1-/')${fileName%.*}"
+    $KUBECTL create cm grafana-"${dashboard}" --from-file="${filePath}" -nprometheus -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+    $KUBECTL annotate cm grafana-"${dashboard}" folder=/tmp/dashboards/"${folder}" -nprometheus --overwrite
+    $KUBECTL label cm grafana-"${dashboard}" grafana_dashboard=1 cluster-mgmt= -nprometheus --overwrite
+  done
+  $KUBECTL create cm grafana-cerebras-home --from-file="dashboards/cerebras-home.json" \
+    -nprometheus -o yaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+  $KUBECTL label cm grafana-cerebras-home grafana_dashboard=1 cluster-mgmt= -nprometheus --overwrite
+}
+
+function custom_exporters_update() {
+  # delete the legacy system/node exporter, can be removed post2.6
+  $KUBECTL delete ds cluster-mgmt-node-ethtool-exporter -nprometheus --ignore-not-found=true
+  $KUBECTL delete cm cluster-platform-version-check -nprometheus --ignore-not-found=true
+  # delete the legacy version of the system exporter.
+  $KUBECTL delete ds cluster-mgmt-system-exporter -nprometheus --ignore-not-found=true
+  # role/tag setup
+  $KUBECTL apply -f cluster-mgmt-exporter-rbac.yaml
+  cluster_mgmt_exporter_tag={{ cluster_mgmt_exporter_tag }}
+  sed -i "s/\${EXPORTER_TAG}/${cluster_mgmt_exporter_tag}/" ./*yaml
+  snmp_exporter_tag={{ snmp_exporter_tag }}
+  sed -i "s/\${SNMP_EXPORTER_TAG}/${snmp_exporter_tag}/" ./*yaml
+
+  # system exporter
+  SYSTEM_NAMESPACE=job-operator bash system_probe_targets_generate.sh
+  $KUBECTL create configmap system-exporter-generator --from-file=system_probe_targets_generate.sh=system_probe_targets_generate.sh \
+    -nprometheus --dry-run=client -o yaml | $KUBECTL apply -f -
+
+  # Check if secret system-credential exists, if not create it
+  if ! $KUBECTL get secret system-credential -nprometheus &>/dev/null; then
+    $KUBECTL create secret generic system-credential -nprometheus --from-literal=user=$(get_admin_svc_user) --from-literal=password=$(get_admin_svc_password)
+  fi
+
+  cp -f system-exporter-deploy.yaml system-exporter-deploy.yaml.updated
+  sed -i "s/SYSTEM_EXPORTER_REPLICA_SED_REPLACE/${NUM_OF_SYSTEM_EXPORTER_REPLICAS}/" system-exporter-deploy.yaml.updated
+  sed -i "s/SYSTEM_LOGIN_USER_SED_REPLACE/\"$(get_admin_svc_user)\"/" system-exporter-deploy.yaml.updated
+  sed -i "s/SYSTEM_LOGIN_PASSWORD_SED_REPLACE/\"$(get_admin_svc_password)\"/" system-exporter-deploy.yaml.updated
+  sed -i "s/EXPORT_SYSTEM_DEV_STATS_SED_REPLACE/\"$(get_system_export_dev_metrics)\"/" system-exporter-deploy.yaml.updated
+  sed -i "s/SYSTEM_EXPORTER_RAM_MB_LIMIT_SED_REPLACE/${SYSTEM_EXPORTER_RAM_MB_LIMIT}Mi/" system-exporter-deploy.yaml.updated
+  sed -i "s/\${KUBECTL_IMAGE}/${registry_url}\/{{ kubectl_image }}/" system-exporter-deploy.yaml.updated
+  sed -i "s/\${SYSTEM_NAMESPACE}/${SYSTEM_NAMESPACE}/" system-exporter-deploy.yaml.updated
+  sed -i "s/MAX_CONCURRENT_CONNECTIONS_SED_REPLACE/\"${MAX_CONCURRENT_CONNECTIONS}\"/" system-exporter-deploy.yaml.updated
+
+  $KUBECTL apply -f system-exporter-deploy.yaml.updated
+  $KUBECTL rollout status -nprometheus deployment cluster-mgmt-system-exporter --timeout=300s
+
+  # linkmon switch exporter
+  # Before starting linkmon, prepare the configmap
+  $CP generate_interface_list.py /usr/local/bin/
+  $CP net_json_to_configmap.sh /usr/local/bin/
+  ./net_json_to_configmap.sh
+  # Set up regular checking for netjson updates
+  $CP net_json_to_configmap_cronjob /etc/cron.d/
+  $KUBECTL apply -f linkmon-switch-exporter-deployment.yaml
+  $KUBECTL rollout status -nprometheus deployment cluster-mgmt-linkmon-switch --timeout=300s
+  linkmon_start_time=$(date +%s)
+
+  # sflow exporter
+  cp -f sflow-exporter-daemonset.yaml sflow-exporter-daemonset.yaml.updated
+  sed -i "s/SFLOW_EXPORTER_TAG/{{ sflow_exporter_tag }}/" sflow-exporter-daemonset.yaml.updated
+  $KUBECTL apply -f sflow-exporter-daemonset.yaml.updated
+  $KUBECTL rollout status -nprometheus daemonset cluster-mgmt-sflow-exporter --timeout=5m
+
+  # snmp switch exporter
+  $KUBECTL create configmap snmp-exporter-oids --from-file=snmp.yaml=snmp.yaml -nprometheus --dry-run=client -o yaml | $KUBECTL apply -f -
+  $KUBECTL apply -f snmp-exporter-deploy.yaml
+  $KUBECTL rollout status -nprometheus daemonset prometheus-snmp-exporter --timeout=300s
+
+  # custom node exporter
+  # Before starting node_exporter, prepare the configmap
+  $KUBECTL create configmap node-health-check --from-file=node-health-check.sh=node-health-check.sh \
+    -nprometheus --dry-run=client -o yaml | $KUBECTL apply -f -
+  $KUBECTL create configmap cluster-config-sync --from-file=cluster-config-sync.sh=cluster-config-sync.sh \
+    -nprometheus --dry-run=client -o yaml | $KUBECTL apply -f -
+  ./cluster-config-sync.sh
+
+  # cleanup old check script. Could be removed in 3.2
+  rm -f /usr/local/bin/cluster_platform_version_check.sh &>/dev/null || true
+  rm -f /etc/cron.d/cluster_platform_version_check_cronjob &>/dev/null || true
+
+  cp -f node-exporter-daemonset.yaml node-exporter-daemonset.yaml.updated
+  ETHTOOL_CPU="500m"
+  if [ -d /kind ]; then
+    ETHTOOL_CPU="100m"
+  fi
+  sed -i "s/ETHTOOL_CPU_SED_REPLACE/\"${ETHTOOL_CPU}\"/" node-exporter-daemonset.yaml.updated
+  sed -i "s/NODE_IPMI_LOGIN_USER_SED_REPLACE/\"$(get_ipmi_metrics_user)\"/" node-exporter-daemonset.yaml.updated
+  sed -i "s/NODE_IPMI_LOGIN_PASSWORD_SED_REPLACE/\"$(get_ipmi_metrics_password)\"/" node-exporter-daemonset.yaml.updated
+  sed -i "s/\${KUBECTL_IMAGE}/${registry_url}\/{{ kubectl_image }}/" node-exporter-daemonset.yaml.updated
+  sed -i "s/\${SYSTEM_NAMESPACE}/${SYSTEM_NAMESPACE}/" node-exporter-daemonset.yaml.updated
+  generate_ipmi_probes
+  $KUBECTL apply -f node-exporter-daemonset.yaml.updated
+  # skip rollout DS check for not ready nodes issue
+  #  $KUBECTL rollout status -nprometheus daemonset cluster-mgmt-node-exporter --timeout=300s
+}
+
+function setup_remote_write() {
+  # enable remote write of job stats, if the target URL is in pkg-properties
+  properties=$(get_cluster_properties)
+  remote_write_dest=$(echo $properties | jq -r '.properties.prometheus.prometheusSpec.remoteWrite.url // empty')
+  if [ -n "${remote_write_dest}" ]; then
+    cp -f values-remotewrite.yaml values-remotewrite.yaml.updated
+    # URL has // in it, so use ! not / in the sed command
+    sed -i "s!PROM_REMOTE_WRITE_DEST!${remote_write_dest}!" values-remotewrite.yaml.updated
+    sed -i "s!CLUSTER_NAME!${cluster_name}!" values-remotewrite.yaml.updated
+    additional+="-f values-remotewrite.yaml.updated "
+  fi
+}
+
+function setup_vast_scrape() {
+  # enable VAST scraping, if VAST endpoint and secret name are in pkg-properties
+  properties=$(get_cluster_properties)
+  vast_endpoint=$(echo $properties | jq -r '.properties.prometheus.vast_endpoint // empty')
+  vast_secret_name=$(echo $properties | jq -r '.properties.prometheus.vast_secret_name // empty')
+
+  if [ -n "${vast_endpoint}" ]; then
+    if [ -z "${vast_secret_name}" ]; then
+      echo "<vast_endpoint> exists in /opt/cerebras/cluster/pkg-properties.yaml, but <vast_secret_name> not found. Please provide secret name for authentication."
+      exit 1
+    fi
+
+    # inject VAST endpoint and secret name into VAST scrape config
+    cp -f values-vast-scrape.yaml values-vast-scrape.yaml.tmp
+    sed -i "s!VAST_ENDPOINT!${vast_endpoint}!" values-vast-scrape.yaml.tmp
+    sed -i "s!VAST_SECRET_NAME!${vast_secret_name}!" values-vast-scrape.yaml.tmp
+
+    # get the VAST secret and job
+    export VAST_SECRET=$(yq eval '.prometheus.prometheusSpec.secrets' values-vast-scrape.yaml.tmp)
+    export VAST_JOB=$(yq eval '.prometheus.prometheusSpec.additionalScrapeConfigs' values-vast-scrape.yaml.tmp)
+    rm values-vast-scrape.yaml.tmp
+
+    # create new values file with all secrets and scrape configs to prevent overriding
+    yq eval '
+    {
+      "prometheus": {
+        "prometheusSpec": {
+          "secrets": (.prometheus.prometheusSpec.secrets + env(VAST_SECRET)),
+          "additionalScrapeConfigs": (.prometheus.prometheusSpec.additionalScrapeConfigs + env(VAST_JOB))
+        }
+      }
+    }' values.yaml >values-with-vast.yaml
+
+    additional+="-f values-with-vast.yaml "
+  fi
+}
+
+function setup_thanos_query_basic_auth() {
+  if ! $KUBECTL get secret thanos-query-credential -nprometheus &>/dev/null; then
+    echo "Secret 'thanos-query-credential' not found in prometheus namespace, creating secret with default credentials for basic_auth."
+    username="clustermgmt-user"
+    password="password"
+    $KUBECTL create secret generic thanos-query-credential -nprometheus --from-literal=username="$username" --from-literal=password="$password"
+  else
+    echo "Secret 'thanos-query-credential' found in prometheus namespace, using existing credentials for basic_auth."
+    username=$($KUBECTL get secret thanos-query-credential -nprometheus -o jsonpath='{.data.username}' | base64 --decode)
+    password=$($KUBECTL get secret thanos-query-credential -nprometheus -o jsonpath='{.data.password}' | base64 --decode)
+  fi
+
+  bcrypt_hash=$(htpasswd -bnBC 10 "$username" "$password" | cut -d: -f2-)
+  tmp_web_cfg="$(mktemp)"
+  cat >"$tmp_web_cfg" <<EOF
+basic_auth_users:
+  "$username": "$bcrypt_hash"
+EOF
+
+  $KUBECTL create secret generic thanos-query-web-config -nprometheus --dry-run=client -o yaml \
+    --from-file=web-config.yaml="$tmp_web_cfg" | $KUBECTL apply -f -
+  rm -f "$tmp_web_cfg"
+
+  b64_creds=$(printf '%s:%s' "$username" "$password" | base64 | tr -d '\n')
+  sed -i "s!BASE64_ENCODED_CREDENTIALS!${b64_creds}!" thanos-values.yaml
+
+  sed -i "s!THANOS_QUERY_USERNAME!${username}!" values.yaml
+  sed -i "s!THANOS_QUERY_PASSWORD!${password}!" values.yaml
+}
+
+function prom_stack_update() {
+  # start prometheus stack install
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-51.0.0/charts/kube-prometheus-stack/values.yaml#L1571
+  # to create secret to mount by prom and monitor
+  $KUBECTL create secret generic etcd-client-cert -nprometheus --dry-run=client -o yaml \
+    --from-file=/etc/kubernetes/pki/etcd/ca.crt --from-file=/etc/kubernetes/pki/etcd/ca.key 2>/dev/null |
+    $KUBECTL apply -f -
+
+  tar xfz ./{{ prom_pkg_name }}-{{ prom_pkg_version }}.tgz -C .
+  tar xfz ./{{ thanos_pkg_name }}-{{ thanos_pkg_version }}.tgz -C .
+
+  if $KUBECTL get po -nkube-system -lcomponent=haproxy | grep haproxy; then
+    $KUBECTL apply -f haproxy-service-monitor.yaml
+  fi
+
+  properties=$(get_cluster_properties)
+  smtp_smarthost=$(echo $properties | jq -r '.properties.alertmanager.smtp.smarthost // empty')
+  smtp_from=$(echo $properties | jq -r '.properties.alertmanager.smtp.from // empty')
+  smtp_auth_username=$(echo $properties | jq -r '.properties.alertmanager.smtp.auth_username // empty')
+  smtp_auth_password=$(echo $properties | jq -r '.properties.alertmanager.smtp.auth_password // empty')
+
+  # Merge values.yaml into alertmanager default config:
+  $HELM show values ./kube-prometheus-stack > kube-prometheus-stack-default-values.yaml
+  yq '. *= load("values.yaml")' kube-prometheus-stack-default-values.yaml > kube-prometheus-stack-merged-values.yaml
+
+  # Start with the routing from alertmanager defaults and values.yaml:
+  echo > alertmanager-routing.yaml
+  yq '.alertmanager.config.route.routes = load("kube-prometheus-stack-merged-values.yaml").alertmanager.config.route.routes' -i ./alertmanager-routing.yaml
+  yq '.alertmanager.config.receivers = load("kube-prometheus-stack-merged-values.yaml").alertmanager.config.receivers' -i ./alertmanager-routing.yaml
+
+  if [ -n "${smtp_smarthost}" ] && [ -n "${smtp_from}" ] && [ -n "${smtp_auth_username}" ] && [ -n "${smtp_auth_password}" ]; then
+    smtp_from=${smtp_from/(cluster_name)/"$cluster_name"}
+    v=${smtp_smarthost} yq ".alertmanager.config.global.smtp_smarthost=env(v)" -i alertmanager-routing.yaml
+    v=${smtp_from} yq ".alertmanager.config.global.smtp_from=env(v)" -i alertmanager-routing.yaml
+    v=${smtp_auth_username} yq ".alertmanager.config.global.smtp_auth_username=env(v)" -i alertmanager-routing.yaml
+    v=${smtp_auth_password} yq ".alertmanager.config.global.smtp_auth_password=env(v)" -i alertmanager-routing.yaml
+  fi
+
+  default_receiver_email=$(echo $properties | jq -r '.properties.alertmanager.receivers.email // empty')
+  cluster_admin_email=$(echo $properties | jq -r '.properties.alertmanager.receivers.slackemail // .properties.alertmanager.receivers.cluster_admin_email // empty')
+  ml_user_email=$(echo $properties | jq -r '.properties.alertmanager.receivers.ml_user_email // empty')
+  cluster_debug_email=$(echo $properties | jq -r '.properties.alertmanager.receivers.debug_email // .properties.alertmanager.receivers.cluster_debug_email // empty')
+  aggregate_debug_email=$(echo $properties | jq -r '.properties.alertmanager.receivers.debug_all_email // .properties.alertmanager.receivers.aggregate_debug_email // empty')
+  pagerduty_integration_key_sev1=$(echo $properties | jq -r '.properties.alertmanager.receivers.pagerduty_integration_key_sev1 // empty')
+  control_plane_slack=$(echo $properties | jq -r '.properties.alertmanager.receivers.control_plane_slack // empty')
+
+  # Receiver 0: null receiver that doesn't send anything for testing purpose
+  # Receiver 1: default receiver - default receiver that catches all unclaimed alerts for cluster mgmt team (no route needed)
+  # Receiver 2: cluster admin receiver for critical/warning schedule/hardware issues that cluster admin cares (usually the mb-specific slack channel or #system_k8_alerts)
+  # Receiver 3: ml user receiver for ml user job related issues that ml user cares (defaults to cluster admin if no specific email defined)
+  # Receiver 4: debug receiver that handles alerts with the debug label,
+  # Receiver 5: webhook receiver that receives all alerts
+  # e.g debug/Perf alerts, go to a cluster-specific debug slack channel, or also go to a common channel for all clusters
+  if [[ "$cluster_name" =~ (multibox|mb-systemf|mb-xs|cg|mb-wsperfdrop).* ]] || [ -d /kind ]; then
+    # for test only
+    if [ -d /kind ]; then
+      default_receiver_email="default@kind"
+      cluster_admin_email="admin@kind"
+      ml_user_email="ml@kind"
+      cluster_debug_email="debug@kind"
+      aggregate_debug_email="debug-all@kind"
+    fi
+
+    # only config email if there's a default one
+    if [ -n "${default_receiver_email}" ]; then
+      need_email_validation="true"
+
+      # Get the array index of a receiver by its name from .receivers
+      # If the receiver does not exist, return the index of the next available slot
+      function get_receiver_index() {
+        local receiver_name="$1"
+        local index=$(v=$receiver_name yq e '.alertmanager.config.receivers | to_entries | .[] | select(.value.name == env(v)) | .key' alertmanager-routing.yaml)
+        if [ -z "$index" ]; then # receiver doesn't exist
+          index=$(yq '.alertmanager.config.receivers | length' ./alertmanager-routing.yaml)
+        fi
+        echo $index
+      }
+
+      function set_receiver() {
+        local receiver_name=$1
+        shift
+        local receiver_emails=("$@")
+
+        local idx=$(get_receiver_index $receiver_name)
+        v=${receiver_name} yq ".alertmanager.config.receivers[${idx}].name=env(v)" -i alertmanager-routing.yaml
+        for i in "${!receiver_emails[@]}"; do
+          v=${receiver_emails[$i]} yq ".alertmanager.config.receivers[${idx}].email_configs[${i}].to=env(v)" -i alertmanager-routing.yaml
+        done
+      }
+
+      function set_webhook_receiver() {
+        local receiver_name=$1
+        local webhook_url=$2
+        local idx=$(get_receiver_index $receiver_name)
+        v=${receiver_name} yq ".alertmanager.config.receivers[${idx}].name=env(v)" -i alertmanager-routing.yaml
+        v=${webhook_url} yq ".alertmanager.config.receivers[${idx}].webhook_configs[0].url=env(v)" -i alertmanager-routing.yaml
+      }
+
+      function set_pagerduty_receiver() {
+        local receiver_name=$1
+        local pagerduty_key=$2
+        local idx=$(get_receiver_index $receiver_name)
+        v=${receiver_name} yq ".alertmanager.config.receivers[${idx}].name=env(v)" -i alertmanager-routing.yaml
+        v=${pagerduty_key} yq ".alertmanager.config.receivers[${idx}].pagerduty_configs[0].routing_key=env(v)" -i alertmanager-routing.yaml
+      }
+
+      function set_slack_receiver() {
+        local receiver_name=$1
+        local slack_api_url=$2
+        local idx=$(get_receiver_index $receiver_name)
+        v=${receiver_name} yq ".alertmanager.config.receivers[${idx}].name=env(v)" -i alertmanager-routing.yaml
+        yq ".alertmanager.config.receivers[${idx}].slack_configs[0]=load(\"alertmanager-slack-config-base.yaml\")" -i alertmanager-routing.yaml
+        v=${slack_api_url} yq ".alertmanager.config.receivers[${idx}].slack_configs[0].api_url=env(v)" -i alertmanager-routing.yaml
+      }
+
+      function set_route() {
+        route_receiver=$1
+        shift
+        route_continue=false
+
+        route_matchers=()
+
+        for arg in "$@"; do
+          if [ "$arg" == "--with-continue" ]; then
+            route_continue=true
+          else
+            route_matchers+=("$arg")
+          fi
+        done
+
+        v=${route_receiver} yq ".alertmanager.config.route.routes[${route_id}].receiver=env(v)" -i alertmanager-routing.yaml
+        v=${route_continue} yq ".alertmanager.config.route.routes[${route_id}].continue=env(v)" -i alertmanager-routing.yaml
+        for i in "${!route_matchers[@]}"; do
+          v=${route_matchers[$i]} yq ".alertmanager.config.route.routes[${route_id}].matchers[${i}]=env(v)" -i alertmanager-routing.yaml
+        done
+        eval "route_id=$((route_id + 1))"
+      }
+
+      route_id=$(yq '.alertmanager.config.route.routes | length' ./alertmanager-routing.yaml)
+
+      # no routes needed for default receiver which will catch all
+      set_receiver "default" "${default_receiver_email}"
+
+      # Set up webhook receiver from properties
+      webhook_name=$(echo $properties | jq -r '.properties.alertmanager.receivers.webhook.name // empty')
+      webhook_url=$(echo $properties | jq -r '.properties.alertmanager.receivers.webhook.url // empty')
+      if [ -n "${webhook_name}" ] && [ -n "${webhook_url}" ]; then
+        echo "Setting up webhook receiver"
+        set_webhook_receiver "${webhook_name}" "${webhook_url}"
+        # Send a copy of all alerts to webhook by setting continue=true
+        set_route "${webhook_name}" "--with-continue"
+      fi
+
+      if [ -n "${pagerduty_integration_key_sev1}" ]; then
+        echo "Setting up PagerDuty receiver"
+        set_pagerduty_receiver "pagerduty_receiver_sev1" "${pagerduty_integration_key_sev1}"
+        set_route "pagerduty_receiver_sev1" "--with-continue" "page_sev=1"
+      else
+        echo "No PagerDuty integration key found. Skipping PagerDuty receiver setup."
+      fi
+
+      # Slack notifications for control plane alerts
+      if [ -n "${control_plane_slack}" ]; then
+        echo "Setting up Slack receiver for control plane alerts"
+        set_slack_receiver "control_plane_slack_receiver" "${control_plane_slack}"
+        set_route "control_plane_slack_receiver" "--with-continue" "control_plane_oncall=true"
+
+        # Configure the Grafana Alerting contact point
+        v=${control_plane_slack} yq '(.contactPoints[] | select(.name=="slack-cluster-uptime-on-call")).receivers[0].settings.url = env(v)' -i grafana-alerting-cluster-mgmt.yaml
+        $KUBECTL create cm grafana-cluster-mgmt-alerting --from-file=grafana-alerting-cluster-mgmt.yaml -nprometheus -oyaml --dry-run=client | $KUBECTL apply --server-side --force-conflicts=true -f -
+        $KUBECTL label cm grafana-cluster-mgmt-alerting grafana_alert=1 cluster-mgmt= -nprometheus --overwrite
+      else
+        echo "No control plane Slack API URL found. Skipping control plane Slack receiver setup."
+      fi
+
+      # set cluster admin email
+      if [ -n "${cluster_admin_email}" ]; then
+        set_receiver "cluster_admin" "${cluster_admin_email}"
+        # set two different routes because matchers are at "AND" logic instead of "OR"
+        set_route "cluster_admin" "schedule_critical=true"
+        set_route "cluster_admin" "hardware_warning=true"
+      fi
+
+      # set ml user email
+      if [ -n "${ml_user_email}" ]; then
+        ml_email="${ml_user_email}"
+      else
+        ml_email="${cluster_admin_email}"
+      fi
+      if [ -n "${ml_email}" ]; then
+        set_receiver "ml_user" "${ml_email}"
+        set_route "ml_user" "ml_user=true"
+      fi
+
+      # debug email
+      if [ -n "${cluster_debug_email}" ]; then
+        debug_emails="${cluster_debug_email} "
+        if [ -n "${aggregate_debug_email}" ]; then
+          debug_emails+="${aggregate_debug_email} "
+        fi
+        set_receiver "debug" ${debug_emails}
+        set_route "debug" "debug=true"
+      fi
+    fi
+  fi
+
+  if $KUBECTL get crd | grep -q monitoring.coreos.com && [[ "$current_version" != "$new_version" ]]; then
+    # https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#upgrading-chart
+    # for crd upgrade purpose, force conflicts as workaround without incremental upgrade
+    for crd in kube-prometheus-stack/charts/crds/crds/*; do
+      $KUBECTL apply --force-conflicts --server-side -f "$crd"
+    done
+  fi
+
+  # Prom/Thanos version number arg format is not very intuitive
+  # Select the most accurate value from this file (from the appropriate Grafana release tag)
+  # https://github.com/grafana/grafana/blob/v11.3.1/packages/grafana-prometheus/src/configuration/PromFlavorVersions.ts
+
+  ingress_host_no=0
+
+  additional=""
+  if has_multiple_mgmt_nodes; then
+    sed "s/prom-pvc-size/${prom_db_size_str}/g" <values-override-multi-nodes.yaml >values-override-multi-nodes.resolved.yaml
+    # for backwards compatible, set the calculated size
+    $YQ -i ".properties.multiMgmtNodes.pvcSize.prometheus = env(prom_db_size_str)" "${CLUSTER_PROPERTIES}"
+    additional+="-f values-override-multi-nodes.resolved.yaml "
+    additional+="--set grafana.additionalDataSources[0].url=http://thanos-query.prometheus:9090 "
+    additional+="--set grafana.additionalDataSources[0].jsonData.prometheusType=Thanos "
+    additional+="--set grafana.additionalDataSources[0].jsonData.prometheusVersion={{ thanos_version_for_grafana_config }} "
+    additional+="--set alertmanager.alertmanagerSpec.replicas=2 "
+    additional+="--set prometheus.prometheusSpec.shards=${shards} "
+    additional+="--set prometheus.prometheusSpec.replicas=2 "
+    additional+="--set thanosRuler.enabled=true "
+    additional+="--set thanosRuler.thanosRulerSpec.resources.limits.memory=${RULER_MEM_MI}Mi "
+    additional+="--set prometheus.thanosService.enabled=true "
+    additional+="--set prometheus.thanosServiceMonitor.enabled=true "
+    additional+="--set prometheus.prometheusSpec.ruleSelector.matchLabels.localEval=prom "
+    additional+="--set prometheus.prometheusSpec.thanos.image=${registry_url}/{{ thanos_image.short_repo }}:{{ thanos_image.tag }} "
+    additional+="--set prometheus.prometheusSpec.thanos.resources.requests.memory=500Mi "
+    additional+="--set prometheus.prometheusSpec.thanos.resources.limits.memory=2Gi "
+    additional+="--set prometheus.prometheusSpec.thanos.resources.requests.cpu=1 "
+    additional+="--set prometheus.prometheusSpec.thanos.resources.limits.cpu=2.5 "
+    additional+="-f values-prometheus-networkpolicy.yaml "
+
+    thanos_additional=""
+    # note: avoid circular deps when connecting two clusters
+    node_port=$(thanos_node_port)
+    if [ -n "$node_port" ]; then
+      thanos_additional+="--set query.serviceGrpc.type=NodePort "
+      thanos_additional+="--set query.serviceGrpc.nodePorts.grpc=$node_port "
+    fi
+    external_store=$(thanos_external_store)
+    if [ -n "$external_store" ]; then
+      store_len=$(yq '.query.stores | length' thanos-values.yaml)
+      thanos_additional+="--set query.stores[$store_len]=$external_store "
+    fi
+
+    setup_thanos_query_basic_auth
+
+    helm upgrade thanos ./{{ thanos_pkg_name }} \
+      --install --wait --timeout 300s \
+      --version {{ thanos_pkg_version }} --namespace prometheus \
+      -f ./thanos-values.yaml ${thanos_additional} \
+      --set query.ingress.hostname=query.$cluster_name.$service_domain \
+      --set query.ingress.extraTls[0].hosts[0]=query.$cluster_name.$service_domain \
+      --set query.resources.requests.memory=${QUERY_REQ_MEM_MI}Mi \
+      --set query.resources.limits.memory=${QUERY_LIM_MEM_MI}Mi \
+      --set query.resources.limits.cpu=${QUERY_CPU_MILLI}m \
+      --set image.registry=$registry_url \
+      --set image.repository={{ thanos_image.short_repo }} \
+      --set image.tag={{ thanos_image.tag }} \
+      --set query.replicaCount=3
+  else
+    # latest prom version check on storage class
+    if ! $KUBECTL get sc standard &>/dev/null; then
+      $KUBECTL apply -f - <<EOF
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate
+EOF
+    fi
+    additional+="--set grafana.additionalDataSources[0].jsonData.prometheusType=Prometheus "
+    additional+="--set grafana.additionalDataSources[0].jsonData.prometheusVersion={{ prom_version_for_grafana_config }} "
+    # consistent url to query prometheus in single node / multi-mgmt node clusters
+    ingress_host_no=$((ingress_host_no + 1))
+    additional+="--set prometheus.ingress.hosts[$ingress_host_no]=query.$cluster_name.$service_domain "
+    additional+="--set prometheus.ingress.tls[0].hosts[$ingress_host_no]=query.$cluster_name.$service_domain "
+    # create prometheus storage directory
+    # Refer to https://github.com/prometheus-community/helm-charts/blob/8b0128708551e8e7e5e46f4cf68258dff5eda680/charts/kube-prometheus-stack/values.yaml#L594,
+    prom_pv_path=$(yq e 'select(.metadata.name == "prom-pv")' hostpath-pv.yaml | yq .spec.hostPath.path)
+    $MKDIR -p "${prom_pv_path}"/prometheus-db && $CHOWN -R 1000:2000 "${prom_pv_path}"
+    $KUBECTL apply -f ./hostpath-pv.yaml
+    additional+="-f values-override.yaml "
+  fi
+
+  additional_ingress=$(get_additional_ingress)
+  if [ -n "${additional_ingress}" ] && [ "$additional_ingress" != "$cluster_name" ]; then
+    ingress_host_no=$((ingress_host_no + 1))
+    additional+="--set prometheus.ingress.hosts[$ingress_host_no]=query.$additional_ingress.$service_domain "
+    additional+="--set prometheus.ingress.tls[0].hosts[$ingress_host_no]=query.$additional_ingress.$service_domain "
+    ingress_host_no=$((ingress_host_no + 1))
+    additional+="--set prometheus.ingress.hosts[$ingress_host_no]=prometheus.$additional_ingress.$service_domain "
+    additional+="--set prometheus.ingress.tls[0].hosts[$ingress_host_no]=prometheus.$additional_ingress.$service_domain "
+
+    additional+="--set grafana.ingress.hosts[1]=grafana.$additional_ingress.$service_domain "
+    additional+="--set grafana.ingress.tls[0].hosts[1]=grafana.$additional_ingress.$service_domain "
+
+    additional+="--set alertmanager.ingress.hosts[1]=alertmanager.$additional_ingress.$service_domain "
+    additional+="--set alertmanager.ingress.tls[0].hosts[1]=alertmanager.$additional_ingress.$service_domain "
+
+    additional+="--set thanosRuler.ingress.hosts[1]=ruler.$additional_ingress.$service_domain "
+    additional+="--set thanosRuler.ingress.tls[0].hosts[1]=ruler.$additional_ingress.$service_domain "
+  fi
+
+  # for backwards compatible of old clusters with existing immutable selector
+  if $KUBECTL get pvc prometheus-grafana -nprometheus 2>/dev/null; then
+    if $KUBECTL get pvc prometheus-grafana -nprometheus -ojsonpath='{.spec.selector.matchLabels.app}' | grep grafana; then
+      additional+="--set grafana.persistence.selectorLabels.app=grafana "
+    fi
+  fi
+  # in case of force uninstall then reinstall pv will be in orphaned usable state
+  grafana_pv=$(kubectl get pv -o json | jq -r '.items[] | select(.status.phase == "Released" and (.spec.claimRef.name | contains("grafana"))) | .metadata.name')
+  if [ -n "${grafana_pv}" ]; then
+    $KUBECTL patch pv "${grafana_pv}" -p '{"spec":{"claimRef": null}}'
+  fi
+
+  should_upsize_prom_db_storage=false
+  if check_storage_update_needed; then
+    should_upsize_prom_db_storage=true
+  fi
+
+  setup_remote_write
+  setup_vast_scrape
+
+  # Add cluster domain name to dashboard_url, if missing (i.e. just the URI starting with /d/...):
+  grafana_url="https://grafana.${cluster_name}.${service_domain}/"
+  yq '(.. | select(key == "annotations") | .. | select(key == "dashboard_url*")) |= sub("^/(d/)", "'"${grafana_url}"'${1}")' -i rules.yaml
+
+  $HELM upgrade prometheus ./{{ prom_pkg_name }} \
+    --install --wait --timeout 300s \
+    --version {{ prom_pkg_version }} --namespace prometheus \
+    -f ./values.yaml -f ./alertmanager-routing.yaml -f ./rules.yaml ${additional} \
+    --set alertmanager.ingress.hosts[0]=alertmanager.$cluster_name.$service_domain \
+    --set alertmanager.ingress.tls[0].hosts[0]=alertmanager.$cluster_name.$service_domain \
+    --set prometheus.ingress.hosts[0]=prometheus.$cluster_name.$service_domain \
+    --set prometheus.ingress.tls[0].hosts[0]=prometheus.$cluster_name.$service_domain \
+    --set grafana.ingress.hosts[0]=grafana.$cluster_name.$service_domain \
+    --set grafana.ingress.tls[0].hosts[0]=grafana.$cluster_name.$service_domain \
+    --set grafana.resources.limits.memory=${GRAFANA_MEM_MI}Mi \
+    --set thanosRuler.ingress.hosts[0]=ruler.$cluster_name.$service_domain \
+    --set thanosRuler.ingress.tls[0].hosts[0]=ruler.$cluster_name.$service_domain \
+    --set alertmanager.alertmanagerSpec.image.registry=$registry_url \
+    --set alertmanager.alertmanagerSpec.image.repository={{ alert_image.short_repo }} \
+    --set alertmanager.alertmanagerSpec.image.tag={{ alert_image.tag }} \
+    --set-file alertmanager.templateFiles."slack-notification\.tmpl"=slack-notification.tmpl \
+    --set prometheusOperator.admissionWebhooks.patch.image.registry=$registry_url \
+    --set prometheusOperator.admissionWebhooks.patch.image.repository={{ webhook_image.short_repo }} \
+    --set prometheusOperator.admissionWebhooks.patch.image.tag={{ webhook_image.tag }} \
+    --set prometheusOperator.image.registry=$registry_url \
+    --set prometheusOperator.image.repository={{ operator_image.short_repo }} \
+    --set prometheusOperator.image.tag={{ operator_image.tag }} \
+    --set prometheusOperator.prometheusConfigReloader.image.registry=$registry_url \
+    --set prometheusOperator.prometheusConfigReloader.image.repository={{ config_image.short_repo }} \
+    --set prometheusOperator.prometheusConfigReloader.image.tag={{ config_image.tag }} \
+    --set prometheusOperator.thanosImage.registry=$registry_url \
+    --set prometheusOperator.thanosImage.repository={{ thanos_image.short_repo }} \
+    --set prometheusOperator.thanosImage.tag={{ thanos_image.tag }} \
+    --set prometheus.prometheusSpec.externalLabels.cluster=$cluster_name \
+    --set prometheus.prometheusSpec.image.registry=$registry_url \
+    --set prometheus.prometheusSpec.image.repository={{ prom_image.short_repo }} \
+    --set prometheus.prometheusSpec.image.tag={{ prom_image.tag }} \
+    --set prometheus.prometheusSpec.resources.requests.cpu=${PROM_DB_CPU_MILLI}m \
+    --set prometheus.prometheusSpec.resources.limits.memory=${PROM_DB_MEM_MI}Mi \
+    --set prometheus.prometheusSpec.retentionSize=${RETENTION_SIZE}GB \
+    --set prometheus.prometheusSpec.serviceDiscoveryRole=EndpointSlice \
+    --set kube-state-metrics.resources.limits.memory=${PROM_STATE_MI}Mi \
+    --set thanosRuler.thanosRulerSpec.image.registry=$registry_url \
+    --set thanosRuler.thanosRulerSpec.image.repository={{ thanos_image.short_repo }} \
+    --set thanosRuler.thanosRulerSpec.image.tag={{ thanos_image.tag }} \
+    --set prometheus-node-exporter.image.registry=$registry_url \
+    --set prometheus-node-exporter.image.repository={{ exporter_image.short_repo }} \
+    --set prometheus-node-exporter.image.tag={{ exporter_image.tag }} \
+    --set prometheus-node-exporter.resources.requests.cpu=${PROM_NODE_EXPORTER_CPU_MILLI}m \
+    --set prometheus-node-exporter.resources.limits.cpu=${PROM_NODE_EXPORTER_CPU_MILLI}m \
+    --set grafana.image.registry=$registry_url \
+    --set grafana.image.repository={{ grafana_image.short_repo }} \
+    --set grafana.image.tag={{ grafana_image.tag }} \
+    --set grafana.sidecar.image.registry=$registry_url \
+    --set grafana.sidecar.image.repository={{ sidecar_image.short_repo }} \
+    --set grafana.sidecar.image.tag={{ sidecar_image.tag }} \
+    --set grafana.initChownData.image.registry=$registry_url \
+    --set grafana.initChownData.image.repository={{ busybox_image.short_repo }} \
+    --set grafana.initChownData.image.tag={{ busybox_image.tag }} \
+    --set grafana."grafana\.ini".server.root_url="https://grafana.$cluster_name.$service_domain/" \
+    --set kube-state-metrics.image.registry=$registry_url \
+    --set kube-state-metrics.image.repository={{ state_metrics_image.short_repo }} \
+    --set kube-state-metrics.image.tag={{ state_metrics_image.tag }} \
+    --set prometheus-snmp-exporter.image.registry=$registry_url \
+    --set prometheus-snmp-exporter.image.repository={{ snmp_exporter_image.short_repo }} \
+    --set prometheus-snmp-exporter.image.tag={{ snmp_exporter_image.tag }}
+
+  # keep node recording local which doesn't need global view to reduce overhead
+  $KUBECTL label promrule -nprometheus prometheus-kube-apiserver-availability.rules localEval=prom --overwrite
+  $KUBECTL label promrule -nprometheus prometheus-kube-prometheus-node-recording.rules localEval=prom --overwrite
+  $KUBECTL label promrule -nprometheus prometheus-node-exporter.rules localEval=prom --overwrite
+  $KUBECTL label promrule -nprometheus prometheus-node.rules localEval=prom --overwrite
+  $KUBECTL label promrule -nprometheus prometheus-node-exporter localEval=prom --overwrite
+  # enforce 1min interval since it can't be evaluated in local but also slow due to joining pods/nodes
+  $KUBECTL patch promrule -nprometheus prometheus-k8s.rules.container-cpu-usage-seconds-total --type=json -p '[{"op": "add", "path": "/spec/groups/0/interval", "value": "1m"}]'
+  $KUBECTL patch promrule -nprometheus prometheus-k8s.rules.container-memory-cache --type=json -p '[{"op": "add", "path": "/spec/groups/0/interval", "value": "1m"}]'
+  $KUBECTL patch promrule -nprometheus prometheus-k8s.rules.container-memory-rss --type=json -p '[{"op": "add", "path": "/spec/groups/0/interval", "value": "1m"}]'
+  $KUBECTL patch promrule -nprometheus prometheus-k8s.rules.container-memory-working-set-bytes --type=json -p '[{"op": "add", "path": "/spec/groups/0/interval", "value": "1m"}]'
+  $KUBECTL patch promrule -nprometheus prometheus-k8s.rules.container-resource --type=json -p '[{"op": "add", "path": "/spec/groups/0/interval", "value": "1m"}]'
+  $KUBECTL patch promrule -nprometheus prometheus-k8s.rules.pod-owner --type=json -p '[{"op": "add", "path": "/spec/groups/0/interval", "value": "1m"}]'
+  # allow longer time for bootstrapping in case of large WAL reloading
+  # https://github.com/prometheus-operator/prometheus-operator/blob/2fc4fafd8b4f9b8c41f5a7e395b80d29d3e1f299/Documentation/user-guides/strategic-merge-patch.md#merging-patch-for-prometheus
+  $KUBECTL patch prom -nprometheus prometheus-prometheus --type merge -p '{"spec":{"containers": [{"name": "prometheus", "startupProbe": {"failureThreshold": 500}, "livenessProbe": {"failureThreshold": 500}}]}}'
+
+  if $should_upsize_prom_db_storage; then
+    perform_storage_update
+  fi
+
+  # ensure pv retained
+  if kubectl get pvc prometheus-grafana -nprometheus 2>/dev/null; then
+    export grafana_pv=$(kubectl get pvc -nprometheus prometheus-grafana -ojsonpath='{.spec.volumeName}')
+    if [ -n "${grafana_pv}" ]; then
+      kubectl patch pv "${grafana_pv}" -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+    fi
+  fi
+
+  # Copy alert routing from pkg-properties.yaml into alertmanager.yaml
+  $CSADM alertmanager-routing reconcile --yes
+
+  # Check if secret grafana-credential exists, if not create it
+  if ! $KUBECTL get secret grafana-credential -nprometheus &>/dev/null; then
+    $KUBECTL create secret generic grafana-credential -nprometheus --from-literal=user=admin --from-literal=password=prom-operator
+  fi
+
+  # grafana-setup job creation moved to a script directly invoked by apply - needs to run after monitoring.sh
+
+  cat <<EOF
+
+You may need to add the following entries to your /etc/hosts file to access
+this cluster's prometheus/grafana/hubble:
+$MGMT_NODE_IP alertmanager.$cluster_name.$service_domain
+$MGMT_NODE_IP prometheus.$cluster_name.$service_domain
+$MGMT_NODE_IP grafana.$cluster_name.$service_domain
+$MGMT_NODE_IP hubble.$cluster_name.$service_domain
+
+You would need to add the grafana TLS certificate to access grafana through a browser.
+These are the rough steps to add the grafana TLS certificates to MacOS Chrome browser.
+
+1. Get the tls from the secret like this:
+  kubectl get secret -n prometheus grafana-general-tls -o=jsonpath="{.data.tls\.crt}" \\
+   | base64 --decode > ~/cluster-mgmt/grafana-general-tls.crt
+
+2. Go to chrome on MacOS: Preferences -> Privacy and Security -> Security -> Manage Certificates:
+Add ~/cluster-mgmt/grafana-general-tls.crt into System keychain certificates.
+Make sure set 'Always Trust' when using this certificate.
+
+3. Go to https://grafana.$cluster_name.$service_domain:443 on chrome.
+
+Log into grafana log in with the user: 'admin' and passwd: 'prom-operator'.
+EOF
+
+  # email setup validation
+  if [ "$need_email_validation" == "true" ]; then
+    updated_config=$($KUBECTL get secret alertmanager-prometheus-alertmanager-generated -nprometheus -o=jsonpath="{.data.alertmanager\.yaml\.gz}" | base64 -d | gunzip)
+    emails=(
+      "${default_receiver_email}"
+      "${cluster_admin_email}"
+      "${ml_user_email}"
+      "${cluster_debug_email}"
+      "${aggregate_debug_email}"
+    )
+    for email in "${emails[@]}"; do
+      if [ -n "$email" ]; then
+        if ! echo "${updated_config}" | grep -q "$email"; then
+          echo "Email $email not found in the alertmanager config, likely due to malformed config, please check prom operator logs"
+          exit 1
+        fi
+      fi
+    done
+  fi
+
+  # Annotate stock alerts with dashboard URLs
+  ./annotate-stock-alerts.sh stock-alerts-dashboards.yaml
+}
+
+if [[ "{{ dashboard_only }}" == "True" ]]; then
+  dashboard_update
+  exit 0
+elif [[ "{{ exporter_only }}" == "True" ]]; then
+  custom_exporters_update
+  exit 0
+elif [[ "{{ prom_only }}" == "True" ]]; then
+  prom_stack_update
+  exit 0
+fi
+
+# full deploy
+dashboard_update
+custom_exporters_update
+prom_stack_update
+
+# Give linkmon a few minutes to make initial connections, then check if it has crashed.
+# todo: optimize to exporter pattern and go with liveness/readiness check
+echo -n "Prometheus deployment complete. Waiting to verify collector pod status..."
+timeout=$((linkmon_start_time + 60))
+while [ $(date +%s) -lt $timeout ]; do
+  linkmon_restart_count=$($KUBECTL get pod -n prometheus --selector=app=cluster-mgmt-linkmon-switch -ojson | jq -r '.items[0].status.containerStatuses[0].restartCount')
+  if [ "$linkmon_restart_count" != "0" ]; then
+    echo "failed."
+    echo "The newly deployed linkmon pod has crashed. Check the pod logs and the network_config.json file."
+    exit 1
+  fi
+  sleep 10
+done
+echo "success."

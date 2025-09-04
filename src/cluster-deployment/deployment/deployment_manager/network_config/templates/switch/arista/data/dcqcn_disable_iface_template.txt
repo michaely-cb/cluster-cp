@@ -1,0 +1,7 @@
+!
+! Disable DCQCN for ${my_port}
+!
+interface ${my_port}
+    tx-queue 5
+    no random-detect ecn minimum-threshold
+!

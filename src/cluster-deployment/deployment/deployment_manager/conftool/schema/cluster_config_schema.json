@@ -1,0 +1,569 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "id": "https://cerebras/cluster_config_schema.json",
+    "title": "Cluster Deployment Configuration",
+    "description": "JSON schema for cluster deployment configuration, the 'master config' file",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "description": "Name of the cluster configuration",
+            "type": "string"
+        },
+        "meta": {
+            "description": "meta data",
+            "type": "object"
+        },
+        "misc": {
+            "description": "miscellaneous",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numCSX": {
+                    "type": "integer"
+                },
+                "topology": {
+                    "enum": [
+                        "memx_swarmx",
+                        "leaf_spine"
+                    ]
+                },
+                "rootServer": {
+                    "type": "string"
+                },
+                "rootServerIp": {
+                    "type": "string"
+                }
+            }
+        },
+        "spec": {
+            "description": "Name of the cluster spec",
+            "type": "string"
+        },
+        "clusters": {
+            "description": "list of clusters in the configuration",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+                "$ref": "#/$defs/cluster"
+            }
+        },
+        "systems": {
+            "description": "systems in the cluster",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+                "$ref": "#/$defs/system"
+            }
+        },
+        "servers": {
+            "description": "servers in the cluster",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+                "$ref": "#/$defs/server"
+            }
+        },
+        "switches": {
+            "description": "switches in the cluster",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+                "$ref": "#/$defs/switch"
+            }
+        },
+        "network": {
+            "description": "network used in the cluster",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "managementNetwork": {
+                    "$ref": "#/$defs/managementNetwork"
+                },
+                "clusterNetwork": {
+                    "$ref": "#/$defs/clusterNetwork"
+                },
+                "exteriorNetwork": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "prefixes": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "$defs": {
+        "rackUnit": {
+            "description": "rack unit info",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "rackNum": {
+                    "type": [ "integer", "string" ],
+                    "$comment": "Rack identifier, either an int or name, e.g. 'wse001'"
+                },
+                "unitNum": {
+                    "type": "integer"
+                }
+            }
+        },
+        "system": {
+            "description": "CS system information",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Name of the system",
+                    "type": "string"
+                },
+                "defaultHostname": {
+                    "description": "Hostname as reported by the system over LLDP",
+                    "type": "string"
+                },
+                "systemVlan": {
+                    "description": "decide if a system is using vlan",
+                    "type": "boolean"
+                },
+                "rackUnit": {
+                    "$ref": "#/$defs/rackUnit"
+                },
+                "stamp": {
+                    "type": "string"
+                },
+                "nodeGroup": {
+                    "type": "integer"
+                },
+                "role": {
+                    "enum": [
+                        "CS"
+                    ]
+                },
+                "login": {
+                    "$ref": "#/$defs/login"
+                },
+                "ports": {
+                    "description": "list of CS system ports",
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "$ref": "#/$defs/port"
+                    }
+                }
+            }
+        },
+        "server": {
+            "description": "cluster server information",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "rackUnit": {
+                    "$ref": "#/$defs/rackUnit"
+                },
+                "stamp": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "role": {
+                    "enum": [
+                        "AX",
+                        "CN",
+                        "MG",
+                        "MX",
+                        "SX",
+                        "US",
+                        "WK",
+                        "AX",
+                        "IN",
+                        "IX"
+                    ]
+                },
+                "vendor": {
+                    "enum": [
+                        "SM",
+                        "HP",
+                        "DL"
+                    ]
+                },
+                "rootLogin": {
+                    "$ref": "#/$defs/login"
+                },
+                "nodeGroup": {
+                    "type": "integer"
+                }
+            }
+        },
+        "switch": {
+            "description": "cluster switch information",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "enum": [
+                        "MX",
+                        "SX",
+                        "SP",
+                        "LF"
+                    ]
+                },
+                "rackUnit": {
+                    "$ref": "#/$defs/rackUnit"
+                },
+                "stamp": {
+                    "type": "string"
+                },
+                "vendor": {
+                    "enum": [
+                        "HP",
+                        "DL",
+                        "AR",
+                        "EC",
+                        "JU",
+                        "CR"
+                    ]
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "login": {
+                    "$ref": "#/$defs/login"
+                }
+            }
+        },
+        "port": {
+            "description": "port info",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "physicalName": {
+                    "type": "string"
+                },
+                "switch": {
+                    "type": "string"
+                },
+                "mac": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "dnsName": {
+                    "type": "string"
+                },
+                "networkType": {
+                    "enum": [
+                        "L2",
+                        "L3"
+                    ]
+                }
+            }
+        },
+        "login": {
+            "description": "login info",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "managementNetwork": {
+            "description": "1G management network config",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "mgmtVip": {
+                    "type": "object",
+                    "$comment": "Management VIP configuration. Should be configured for a multi-management node cluster",
+                    "properties": {
+                        "routerAsn": {
+                            "type": ["string", "integer"],
+                            "format": "asn",
+                            "$comment": "ASN of the mgmt routing fabric. 'local ASN' configured on aggregate switches."
+                        },
+                        "nodeAsn": {
+                            "type": ["string", "integer"],
+                            "format": "asn",
+                            "$comment": "ASN of the k8 controlplane nodes."
+                        },
+                        "vip": {
+                            "type": "string",
+                            "format": "ip-address",
+                            "$comment": "VIP address. Should be taken from a reserved subnet near the start of parentnet."
+                        }
+                    },
+                    "required": ["routerAsn", "nodeAsn", "vip"]
+                },
+                "podCidrs": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "serviceCidr": {
+                    "type": "string"
+                },
+                "disableCsxIpAssignment": {
+                    "type": "boolean",
+                    "default": false,
+                    "$comment": "disables dhcp based IP assignment for CSX devices"
+                }
+            }
+        },
+        "clusterNetwork": {
+            "description": "100G cluster network config",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ipConfig": {
+                    "ref": "#/$defs/ipConfig"
+                },
+                "clusterMemxSubnetSize": {
+                    "type": "integer"
+                },
+                "clusterSwarmxSubnetSize": {
+                    "type": "integer"
+                },
+                "clusterSystemSubnetSize": {
+                    "type": "integer"
+                },
+                "clusterMemxInterfaces": {
+                    "type": "integer"
+                },
+                "uplinks": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "$ref": "#/$defs/uplink"
+                    }
+                },
+                "clusterIpBlocks": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": "false",
+                        "properties": {
+                            "rack": {"type": ["integer", "string"]},
+                            "ipBlock": {"type": "string"}
+                        }
+                    }
+                },
+                "clusterSystemIpBlocks": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": "false",
+                        "properties": {
+                            "rack": {"type":  ["integer", "string"]},
+                            "ipBlock": {"type": "string"}
+                        }
+                    }
+                },
+                "systemsWithVlan": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "systemEnableDcqcn": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "vipCount": {
+                    "type": "integer"
+                },
+                "crossConnects": {
+                    "type": "integer"
+                },
+                "clusterAsns": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "start": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "systemConnectionsFile": {
+                    "type": "string",
+                    "$comment": "Optional file path. File contains a json array of objects of form {switch_(name,port), system_(name,port)} which amend system connections discovered by LLDP in network configuration."
+                }
+            }
+        },
+        "ipConfig": {
+            "description": "ip config",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ipSuperCidr": {
+                    "type": "string"
+                },
+                "subnetPools": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "description": {"type": "string"},
+                            "subnets": {
+                                "type": "array",
+                                "$comment": "Subnets in the pool",
+                                "items": {
+                                    "type": "string",
+                                    "$comment": "subnet in the pool"
+                                }
+                            },
+                            "permit_classes": {
+                                "type": "array",
+                                "$comment": "allowed vlan classes to use this pool",
+                                "items": {
+                                    "type": "string",
+                                    "$comment": "vlan class name"
+                                }
+                            }
+                        },
+                        "required": ["subnets"]
+                    }
+                },
+                "ipVipCidr": {
+                    "type": "string"
+                },
+                "ipBlocks": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "gatewayOverwrite": {
+                    "type": "string"
+                },
+                "netmaskPerRack": {
+                    "type": "string"
+                },
+                "networkBetweenRacks": {
+                    "type": "string"
+                },
+                "podCidr": {
+                    "type": "string"
+                },
+                "serviceCidr": {
+                    "type": "string"
+                },
+                "dns": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "route": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "uplink": {
+            "description": "uplink information",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "memxSwitch": {
+                    "type": "string"
+                },
+                "memxSwitchPort": {
+                    "type": "string"
+                },
+                "uplinkIp": {
+                    "type": "string"
+                },
+                "extSwitchName": {
+                    "type": "string"
+                },
+                "extSwitchPort": {
+                    "type": "string"
+                },
+                "extDownlinkIp": {
+                    "type": "string"
+                },
+                "extSwitchAsn": {
+                    "type": "string"
+                }
+            }
+        },
+        "cluster": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "mgmt_network": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "vip": {
+                            "$comment": "management VIP for the cluster",
+                            "$ref": "#/$defs/ip_interface"
+                        },
+                        "router_asn": {
+                            "$comment": "ASN of the mgmt routing fabric. 'local ASN' configured on TOR switches.",
+                            "$ref": "#/$defs/asn4"
+                        },
+                        "node_asn": {
+                            "$comment": "ASN of the k8 controlplane nodes.",
+                            "$ref": "#/$defs/asn4"
+                        }
+                    },
+                    "required": [
+                        "vip",
+                        "router_asn",
+                        "node_asn"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "mgmt_network"
+            ]
+        }
+    }
+}

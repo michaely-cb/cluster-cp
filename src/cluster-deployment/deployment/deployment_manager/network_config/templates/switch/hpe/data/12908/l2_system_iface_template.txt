@@ -1,0 +1,20 @@
+#
+# L2 config for ${my_port}
+#
+vlan ${switch_vlan}
+exit
+
+interface ${my_port}
+    default
+    Y
+    description L2 to ${neighbor}
+    mtu ${mtu}
+    port link-mode bridge
+    port access vlan ${switch_vlan} 
+    priority-flow-control enable 
+    priority-flow-control no-drop dot1p 5
+    qos trust dscp
+    qos wfq weight
+    no shutdown
+    exit
+#

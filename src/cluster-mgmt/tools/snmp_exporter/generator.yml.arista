@@ -1,0 +1,61 @@
+modules:
+  # Default IF-MIB interfaces table with ifIndex.
+  if_mib:
+    walk: [sysUpTime, interfaces, ifXTable]
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2 # ifDescr
+      - source_indexes: [ifIndex]
+        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
+        lookup: 1.3.6.1.2.1.31.1.1.1.1 # ifName
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+    auth:
+      community: CerebrasColoSC
+
+# Arista Networks
+#
+# Arista Networks MIBs can be found here: https://www.arista.com/en/support/product-documentation/arista-snmp-mibs
+#
+# https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
+# https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
+#
+# Tested on Arista DCS-7010T-48 switch
+#
+  arista_sw:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - 1.3.6.1.2.1.25.3.3.1.2 # hrProcessorLoad
+      - 1.3.6.1.2.1.25.2.3.1.6 # hrStorageUsed
+      - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
+    overrides:
+      ifType:
+        type: EnumAsInfo
+    auth:
+      community: CerebrasColoSC
+
+
+  arista_if:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - aristaIfTable
+    overrides:
+      ifType:
+        type: EnumAsInfo
+    auth:
+      community: CerebrasColoSC
+

@@ -1,0 +1,186 @@
+# Default values for cluster-server.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+# namespace for the current deployment
+namespace: job-operator
+# system namespace for internal multi-version support to ensure one single controller/certs/... cluster wide
+system_namespace: job-operator
+
+# for resource estimate purpose only
+systemCount: "0"
+
+image:
+  pullPolicy: IfNotPresent
+  repository: ""
+  tag: ""
+
+serverLogHostPath: "/n0/cluster-mgmt/cluster-server"
+serverLogMountPath: ""
+
+imagePullSecrets:
+  - name: regcred
+nameOverride: ""
+fullnameOverride: ""
+
+container:
+  args:
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 9000
+
+metrics:
+  enabled: false
+  port: 9986
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    # Proxying needs to be disabled explicitly to make the streaming API work as expected.
+    # Otherwise, Nginx will perform buffering by default and our server will not be able
+    # to receive traffic from clients.
+    nginx.ingress.kubernetes.io/server-snippet: "grpc_next_upstream off; grpc_read_timeout 12h; grpc_send_timeout 12h; client_body_timeout 12h;"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "43200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "43200"
+    nginx.ingress.kubernetes.io/client-body-timeout: "43200"
+    nginx.ingress.kubernetes.io/grpc-next-upstream: "off"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  clusterServerHosts:
+    - cluster-server.cerebrassc.local
+  tls:
+    # This secret must exist beforehand
+    # The cert must also contain the subj-name cluster-server.cerebrassc.local
+    # https://github.com/kubernetes/ingress-nginx/blob/master/docs/examples/PREREQUISITES.md#tls-certificates
+    secretName: cluster-server-grpc-secret-v2
+
+logExport:
+  path: ""
+  ingressEnabled: false
+  annotations:
+  host: log.cerebrassc.local
+  pvc: "log-export-static-pvc"
+
+debugviz:
+  path: ""
+  pvc: "debug-artifact-static-pvc"
+  ingress:
+    debugVizHosts:
+      - debugviz-server.cerebrassc.local
+
+mgmtNodeDataIp: ""
+
+multiMgmtNodes: false
+
+enableRoCE: false
+disableUserAuth: false
+compileSystemType: unknown
+disableNonCRDResourceRequests: false
+enableIsolatedDashboards: false
+disableNonCRDServices: true
+enableInitRole: false
+allowNonDefaultJobPriority: true
+disableFabricJsonCheck: false
+wsjobLogsPreferredStorageType: ""
+cachedCompilePreferredStorageType: ""
+skipSystemMaintenanceResourceLimits: false
+
+wsjob:
+  image: ""
+  # The effect of the double dollar signs "$$" is to let the pod have the entrypoint
+  # command like "/bin/bash $(WSJOB_SCRIPT_ROOT)/$(WSJOB_INIT_SCRIPT_NAME)". The value
+  # of the embedded environment variables are set by the cluster server.
+  command: "/bin/bash $$(WSJOB_SCRIPT_ROOT)/$$(WSJOB_INIT_SCRIPT_NAME)"
+  localWorkdirRoot: "/n1/wsjob/workdir"
+  tensorStorageRoot: "/n1/tensor-storage"
+  workerCacheRoot: "/n0/cache"
+  workerSharedMemoryRoot: "/dev/shm"
+  cachedCompileRoot: ""
+  workdirLogsNfsMountedPath: ""
+  cachedCompileNfsMountedPath: ""
+
+imageBuilder:
+  disabled: false
+  # In rel-2.6, we have upgraded from python:3.8 to python:3.11.
+  # We are maintaining python:3.8 as a default image for backward compatibility.
+  # Which sidecar base image to use depends on the client's environment.
+  # TODO: Migrate to python:3.11 as base image in rel-2.7.
+  baseImage: "python:3.8"
+  imageName: "custom-worker"
+  supportedSidecarImages: ""
+
+kafka:
+  secretMountPath: /kafka-secrets
+  secretName: kafka-0-tls
+  bootstrapServer: "kafka-0.kafka-headless.kafka.svc.cluster.local:9092"
+  # TODO: Remove and update to use bootstrapServer below with same tls.existingSecret
+  # "kafka.kafka.svc.cluster.local:9092"
+
+extraLabels:
+  SEMANTIC_VERSION: ""
+
+extraEnvs:
+  GRAFANA_URL: ""
+  ALPINE_KUBECTL_TAG: ""
+  ALPINE_CONTAINERD_TAG: ""
+
+# for locking system NS purpose
+systemUpdate:
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+
+tolerations:
+  - effect: NoSchedule
+    key: "node-role.kubernetes.io/master"
+    operator: Equal
+    value: ""
+  - effect: NoSchedule
+    key: "node-role.kubernetes.io/control-plane"
+    operator: Equal
+    value: ""

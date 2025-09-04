@@ -1,0 +1,22 @@
+#!/bin/bash
+
+####################################################################
+#
+#
+# OS10 ZTD Provisioning Script from https://www.dell.com/support/manuals/en-in/dell-emc-smartfabric-os10/smartfabric-os-user-guide-10-5-0/ztd-provisioning-script?guid=guid-c66e58bb-0bee-4179-ac2c-a444175b07eb&lang=en-us
+#
+#
+####################################################################
+
+########## UPDATE THE BELOW CONFIG VARIABLES ACCORDINGLY ###########
+########## ATLEAST ONE OF THEM SHOULD BE FILLED ####################
+
+IMG_FILE="http://${http_server_ip}:8080/${fw_image}"
+CLI_CONFIG_FILE="http://${http_server_ip}:8080/${switch_name}.startup_config"
+
+
+################### DO NOT MODIFY THE LINES BELOW #######################
+
+sudo os10_ztd_start.sh "$$IMG_FILE" "$$CLI_CONFIG_FILE" "$$POST_SCRIPT_FILE"
+
+######################## **END** ###############################

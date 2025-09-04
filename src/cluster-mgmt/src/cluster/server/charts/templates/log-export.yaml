@@ -1,0 +1,90 @@
+{{- if .Values.logExport.ingressEnabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-export-nginx
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "cluster-server.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: log-export-nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: log-export-nginx
+    spec:
+      containers:
+        - name: log-export-nginx
+          image: nginx:stable-alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: export-log
+      volumes:
+        - name: export-log
+          hostPath:
+            path: {{ .Values.logExport.path }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: log-export-nginx
+spec:
+  selector:
+    app: log-export-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30007
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: log-export
+  namespace: {{ .Values.namespace }}
+  {{- with .Values.logExport.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        {{- range .Values.ingress.clusterServerHosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+  rules:
+    - host: {{ printf "%s." $.Values.namespace }}{{ .Values.logExport.host }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: log-export-nginx
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+{{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-export-script
+  namespace: {{ .Values.namespace }}
+data:
+  "log-export.sh": |-
+{{ $.Files.Get "log-export.sh" | indent 4  }}

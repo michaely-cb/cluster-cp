@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "src"
+		},
+		{
+			"path": "../../tests/cluster_mgmt",
+			"name": "tests"
+		}
+	]
+}

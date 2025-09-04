@@ -1,0 +1,5 @@
+exclusions:
+ template-job-rule:
+ panel-job-instance-rule:
+ panel-promql-rule:
+ panel-rate-interval-rule:

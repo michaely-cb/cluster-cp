@@ -1,0 +1,13 @@
+Downloaded RPMs for python3.11 on Rocky8.5
+
+```
+# on a rocky8.5 node
+
+TMP=$(mktemp -d)
+dnf download --downloadonly --destdir $TMP --resolve \
+  python3.11 python3.11-pip python3.11-pip-wheel \
+  python3.11-setuptools python3.11-setuptools-wheel \
+  python3.11-tkinter \
+  python3.11-libs
+echo RPMs are in $TMP
+```

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  generateName: bench-cbcore-
+  namespace: bench
+  labels:
+    k8s-app: bench-shell
+spec:
+  selector:
+    matchLabels:
+      name: bench-shell
+  template:
+    metadata:
+      labels:
+        name: bench-shell
+    spec:
+      tolerations:
+      # this toleration is to have the daemonset runnable on master nodes
+      # remove it if your masters can't run pods
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: ws
+        image: 171496337684.dkr.ecr.us-west-2.amazonaws.com/cbcore:joy-65eedb2
+        imagePullPolicy: IfNotPresent
+        command:
+          - "/usr/bin/sleep"
+          - "100000000"
+      hostNetwork: false
+      dnsPolicy: Default
+      terminationGracePeriodSeconds: 30

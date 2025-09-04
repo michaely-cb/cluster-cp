@@ -1,0 +1,4 @@
+{
+    "Memory_NUMANodesperSocket": "NPS1",
+    "Processors_SMTMode": "Enabled"
+}

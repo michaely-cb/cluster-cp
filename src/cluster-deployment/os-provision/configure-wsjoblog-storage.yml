@@ -1,0 +1,130 @@
+---
+- name: Exclude hosts with role US and US host group
+  hosts: all, !US
+  gather_facts: true
+  tasks:
+    - name: Set group dynamically based on role presence and value
+      group_by:
+        key: "{{ 'excluded_hosts' if hostvars[inventory_hostname]['role'] is defined and hostvars[inventory_hostname]['role'] == 'US' else 'eligible_hosts' }}"
+
+- name: Manage loopback filesystem
+  hosts: eligible_hosts  # Run only on eligible hosts
+  become: yes
+  vars:
+    loop_size: 200  # Size of loop file in GB, 200GB
+    loopfile: /loopfile_workdir
+    mountpath: "/n1/wsjob"
+    minimum_root_disk_size: 400
+    bytes_in_gb: 1073741824  # Define 1GB in bytes
+
+  tasks:
+    - name: "Check if log storage configuration is enabled (add `configure_log_storage: true` using `cscfg profile config edit` to enable it)"
+      meta: end_play
+      when: configure_log_storage is not defined or not configure_log_storage
+    - name: Gather facts for disk information
+      setup:
+        filter: ansible_mounts
+
+    - name: Check if loop file is already mounted
+      command: mount
+      register: mount_output
+      changed_when: false
+
+    - name: Parse mount output to check for loopfile
+      set_fact:
+        is_loop_file_mounted: "{{ mountpath in mount_output.stdout }}"
+
+    - name: Check if root disk size is greater than or equal to {{ minimum_root_disk_size }}GB
+      set_fact:
+        root_disk_large_enough: "{{ ansible_mounts | selectattr('mount', 'equalto', '/') | map(attribute='size_total') | first | int / bytes_in_gb >= minimum_root_disk_size }}"
+      when: not is_loop_file_mounted
+
+    - name: Fail if root disk is less than {{ minimum_root_disk_size }}GB
+      fail:
+        msg: "Root disk size is less than {{ minimum_root_disk_size }}GB. Skipping tasks."
+      when: not is_loop_file_mounted and not root_disk_large_enough
+
+    - name: Check if root disk free space is at least {{ loop_size + 20 }}GB
+      set_fact:
+        root_disk_free_space_sufficient: "{{ ansible_mounts | selectattr('mount', 'equalto', '/') | map(attribute='size_available') | first | int / bytes_in_gb >= (loop_size + 20) }}"
+      when: not is_loop_file_mounted
+
+    - name: Fail if root disk free space is less than {{ loop_size + 20 }}GB
+      fail:
+        msg: "Root disk free space is less than {{ loop_size + 20 }}GB (Current: {{ ansible_mounts | selectattr('mount', 'equalto', '/') | map(attribute='size_available') | first | int / bytes_in_gb | round(2) }}GB). Manually cleanup space and rerun."
+      when: not is_loop_file_mounted and not root_disk_free_space_sufficient
+
+    - name: Remove mount path if it exists (directory or symbolic link)
+      file:
+        path: "{{ mountpath }}"
+        state: absent
+      when: not is_loop_file_mounted
+
+    - name: Ensure mount path directory exists
+      file:
+        path: "{{ mountpath }}"
+        state: directory
+        mode: '0777'
+      when: not is_loop_file_mounted
+
+    - name: Setup loop device
+      shell: losetup -f
+      register: loop_device
+      when: not is_loop_file_mounted
+
+    - name: Fail if no free loop devices are available
+      fail:
+        msg: "No free loop devices available!"
+      when: not is_loop_file_mounted and loop_device.stdout == ""
+
+    - name: Create loop file
+      shell: "fallocate -l {{ loop_size }}G {{ loopfile }}"
+      when: not is_loop_file_mounted
+
+    - name: Associate the loop file with the loop device
+      shell: "losetup {{ loop_device.stdout }} {{ loopfile }}"
+      when: not is_loop_file_mounted
+
+    - name: Create filesystem on loop device
+      shell: "mkfs.xfs {{ loop_device.stdout }}"
+      when: not is_loop_file_mounted
+
+    # Create systemd service to mount loop device on subsequent boot
+    - name: Create systemd service file
+      copy:
+        dest: /etc/systemd/system/setup-loop-devices.service
+        content: |
+          [Unit]
+          Description=Setup loop device and mount (only if it is missing) after root filesystem is available
+          After=local-fs.target
+
+          [Service]
+          Type=oneshot
+          Environment=SYSTEMD_LOG_LEVEL=debug
+          ExecStart=/bin/sh -c 'set -x; losetup | grep -q "{{ loopfile }}" || losetup {{ loop_device.stdout }} {{ loopfile }}'
+          ExecStartPost=/bin/sh -c 'set -x; mount | grep -q "on {{ mountpath }}" || mount -t xfs {{ loop_device.stdout }} {{ mountpath }}'
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+      when: not is_loop_file_mounted
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+      when: not is_loop_file_mounted
+
+    - name: Start the loop device service
+      command: systemctl start setup-loop-devices
+      when: not is_loop_file_mounted
+
+    - name: Enable the loop device service on boot
+      command: systemctl enable setup-loop-devices
+      when: not is_loop_file_mounted
+
+    - name: Set permissions for mount path
+      file:
+        path: "{{ mountpath }}"
+        mode: '0777'
+      when: not is_loop_file_mounted

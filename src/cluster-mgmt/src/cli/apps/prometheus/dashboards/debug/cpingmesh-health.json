@@ -1,0 +1,889 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 1218,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "In each interval, the increase of Max RTT that falls in each bucket",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "cellValues": {
+          "unit": "Additional Pings"
+        },
+        "color": {
+          "exponent": 0.5,
+          "fill": "dark-orange",
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "Oranges",
+          "steps": 64
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-9
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "tooltip": {
+          "mode": "single",
+          "showColorScale": false,
+          "yHistogram": false
+        },
+        "yAxis": {
+          "axisPlacement": "left",
+          "reverse": false
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (le) (increase(pingmesh_client_max_rtt_hist_bucket{host=~\"$host\", nic=~\"$nic\"}[5m]))",
+          "format": "heatmap",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Max RTT (Increase)",
+      "type": "heatmap"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "CPingmesh Health: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/feszr4h3wia68f/cpingmesh-health?${__url_time_range}&var-host=${__field.labels.host}&var-nic=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "System Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/cehh15ni8ip6oa-internal/system-port-details?${__url_time_range}&var-system=${__field.labels.host}&var-port=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Node Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/aehh1fckgpjpca-internal/node-port-details?${__url_time_range}&var-node=${__field.labels.host}&var-interface=${__field.labels.nic}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "maxHeight": 444,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "increase(pingmesh_client_max_rtt_hist_count{host=~\"$host\", nic=~\"$nic\"}[5m]) - ignoring(le) increase(pingmesh_client_max_rtt_hist_bucket{le=\"$rtt_spike_le\", host=~\"$host\", nic=~\"$nic\"}[5m])",
+          "legendFormat": "{{host}}/{{nic}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "RTT Spikes",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "`pingmesh_client_healthy < 1` or `pingmesh_server_healthy < 1`",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "CPingmesh Health: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/feszr4h3wia68f/cpingmesh-health?${__url_time_range}&var-host=${__field.labels.host}&var-nic=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "System Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/cehh15ni8ip6oa-internal/system-port-details?${__url_time_range}&var-system=${__field.labels.host}&var-port=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Node Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/aehh1fckgpjpca-internal/node-port-details?${__url_time_range}&var-node=${__field.labels.host}&var-interface=${__field.labels.nic}"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "Unhealthy"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "All healthy",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 4,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "perPage": 8,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "pingmesh_client_healthy{host=~\"$host\", nic=~\"$nic\"} < 1",
+          "legendFormat": "Client {{host}}/{{pod}}/{{nic}}",
+          "range": true,
+          "refId": "client"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "pingmesh_server_healthy{host=~\"$host\", nic=~\"$nic\"} < 1",
+          "hide": false,
+          "legendFormat": "Server {{host}}/{{pod}}/{{nic}}",
+          "range": true,
+          "refId": "server"
+        }
+      ],
+      "title": "Unhealthy Clients or Servers",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Servers that are healthy but not responding to pings, i.e. no increase in `pingmesh_server_pings_total`",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "CPingmesh Health: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/feszr4h3wia68f/cpingmesh-health?${__url_time_range}&var-host=${__field.labels.host}&var-nic=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "System Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/cehh15ni8ip6oa-internal/system-port-details?${__url_time_range}&var-system=${__field.labels.host}&var-port=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Node Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/aehh1fckgpjpca-internal/node-port-details?${__url_time_range}&var-node=${__field.labels.host}&var-interface=${__field.labels.nic}"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "Unreachable"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "All healthy",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 5,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "perPage": 8,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "pingmesh:unreachable5m{host=~\"$host\", nic=~\"$nic\"}",
+          "legendFormat": "{{host}}/{{nic}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Unreachable Servers",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Servers that are healthy and reachable, but dropping some pings, i.e.  increase in `pingmesh_server_drops_total`",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "CPingmesh Health: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/feszr4h3wia68f/cpingmesh-health?${__url_time_range}&var-host=${__field.labels.host}&var-nic=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "System Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/cehh15ni8ip6oa-internal/system-port-details?${__url_time_range}&var-system=${__field.labels.host}&var-port=${__field.labels.nic}"
+            },
+            {
+              "targetBlank": true,
+              "title": "Node Port Details: ${__field.labels.host} ${__field.labels.nic}",
+              "url": "/d/aehh1fckgpjpca-internal/node-port-details?${__url_time_range}&var-node=${__field.labels.host}&var-interface=${__field.labels.nic}"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "Flaky"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "All healthy",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
+      "id": 6,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "perPage": 8,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "((increase(pingmesh_server_drops_total{host=~\"$host\", nic=~\"$nic\"}[30m]) > scalar(pingmesh:server_drops_avg30m * $flaky_factor)) * 0)\nunless on (host, nic)\n(   # healthy but unreachable\n    (increase(pingmesh_server_pings_total{host=~\"$host\", nic=~\"$nic\"}[30m]) == 0)\n    unless on (host, nic)\n        (pingmesh_server_healthy < 1)\n)",
+          "legendFormat": "{{host}}/{{nic}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Flaky Servers",
+      "type": "state-timeline"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 12,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "Sum of pings for all selected hosts and NICs.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byFrameRefID",
+                  "options": "Drops"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 39
+          },
+          "id": 11,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "sum(increase(pingmesh_client_pings_total{host=~\"$host\", nic=~\"$nic\"}[5m]))",
+              "legendFormat": "Successful",
+              "range": true,
+              "refId": "Successful"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "sum(increase(pingmesh_client_drops_total{host=~\"$host\", nic=~\"$nic\"}[5m]))",
+              "hide": false,
+              "legendFormat": "Dropped",
+              "range": true,
+              "refId": "Drops"
+            }
+          ],
+          "title": "Client Ping Counts (Outgoing)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "Sum of pings for all selected hosts and NICs.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byFrameRefID",
+                  "options": "Drops"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 47
+          },
+          "id": 13,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.3.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "sum(increase(pingmesh_server_pings_total{host=~\"$host\", nic=~\"$nic\"}[5m]))",
+              "legendFormat": "Successful",
+              "range": true,
+              "refId": "Successful"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "sum(increase(pingmesh_server_drops_total{host=~\"$host\", nic=~\"$nic\"}[5m]))",
+              "hide": false,
+              "legendFormat": "Dropped",
+              "range": true,
+              "refId": "Drops"
+            }
+          ],
+          "title": "Server Ping Counts (Incoming)",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Client and Server Details",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "query_result(pingmesh_server_pingss_total or pingmesh_server_drops_total)",
+        "description": "Filter data for this host",
+        "includeAll": true,
+        "label": "Host",
+        "multi": true,
+        "name": "host",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(pingmesh_server_pingss_total or pingmesh_server_drops_total)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/.*host=\\\"([^\\\"]+).*/",
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "query_result(pingmesh_server_pingss_total{host=~\"$host\"} or pingmesh_server_drops_total{host=~\"$host\"})",
+        "description": "Filter data for this NIC",
+        "includeAll": true,
+        "label": "NIC",
+        "multi": true,
+        "name": "nic",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(pingmesh_server_pingss_total{host=~\"$host\"} or pingmesh_server_drops_total{host=~\"$host\"})",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/.*nic=\\\"([^\\\"]+).*/",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "5e-05",
+          "value": "5e-05"
+        },
+        "definition": "label_values(pingmesh_client_max_rtt_hist_bucket,le)",
+        "description": "Threshold (s) for RTT spikes. Used for the RTT Spikes timeseries panel.",
+        "includeAll": false,
+        "label": "RTT Spike Thresh",
+        "name": "rtt_spike_le",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(pingmesh_client_max_rtt_hist_bucket,le)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "2",
+          "value": "2"
+        },
+        "description": "If a server is dropping more than `$flaky_factor * server_drops_avg30m`, it will be shown on this dashboard as flaky.",
+        "label": "Flaky Factor",
+        "name": "flaky_factor",
+        "options": [
+          {
+            "selected": true,
+            "text": "2",
+            "value": "2"
+          }
+        ],
+        "query": "2",
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "CPingmesh Health",
+  "uid": "feszr4h3wia68f",
+  "version": 12,
+  "weekStart": ""
+}

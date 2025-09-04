@@ -1,0 +1,41 @@
+# This playbook performs all the roce related tasks
+
+- name: Copy RoCE script
+  template: src="setup_mlnx_roce.sh" dest="/tmp/setup_mlnx_roce.sh"
+
+- name: RUN RoCE script
+  shell: bash /tmp/setup_mlnx_roce.sh
+
+- name: Create RoCE initialization script
+  template: src="setup_mlnx_roce.sh" dest="/etc/rc.d/roce-pfc.config"
+
+- name: Add RoCE setup at run commands
+  lineinfile:
+    path: /etc/rc.d/rc.local
+    create: yes
+    line: /etc/rc.d/roce-pfc.config
+
+- name: Ensure rc.local is executable
+  file:
+    path: /etc/rc.d/rc.local
+    mode: '0755'
+    state: file
+
+- name: Change RoCE script file mode
+  file:
+    path: /etc/rc.d/roce-pfc.config
+    mode: '0755'
+
+- name: Change pinning memory
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: hard
+    limit_item: memlock
+    value: unlimited
+
+- name: Change pinning memory
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: soft
+    limit_item: memlock
+    value: unlimited
