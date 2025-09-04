@@ -1,8 +1,0 @@
-- name: Change hostname
-  hostname:
-    name: "{{ inventory_hostname }}"
-  tags: hostname
-
-- name: Save hostname permanently
-  ansible.builtin.shell:
-    cmd: hostname >/etc/hostname

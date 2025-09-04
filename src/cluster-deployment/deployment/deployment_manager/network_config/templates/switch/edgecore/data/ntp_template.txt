@@ -1,4 +1,0 @@
-#
-# NTP and clock setup
-#
-sudo config ntp add ${ntp_server}

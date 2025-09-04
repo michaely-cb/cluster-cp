@@ -1,5 +1,0 @@
-- name: Enable lldpd
-  ansible.builtin.service:
-    name: lldpd
-    state: started
-    enabled: yes

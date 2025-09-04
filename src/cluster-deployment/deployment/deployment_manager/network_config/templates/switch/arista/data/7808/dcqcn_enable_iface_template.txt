@@ -1,6 +1,0 @@
-!
-! Enable DCQCN for ${my_port}
-!
-interface ${my_port}
-    random-detect ecn delay threshold ${ecn_delay} milliseconds
-    random-detect ecn count

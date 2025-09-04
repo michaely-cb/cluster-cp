@@ -1,7 +1,0 @@
-contacts:
-  email: []
-  slack:
-    - id: http://mockserver.prometheus.svc.cluster.local:3180/slack-webhook
-      severity_threshold: 4
-      alert_type: all
-  pagerduty: []

@@ -1,2 +1,0 @@
-# clear static route
-no ip route-static vpn-instance ${vrf_name} ${dest_sep}

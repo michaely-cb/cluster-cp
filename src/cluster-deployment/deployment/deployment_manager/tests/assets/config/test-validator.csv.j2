@@ -1,8 +1,0 @@
-Name,Role,Device,Rack,Unit,IPMI default DNS,IPMI IP,IPMI MAC,IPMI username,IPMI password,MGMT port IP,MGMT port MAC,Root username,Root password,Vendor,Node group,Stamp
-{% for server in servers -%}
-{{ server.hostname }},{{ server.role }},{{ server.device|default('SR') }},1,1,{{server.hostname}},{{server.ip}},00:00:00:00:00:00,ADMIN,root,{{server.ip}},00:00:00:00:00:00,root,root,{{server.vendor|default('SM')}},0,
-{% endfor -%}
-sc-r1rb1-s5,WK,SR,1,5,sc-r1rb1-s5-ipmi,172.28.8.132,3c:ec:ef:6f:ad:38,ADMIN,Admin123,172.28.8.20,3c:ec:ef:6f:ac:8a,root,5cerebras,SM,0,
-sc-r1rb1-s6,MX,SR,1,6,sc-r1rb1-s6-ipmi,172.28.8.133,3c:ec:ef:6f:ad:3d,ADMIN,Admin123,172.28.8.21,3c:ec:ef:6f:ac:92,root,5cerebras,SM,0,
-sc-r1rb1-s7,SX,SR,1,7,sc-r1rb1-s7-ipmi,172.28.8.134,3c:ec:ef:6f:ad:3d,ADMIN,dmin123,172.28.8.22,3c:ec:ef:6f:ac:92,root,5cerebras,SM,0,
-sc-r1rb1-s8,SX,SR,1,8,sc-r1rb1-xx-ipmi,172.28.8.135,3c:ec:ef:6f:ad:3d,ADMIN,Admin123,172.28.8.23,3c:ec:ef:6f:ac:92,root,5cerebras,SM,0,

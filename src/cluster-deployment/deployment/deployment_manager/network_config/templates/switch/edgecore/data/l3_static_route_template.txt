@@ -1,7 +1,0 @@
-# static route
-vtysh
-configure
-ip route vrf ${vrf_name} ${dest} ${via}
-exit
-write memory
-exit

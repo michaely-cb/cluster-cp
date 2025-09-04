@@ -1,4 +1,0 @@
-resources:
-  - default
-patchesStrategicMerge:
-  - patch.yaml

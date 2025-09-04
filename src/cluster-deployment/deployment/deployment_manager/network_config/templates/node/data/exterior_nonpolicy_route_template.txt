@@ -1,1 +1,0 @@
-${prefix} via ${gw} dev ${name} proto static src ${address} metric ${table_id}

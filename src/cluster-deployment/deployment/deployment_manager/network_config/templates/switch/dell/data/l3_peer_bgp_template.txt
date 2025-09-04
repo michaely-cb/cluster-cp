@@ -1,9 +1,0 @@
-!
-! L3 peering config between ${name} and ${neighbor}
-!
-router bgp ${asn_num} vrf Vrf_${vrf_name}
-    neighbor ${neighbor_address}
-        remote-as ${neighbor_asn_num}
-        peer-group ${peer_group}
-        exit
-    exit

@@ -1,5 +1,0 @@
-KUBECTL=kubectl
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-# Check the net json file every 5 minutes
-*/5 * * * * root /usr/local/bin/net_json_to_configmap.sh

@@ -1,7 +1,0 @@
-{
-  "version": "0.0.0",
-  "componentPaths": [
-    "k8/apply-k8s.sh",
-    "cilium/apply-cilium.sh"
-  ]
-}

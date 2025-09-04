@@ -1,5 +1,0 @@
-asyncssh
-
-# testing
-pytest
-pytest-asyncio

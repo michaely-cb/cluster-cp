@@ -1,9 +1,0 @@
-# Swarmx VLAN
-#
-set vlans vlan${swarmx_vlan} vlan-id ${swarmx_vlan}
-set vlans vlan${swarmx_vlan} l3-interface irb.${swarmx_vlan}
-set vlans vlan${swarmx_vlan} description "swarmx subnet"
-set routing-instances ${vrf_name} interface irb.${swarmx_vlan}
-set interfaces irb mtu ${mtu}
-set interfaces irb unit ${swarmx_vlan} family inet mtu ${mtu}
-set interfaces irb unit ${swarmx_vlan} family inet address ${swarmx_switch_address}

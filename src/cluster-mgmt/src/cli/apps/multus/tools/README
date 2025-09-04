@@ -1,8 +1,0 @@
-Tools for testing multus/whereabouts
-
-# disruptor.py - used to restart kubelet + apiserver at random intervals
-# ipmonitor.py - captures IP allocation logs at host level, analyzes output
-# simulator.py - creates/deletes large deployments in a sequence. Useful for scale testing job bringup
-
-Originally implemented for testing whereabouts, see:
-https://cerebras.atlassian.net/wiki/spaces/runtime/pages/3946872851/whereabouts+optimistic+concurrency+control#Test-Coverage-Discussion

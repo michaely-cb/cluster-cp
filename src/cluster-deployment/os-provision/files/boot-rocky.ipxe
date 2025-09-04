@@ -1,9 +1,0 @@
-#!ipxe
-ifconf
-iflinkwait
-set mirror http://${next-server}:8080/Rocky8
-set img-url ${mirror}/isolinux
-set repo-url ${mirror}
-kernel ${img-url}/vmlinuz initrd=initrd.img inst.repo=${repo-url} inst.ks=${repo-url}/ks.cfg
-initrd ${img-url}/initrd.img
-boot

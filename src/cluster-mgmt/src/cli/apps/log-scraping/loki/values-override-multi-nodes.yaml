@@ -1,4 +1,0 @@
-singleBinary:
-  persistence:
-    storageClass: ceph-filesystem
-    size: loki-pvc-size

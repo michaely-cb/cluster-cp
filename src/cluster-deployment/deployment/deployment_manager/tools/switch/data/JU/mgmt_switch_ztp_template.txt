@@ -1,2 +1,0 @@
-# Empty file since Juniper switches do not need a dedicated ZTP file. Startup config and OS image locations are served
-# via DHCP options. This file is created to avoid too many vendor-specific caveats in code.

@@ -1,4 +1,0 @@
-name,role,type,location.rack,ipmi_info.name,ipmi_info.ip,ipmi_info.mac,ipmi_credentials.user,ipmi_credentials.password,management_info.ip,management_info.mac,management_credentials.user,management_credentials.password,vendor.name,location.stamp
-sc-r1rb1-s4,MG,SR,1,sc-r1rb1-s4-ipmi,172.28.8.131,3c:ec:ef:6f:1c:76,ADMIN,Admin123,172.28.8.19,3c:ec:ef:6f:1b:74,root,5cerebras,SM,stamp1
-sc-r1rb1-s5,MX,SR,1,sc-r1rb1-s5-ipmi,172.28.8.132,3c:ec:ef:6f:ad:38,ADMIN,Admin123,172.28.8.20,3c:ec:ef:6f:ac:8a,root,5cerebras,SM,stamp1
-sc-r1rb1-1gsw,MG,SW,1,,,,,,172.28.0.140,aa:bb:cc:dd:ee:ff,admin,CerebrasColo,AR,stamp1
