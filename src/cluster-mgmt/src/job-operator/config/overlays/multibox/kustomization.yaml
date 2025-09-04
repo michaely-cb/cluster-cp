@@ -1,4 +1,0 @@
-# multibox deploy is deploy job-operator to multibox env with prometheus installed
-resources:
-  - ../../default
-  - ../../prometheus

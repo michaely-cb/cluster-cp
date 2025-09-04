@@ -1,4 +1,0 @@
-#
-# L3 peering config between ${name} and ${neighbor}
-#
-set routing-instances ${vrf_name} protocols bgp group ${peer_group} neighbor ${neighbor_address} peer-as ${neighbor_asn_num}

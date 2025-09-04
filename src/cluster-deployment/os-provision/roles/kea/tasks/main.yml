@@ -1,6 +1,0 @@
-- name: Stop dnsmasq if running
-  systemd: name=dnsmasq state=stopped enabled=no
-
-- include_tasks: tftpd.yml
-- include_tasks: dhcp4.yml
-- include_tasks: dhcp_ddns.yml

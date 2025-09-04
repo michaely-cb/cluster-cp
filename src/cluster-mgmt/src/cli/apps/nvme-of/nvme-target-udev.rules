@@ -1,3 +1,0 @@
-ACTION=="add", SUBSYSTEM=="block", PROGRAM="/usr/local/bin/nvme-target-rename-rule.sh 1"
-ACTION=="add", SUBSYSTEM=="block", PROGRAM="/usr/local/bin/nvme-target-rename-rule.sh 2"
-ACTION=="add", SUBSYSTEM=="block", PROGRAM="/usr/local/bin/nvme-target-rename-rule.sh 3"

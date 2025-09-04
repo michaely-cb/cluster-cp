@@ -1,6 +1,0 @@
-!
-! Disable DCQCN for ${my_port}
-!
-interface ${my_port}
-    no random-detect ecn delay 
-!

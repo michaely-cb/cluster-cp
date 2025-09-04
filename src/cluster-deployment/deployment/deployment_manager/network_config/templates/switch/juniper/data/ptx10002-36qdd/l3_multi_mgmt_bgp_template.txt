@@ -1,6 +1,0 @@
-#
-# BGP config for ${name} to support multiple mgmt nodes 
-#
-set policy-options as-list allow-same-as members ${asn_num} 
-set routing-instances ${vrf_name} protocols bgp group management_node dynamic-neighbor management_node allow ${prefix}
-set routing-instances ${vrf_name} protocols bgp group management_node type internal

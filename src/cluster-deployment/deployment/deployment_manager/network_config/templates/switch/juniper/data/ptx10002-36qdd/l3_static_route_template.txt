@@ -1,2 +1,0 @@
-# static route
-set routing-options static route ${dest} next-hop ${via}

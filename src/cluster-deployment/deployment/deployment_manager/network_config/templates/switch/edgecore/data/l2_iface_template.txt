@@ -1,9 +1,0 @@
-#
-# L2 config for ${my_port}
-#
-sudo config vlan member add -u ${switch_vlan} ${my_port}
-sudo config spanning-tree interface edge_port enable ${my_port}
-sudo config spanning-tree interface bpdu_guard enable ${my_port}
-sudo config interface qos dscp-tc bind ${my_port} DSCP_TC
-sudo config interface pfc priority ${my_port} 5 on
-sudo config interface description ${my_port} L2_to_${neighbor}

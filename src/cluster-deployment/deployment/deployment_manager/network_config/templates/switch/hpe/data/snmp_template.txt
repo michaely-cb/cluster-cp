@@ -1,6 +1,0 @@
-#
-# SNMP configuration
-#
-snmp-server enable
-snmp-server community CerebrasColoSC ro
-snmp-server vrf mgmt enable

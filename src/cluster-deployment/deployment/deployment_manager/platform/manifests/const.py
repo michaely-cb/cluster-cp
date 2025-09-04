@@ -1,3 +1,0 @@
-SEVERITY_INFO = "info"
-SEVERITY_WARNING = "warning"
-SEVERITY_CRITICAL = "critical"

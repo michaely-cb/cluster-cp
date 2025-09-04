@@ -1,7 +1,0 @@
-# local deploy is deploy job-operator to local host connecting with local kind directly
-# this installs necessary resources required for local development
-resources:
-  - ../../crd
-  - ../../rbac
-namespace: job-operator
-namePrefix: job-operator-

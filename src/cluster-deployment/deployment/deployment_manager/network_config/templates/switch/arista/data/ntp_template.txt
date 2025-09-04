@@ -1,8 +1,0 @@
-!
-! NTP and clock setup
-!
-ntp server ${ntp_server} iburst
-clock timezone UTC
-! show ntp status
-! show ntp associations
-! show clock

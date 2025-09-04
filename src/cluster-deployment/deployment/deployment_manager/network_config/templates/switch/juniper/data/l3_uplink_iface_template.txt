@@ -1,7 +1,0 @@
-#
-# L3 uplink peering config between ${name} and ${neighbor}
-#
-set interfaces ${my_port} mtu ${mtu}
-set interfaces ${my_port} unit 0 family inet address ${my_address}
-set interfaces ${my_port} description "L3 to ${neighbor}"
-set routing-instance ${vrf_name} interface ${my_port}

@@ -1,1 +1,0 @@
-This directory contains deployment and configuration scripts for Prometheus (which we use for dashboards and alerts). See https://cerebras.atlassian.net/wiki/spaces/runtime/pages/3959914508/guide-Prometheus+2025 for more details.

@@ -1,7 +1,0 @@
-- hosts: root-server
-  roles:
-    - role: dnsmasq
-      when: dhcp_provider == "dnsmasq"
-
-    - role: kea
-      when: dhcp_provider == "kea"

@@ -1,8 +1,0 @@
-#
-# L2 config for ${my_port}
-#
-set interfaces ${my_port} description "L2 to ${neighbor}"
-set interfaces ${my_port} mtu ${mtu}
-set interfaces ${my_port} unit 0 family ethernet-switching interface-mode access
-set interfaces ${my_port} unit 0 family ethernet-switching vlan members vlan${switch_vlan}
-#

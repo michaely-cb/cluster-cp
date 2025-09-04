@@ -1,2 +1,0 @@
-# static route
-ip route-static vpn-instance ${vrf_name} ${dest_sep} ${via}

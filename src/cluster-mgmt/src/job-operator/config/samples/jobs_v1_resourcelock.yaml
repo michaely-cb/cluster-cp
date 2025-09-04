@@ -1,9 +1,0 @@
-apiVersion: jobs.cerebras.com/v1
-kind: ResourceLock
-metadata:
-  name: rl0
-  namespace: default
-spec:
-  systemRequests:
-    - type: cs2
-      replicas: 2

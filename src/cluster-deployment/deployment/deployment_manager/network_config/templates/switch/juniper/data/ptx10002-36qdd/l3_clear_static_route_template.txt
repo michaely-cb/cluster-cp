@@ -1,2 +1,0 @@
-# Clear static routes
-delete routing-options static route ${dest}

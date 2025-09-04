@@ -1,6 +1,0 @@
-# Configure the user node, assuming that it has been installed with the standard
-# deploy OS image.
-- hosts: localhost
-  connection: local
-  roles:
-    - usernode

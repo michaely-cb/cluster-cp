@@ -1,9 +1,0 @@
-#
-# L3 peering config between ${name} and ${neighbor}
-#
-sudo config interface vrf bind ${my_port} Vrf_${vrf_name}
-sudo config interface ip add ${my_port} ${my_address}
-sudo config interface qos dscp-tc bind ${my_port} DSCP_TC
-sudo config interface pfc priority ${my_port} 5 on
-sudo config interface startup ${my_port}
-sudo config interface description ${my_port} "L3_to_${neighbor}_${neighbor_port}"

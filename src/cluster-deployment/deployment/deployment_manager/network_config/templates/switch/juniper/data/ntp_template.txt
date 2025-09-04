@@ -1,5 +1,0 @@
-#
-# NTP and clock setup
-#
-set system ntp peer ${ntp_server}
-set system time-zone UTC
